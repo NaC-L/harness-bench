@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: grammar is independent of all two-boundary chunk splits
+ok 1 - grammar is independent of all two-boundary chunk splits
+  ---
+  duration_ms: 3.7011
+  type: 'test'
+  ...
+# Subtest: records emit immediately, including CR before the LF arrives
+ok 2 - records emit immediately, including CR before the LF arrives
+  ---
+  duration_ms: 0.3572
+  type: 'test'
+  ...
+# Subtest: escaped quotes and closing quotes can straddle chunks
+ok 3 - escaped quotes and closing quotes can straddle chunks
+  ---
+  duration_ms: 0.0848
+  type: 'test'
+  ...
+# Subtest: delimiter validation rejects coercion and accepts single code units
+ok 4 - delimiter validation rejects coercion and accepts single code units
+  ---
+  duration_ms: 0.1952
+  type: 'test'
+  ...
+# Subtest: invalid chunks do not consume input or the initial BOM
+ok 5 - invalid chunks do not consume input or the initial BOM
+  ---
+  duration_ms: 0.2021
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical lines for every chunk split
+ok 6 - syntax errors report physical lines for every chunk split
+  ---
+  duration_ms: 1.026
+  type: 'test'
+  ...
+# Subtest: parsers have independent state and streaming ignores header mode
+ok 7 - parsers have independent state and streaming ignores header mode
+  ---
+  duration_ms: 0.1685
+  type: 'test'
+  ...
+# Subtest: header conversion retains duplicate, padding, and special-key behavior
+ok 8 - header conversion retains duplicate, padding, and special-key behavior
+  ---
+  duration_ms: 0.3479
+  type: 'test'
+  ...
+# Subtest: rows helper remains non-mutating with explicit and empty headers
+ok 9 - rows helper remains non-mutating with explicit and empty headers
+  ---
+  duration_ms: 0.2554
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 10 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.1896
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 11 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1653
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 12 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1392
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 13 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.0693
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 14 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.1785
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 15 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.0822
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 16 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1073
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 71.9376

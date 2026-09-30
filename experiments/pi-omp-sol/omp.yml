@@ -1,0 +1,4 @@
+features:
+  unexpectedStopDetection: off
+advisor:
+  enabled: false

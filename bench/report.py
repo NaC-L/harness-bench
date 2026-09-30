@@ -1,0 +1,415 @@
+"""Comparable cohorts separate harness/version/config/task/context/model.
+
+pass@k is the unbiased estimator 1 - C(n-c,k)/C(n,k), computed per task.
+These tiny seed tasks are pipeline checks, not evidence of general coding capability.
+"""
+from __future__ import annotations
+import difflib
+import json
+import math
+import re
+import shlex
+import statistics
+from collections import defaultdict
+from pathlib import Path
+from .environment import STATE_ENV
+
+
+def pass_at_k(n: int, c: int, k: int) -> float | None:
+    if k < 1 or n < k:
+        return None
+    return 1 - math.comb(n - c, k) / math.comb(n, k) if n - c >= k else 1.0
+
+
+def median(values):
+    known = [v for v in values if isinstance(v, (float, int)) and not isinstance(v, bool)]
+    return statistics.median(known) if known else None
+
+
+def summarize(rows: list[dict], k: int = 1) -> list[dict]:
+    groups = defaultdict(list)
+    for row in rows:
+        key = (row['harness'], row.get('harness_version'), row.get('config_hash'),
+               row['task'], row.get('prompt_hash'), row.get('task_hash'),
+               json.dumps(row.get('context_hashes', {}), sort_keys=True),
+               tuple(sorted((row.get('metrics') or {}).get('models', []))))
+        groups[key].append(row)
+    summaries = []
+    for (h, version, config, task, prompt, task_hash, context, models), records in sorted(groups.items(), key=lambda kv: str(kv[0])):
+        metrics = [r.get('metrics') or {} for r in records]
+        successes = sum(bool(r.get('passed')) for r in records)
+        summary = {'harness': h, 'version': version, 'config_hash': config, 'task': task,
+                   'prompt_hash': prompt, 'runs': len(records), 'passed': successes,
+                   'task_hash': task_hash, 'context_hashes': json.loads(context), 'models': list(models),
+                   f'pass@{k}': pass_at_k(len(records), successes, k),
+                   'timeouts': sum(bool(r.get('timed_out')) for r in records),
+                   'tampered': sum(bool(r.get('tampered_files')) for r in records),
+                   'wall_time_median_sec': median(r.get('wall_time_sec') for r in records),
+                   'wall_time_stdev_sec': statistics.stdev([r['wall_time_sec'] for r in records if r.get('wall_time_sec') is not None])
+                        if sum(r.get('wall_time_sec') is not None for r in records) > 1 else None,
+                   'cost_known_runs': sum(m.get('cost_usd') is not None for m in metrics)}
+        for field in ('cost_usd', 'input_tokens', 'output_tokens', 'cache_read_tokens', 'cache_write_tokens',
+                      'requests', 'tool_calls', 'tool_calls_per_request'):
+            summary[field + '_median'] = median(m.get(field) for m in metrics)
+        summaries.append(summary)
+    return summaries
+
+
+def load(path: Path) -> list[dict]:
+    rows = []
+    if not path.exists():
+        return rows
+    for n, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+        if line.strip():
+            try:
+                rows.append(json.loads(line))
+            except ValueError as exc:
+                raise ValueError(f'{path}:{n}: invalid JSON') from exc
+    return rows
+
+
+def render(rows: list[dict], k: int = 1) -> str:
+    def fmt(v, digits=2):
+        return 'unknown' if v is None else f'{v:.{digits}f}'
+    lines = ['| Harness | Task | Cohort | Pass/runs | pass@' + str(k) + ' | Median s | Median $ (known runs) | Tools/request |',
+             '|---|---|---|---:|---:|---:|---:|---:|']
+    for s in summarize(rows, k):
+        lines.append(f"| {s['harness']} | {s['task']} | {(s['config_hash'] or 'unknown')[:8]} | {s['passed']}/{s['runs']} | "
+                     f"{fmt(s[f'pass@{k}'])} | {fmt(s['wall_time_median_sec'])} | "
+                     f"{fmt(s['cost_usd_median'], 4)} ({s['cost_known_runs']}) | {fmt(s['tool_calls_per_request_median'])} |")
+    lines += ['', 'Unknown values are not zero. Cohorts also separate version and prompt hash; use --json for full keys.',
+              'Seed tasks validate the pipeline only. Keep the model/provider/effort fixed to compare harnesses,',
+              'and use multiple tasks and repeated trials before drawing conclusions.']
+    return '\n'.join(lines)
+
+
+# --- Goal-aligned arm comparison -------------------------------------------------
+# Correctness and safety are non-inferiority gates (exact, no margin): a single extra
+# failure, regression, timeout or tampered run makes the candidate worse. Tokens and
+# time are efficiency dimensions judged with a relative noise margin. Unknown data is
+# never treated as zero; it either skips a component (with a warning) or makes the
+# verdict inconclusive.
+
+def _known(values):
+    return [v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)]
+
+
+def _count(m: dict, key: str) -> float:
+    value = m.get(key)
+    return value if isinstance(value, (int, float)) and not isinstance(value, bool) else 0
+
+
+def scorecard(rows: list[dict]) -> dict:
+    """Correctness, token and time/safety totals for one harness's rows."""
+    runs = len(rows)
+    passed = sum(bool(r.get('passed')) for r in rows)
+    metrics = [r.get('metrics') or {} for r in rows]
+
+    def total(key):
+        known = _known(r.get(key) for r in rows)
+        return sum(known) if known else None
+
+    token_unknown = sum(m.get('input_tokens') is None or m.get('output_tokens') is None for m in metrics)
+    tokens = {'total_tokens': None, 'uncached_tokens': None, 'auxiliary_calls': None,
+              'auxiliary_tokens': None, 'cost_usd': None, 'tokens_per_correct': None,
+              'uncached_tokens_per_correct': None, 'cost_per_correct': None}
+    if runs and not token_unknown:
+        uncached = sum(_count(m, 'input_tokens') + _count(m, 'cache_write_tokens') + _count(m, 'output_tokens')
+                       for m in metrics)
+        all_tokens = uncached + sum(_count(m, 'cache_read_tokens') for m in metrics)
+        costs = [m.get('cost_usd') for m in metrics]
+        cost = None if any(c is None for c in costs) else sum(costs)
+        tokens.update(total_tokens=all_tokens, uncached_tokens=uncached,
+                      auxiliary_calls=sum(_count(m, 'auxiliary_calls') for m in metrics),
+                      auxiliary_tokens=sum(_count(m, 'auxiliary_tokens') for m in metrics),
+                      cost_usd=cost)
+        if passed:
+            tokens.update(tokens_per_correct=all_tokens / passed, uncached_tokens_per_correct=uncached / passed,
+                          cost_per_correct=None if cost is None else cost / passed)
+    walls = sorted(_known(r.get('wall_time_sec') for r in rows))
+    verification = [m.get('verified_after_final_edit') for m in metrics]
+    verification_known = sum(v is not None for v in verification)
+    verified = sum(v is True for v in verification)
+    return {
+        'runs': runs, 'passed': passed, 'pass_rate': passed / runs if runs else None,
+        'visible_passed': sum(r.get('visible_passed') is True for r in rows),
+        'hidden_tests_pass': total('hidden_tests_pass'), 'hidden_tests_fail': total('hidden_tests_fail'),
+        'regression_runs': sum(bool(r.get('regressions')) for r in rows),
+        'regression_unknown_runs': sum(r.get('regressions') is None for r in rows),
+        'unfinished_runs': sum(r.get('agent_exit_code') != 0 or bool(r.get('timed_out'))
+                               or r.get('agent_completion') in ('incomplete', 'error') for r in rows),
+        'token_unknown_runs': token_unknown, **tokens,
+        'retries': total('agent_retries'),
+        'median_wall_time_sec': statistics.median(walls) if walls else None,
+        'p90_wall_time_sec': walls[math.ceil(0.9 * len(walls)) - 1] if walls else None,
+        'max_wall_time_sec': walls[-1] if walls else None,
+        'timeouts': sum(bool(r.get('timed_out')) for r in rows),
+        'tampered_runs': sum(bool(r.get('tampered_files')) for r in rows),
+        'verification_known_runs': verification_known, 'verified_runs': verified,
+        'verification_rate': verified / verification_known if verification_known else None,
+        'reproduced_runs': sum(m.get('reproduced_before_first_edit') is True for m in metrics),
+    }
+
+
+def _exact(b, c, higher_better: bool) -> str:
+    if b == c:
+        return 'same'
+    return 'better' if (c > b) == higher_better else 'worse'
+
+
+def _combine(results: list[str]) -> str:
+    if 'worse' in results:
+        return 'worse'
+    return 'better' if 'better' in results else 'same'
+
+
+def _efficiency(b: dict, c: dict, keys: tuple[str, ...], margin: float) -> str:
+    """Lower is better; changes within the relative margin are noise."""
+    if any(b[k] is None or c[k] is None for k in keys):
+        return 'unknown'
+    if any(c[k] > b[k] * (1 + margin) for k in keys):
+        return 'worse'
+    if any(c[k] < b[k] * (1 - margin) for k in keys):
+        return 'better'
+    return 'same'
+
+
+def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 0.10,
+            min_trials: int = 3) -> dict:
+    """Rule-based verdict for candidate vs baseline: better|worse|tradeoff|equivalent|inconclusive."""
+    if baseline == candidate:
+        raise ValueError('baseline and candidate must differ')
+    arms = {name: [r for r in rows if r.get('harness') == name] for name in (baseline, candidate)}
+    for name, arm_rows in arms.items():
+        if not arm_rows:
+            raise ValueError(f'no runs for harness: {name}')
+    reasons, warnings = [], []
+    tasks = {name: {r['task'] for r in arm_rows} for name, arm_rows in arms.items()}
+    b_tasks, c_tasks = tasks[baseline], tasks[candidate]
+    if b_tasks != c_tasks:
+        reasons.append(f'task sets differ: {sorted(b_tasks)} vs {sorted(c_tasks)}')
+    for name, arm_rows in arms.items():
+        for task in sorted(tasks[name]):
+            n = sum(r['task'] == task for r in arm_rows)
+            if n < min_trials:
+                reasons.append(f'{name}/{task}: {n} trials < {min_trials}')
+    for task in sorted(b_tasks & c_tasks):
+        task_rows = [r for arm_rows in arms.values() for r in arm_rows if r['task'] == task]
+        if len({r.get('prompt_hash') for r in task_rows}) != 1 or len({r.get('task_hash') for r in task_rows}) != 1:
+            reasons.append(f'task inputs differ for {task}')
+
+    def distinct(name, key):
+        return {json.dumps(r.get(key), sort_keys=True) for r in arms[name]}
+    if distinct(baseline, 'harness_kind') == distinct(candidate, 'harness_kind') \
+            and distinct(baseline, 'context_hashes') != distinct(candidate, 'context_hashes'):
+        warnings.append('inherited harness context differs')
+    versions = {name: sorted({str(r.get('harness_version')) for r in arm_rows}) for name, arm_rows in arms.items()}
+    if versions[baseline] != versions[candidate]:
+        warnings.append(f"harness versions differ: {', '.join(versions[baseline])} vs {', '.join(versions[candidate])}")
+    all_rows = arms[baseline] + arms[candidate]
+    shared = sum(r.get('isolated_state') is not True for r in all_rows if r.get('harness_kind') in STATE_ENV)
+    if shared:
+        warnings.append(f"operator state not isolated for {shared} runs: the harness may have read the "
+                        "operator's personal instructions, settings and MCP servers")
+    above = sum(bool(r.get('ancestor_context')) for r in all_rows)
+    if above:
+        warnings.append(f'project context files above the workdir for {above} runs')
+
+    b, c = scorecard(arms[baseline]), scorecard(arms[candidate])
+    if b['pass_rate'] == c['pass_rate'] == 1.0:
+        warnings.append('correctness at ceiling: every run passed, so these tasks cannot distinguish correctness')
+    elif b['pass_rate'] == c['pass_rate'] == 0.0:
+        warnings.append('correctness at floor: no run passed')
+
+    def rate(card, key):
+        return card[key] / card['runs']
+    correctness = [_exact(b['pass_rate'], c['pass_rate'], True),
+                   _exact(rate(b, 'unfinished_runs'), rate(c, 'unfinished_runs'), False)]
+    unknown_regressions = b['regression_unknown_runs'] + c['regression_unknown_runs']
+    if unknown_regressions:
+        warnings.append(f'regression data unknown for {unknown_regressions} runs; regression comparison skipped')
+    else:
+        correctness.append(_exact(rate(b, 'regression_runs'), rate(c, 'regression_runs'), False))
+    safety = [_exact(rate(b, 'timeouts'), rate(c, 'timeouts'), False),
+              _exact(rate(b, 'tampered_runs'), rate(c, 'tampered_runs'), False)]
+    if b['verification_rate'] is None or c['verification_rate'] is None:
+        warnings.append('verification unknown; verification comparison skipped')
+    else:
+        safety.append(_exact(b['verification_rate'], c['verification_rate'], True))
+    dimensions = {'correctness': _combine(correctness),
+                  'tokens': _efficiency(b, c, ('tokens_per_correct', 'uncached_tokens_per_correct'), margin),
+                  'time': _efficiency(b, c, ('median_wall_time_sec', 'p90_wall_time_sec'), margin),
+                  'safety': _combine(safety)}
+
+    values = dimensions.values()
+    efficiency = (dimensions['tokens'], dimensions['time'])
+    if reasons:
+        verdict = 'inconclusive'
+    elif 'worse' in (dimensions['correctness'], dimensions['safety']):
+        verdict = 'worse'
+    elif 'unknown' in efficiency:
+        verdict = 'inconclusive'
+        if dimensions['tokens'] == 'unknown':
+            reasons.append('token usage unknown')
+        if dimensions['time'] == 'unknown':
+            reasons.append('runtime unknown')
+    elif 'worse' in efficiency and 'better' in values:
+        verdict = 'tradeoff'
+    elif 'worse' in values:
+        verdict = 'worse'
+    elif 'better' in values:
+        verdict = 'better'
+    else:
+        verdict = 'equivalent'
+    return {'baseline': baseline, 'candidate': candidate, 'margin': margin, 'min_trials': min_trials,
+            'verdict': verdict, 'dimensions': dimensions, 'reasons': reasons, 'warnings': warnings,
+            'scorecards': {baseline: b, candidate: c}}
+
+
+def render_comparison(result: dict) -> str:
+    def f(value, spec=''):
+        return 'unknown' if value is None else format(value, spec)
+
+    cells = {
+        'correctness': lambda s: f"{f(s['passed'])}/{f(s['runs'])} passed, {f(s['regression_runs'])} regression runs, "
+                                 f"{f(s['unfinished_runs'])} unfinished",
+        'tokens': lambda s: f"{f(s['tokens_per_correct'], '.0f')} total / {f(s['uncached_tokens_per_correct'], '.0f')} "
+                            f"uncached per correct, {f(s['auxiliary_calls'])} aux calls",
+        'time': lambda s: f"median {f(s['median_wall_time_sec'], '.1f')} s, p90 {f(s['p90_wall_time_sec'], '.1f')} s",
+        'safety': lambda s: f"{f(s['timeouts'])} timeouts, {f(s['tampered_runs'])} tampered, "
+                            f"verification {f(s['verified_runs'])}/{f(s['verification_known_runs'])}",
+    }
+    b, c = (result['scorecards'][result[k]] for k in ('baseline', 'candidate'))
+    lines = [f"Verdict: {result['verdict']} ({result['candidate']} vs baseline {result['baseline']}, "
+             f"margin {result['margin']:.0%}, min trials {result['min_trials']})", '',
+             '| Dimension | Result | Baseline | Candidate |', '|---|---|---|---|']
+    for name, cell in cells.items():
+        lines.append(f"| {name} | {result['dimensions'][name]} | {cell(b)} | {cell(c)} |")
+    for title, items in (('Reasons', result['reasons']), ('Warnings', result['warnings'])):
+        if items:
+            lines += ['', f'{title}:', *(f'- {item}' for item in items)]
+    return '\n'.join(lines)
+
+
+def _fenced(text: str, language: str = '') -> list[str]:
+    fence = '`' * max(3, 1 + max((len(m.group()) for m in re.finditer(r'`+', text)), default=0))
+    return [fence + language, text, fence]
+
+
+def render_markdown(result, rows, manifest=None, *, results_label: str,
+                    charts: list[tuple[str, str]] | None = None) -> str:
+    """A shareable comparison with per-task measurements and recorded setup."""
+    baseline, candidate = result['baseline'], result['candidate']
+    comparison = render_comparison(result).splitlines()
+    table_end = next((i for i, line in enumerate(comparison[2:], 2) if not line), len(comparison))
+    lines = [f'# {candidate} vs {baseline}', '', *comparison[:table_end]]
+    if charts:
+        lines += ['', '## Charts', '']
+        lines += [f'![{alt}]({path})' for alt, path in charts]
+    lines += ['', '## Per-task results', '',
+              '| Task | Arm | Passed/runs | Median wall s | Median total tokens | Median uncached tokens |',
+              '|---|---|---:|---:|---:|---:|']
+
+    def fmt(value, spec='.0f'):
+        return 'unknown' if value is None else format(value, spec)
+
+    def tokens(row, cached):
+        metrics = row.get('metrics') or {}
+        if metrics.get('input_tokens') is None or metrics.get('output_tokens') is None:
+            return None
+        return (_count(metrics, 'input_tokens') + _count(metrics, 'output_tokens')
+                + _count(metrics, 'cache_write_tokens')
+                + (_count(metrics, 'cache_read_tokens') if cached else 0))
+
+    arm_rows = [r for r in rows if r.get('harness') in (baseline, candidate)]
+    for task in sorted({r['task'] for r in arm_rows}):
+        for name in (baseline, candidate):
+            records = [r for r in arm_rows if r['task'] == task and r['harness'] == name]
+            lines.append(f"| {task} | {name} | {sum(bool(r.get('passed')) for r in records)}/{len(records)} | "
+                         f"{fmt(median(r.get('wall_time_sec') for r in records), '.1f')} | "
+                         f"{fmt(median(tokens(r, True) for r in records))} | "
+                         f"{fmt(median(tokens(r, False) for r in records))} |")
+    lines += ['', '## Setup', '']
+    invocations = [inv for inv in (manifest or {}).get('invocations', [])
+                   if any(name in inv.get('harnesses', {}) for name in (baseline, candidate))]
+    for inv in invocations:
+        harnesses = inv.get('harnesses', {})
+        lines += [f"### Invocation {inv.get('started', 'unknown')}", '',
+                  f"- Config: {inv.get('config') or 'config path not recorded'}",
+                  f"- Trials/jobs: {inv.get('trials', 'unknown')}/{inv.get('jobs', 'unknown')}",
+                  f"- Alternate order: {inv.get('alternate_order', 'unknown')}; timeout: {inv.get('timeout')}",
+                  f"- Platform: {inv.get('platform', 'unknown')}",
+                  f"- Python: {inv.get('python', 'unknown')}; Node: {inv.get('node') or 'unknown'}"]
+        if inv.get('reconstructed'):
+            lines.append(f"- Provenance note: {inv['reconstructed']}")
+        for name in (baseline, candidate):
+            h = harnesses.get(name)
+            if h is not None:
+                lines.append(f"- {name}: kind {h.get('kind', 'unknown')}, version {h.get('version') or 'unknown'}, "
+                             f"config hash {h.get('config_hash', 'unknown')}, state "
+                             + (f"isolated from {h['state_template']}" if h.get('state_template')
+                                else "not isolated (operator's own)"))
+        if baseline in harnesses and candidate in harnesses:
+            b_command, c_command = (harnesses[name].get('command', []) for name in (baseline, candidate))
+            changes = [op for op in difflib.SequenceMatcher(a=b_command, b=c_command, autojunk=False).get_opcodes()
+                       if op[0] != 'equal']
+            lines += ['', 'Command template argv difference (differing elements only):']
+            if not changes:
+                lines.append('No differing argv elements.')
+            for _, bi, bj, ci, cj in changes:
+                lines += _fenced(json.dumps({baseline: b_command[bi:bj], candidate: c_command[ci:cj]},
+                                            indent=2, ensure_ascii=False), 'json')
+            b_files, c_files = (harnesses[name].get('files', {}) for name in (baseline, candidate))
+            for path in sorted(b_files.keys() | c_files.keys()):
+                if path in b_files and path in c_files and b_files[path]['sha256'] == c_files[path]['sha256']:
+                    continue
+                for name, files in ((baseline, b_files), (candidate, c_files)):
+                    if path not in files:
+                        continue
+                    file = files[path]
+                    lines += ['', f"Overlay {name}: {path} (sha256 {file['sha256']})"]
+                    if file.get('contents') is None:
+                        lines.append('Contents not recorded (binary or over 64 KiB).')
+                    else:
+                        lines += _fenced(file['contents'])
+        lines += ['', 'Task ids and hashes:']
+        lines += [f"- {task}: {task_hash[:12]}" for task, task_hash in sorted(inv.get('tasks', {}).items())]
+        lines.append('')
+    if manifest is None:
+        lines.append('No manifest.json; setup not recorded.')
+    elif not invocations:
+        lines.append('No recorded invocation for these arms.')
+    for title, items in (('Reasons', result['reasons']), ('Warnings', result['warnings'])):
+        if items:
+            lines += ['', f'## {title}', '', *(f'- {item}' for item in items)]
+
+    invocation = invocations[-1] if invocations else {}
+    config = invocation.get('config') or 'CONFIG'
+    trials = invocation.get('trials', result['min_trials'])
+    jobs = invocation.get('jobs', 1)
+    # New trials go to a fresh directory; compare reads the directory holding these rows.
+    rerun = f"results/{Path(results_label).name or 'experiment'}-rerun"
+    run = ['python', '-m', 'bench', '--config', config, '--results', rerun, 'run',
+           '--harness', baseline, candidate, '--trials', str(trials), '--jobs', str(jobs)]
+    if invocation.get('tasks'):
+        run += ['--task', *invocation['tasks']]
+    if invocation.get('alternate_order'):
+        run.append('--alternate-order')
+    if invocation.get('timeout') is not None:
+        run += ['--timeout', str(invocation['timeout'])]
+    compare_command = ['python', '-m', 'bench', '--config', config, '--results', results_label, 'compare',
+                       '--baseline', baseline, '--candidate', candidate, '--margin', str(result['margin']),
+                       '--min-trials', str(result['min_trials']), '--format', 'markdown']
+    lines += ['', '## Reproduce', '']
+    if not invocation.get('config'):
+        lines.append('config path not recorded; replace CONFIG with the harness configuration.')
+    lines += _fenced(shlex.join(run) + '\n' + shlex.join(compare_command), 'console')
+    lines += ['', 'Run from the benchmark directory with the recorded config and tasks. The first command '
+              'collects new trials in a fresh directory (compare it by pointing --results there); the '
+              'second re-scores the runs in this report, and works on an exported bundle without '
+              'model access.',
+              '', '## How to read this', '',
+              f"Correctness and safety require non-inferiority (no extra failures or safety regressions). "
+              f"Tokens and time use a {result['margin']:.0%} relative margin. Unknown ≠ 0; "
+              'medians use known runs only. Tokens per correct solution include failed attempts.']
+    return '\n'.join(lines) + '\n'

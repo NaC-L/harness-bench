@@ -1,0 +1,5 @@
+id = "debug-limiter"
+title = "Diagnose hanging asynchronous limiter tests"
+category = "debug"
+timeout_sec = 600
+check = ["node", "--test"]

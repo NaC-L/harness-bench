@@ -1,0 +1,238 @@
+TAP version 13
+# Subtest: records are emitted at CR immediately, with only the following LF suppressed
+ok 1 - records are emitted at CR immediately, with only the following LF suppressed
+  ---
+  duration_ms: 1.4099
+  type: 'test'
+  ...
+# Subtest: every chunk partition preserves quotes, CRLF, BOM and surrogate pairs
+ok 2 - every chunk partition preserves quotes, CRLF, BOM and surrogate pairs
+  ---
+  duration_ms: 3.3199
+  type: 'test'
+  ...
+# Subtest: empty input, blank records, empty fields, and BOM handling
+ok 3 - empty input, blank records, empty fields, and BOM handling
+  ---
+  duration_ms: 0.2405
+  type: 'test'
+  ...
+# Subtest: delimiter validation uses code units without trimming or coercion
+ok 4 - delimiter validation uses code units without trimming or coercion
+  ---
+  duration_ms: 0.537
+  type: 'test'
+  ...
+# Subtest: push validates types, parsers are independent, and end is idempotent
+ok 5 - push validates types, parsers are independent, and end is idempotent
+  ---
+  duration_ms: 0.2821
+  type: 'test'
+  ...
+# Subtest: invalid text after closing quotes reports physical lines during push
+ok 6 - invalid text after closing quotes reports physical lines during push
+  ---
+  duration_ms: 0.577
+  type: 'test'
+  ...
+# Subtest: unterminated quotes report the physical EOF line across chunks
+ok 7 - unterminated quotes report the physical EOF line across chunks
+  ---
+  duration_ms: 0.8742
+  type: 'test'
+  ...
+# Subtest: header conversion preserves duplicate names, special keys and padding
+ok 8 - header conversion preserves duplicate names, special keys and padding
+  ---
+  duration_ms: 0.3371
+  type: 'test'
+  ...
+# Subtest: every chunk boundary preserves quoted commas and doubled quote escapes
+ok 9 - every chunk boundary preserves quoted commas and doubled quote escapes
+  ---
+  duration_ms: 2.1033
+  type: 'test'
+  ...
+# Subtest: every chunk boundary preserves raw mixed newlines inside quoted fields
+ok 10 - every chunk boundary preserves raw mixed newlines inside quoted fields
+  ---
+  duration_ms: 0.2798
+  type: 'test'
+  ...
+# Subtest: every chunk boundary distinguishes empty input blank rows and trailing separators
+ok 11 - every chunk boundary distinguishes empty input blank rows and trailing separators
+  ---
+  duration_ms: 0.6557
+  type: 'test'
+  ...
+# Subtest: every chunk boundary keeps quotes within unquoted fields literal
+ok 12 - every chunk boundary keeps quotes within unquoted fields literal
+  ---
+  duration_ms: 0.594
+  type: 'test'
+  ...
+# Subtest: every chunk boundary strips only an initial BOM
+ok 13 - every chunk boundary strips only an initial BOM
+  ---
+  duration_ms: 0.3001
+  type: 'test'
+  ...
+# Subtest: every chunk boundary preserves Unicode including split surrogate pairs
+ok 14 - every chunk boundary preserves Unicode including split surrogate pairs
+  ---
+  duration_ms: 0.1317
+  type: 'test'
+  ...
+# Subtest: every chunk boundary honors semicolon delimiters without treating commas specially
+ok 15 - every chunk boundary honors semicolon delimiters without treating commas specially
+  ---
+  duration_ms: 0.3577
+  type: 'test'
+  ...
+# Subtest: every chunk boundary honors pipe tab and space delimiters
+ok 16 - every chunk boundary honors pipe tab and space delimiters
+  ---
+  duration_ms: 0.214
+  type: 'test'
+  ...
+# Subtest: a CR emits immediately and its split LF never emits a second record
+ok 17 - a CR emits immediately and its split LF never emits a second record
+  ---
+  duration_ms: 0.2332
+  type: 'test'
+  ...
+# Subtest: a split doubled quote is not mistaken for the end of a quoted field
+ok 18 - a split doubled quote is not mistaken for the end of a quoted field
+  ---
+  duration_ms: 0.509
+  type: 'test'
+  ...
+# Subtest: push returns only new records and parser instances retain independent state
+ok 19 - push returns only new records and parser instances retain independent state
+  ---
+  duration_ms: 0.3524
+  type: 'test'
+  ...
+# Subtest: text after closing quotes is rejected during push with physical line numbers
+ok 20 - text after closing quotes is rejected during push with physical line numbers
+  ---
+  duration_ms: 3.191
+  type: 'test'
+  ...
+# Subtest: unterminated quotes fail only at end and report the physical EOF line
+ok 21 - unterminated quotes fail only at end and report the physical EOF line
+  ---
+  duration_ms: 0.7254
+  type: 'test'
+  ...
+# Subtest: delimiter validation is strict and both APIs reject invalid delimiters
+ok 22 - delimiter validation is strict and both APIs reject invalid delimiters
+  ---
+  duration_ms: 0.5497
+  type: 'test'
+  ...
+# Subtest: end is idempotent and all pushes after end fail
+ok 23 - end is idempotent and all pushes after end fail
+  ---
+  duration_ms: 0.1421
+  type: 'test'
+  ...
+# Subtest: parse header mode preserves duplicate suffixes short rows BOM and custom delimiter
+ok 24 - parse header mode preserves duplicate suffixes short rows BOM and custom delimiter
+  ---
+  duration_ms: 0.2529
+  type: 'test'
+  ...
+# Subtest: parse header mode treats prototype-related column names as own data properties
+ok 25 - parse header mode treats prototype-related column names as own data properties
+  ---
+  duration_ms: 0.1204
+  type: 'test'
+  ...
+# Subtest: streaming header option never converts records into objects
+ok 26 - streaming header option never converts records into objects
+  ---
+  duration_ms: 0.0439
+  type: 'test'
+  ...
+# Subtest: regression trap: duplicate header suffixes never collide with earlier names
+ok 27 - regression trap: duplicate header suffixes never collide with earlier names
+  ---
+  duration_ms: 0.0717
+  type: 'test'
+  ...
+# Subtest: regression trap: inferred headers pad short records and ignore surplus cells
+ok 28 - regression trap: inferred headers pad short records and ignore surplus cells
+  ---
+  duration_ms: 0.0488
+  type: 'test'
+  ...
+# Subtest: regression trap: explicit frozen headers preserve input and special keys as data
+ok 29 - regression trap: explicit frozen headers preserve input and special keys as data
+  ---
+  duration_ms: 0.15
+  type: 'test'
+  ...
+# Subtest: regression trap: empty inputs and explicit empty headers retain helper semantics
+ok 30 - regression trap: empty inputs and explicit empty headers retain helper semantics
+  ---
+  duration_ms: 0.075
+  type: 'test'
+  ...
+# Subtest: regression trap: invalid helper header modes remain TypeErrors
+ok 31 - regression trap: invalid helper header modes remain TypeErrors
+  ---
+  duration_ms: 0.0889
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 32 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.1827
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 33 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1199
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 34 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1378
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 35 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.069
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 36 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.1718
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 37 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.4438
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 38 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1151
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 81.3111

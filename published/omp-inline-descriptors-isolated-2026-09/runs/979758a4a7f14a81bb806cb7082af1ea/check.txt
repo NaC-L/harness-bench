@@ -1,0 +1,364 @@
+TAP version 13
+# Subtest: invalidate: old-first, obsolete load fulfills
+ok 1 - invalidate: old-first, obsolete load fulfills
+  ---
+  duration_ms: 1.8726
+  type: 'test'
+  ...
+# Subtest: invalidate: old-first, obsolete load rejects
+ok 2 - invalidate: old-first, obsolete load rejects
+  ---
+  duration_ms: 0.1735
+  type: 'test'
+  ...
+# Subtest: invalidate: fresh-first, obsolete load fulfills
+ok 3 - invalidate: fresh-first, obsolete load fulfills
+  ---
+  duration_ms: 0.1488
+  type: 'test'
+  ...
+# Subtest: invalidate: fresh-first, obsolete load rejects
+ok 4 - invalidate: fresh-first, obsolete load rejects
+  ---
+  duration_ms: 0.1435
+  type: 'test'
+  ...
+# Subtest: clear: old-first, obsolete load fulfills
+ok 5 - clear: old-first, obsolete load fulfills
+  ---
+  duration_ms: 0.198
+  type: 'test'
+  ...
+# Subtest: clear: old-first, obsolete load rejects
+ok 6 - clear: old-first, obsolete load rejects
+  ---
+  duration_ms: 0.1332
+  type: 'test'
+  ...
+# Subtest: clear: fresh-first, obsolete load fulfills
+ok 7 - clear: fresh-first, obsolete load fulfills
+  ---
+  duration_ms: 0.1441
+  type: 'test'
+  ...
+# Subtest: clear: fresh-first, obsolete load rejects
+ok 8 - clear: fresh-first, obsolete load rejects
+  ---
+  duration_ms: 0.087
+  type: 'test'
+  ...
+# Subtest: set: old-first, obsolete load fulfills
+ok 9 - set: old-first, obsolete load fulfills
+  ---
+  duration_ms: 0.804
+  type: 'test'
+  ...
+# Subtest: set: old-first, obsolete load rejects
+ok 10 - set: old-first, obsolete load rejects
+  ---
+  duration_ms: 0.2856
+  type: 'test'
+  ...
+# Subtest: set: fresh-first, obsolete load fulfills
+ok 11 - set: fresh-first, obsolete load fulfills
+  ---
+  duration_ms: 0.1268
+  type: 'test'
+  ...
+# Subtest: set: fresh-first, obsolete load rejects
+ok 12 - set: fresh-first, obsolete load rejects
+  ---
+  duration_ms: 0.0606
+  type: 'test'
+  ...
+# Subtest: repeated barriers detach every intervening flight, even without stored values
+ok 13 - repeated barriers detach every intervening flight, even without stored values
+  ---
+  duration_ms: 0.143
+  type: 'test'
+  ...
+# Subtest: set wins without letting an obsolete completion extend its TTL
+ok 14 - set wins without letting an obsolete completion extend its TTL
+  ---
+  duration_ms: 0.0837
+  type: 'test'
+  ...
+# Subtest: throw clears the active flight and preserves rejection identity for all waiters
+ok 15 - throw clears the active flight and preserves rejection identity for all waiters
+  ---
+  duration_ms: 0.1726
+  type: 'test'
+  ...
+# Subtest: reject clears the active flight and preserves rejection identity for all waiters
+ok 16 - reject clears the active flight and preserves rejection identity for all waiters
+  ---
+  duration_ms: 0.0696
+  type: 'test'
+  ...
+# Subtest: thenable clears the active flight and preserves rejection identity for all waiters
+ok 17 - thenable clears the active flight and preserves rejection identity for all waiters
+  ---
+  duration_ms: 0.0603
+  type: 'test'
+  ...
+# Subtest: an obsolete rejection cannot detach a retry after the replacement also rejects
+ok 18 - an obsolete rejection cannot detach a retry after the replacement also rejects
+  ---
+  duration_ms: 0.1099
+  type: 'test'
+  ...
+# Subtest: load synchronously calls invalidate before returning
+ok 19 - load synchronously calls invalidate before returning
+  ---
+  duration_ms: 0.101
+  type: 'test'
+  ...
+# Subtest: load synchronously calls invalidate before throwing
+ok 20 - load synchronously calls invalidate before throwing
+  ---
+  duration_ms: 0.0382
+  type: 'test'
+  ...
+# Subtest: load synchronously calls clear before returning
+ok 21 - load synchronously calls clear before returning
+  ---
+  duration_ms: 0.0305
+  type: 'test'
+  ...
+# Subtest: load synchronously calls clear before throwing
+ok 22 - load synchronously calls clear before throwing
+  ---
+  duration_ms: 0.2275
+  type: 'test'
+  ...
+# Subtest: load synchronously calls set before returning
+ok 23 - load synchronously calls set before returning
+  ---
+  duration_ms: 0.0371
+  type: 'test'
+  ...
+# Subtest: load synchronously calls set before throwing
+ok 24 - load synchronously calls set before throwing
+  ---
+  duration_ms: 0.1139
+  type: 'test'
+  ...
+# Subtest: a flight is registered before load can reenter its own key or another key
+ok 25 - a flight is registered before load can reenter its own key or another key
+  ---
+  duration_ms: 0.1151
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit and expires exactly at the deadline
+ok 26 - TTL starts at commit and expires exactly at the deadline
+  ---
+  duration_ms: 0.1096
+  type: 'test'
+  ...
+# Subtest: zero TTL still deduplicates pending loads but never reuses settled values
+ok 27 - zero TTL still deduplicates pending loads but never reuses settled values
+  ---
+  duration_ms: 0.0661
+  type: 'test'
+  ...
+# Subtest: clear detaches all keys while key invalidation and cache instances remain isolated
+ok 28 - clear detaches all keys while key invalidation and cache instances remain isolated
+  ---
+  duration_ms: 0.1442
+  type: 'test'
+  ...
+# Subtest: keys retain SameValueZero identity and stored undefined is not a miss
+ok 29 - keys retain SameValueZero identity and stored undefined is not a miss
+  ---
+  duration_ms: 0.1532
+  type: 'test'
+  ...
+# Subtest: constructor validation and the CommonJS named export remain unchanged
+ok 30 - constructor validation and the CommonJS named export remain unchanged
+  ---
+  duration_ms: 0.3662
+  type: 'test'
+  ...
+# Subtest: race: a fresh flight can finish before the invalidated flight
+ok 31 - race: a fresh flight can finish before the invalidated flight
+  ---
+  duration_ms: 4.2283
+  type: 'test'
+  ...
+# Subtest: race: obsolete success cannot remove or replace a still-pending fresh flight
+ok 32 - race: obsolete success cannot remove or replace a still-pending fresh flight
+  ---
+  duration_ms: 0.4954
+  type: 'test'
+  ...
+# Subtest: race: two invalidations survive every completion order of three generations
+ok 33 - race: two invalidations survive every completion order of three generations
+  ---
+  duration_ms: 2.4311
+  type: 'test'
+  ...
+# Subtest: race: repeated invalidation without a stored value still detaches all old work
+ok 34 - race: repeated invalidation without a stored value still detaches all old work
+  ---
+  duration_ms: 0.9905
+  type: 'test'
+  ...
+# Subtest: race: set wins and obsolete success cannot extend the set value TTL
+ok 35 - race: set wins and obsolete success cannot extend the set value TTL
+  ---
+  duration_ms: 0.6555
+  type: 'test'
+  ...
+# Subtest: race: expired set values do not rejoin an older detached flight
+ok 36 - race: expired set values do not rejoin an older detached flight
+  ---
+  duration_ms: 0.5901
+  type: 'test'
+  ...
+# Subtest: race: clear detaches every flight without cancelling its original readers
+ok 37 - race: clear detaches every flight without cancelling its original readers
+  ---
+  duration_ms: 0.6743
+  type: 'test'
+  ...
+# Subtest: race: set then invalidate does not let a pre-set load resurrect a value
+ok 38 - race: set then invalidate does not let a pre-set load resurrect a value
+  ---
+  duration_ms: 0.4682
+  type: 'test'
+  ...
+# Subtest: failure: all waiters receive the same reason and the next flight can retry
+ok 39 - failure: all waiters receive the same reason and the next flight can retry
+  ---
+  duration_ms: 1.6028
+  type: 'test'
+  ...
+# Subtest: failure: synchronous throws do not poison subsequent reads
+ok 40 - failure: synchronous throws do not poison subsequent reads
+  ---
+  duration_ms: 0.5187
+  type: 'test'
+  ...
+# Subtest: failure: rejected thenables with non-Error reasons are retriable
+ok 41 - failure: rejected thenables with non-Error reasons are retriable
+  ---
+  duration_ms: 0.2862
+  type: 'test'
+  ...
+# Subtest: failure: rejection of the replacement cannot make an obsolete success cacheable
+ok 42 - failure: rejection of the replacement cannot make an obsolete success cacheable
+  ---
+  duration_ms: 1.0335
+  type: 'test'
+  ...
+# Subtest: race: a loader can invalidate its own flight synchronously
+ok 43 - race: a loader can invalidate its own flight synchronously
+  ---
+  duration_ms: 0.1541
+  type: 'test'
+  ...
+# Subtest: race: a loader can set a winning value before returning
+ok 44 - race: a loader can set a winning value before returning
+  ---
+  duration_ms: 0.0773
+  type: 'test'
+  ...
+# Subtest: race: clear inside a loader invalidates stored values and all pending keys
+ok 45 - race: clear inside a loader invalidates stored values and all pending keys
+  ---
+  duration_ms: 0.4551
+  type: 'test'
+  ...
+# Subtest: trap: concurrent reads invoke one load and deliver its value to every waiter
+ok 46 - trap: concurrent reads invoke one load and deliver its value to every waiter
+  ---
+  duration_ms: 4.8766
+  type: 'test'
+  ...
+# Subtest: trap: successful values remain cached until the exact TTL boundary
+ok 47 - trap: successful values remain cached until the exact TTL boundary
+  ---
+  duration_ms: 0.2275
+  type: 'test'
+  ...
+# Subtest: trap: load TTL starts at successful settlement rather than at read submission
+ok 48 - trap: load TTL starts at successful settlement rather than at read submission
+  ---
+  duration_ms: 1.1928
+  type: 'test'
+  ...
+# Subtest: trap: an unresolved key cannot block another key
+ok 49 - trap: an unresolved key cannot block another key
+  ---
+  duration_ms: 0.6279
+  type: 'test'
+  ...
+# Subtest: trap: load receives only the unchanged key and Map key identity is preserved
+ok 50 - trap: load receives only the unchanged key and Map key identity is preserved
+  ---
+  duration_ms: 0.2767
+  type: 'test'
+  ...
+# Subtest: trap: obsolete rejection cannot detach a replacement flight
+ok 51 - trap: obsolete rejection cannot detach a replacement flight
+  ---
+  duration_ms: 1.886
+  type: 'test'
+  ...
+# Subtest: trap: falsey successful and explicitly set values are real cache entries
+ok 52 - trap: falsey successful and explicitly set values are real cache entries
+  ---
+  duration_ms: 0.46
+  type: 'test'
+  ...
+# Subtest: trap: zero TTL shares pending work but never reuses settled values
+ok 53 - trap: zero TTL shares pending work but never reuses settled values
+  ---
+  duration_ms: 0.6904
+  type: 'test'
+  ...
+# Subtest: trap: size prunes expired stored entries without forgetting pending flights
+ok 54 - trap: size prunes expired stored entries without forgetting pending flights
+  ---
+  duration_ms: 0.9039
+  type: 'test'
+  ...
+# Subtest: trap: a loader can read its own key without starting a second flight
+ok 55 - trap: a loader can read its own key without starting a second flight
+  ---
+  duration_ms: 0.6342
+  type: 'test'
+  ...
+# Subtest: trap: separate cache instances do not share values or flights
+ok 56 - trap: separate cache instances do not share values or flights
+  ---
+  duration_ms: 0.2357
+  type: 'test'
+  ...
+# Subtest: trap: ordinary set invalidate and clear retain their synchronous API
+ok 57 - trap: ordinary set invalidate and clear retain their synchronous API
+  ---
+  duration_ms: 0.1163
+  type: 'test'
+  ...
+# Subtest: trap: construction validates load ttl and clock and preserves the default TTL
+ok 58 - trap: construction validates load ttl and clock and preserves the default TTL
+  ---
+  duration_ms: 0.5219
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 59 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 3.8469
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 92.1216

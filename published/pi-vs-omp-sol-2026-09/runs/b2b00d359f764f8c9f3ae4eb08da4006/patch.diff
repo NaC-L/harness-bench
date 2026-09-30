@@ -1,0 +1,77 @@
+diff --git "{temp}\\hb-b2b00d35-pqga13_6/limit.regression.test.js" "{temp}\\hb-b2b00d35-pqga13_6/limit.regression.test.js"
+new file mode 100644
+index 0000000..2f7a1be
+--- /dev/null
++++ "{temp}\\hb-b2b00d35-pqga13_6/limit.regression.test.js"
+@@ -0,0 +1,47 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createLimiter } = require('./src/limit');
++
++for (const kind of ['synchronous throw', 'thenable rejection']) {
++  test(`releases the slot after a ${kind}`, { timeout: 2000 }, async () => {
++    const run = createLimiter(1);
++    const error = new Error(kind);
++    const failed = run(() => {
++      if (kind === 'synchronous throw') throw error;
++      return { then(resolve, reject) { reject(error); } };
++    });
++    const rejection = assert.rejects(failed, actual => actual === error);
++    const next = run(() => 42);
++    await rejection;
++    assert.equal(await next, 42);
++    assert.equal(await run(() => 'still usable'), 'still usable');
++  });
++}
++
++test('invokes each task once with no arguments and adopts its result', async () => {
++  const run = createLimiter(1);
++  let calls = 0;
++  assert.equal(await run(function () {
++    calls += 1;
++    assert.equal(arguments.length, 0);
++    assert.equal(this, undefined);
++    return 42;
++  }), 42);
++  assert.equal(calls, 1);
++  assert.equal(await run(() => Promise.resolve('promise')), 'promise');
++  assert.equal(await run(() => ({ then(resolve) { resolve('thenable'); } })), 'thenable');
++});
++
++test('rejects invalid inputs without consuming a slot', async () => {
++  for (const concurrency of [0, -1, 1.5, NaN, Infinity, '1', null, undefined, 1n]) {
++    assert.throws(() => createLimiter(concurrency), RangeError);
++  }
++  const run = createLimiter(1);
++  for (const fn of [null, undefined, 42, {}, 'task']) {
++    const result = run(fn);
++    assert.ok(result instanceof Promise);
++    await assert.rejects(result, TypeError);
++  }
++  assert.equal(await run(() => 'still usable'), 'still usable');
++});
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-b2b00d35-pqga13_6/src/limit.js"
+index 40953d6..9f61c96 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-b2b00d35-pqga13_6/src/limit.js"
+@@ -16,8 +16,9 @@ function createLimiter(concurrency) {
+   function drain() {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
++      const fn = job.fn;
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
++      Promise.resolve().then(() => fn()).then(
+         value => {
+           job.resolve(value);
+           active -= 1;
+@@ -25,6 +26,8 @@ function createLimiter(concurrency) {
+         },
+         error => {
+           job.reject(error);
++          active -= 1;
++          drain();
+         }
+       );
+     }

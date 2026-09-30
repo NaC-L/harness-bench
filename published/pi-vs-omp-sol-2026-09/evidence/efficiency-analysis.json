@@ -1,0 +1,981 @@
+{
+  "source": "GPT-6.1 Sol high, 3 tasks x 3 trials per arm",
+  "arms": {
+    "pi-sol": {
+      "uncached_input_tokens": 59630,
+      "cached_input_tokens": 59648,
+      "total_input_tokens": 119278,
+      "output_tokens": 9157,
+      "tool_calls": 61,
+      "requests": 54,
+      "cache_hit_share": 0.5000754539814551,
+      "median_first_request_input_tokens": 1423,
+      "first_requests_with_cache_hit": 0,
+      "calls_per_assistant_usage_message_histogram": {
+        "1": 37,
+        "3": 8,
+        "0": 9
+      },
+      "tool_result_text_characters": {
+        "bash": 11258,
+        "read": 15960,
+        "edit": 444
+      },
+      "multi_tool_messages": 8,
+      "tasks": {
+        "bugfix-duration": {
+          "total_input_tokens": 12481,
+          "uncached_input_tokens": 5825,
+          "cached_input_tokens": 6528,
+          "output_tokens": 861,
+          "tool_calls": 7,
+          "requests": 6,
+          "wall_time_sec": 65.92317399999956
+        },
+        "debug-limiter": {
+          "total_input_tokens": 14380,
+          "uncached_input_tokens": 8583,
+          "cached_input_tokens": 7424,
+          "output_tokens": 1126,
+          "tool_calls": 7,
+          "requests": 6,
+          "wall_time_sec": 81.32750560000022
+        },
+        "feature-lru": {
+          "total_input_tokens": 13525,
+          "uncached_input_tokens": 6485,
+          "cached_input_tokens": 7040,
+          "output_tokens": 1232,
+          "tool_calls": 6,
+          "requests": 6,
+          "wall_time_sec": 80.96152989999973
+        }
+      }
+    },
+    "omp-sol": {
+      "uncached_input_tokens": 116693,
+      "cached_input_tokens": 165632,
+      "total_input_tokens": 282325,
+      "output_tokens": 12375,
+      "tool_calls": 79,
+      "requests": 53,
+      "cache_hit_share": 0.5866713893562384,
+      "median_first_request_input_tokens": 4034,
+      "first_requests_with_cache_hit": 1,
+      "calls_per_assistant_usage_message_histogram": {
+        "3": 8,
+        "2": 13,
+        "1": 21,
+        "0": 9,
+        "4": 2
+      },
+      "tool_result_text_characters": {
+        "read": 20241,
+        "bash": 15140,
+        "edit": 3713,
+        "write": 89
+      },
+      "multi_tool_messages": 23,
+      "tasks": {
+        "bugfix-duration": {
+          "total_input_tokens": 30706,
+          "uncached_input_tokens": 17097,
+          "cached_input_tokens": 13440,
+          "output_tokens": 1104,
+          "tool_calls": 8,
+          "requests": 6,
+          "wall_time_sec": 67.70263829999931
+        },
+        "debug-limiter": {
+          "total_input_tokens": 33866,
+          "uncached_input_tokens": 10314,
+          "cached_input_tokens": 23552,
+          "output_tokens": 1570,
+          "tool_calls": 11,
+          "requests": 6,
+          "wall_time_sec": 92.79522910000014
+        },
+        "feature-lru": {
+          "total_input_tokens": 30670,
+          "uncached_input_tokens": 12721,
+          "cached_input_tokens": 18816,
+          "output_tokens": 1589,
+          "tool_calls": 8,
+          "requests": 6,
+          "wall_time_sec": 93.33654080000088
+        }
+      }
+    }
+  },
+  "runs": [
+    {
+      "run_id": "492426beafe440f2828c561f8ccf2a61",
+      "harness": "pi-sol",
+      "task": "bugfix-duration",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 65.92317399999956,
+      "uncached_input_tokens": 5825,
+      "cached_input_tokens": 6656,
+      "total_input_tokens": 12481,
+      "output_tokens": 861,
+      "cache_hit_share": 0.5332906017146062,
+      "first_request_input_tokens": 1426,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 7,
+      "calls_per_request_histogram": {
+        "1": 4,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 996,
+        "read": 1428,
+        "edit": 52
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 30,
+      "cost_components": {
+        "input": 0.011649999999999999,
+        "output": 0.008610000000000001,
+        "cacheRead": 0.0006656000000000001,
+        "cacheWrite": 0,
+        "total": 0.020925600000000003
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "aa3e89908d804048bb97ed56431ad911",
+      "harness": "omp-sol",
+      "task": "bugfix-duration",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 67.70263829999931,
+      "uncached_input_tokens": 12324,
+      "cached_input_tokens": 13440,
+      "total_input_tokens": 25764,
+      "output_tokens": 1114,
+      "cache_hit_share": 0.5216581276199348,
+      "first_request_input_tokens": 4040,
+      "first_request_cached_tokens": 0,
+      "requests": 5,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "2": 2,
+        "1": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 3,
+        "bash": 4,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "read": 940,
+        "bash": 2235,
+        "edit": 378
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.024648,
+        "output": 0.01114,
+        "cacheRead": 0.0013440000000000001,
+        "cacheWrite": 0,
+        "total": 0.037132
+      },
+      "ttft_ms": [
+        11886.316,
+        2377.1810000000005,
+        2120.758399999999,
+        2279.0696999999964,
+        2137.5378999999957
+      ]
+    },
+    {
+      "run_id": "06e809ed093841f991288b518194f649",
+      "harness": "pi-sol",
+      "task": "debug-limiter",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 81.32750560000022,
+      "uncached_input_tokens": 9388,
+      "cached_input_tokens": 4992,
+      "total_input_tokens": 14380,
+      "output_tokens": 1126,
+      "cache_hit_share": 0.34714881780250345,
+      "first_request_input_tokens": 1242,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 7,
+      "calls_per_request_histogram": {
+        "1": 4,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1691,
+        "read": 2950,
+        "edit": 49
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": 263,
+      "cost_components": {
+        "input": 0.018775999999999998,
+        "output": 0.011260000000000001,
+        "cacheRead": 0.0004992000000000001,
+        "cacheWrite": 0,
+        "total": 0.0305352
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "963290cbad96437087373a3dfa81364d",
+      "harness": "pi-sol",
+      "task": "feature-lru",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 93.65575080000053,
+      "uncached_input_tokens": 6293,
+      "cached_input_tokens": 9344,
+      "total_input_tokens": 15637,
+      "output_tokens": 1393,
+      "cache_hit_share": 0.5975570761655049,
+      "first_request_input_tokens": 1421,
+      "first_request_cached_tokens": 0,
+      "requests": 7,
+      "tool_calls": 6,
+      "calls_per_request_histogram": {
+        "1": 6,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 2,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1276,
+        "read": 1392,
+        "edit": 47
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 65,
+      "cost_components": {
+        "input": 0.012586,
+        "output": 0.01393,
+        "cacheRead": 0.0009344000000000002,
+        "cacheWrite": 0,
+        "total": 0.0274504
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "bfce81259ee34e95a5d885264b7fefaf",
+      "harness": "omp-sol",
+      "task": "feature-lru",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 84.88058330000058,
+      "uncached_input_tokens": 12721,
+      "cached_input_tokens": 17536,
+      "total_input_tokens": 30257,
+      "output_tokens": 1434,
+      "cache_hit_share": 0.5795683643454407,
+      "first_request_input_tokens": 4033,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "1": 3,
+        "2": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 4,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 827,
+        "read": 1923,
+        "edit": 388
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.025442,
+        "output": 0.014340000000000002,
+        "cacheRead": 0.0017536000000000001,
+        "cacheWrite": 0,
+        "total": 0.0415356
+      },
+      "ttft_ms": [
+        11187.004799999999,
+        2221.6499000000003,
+        3525.208999999999,
+        1992.8081999999995,
+        38224.92749999999,
+        2546.0466000000015
+      ]
+    },
+    {
+      "run_id": "b2b00d359f764f8c9f3ae4eb08da4006",
+      "harness": "omp-sol",
+      "task": "debug-limiter",
+      "trial": 1,
+      "passed": true,
+      "wall_time_sec": 111.27299459999995,
+      "uncached_input_tokens": 15754,
+      "cached_input_tokens": 25856,
+      "total_input_tokens": 41610,
+      "output_tokens": 1898,
+      "cache_hit_share": 0.6213890891612593,
+      "first_request_input_tokens": 3853,
+      "first_request_cached_tokens": 0,
+      "requests": 7,
+      "tool_calls": 11,
+      "calls_per_request_histogram": {
+        "4": 1,
+        "2": 2,
+        "1": 3,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 6,
+        "bash": 3,
+        "edit": 1,
+        "write": 1
+      },
+      "tool_result_text_characters": {
+        "read": 3621,
+        "bash": 2117,
+        "edit": 419,
+        "write": 89
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.031508,
+        "output": 0.01898,
+        "cacheRead": 0.0025856000000000004,
+        "cacheWrite": 0,
+        "total": 0.0530736
+      },
+      "ttft_ms": [
+        14549.8776,
+        2156.1858999999986,
+        2898.576000000001,
+        2179.900600000001,
+        2448.0787999999957,
+        8939.0769,
+        2469.399800000014
+      ]
+    },
+    {
+      "run_id": "7d64ab2f82ac4c299c1477503b742cf1",
+      "harness": "pi-sol",
+      "task": "bugfix-duration",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 68.3243294999993,
+      "uncached_input_tokens": 6820,
+      "cached_input_tokens": 5760,
+      "total_input_tokens": 12580,
+      "output_tokens": 920,
+      "cache_hit_share": 0.4578696343402226,
+      "first_request_input_tokens": 1428,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 7,
+      "calls_per_request_histogram": {
+        "1": 4,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1021,
+        "read": 1428,
+        "edit": 52
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 62,
+      "cost_components": {
+        "input": 0.01364,
+        "output": 0.0092,
+        "cacheRead": 0.0005760000000000001,
+        "cacheWrite": 0,
+        "total": 0.023416
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "c08e9e85021f4cf7aa655e0e5dc0c8b7",
+      "harness": "omp-sol",
+      "task": "bugfix-duration",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 74.18861189999916,
+      "uncached_input_tokens": 17097,
+      "cached_input_tokens": 14848,
+      "total_input_tokens": 31945,
+      "output_tokens": 1104,
+      "cache_hit_share": 0.46479887306307716,
+      "first_request_input_tokens": 4040,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 9,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "1": 2,
+        "2": 2,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 3,
+        "bash": 5,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "read": 1617,
+        "bash": 2998,
+        "edit": 378
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.034194,
+        "output": 0.011040000000000001,
+        "cacheRead": 0.0014848,
+        "cacheWrite": 0,
+        "total": 0.0467188
+      },
+      "ttft_ms": [
+        10534.5146,
+        2421.8611,
+        2449.378999999997,
+        3877.5206999999973,
+        2632.631300000001,
+        3220.9568000000145
+      ]
+    },
+    {
+      "run_id": "2b0c6fd4e8db418c99329feb9756dd18",
+      "harness": "pi-sol",
+      "task": "debug-limiter",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 73.59520540000085,
+      "uncached_input_tokens": 5281,
+      "cached_input_tokens": 8576,
+      "total_input_tokens": 13857,
+      "output_tokens": 869,
+      "cache_hit_share": 0.6188929782781266,
+      "first_request_input_tokens": 1246,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 7,
+      "calls_per_request_histogram": {
+        "1": 4,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1608,
+        "read": 2950,
+        "edit": 49
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 111,
+      "cost_components": {
+        "input": 0.010562,
+        "output": 0.00869,
+        "cacheRead": 0.0008576000000000001,
+        "cacheWrite": 0,
+        "total": 0.0201096
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "d705a94257fe48c5a3bfa2b9954725c3",
+      "harness": "omp-sol",
+      "task": "debug-limiter",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 66.075778299999,
+      "uncached_input_tokens": 7005,
+      "cached_input_tokens": 18816,
+      "total_input_tokens": 25821,
+      "output_tokens": 1026,
+      "cache_hit_share": 0.7287091901940281,
+      "first_request_input_tokens": 3851,
+      "first_request_cached_tokens": 0,
+      "requests": 5,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "2": 2,
+        "1": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 4,
+        "bash": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "read": 3463,
+        "bash": 1384,
+        "edit": 331
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.01401,
+        "output": 0.01026,
+        "cacheRead": 0.0018816000000000002,
+        "cacheWrite": 0,
+        "total": 0.0261516
+      },
+      "ttft_ms": [
+        7690.691600000001,
+        6980.695900000001,
+        3566.6716000000015,
+        21698.4556,
+        2531.817799999997
+      ]
+    },
+    {
+      "run_id": "53aee73d9ed645a3909e09154103fe4e",
+      "harness": "pi-sol",
+      "task": "feature-lru",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 80.96152989999973,
+      "uncached_input_tokens": 8011,
+      "cached_input_tokens": 3328,
+      "total_input_tokens": 11339,
+      "output_tokens": 1232,
+      "cache_hit_share": 0.2935003086691948,
+      "first_request_input_tokens": 1423,
+      "first_request_cached_tokens": 0,
+      "requests": 5,
+      "tool_calls": 6,
+      "calls_per_request_histogram": {
+        "1": 3,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 2,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 913,
+        "read": 1535,
+        "edit": 47
+      },
+      "tool_results_marked_error": 0,
+      "reasoning_tokens": 76,
+      "cost_components": {
+        "input": 0.016021999999999998,
+        "output": 0.012320000000000001,
+        "cacheRead": 0.00033280000000000007,
+        "cacheWrite": 0,
+        "total": 0.0286748
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "0f85c199ab6646448277ca58fe2b7d12",
+      "harness": "pi-sol",
+      "task": "bugfix-duration",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 47.843927599999006,
+      "uncached_input_tokens": 2944,
+      "cached_input_tokens": 6528,
+      "total_input_tokens": 9472,
+      "output_tokens": 525,
+      "cache_hit_share": 0.6891891891891891,
+      "first_request_input_tokens": 1429,
+      "first_request_cached_tokens": 0,
+      "requests": 5,
+      "tool_calls": 6,
+      "calls_per_request_histogram": {
+        "1": 3,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 3,
+        "read": 2,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 717,
+        "read": 790,
+        "edit": 52
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 60,
+      "cost_components": {
+        "input": 0.005888,
+        "output": 0.00525,
+        "cacheRead": 0.0006528,
+        "cacheWrite": 0,
+        "total": 0.0117908
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "55d87c7fbbb84afd8d0cd26a8c369c2c",
+      "harness": "omp-sol",
+      "task": "feature-lru",
+      "trial": 2,
+      "passed": true,
+      "wall_time_sec": 96.53940690000127,
+      "uncached_input_tokens": 11342,
+      "cached_input_tokens": 19328,
+      "total_input_tokens": 30670,
+      "output_tokens": 1675,
+      "cache_hit_share": 0.6301923703945224,
+      "first_request_input_tokens": 4036,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "1": 3,
+        "2": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 4,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 896,
+        "read": 1738,
+        "edit": 404
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.022684,
+        "output": 0.01675,
+        "cacheRead": 0.0019328000000000001,
+        "cacheWrite": 0,
+        "total": 0.0413668
+      },
+      "ttft_ms": [
+        12595.0701,
+        2162.0879000000004,
+        2688.1610999999975,
+        1959.0059,
+        1997.3205000000016,
+        2527.9354999999923
+      ]
+    },
+    {
+      "run_id": "ff81f0cf83134ddba7fdcc0b2808a2e6",
+      "harness": "omp-sol",
+      "task": "bugfix-duration",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 65.92836109999917,
+      "uncached_input_tokens": 17266,
+      "cached_input_tokens": 13440,
+      "total_input_tokens": 30706,
+      "output_tokens": 965,
+      "cache_hit_share": 0.4376994724158145,
+      "first_request_input_tokens": 4038,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "1": 3,
+        "2": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 3,
+        "bash": 4,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "read": 1617,
+        "bash": 1599,
+        "edit": 378
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.034532,
+        "output": 0.00965,
+        "cacheRead": 0.0013440000000000001,
+        "cacheWrite": 0,
+        "total": 0.045526
+      },
+      "ttft_ms": [
+        13268.6274,
+        2257.9007,
+        2638.232200000002,
+        2916.257600000001,
+        21185.521099999998,
+        3305.7848000000013
+      ]
+    },
+    {
+      "run_id": "20d59cbb52b9426fa3ff3f03641af956",
+      "harness": "pi-sol",
+      "task": "debug-limiter",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 83.75437319999946,
+      "uncached_input_tokens": 8583,
+      "cached_input_tokens": 7424,
+      "total_input_tokens": 16007,
+      "output_tokens": 1171,
+      "cache_hit_share": 0.46379708877366155,
+      "first_request_input_tokens": 1242,
+      "first_request_cached_tokens": 0,
+      "requests": 7,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "1": 5,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 4,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1719,
+        "read": 2950,
+        "edit": 49
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": 193,
+      "cost_components": {
+        "input": 0.017166,
+        "output": 0.01171,
+        "cacheRead": 0.0007424,
+        "cacheWrite": 0,
+        "total": 0.0296184
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "02db926cbb6a4336a1ccae2df70d721a",
+      "harness": "omp-sol",
+      "task": "debug-limiter",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 92.79522910000014,
+      "uncached_input_tokens": 10314,
+      "cached_input_tokens": 23552,
+      "total_input_tokens": 33866,
+      "output_tokens": 1570,
+      "cache_hit_share": 0.6954467607630072,
+      "first_request_input_tokens": 3851,
+      "first_request_cached_tokens": 1664,
+      "requests": 6,
+      "tool_calls": 11,
+      "calls_per_request_histogram": {
+        "4": 1,
+        "2": 1,
+        "1": 2,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "read": 5,
+        "bash": 4,
+        "edit": 2
+      },
+      "tool_result_text_characters": {
+        "read": 3584,
+        "bash": 1508,
+        "edit": 633
+      },
+      "tool_results_marked_error": 2,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.020628,
+        "output": 0.015700000000000002,
+        "cacheRead": 0.0023552,
+        "cacheWrite": 0,
+        "total": 0.0386832
+      },
+      "ttft_ms": [
+        13177.908300000001,
+        9165.942299999999,
+        2404.4287000000004,
+        2957.6079000000027,
+        28051.743200000004,
+        2274.9418000000005
+      ]
+    },
+    {
+      "run_id": "0a0e9e69bd3541b09b027aa6aa982d40",
+      "harness": "pi-sol",
+      "task": "feature-lru",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 74.84021510000093,
+      "uncached_input_tokens": 6485,
+      "cached_input_tokens": 7040,
+      "total_input_tokens": 13525,
+      "output_tokens": 1060,
+      "cache_hit_share": 0.5205175600739371,
+      "first_request_input_tokens": 1426,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 7,
+      "calls_per_request_histogram": {
+        "1": 4,
+        "3": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 4,
+        "read": 2,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1317,
+        "read": 537,
+        "edit": 47
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": 33,
+      "cost_components": {
+        "input": 0.012969999999999999,
+        "output": 0.0106,
+        "cacheRead": 0.0007040000000000001,
+        "cacheWrite": 0,
+        "total": 0.024274
+      },
+      "ttft_ms": []
+    },
+    {
+      "run_id": "ea5558e8d8304660942bd85bc1f36f5a",
+      "harness": "omp-sol",
+      "task": "feature-lru",
+      "trial": 3,
+      "passed": true,
+      "wall_time_sec": 93.33654080000088,
+      "uncached_input_tokens": 12870,
+      "cached_input_tokens": 18816,
+      "total_input_tokens": 31686,
+      "output_tokens": 1589,
+      "cache_hit_share": 0.5938269267184245,
+      "first_request_input_tokens": 4034,
+      "first_request_cached_tokens": 0,
+      "requests": 6,
+      "tool_calls": 8,
+      "calls_per_request_histogram": {
+        "3": 1,
+        "1": 3,
+        "2": 1,
+        "0": 1
+      },
+      "tool_histogram": {
+        "bash": 4,
+        "read": 3,
+        "edit": 1
+      },
+      "tool_result_text_characters": {
+        "bash": 1576,
+        "read": 1738,
+        "edit": 404
+      },
+      "tool_results_marked_error": 1,
+      "reasoning_tokens": null,
+      "cost_components": {
+        "input": 0.02574,
+        "output": 0.01589,
+        "cacheRead": 0.0018816000000000002,
+        "cacheWrite": 0,
+        "total": 0.043511600000000004
+      },
+      "ttft_ms": [
+        11365.6674,
+        2140.0342999999993,
+        2914.923600000002,
+        2029.4943999999996,
+        36686.878399999994,
+        2277.371900000013
+      ]
+    }
+  ],
+  "accounting_checks": [
+    "Same prompt/task hashes within each task",
+    "Unique session sources",
+    "Assistant totalTokens equals input + cached input + output",
+    "Identical reported unit prices across both arms"
+  ],
+  "interpretation": {
+    "pi_strengths": [
+      "Lower accumulated input and output token footprint",
+      "Lower first-request prompt footprint",
+      "Fewer tool calls and less returned tool text",
+      "Lower observed wall time and estimated cost"
+    ],
+    "omp_strengths": [
+      "Higher measured cached-input share",
+      "More multi-tool assistant messages",
+      "More explicit pre-fix reproduction on duration bug: 3 baseline test runs versus Pi 0"
+    ],
+    "shared_weaknesses": [
+      "Unnecessary git-status probes in non-git fixtures: Pi 7, OMP 7"
+    ],
+    "not_proven": [
+      "Cache-prefix stability, cache key quality or warm-cache readiness",
+      "Model-only latency comparison: Pi duration and TTFT absent",
+      "Long-task reliability, compaction quality or complex debugging superiority"
+    ]
+  },
+  "next_experiments": [
+    "Same-account/transport cold-vs-warm repeated fixed prompt; measure cached tokens and per-request prompt stability",
+    "Inspect and ablate OMP non-message prompt/tool-schema overhead with verification unchanged",
+    "Add harder tasks requiring parallel reads and substantial tool output",
+    "Add long-context tasks to exercise truncation/compaction and recovery"
+  ],
+  "limitations": [
+    "Small-task sample, different native prompts and provider transports",
+    "Tool-result characters are not tokenizer counts",
+    "Assistant usage-message count is not independently measured HTTP request count",
+    "Expected failing baseline tests are not tool misuse; do not rank raw error flags",
+    "Output tokens include provider generation/reasoning accounting, not just visible final verbosity"
+  ]
+}

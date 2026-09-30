@@ -1,0 +1,21 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js" "{temp}\\hb-1ecb2a9b-8awakbq7/src/duration.js"
+index e76125e..c54b4a4 100644
+--- "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js"
++++ "{temp}\\hb-1ecb2a9b-8awakbq7/src/duration.js"
+@@ -9,12 +9,13 @@ function parseDuration(str) {
+     throw new TypeError('Invalid duration');
+   }
+ 
++  let milliseconds = 0;
+   const parts = text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g);
+   for (const [, amount, unit] of parts) {
+-    const milliseconds = Number(amount) * UNIT_MS[unit];
+-    if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
+-    return milliseconds;
++    milliseconds += Number(amount) * UNIT_MS[unit];
+   }
++  if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
++  return milliseconds;
+ }
+ 
+ module.exports = { parseDuration };

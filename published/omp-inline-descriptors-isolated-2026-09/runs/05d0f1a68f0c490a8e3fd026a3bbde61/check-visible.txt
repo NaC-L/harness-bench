@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: half-even rounding is symmetric, exact, and normalizes zero
+ok 1 - half-even rounding is symmetric, exact, and normalizes zero
+  ---
+  duration_ms: 0.796
+  type: 'test'
+  ...
+# Subtest: rounding checks the safe range only after exact rounding
+ok 2 - rounding checks the safe range only after exact rounding
+  ---
+  duration_ms: 0.3767
+  type: 'test'
+  ...
+# Subtest: discounts retain caller order at both line and invoice levels
+ok 3 - discounts retain caller order at both line and invoice levels
+  ---
+  duration_ms: 0.8429
+  type: 'test'
+  ...
+# Subtest: percentage discounts round the reduction, including credits
+ok 4 - percentage discounts round the reduction, including credits
+  ---
+  duration_ms: 0.6579
+  type: 'test'
+  ...
+# Subtest: invoice discounts use positive post-line balances and allocate once
+ok 5 - invoice discounts use positive post-line balances and allocate once
+  ---
+  duration_ms: 0.3048
+  type: 'test'
+  ...
+# Subtest: tax modes use half-even rounding at their documented level
+ok 6 - tax modes use half-even rounding at their documented level
+  ---
+  duration_ms: 0.2972
+  type: 'test'
+  ...
+# Subtest: exact intermediate arithmetic permits cancellation but rejects unsafe stored fields
+ok 7 - exact intermediate arithmetic permits cancellation but rejects unsafe stored fields
+  ---
+  duration_ms: 0.4267
+  type: 'test'
+  ...
+# Subtest: input validation still applies to zero balances
+ok 8 - input validation still applies to zero balances
+  ---
+  duration_ms: 0.2482
+  type: 'test'
+  ...
+# Subtest: frozen inputs remain unchanged and empty/zero amounts are positive zero
+ok 9 - frozen inputs remain unchanged and empty/zero amounts are positive zero
+  ---
+  duration_ms: 0.3089
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 10 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.4472
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 11 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.8467
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 81.3766

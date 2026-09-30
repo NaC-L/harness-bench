@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: streaming grammar is independent of chunk boundaries
+ok 1 - streaming grammar is independent of chunk boundaries
+  ---
+  duration_ms: 5.0958
+  type: 'test'
+  ...
+# Subtest: push emits records immediately and never repeats earlier output
+ok 2 - push emits records immediately and never repeats earlier output
+  ---
+  duration_ms: 0.6616
+  type: 'test'
+  ...
+# Subtest: delimiter and chunk validation use the documented exception types
+ok 3 - delimiter and chunk validation use the documented exception types
+  ---
+  duration_ms: 0.6311
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical lines across every single split
+ok 4 - syntax errors report physical lines across every single split
+  ---
+  duration_ms: 0.8261
+  type: 'test'
+  ...
+# Subtest: parser instances and returned rows have independent state
+ok 5 - parser instances and returned rows have independent state
+  ---
+  duration_ms: 0.1211
+  type: 'test'
+  ...
+# Subtest: parse header mode preserves the rows helper contract
+ok 6 - parse header mode preserves the rows helper contract
+  ---
+  duration_ms: 0.5638
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 7 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.2621
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 8 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1157
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 9 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1303
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 10 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.1115
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 11 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.2623
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 12 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.1249
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 13 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1155
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 69.1222

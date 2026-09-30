@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: half-even rounding is exact, symmetric, and normalizes zero
+ok 1 - half-even rounding is exact, symmetric, and normalizes zero
+  ---
+  duration_ms: 0.7148
+  type: 'test'
+  ...
+# Subtest: rounding checks the exact final integer rather than a floating-point intermediate
+ok 2 - rounding checks the exact final integer rather than a floating-point intermediate
+  ---
+  duration_ms: 0.3933
+  type: 'test'
+  ...
+# Subtest: line discounts stay ordered and round each discount, not the remaining balance
+ok 3 - line discounts stay ordered and round each discount, not the remaining balance
+  ---
+  duration_ms: 0.9306
+  type: 'test'
+  ...
+# Subtest: credits use signed percentage discounts and ignore fixed and invoice discounts
+ok 4 - credits use signed percentage discounts and ignore fixed and invoice discounts
+  ---
+  duration_ms: 0.3492
+  type: 'test'
+  ...
+# Subtest: invoice discounts are calculated in order on the positive basis and allocated once
+ok 5 - invoice discounts are calculated in order on the positive basis and allocated once
+  ---
+  duration_ms: 0.261
+  type: 'test'
+  ...
+# Subtest: tax modes retain signed largest-remainder allocation, rate groups and input-order ties
+ok 6 - tax modes retain signed largest-remainder allocation, rate groups and input-order ties
+  ---
+  duration_ms: 0.292
+  type: 'test'
+  ...
+# Subtest: tax and discount calculations remain exact for large safe inputs
+ok 7 - tax and discount calculations remain exact for large safe inputs
+  ---
+  duration_ms: 0.1591
+  type: 'test'
+  ...
+# Subtest: safe stored totals allow cancelling intermediate sums but reject actual overflow
+ok 8 - safe stored totals allow cancelling intermediate sums but reject actual overflow
+  ---
+  duration_ms: 0.3165
+  type: 'test'
+  ...
+# Subtest: input validation still rejects invalid fields even on zero balances
+ok 9 - input validation still rejects invalid fields even on zero balances
+  ---
+  duration_ms: 0.4523
+  type: 'test'
+  ...
+# Subtest: output defaults, totals, positive zero and nonmutation remain intact
+ok 10 - output defaults, totals, positive zero and nonmutation remain intact
+  ---
+  duration_ms: 0.4466
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 11 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2612
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 12 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.8198
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 76.4046

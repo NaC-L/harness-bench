@@ -1,0 +1,69 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-294c6ccd-y3u6nkoa/src/limit.js"
+index 40953d6..d411ced 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-294c6ccd-y3u6nkoa/src/limit.js"
+@@ -16,17 +16,12 @@ function createLimiter(concurrency) {
+   function drain() {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
++      const { fn } = job;
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      Promise.resolve().then(() => fn()).then(job.resolve, job.reject).then(() => {
++        active -= 1;
++        drain();
++      });
+     }
+   }
+ 
+diff --git "{temp}\\hb-294c6ccd-y3u6nkoa/src/limit.test.js" "{temp}\\hb-294c6ccd-y3u6nkoa/src/limit.test.js"
+new file mode 100644
+index 0000000..497821e
+--- /dev/null
++++ "{temp}\\hb-294c6ccd-y3u6nkoa/src/limit.test.js"
+@@ -0,0 +1,36 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createLimiter } = require('./limit');
++
++test('invokes tasks once with no arguments and adopts their results', async () => {
++  const run = createLimiter(1);
++  let calls = 0;
++  function task() {
++    calls += 1;
++    assert.equal(arguments.length, 0);
++    return 42;
++  }
++  assert.equal(await run(task), 42);
++  assert.equal(calls, 1);
++  assert.equal(await run(() => Promise.resolve('resolved')), 'resolved');
++});
++
++test('synchronous throws release capacity and preserve queued submission order', { timeout: 2000 }, async () => {
++  const run = createLimiter(1);
++  const error = new Error('synchronous failure');
++  const started = [];
++  const failed = run(() => {
++    started.push(0);
++    throw error;
++  });
++  const rejection = assert.rejects(failed, actual => actual === error);
++  const queued = [1, 2, 3].map(value => run(() => {
++    started.push(value);
++    return value;
++  }));
++  await rejection;
++  assert.deepEqual(await Promise.all(queued), [1, 2, 3]);
++  assert.deepEqual(started, [0, 1, 2, 3]);
++  assert.equal(await run(() => 'still usable'), 'still usable');
++});

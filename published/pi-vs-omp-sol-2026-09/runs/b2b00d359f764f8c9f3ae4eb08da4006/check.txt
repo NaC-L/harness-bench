@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: releases the slot after a synchronous throw
+ok 1 - releases the slot after a synchronous throw
+  ---
+  duration_ms: 0.9575
+  type: 'test'
+  ...
+# Subtest: releases the slot after a thenable rejection
+ok 2 - releases the slot after a thenable rejection
+  ---
+  duration_ms: 0.1372
+  type: 'test'
+  ...
+# Subtest: invokes each task once with no arguments and adopts its result
+ok 3 - invokes each task once with no arguments and adopts its result
+  ---
+  duration_ms: 0.1266
+  type: 'test'
+  ...
+# Subtest: rejects invalid inputs without consuming a slot
+ok 4 - rejects invalid inputs without consuming a slot
+  ---
+  duration_ms: 0.9242
+  type: 'test'
+  ...
+# Subtest: validates concurrency and rejects invalid tasks without poisoning the queue
+ok 5 - validates concurrency and rejects invalid tasks without poisoning the queue
+  ---
+  duration_ms: 1.8289
+  type: 'test'
+  ...
+# Subtest: synchronous throws, rejected promises, and thrown non-Errors release slots
+ok 6 - synchronous throws, rejected promises, and thrown non-Errors release slots
+  ---
+  duration_ms: 0.2566
+  type: 'test'
+  ...
+# Subtest: each rejected task frees one slot while other work remains pending
+ok 7 - each rejected task frees one slot while other work remains pending
+  ---
+  duration_ms: 3.4004
+  type: 'test'
+  ...
+# Subtest: ordinary values, thenables, and invocation counts are preserved
+ok 8 - ordinary values, thenables, and invocation counts are preserved
+  ---
+  duration_ms: 0.4557
+  type: 'test'
+  ...
+# Subtest: separate limiter instances do not share slots
+ok 9 - separate limiter instances do not share slots
+  ---
+  duration_ms: 0.1248
+  type: 'test'
+  ...
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 10 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 2.9517
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 11 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.6133
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 75.9944

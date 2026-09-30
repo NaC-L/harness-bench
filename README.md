@@ -1,0 +1,168 @@
+# Coding-agent harness benchmark
+
+## What it measures
+
+- **Correctness:** successful solutions, hidden-test coverage, regressions, and reliable completion.
+- **Tokens:** total and uncached tokens per correct solution, including failed attempts, retries, and auxiliary calls.
+- **Time/safety:** median and tail wall time, timeouts, prohibited edits, and post-edit verification.
+- Correctness and safety use exact non-inferiority gates: a measured regression makes the candidate `worse`.
+- Tokens and time use a 10% noise margin by default; gains without losses are `better`, mixed gains/losses are `tradeoff`, and no material change is `equivalent`.
+- Mismatched tasks/inputs, fewer than three trials per task per arm, or unknown token/runtime data make the comparison `inconclusive`; unknown is not zero.
+- See [BENCHMARK_ANALYSIS.md](BENCHMARK_ANALYSIS.md#automated-scoring) for the full rule and past findings.
+
+## Published results
+
+| Bundle | Question | Verdict |
+| --- | --- | --- |
+| [omp-inline-descriptors-isolated-2026-09](published/omp-inline-descriptors-isolated-2026-09/REPORT.md) | OMP inline tool descriptions vs native tool schemas (GPT-6.1 Sol high, isolated state, 6 tasks × 4 trials) | `better`: −35% total / −16% uncached tokens per correct solution, median −17%, correctness at ceiling |
+| [omp-inline-descriptors-pilot-2026-09](published/omp-inline-descriptors-pilot-2026-09/REPORT.md) | Same question, 3 tasks × 1 trial screening pilot (operator state not isolated) | `inconclusive`: too few trials |
+| [pi-vs-omp-sol-2026-09](published/pi-vs-omp-sol-2026-09/REPORT.md) | Pi vs OMP, both GPT-6.1 Sol high (operator state not isolated) | `better` for Pi on efficiency; harness versions differ, legacy fields unknown |
+
+![Efficiency summary: inline tool descriptions vs native schemas](published/omp-inline-descriptors-isolated-2026-09/charts/summary.svg)
+
+Re-score any bundle without model access: `python -m bench --results <bundle> compare --baseline <a> --candidate <b>`. Add charts to your own report with `compare --format markdown --charts-dir <dir>`; `export` includes them automatically.
+
+## Requirements
+
+- Python 3.12+; Python standard library only, no packages to install. CI covers 3.12 and 3.14 on Linux, Windows and macOS.
+- Node 22+ for the supplied JavaScript tasks.
+- The harness CLIs you want to test, installed and authenticated with **your own model account**. Real harness runs spend model usage; the reference run below does not.
+- The Pi arms in `harnesses.toml` and `benchmark-pi-omp*.toml` expect a pinned local install: `npm install --prefix .tools/pi @earendil-works/pi-coding-agent@0.99.1`. The `herdr-omp` example expects `.tools/herdr/herdr.exe`. `.tools/` is gitignored.
+
+Run commands from this repository's root. Workdirs are disposable copies, **not security sandboxes**: only run trusted tasks and harness commands. Configure approvals and any real sandbox in the harness itself.
+
+## Quick start: zero model spend
+
+```sh
+python -m unittest discover -s tests
+python -m bench.validate_tasks
+python -m bench --config benchmark-reference.toml --results results/reference run --harness reference-a reference-b --trials 3 --jobs 12
+python -m bench --results results/reference compare --baseline reference-a --candidate reference-b
+```
+
+The reference arms copy each task's `solution/` into the workdir. Expect **36 PASS runs** (six tasks × two arms × three trials), then `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions without model calls.
+
+Use a fresh results directory for each experiment: runs and invocation manifests are appended, not replaced.
+
+## Compare two harness configurations
+
+Define two named arms in a TOML config, each with `kind`, an argv-list `command`, and `version_command`; optional `env` supplies environment overrides. Start from [harnesses.toml](harnesses.toml), but pin **model/provider, thinking effort, tools, account/transport, and recovery/approval settings identically**. Change exactly one experimental variable.
+
+Worked example: [benchmark-omp-descriptors.toml](benchmark-omp-descriptors.toml) defines `omp-baseline` and `omp-inline`. Their command templates differ only in the OMP `--config` overlay path:
+
+- [experiments/omp-descriptors/baseline.yml](experiments/omp-descriptors/baseline.yml): `inlineToolDescriptors: "off"`.
+- [experiments/omp-descriptors/inline.yml](experiments/omp-descriptors/inline.yml): `inlineToolDescriptors: "on"`.
+
+The benchmark's global `--config` selects the TOML arm definitions; the OMP `--config` **inside each arm's argv** selects a run-local YAML overlay. An overlay alone does not isolate a run: OMP still reads the operator's `~/.omp/agent` (global `AGENTS.md`, settings, `models.yml`, MCP servers, memories). That is why both arms also set `state_template` and `env_commands`, described below.
+
+### Isolating harness state
+
+Without isolation, a result measures the harness **plus the operator's personal setup**. A canary check confirmed this for OMP: a non-isolated run quoted the operator's global `AGENTS.md` back, tried to connect to the operator's MCP servers, and sent about 970 more input tokens on its first request.
+
+- `state_template = "experiments/omp-isolated/agent"` copies that checked-in directory into a fresh per-run state root. For omp and pi the root is set through `PI_CODING_AGENT_DIR`, for Claude through `CLAUDE_CONFIG_DIR`, and for Codex through `CODEX_HOME`. `OMP_PROFILE`/`PI_PROFILE` are removed so a profile cannot override it. The copy is deleted after the run.
+- `env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }` computes credentials per run from **your** login, so an isolated state root needs no stored credentials. Values are never written to records, manifests, artifacts or error messages.
+- The template's files are recorded in `manifest.json` and shown in `REPORT.md`, so readers see the exact state the agent ran with. `context_hashes` fingerprint the files OMP actually reads.
+- Each run also records `ancestor_context`: non-empty `AGENTS.md`, `.omp`, `.mcp.json` and similar entries in folders above the workdir, which harnesses discover as project context.
+- `compare` warns when a stateful arm was not isolated or had ancestor context.
+
+This command makes model calls; check your account and pinned model first:
+
+```sh
+python -m bench --config benchmark-omp-descriptors.toml --results results/descriptors run --harness omp-baseline omp-inline --trials 3 --jobs 12
+```
+
+Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; twice the task count (12 here) is fine for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
+
+Command placeholders (from the `harnesses.toml` header):
+
+```text
+{prompt}, {workdir}, {session_dir}, {session_id}, {task_dir}, {run_id},
+{benchmark_dir}, {python}, {timeout_sec}
+```
+
+These expand without a shell; runtime paths also work in `version_command`. Use `--task` to select task IDs and `--timeout` to override the per-task agent timeout.
+
+## Read and share results
+
+After the quick start, these examples use the reference arms. For a model experiment, substitute its results directory and arm names.
+
+```sh
+python -m bench --results results/reference compare --baseline reference-a --candidate reference-b
+python -m bench --results results/reference compare --baseline reference-a --candidate reference-b --format markdown > REPORT.md
+python -m bench --results results/reference export --baseline reference-a --candidate reference-b --out published/reference
+```
+
+Text is the default; `compare --format json` is also available (`--json` is a deprecated alias). `--margin` changes the efficiency noise band, and `--min-trials` changes the minimum evidence threshold.
+
+`export` refuses an existing output directory. It produces a sanitized, shareable bundle:
+
+- `REPORT.md`: verdict, dimension and per-task tables, setup, caveats, and reproduction commands.
+- `runs.jsonl`: only the selected arms; workdirs cleared and artifact paths made bundle-relative.
+- `manifest.json`: recorded provenance, when available.
+- `runs/<run_id>/`: available `patch.diff`, `check.txt`, and `check-visible.txt` files.
+
+Repository, home, and temporary paths are replaced with placeholders. **Transcripts are excluded by default**: `stdout.jsonl`, `stderr.txt`, and `sessions/` can contain your private system prompt/config. Add `--include-transcripts` only after reviewing them; path sanitization does not remove arbitrary secrets. Review patches and overlay contents for secrets too.
+
+`results/` is gitignored on purpose; `published/` is intended for reviewed bundles you choose to commit. Anyone can re-run `compare` directly on a bundle by setting the global `--results` to its exported directory; no original workdirs or model account are needed to inspect its verdict.
+
+`run` automatically appends an invocation to `manifest.json` before scheduling runs. It records command templates, harness versions/config hashes, referenced repository overlay files, task hashes, trial/job settings, and platform/Python/Node versions. Keep this provenance with the run index.
+
+## What a result can and cannot claim
+
+- **Correctness ceiling:** if both arms pass every run, the warning says the tasks cannot distinguish correctness. Equal passing checks do not establish general reliability or comprehensive safety.
+- **Inherited context:** use `state_template` (above) for every stateful arm. Otherwise `compare` warns `operator state not isolated`, and the result partly reflects the operator's personal instructions, settings and MCP servers. Isolation still leaves provider-side state (account, rate limits, server-side caching) and anything the harness reads outside its state root.
+- **Cache and provider load are not controlled.** Concurrency, account limits, warm prefixes, and remote load can change token/time observations. Report conditions and repeat experiments rather than treating a small sample as universal superiority.
+- Unknown regression/verification fields are reported as warnings, not filled with zero. Verification detection is a tool-sequence signal, not proof of all safety properties.
+
+## Adding a task
+
+Create a directory under `tasks/` with this layout:
+
+```text
+tasks/<id>/
+  task.toml       # id, title, category, timeout_sec, check argv list
+  prompt.md       # task given to the agent
+  repo/          # starting source and visible tests
+  hidden_tests/  # behavioral tests added only for grading
+  solution/      # reference files overlaid on repo/
+```
+
+Rules:
+
+- Hidden tests must check only behavior stated in the prompt or source documentation; do not demand undisclosed features.
+- Include regression traps that already pass on the starting repo, alongside tests for the requested change. The starting repo must fail overall; the reference solution must pass visible and hidden checks.
+- Keep tests deterministic, self-contained, and bounded; avoid live services, model calls, or network dependencies.
+- Give tests unique **top-level** names so TAP-based regression attribution is unambiguous.
+
+Then validate all tasks without agents:
+
+```sh
+python -m bench.validate_tasks
+```
+
+Current tasks:
+
+| Task ID | Category | Title |
+| --- | --- | --- |
+| `bugfix-duration` | bugfix | Parse complete compound durations |
+| `bugfix-invoice` | bugfix | Repair cent rounding and ordered invoice discounts |
+| `debug-cache-race` | debug | Diagnose stale writes and poisoned cache flights |
+| `debug-limiter` | debug | Diagnose hanging asynchronous limiter tests |
+| `feature-csv-stream` | feature | Implement an incremental CSV parser |
+| `feature-lru` | feature | Implement a bounded least-recently-used cache |
+
+## Adding a harness
+
+Add an arm under `[harnesses.<name>]` in your TOML config. `command` and `version_command` are argument lists, not shell strings. Pass the task using `{prompt}` and direct session output to `{session_dir}` where the CLI supports it; see the existing templates before choosing flags.
+
+Every kind receives benchmark wall time, exit/timeout tracking, visible/hidden grading, regression checks, and prohibited-edit detection. Session adapters in [bench/sessions.py](bench/sessions.py) supply these additional metrics when their source records exist:
+
+| Kind | Session metrics |
+| --- | --- |
+| `omp` | Input/output/cache tokens, cost, requests/tool counts, compactions, model time, subagent and auxiliary usage, edit/verification signals; completion/retries for direct `--mode json` commands. |
+| `pi` | Input/output/cache tokens, cost, requests/tool counts, compactions, auxiliary usage, edit/verification signals, stream completion/retries; no model-time telemetry. |
+| `claude` | Input/output/cache tokens, tool/request counts, compactions and subagent count from sessions; cost/API time and final result from stdout. Auxiliary and edit/verification signals are unknown. |
+| `codex` | Input/output/cached tokens, approximate turn counts, tool counts, compactions and final message from sessions. Cost, model time, auxiliary usage and edit/verification signals are unknown. |
+| `none` | No session/model metrics; useful for deterministic pipeline checks. |
+
+Missing metrics remain unknown. Ensure the CLI emits the expected records and that sessions can be attributed to the run; do not mistake a missing usage stream for a free or zero-token solution.

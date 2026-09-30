@@ -1,0 +1,111 @@
+{
+  "experiment": "OMP native-schema vs inline tool descriptors",
+  "type": "six-run screening pilot",
+  "model": "openai-codex/gpt-6.1-sol",
+  "thinking": "high",
+  "variable": "inlineToolDescriptors",
+  "arms": {
+    "omp-baseline": {
+      "command": [
+        "omp",
+        "--print",
+        "--mode",
+        "json",
+        "--no-title",
+        "--config",
+        "{benchmark_dir}/experiments/omp-descriptors/baseline.yml",
+        "--no-prewalk",
+        "--no-extensions",
+        "--no-skills",
+        "--no-rules",
+        "--tools",
+        "read,bash,edit,write",
+        "--model",
+        "openai-codex/gpt-6.1-sol",
+        "--thinking",
+        "high",
+        "--session-dir",
+        "{session_dir}",
+        "{prompt}"
+      ],
+      "overlay": "experiments\\omp-descriptors\\baseline.yml",
+      "contents": "inlineToolDescriptors: \"off\"\n",
+      "sha256": "f59dbc87108224ee8f4804ab9f3ed6a642d91b1053cd233095f270d7bfb541fd",
+      "config_hash": "024c01617da9ee5d0adfbbe0fb6057fe73099a9222b03a8eeb3776b64e017368"
+    },
+    "omp-inline": {
+      "command": [
+        "omp",
+        "--print",
+        "--mode",
+        "json",
+        "--no-title",
+        "--config",
+        "{benchmark_dir}/experiments/omp-descriptors/inline.yml",
+        "--no-prewalk",
+        "--no-extensions",
+        "--no-skills",
+        "--no-rules",
+        "--tools",
+        "read,bash,edit,write",
+        "--model",
+        "openai-codex/gpt-6.1-sol",
+        "--thinking",
+        "high",
+        "--session-dir",
+        "{session_dir}",
+        "{prompt}"
+      ],
+      "overlay": "experiments\\omp-descriptors\\inline.yml",
+      "contents": "inlineToolDescriptors: \"on\"\n",
+      "sha256": "9b2826130a7d102ce1eea20d822ce0b09a3d4bd3d020c9e15b8a4197a4da8264",
+      "config_hash": "7f02d320c2f99c25245cbbc204f85f7e7720a123413b7d2228899003673cd813"
+    }
+  },
+  "trials_per_task": 1,
+  "jobs": 1,
+  "alternate_order": true,
+  "cache_condition": "natural observed cache; cold/warm state not forced or independently controlled",
+  "safeguards": "same inherited recovery and approval settings; no sol-comparison recovery-disabling overlay",
+  "limitations": [
+    "Three small fixtures, one paired trial each; not evidence for default changes",
+    "Cache state and remote provider load not controlled"
+  ],
+  "schedule": [
+    {
+      "task": "bugfix-duration",
+      "harness": "omp-baseline",
+      "trial": 1
+    },
+    {
+      "task": "bugfix-duration",
+      "harness": "omp-inline",
+      "trial": 1
+    },
+    {
+      "task": "debug-limiter",
+      "harness": "omp-inline",
+      "trial": 1
+    },
+    {
+      "task": "debug-limiter",
+      "harness": "omp-baseline",
+      "trial": 1
+    },
+    {
+      "task": "feature-lru",
+      "harness": "omp-baseline",
+      "trial": 1
+    },
+    {
+      "task": "feature-lru",
+      "harness": "omp-inline",
+      "trial": 1
+    }
+  ],
+  "baseline_context_hashes": {
+    "~\\.omp\\agent\\config.yml": "a9d1d03a58afd637103bdab3999c4c130ca120461bf96513398df310e5dddb37",
+    "~\\.omp\\agent\\models.yml": "a56fb7bac33f93a2d47fc029f8e7407cce8caee98b7308a4f3f2ad28d79d1a9e",
+    "~\\.omp\\SYSTEM.md": "5c1b83f499a56f24bb664ae8e234061c78f73899580467c6240886a956b1f96d"
+  }
+}

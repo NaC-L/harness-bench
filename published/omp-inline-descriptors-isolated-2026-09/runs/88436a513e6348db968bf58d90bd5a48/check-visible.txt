@@ -1,0 +1,214 @@
+TAP version 13
+# Subtest: invalidate: detached success, new settles first
+ok 1 - invalidate: detached success, new settles first
+  ---
+  duration_ms: 1.5638
+  type: 'test'
+  ...
+# Subtest: invalidate: detached success, old settles first
+ok 2 - invalidate: detached success, old settles first
+  ---
+  duration_ms: 0.375
+  type: 'test'
+  ...
+# Subtest: invalidate: detached rejection, new settles first
+ok 3 - invalidate: detached rejection, new settles first
+  ---
+  duration_ms: 0.2018
+  type: 'test'
+  ...
+# Subtest: invalidate: detached rejection, old settles first
+ok 4 - invalidate: detached rejection, old settles first
+  ---
+  duration_ms: 0.14
+  type: 'test'
+  ...
+# Subtest: clear: detached success, new settles first
+ok 5 - clear: detached success, new settles first
+  ---
+  duration_ms: 0.2062
+  type: 'test'
+  ...
+# Subtest: clear: detached success, old settles first
+ok 6 - clear: detached success, old settles first
+  ---
+  duration_ms: 0.0839
+  type: 'test'
+  ...
+# Subtest: clear: detached rejection, new settles first
+ok 7 - clear: detached rejection, new settles first
+  ---
+  duration_ms: 0.0751
+  type: 'test'
+  ...
+# Subtest: clear: detached rejection, old settles first
+ok 8 - clear: detached rejection, old settles first
+  ---
+  duration_ms: 0.4949
+  type: 'test'
+  ...
+# Subtest: set: detached success, new settles first
+ok 9 - set: detached success, new settles first
+  ---
+  duration_ms: 0.4408
+  type: 'test'
+  ...
+# Subtest: set: detached success, old settles first
+ok 10 - set: detached success, old settles first
+  ---
+  duration_ms: 0.3016
+  type: 'test'
+  ...
+# Subtest: set: detached rejection, new settles first
+ok 11 - set: detached rejection, new settles first
+  ---
+  duration_ms: 0.117
+  type: 'test'
+  ...
+# Subtest: set: detached rejection, old settles first
+ok 12 - set: detached rejection, old settles first
+  ---
+  duration_ms: 0.0564
+  type: 'test'
+  ...
+# Subtest: invalidate is a barrier even before load is invoked
+ok 13 - invalidate is a barrier even before load is invoked
+  ---
+  duration_ms: 0.11
+  type: 'test'
+  ...
+# Subtest: load can synchronously invalidate its own flight
+ok 14 - load can synchronously invalidate its own flight
+  ---
+  duration_ms: 0.0943
+  type: 'test'
+  ...
+# Subtest: clear is a barrier even before load is invoked
+ok 15 - clear is a barrier even before load is invoked
+  ---
+  duration_ms: 0.0308
+  type: 'test'
+  ...
+# Subtest: load can synchronously clear its own flight
+ok 16 - load can synchronously clear its own flight
+  ---
+  duration_ms: 0.0252
+  type: 'test'
+  ...
+# Subtest: set is a barrier even before load is invoked
+ok 17 - set is a barrier even before load is invoked
+  ---
+  duration_ms: 0.0249
+  type: 'test'
+  ...
+# Subtest: load can synchronously set its own flight
+ok 18 - load can synchronously set its own flight
+  ---
+  duration_ms: 0.0238
+  type: 'test'
+  ...
+# Subtest: failed thenable is deduplicated and retryable (Error: failure)
+ok 19 - failed thenable is deduplicated and retryable (Error: failure)
+  ---
+  duration_ms: 0.1284
+  type: 'test'
+  ...
+# Subtest: failed throw is deduplicated and retryable (Error: failure)
+ok 20 - failed throw is deduplicated and retryable (Error: failure)
+  ---
+  duration_ms: 0.0452
+  type: 'test'
+  ...
+# Subtest: failed thenable is deduplicated and retryable (undefined)
+ok 21 - failed thenable is deduplicated and retryable (undefined)
+  ---
+  duration_ms: 0.0351
+  type: 'test'
+  ...
+# Subtest: failed throw is deduplicated and retryable (undefined)
+ok 22 - failed throw is deduplicated and retryable (undefined)
+  ---
+  duration_ms: 0.0414
+  type: 'test'
+  ...
+# Subtest: failed thenable is deduplicated and retryable (null)
+ok 23 - failed thenable is deduplicated and retryable (null)
+  ---
+  duration_ms: 0.0385
+  type: 'test'
+  ...
+# Subtest: failed throw is deduplicated and retryable (null)
+ok 24 - failed throw is deduplicated and retryable (null)
+  ---
+  duration_ms: 0.2753
+  type: 'test'
+  ...
+# Subtest: failed thenable is deduplicated and retryable (failure)
+ok 25 - failed thenable is deduplicated and retryable (failure)
+  ---
+  duration_ms: 0.1731
+  type: 'test'
+  ...
+# Subtest: failed throw is deduplicated and retryable (failure)
+ok 26 - failed throw is deduplicated and retryable (failure)
+  ---
+  duration_ms: 0.0402
+  type: 'test'
+  ...
+# Subtest: repeated barriers detach every generation, including when no value exists
+ok 27 - repeated barriers detach every generation, including when no value exists
+  ---
+  duration_ms: 0.1444
+  type: 'test'
+  ...
+# Subtest: set wins without having its TTL restarted by a detached completion
+ok 28 - set wins without having its TTL restarted by a detached completion
+  ---
+  duration_ms: 0.2292
+  type: 'test'
+  ...
+# Subtest: TTL begins at commit; size excludes flights and expires values at the boundary
+ok 29 - TTL begins at commit; size excludes flights and expires values at the boundary
+  ---
+  duration_ms: 0.1326
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending work but never reuses settled values
+ok 30 - zero TTL deduplicates pending work but never reuses settled values
+  ---
+  duration_ms: 0.0793
+  type: 'test'
+  ...
+# Subtest: reentrant reads join the registered flight and other keys load independently
+ok 31 - reentrant reads join the registered flight and other keys load independently
+  ---
+  duration_ms: 0.1108
+  type: 'test'
+  ...
+# Subtest: clear detaches flights across keys and cache instances remain isolated
+ok 32 - clear detaches flights across keys and cache instances remain isolated
+  ---
+  duration_ms: 0.1311
+  type: 'test'
+  ...
+# Subtest: keys retain Map identity and null/undefined are stored values
+ok 33 - keys retain Map identity and null/undefined are stored values
+  ---
+  duration_ms: 0.5465
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 34 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.2971
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80.7747

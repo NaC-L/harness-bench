@@ -1,0 +1,19 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js" "{temp}\\hb-8ca982e1-zq6986y8/src/duration.js"
+index e76125e..7f60e98 100644
+--- "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js"
++++ "{temp}\\hb-8ca982e1-zq6986y8/src/duration.js"
+@@ -10,11 +10,12 @@ function parseDuration(str) {
+   }
+ 
+   const parts = text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g);
++  let milliseconds = 0;
+   for (const [, amount, unit] of parts) {
+-    const milliseconds = Number(amount) * UNIT_MS[unit];
++    milliseconds += Number(amount) * UNIT_MS[unit];
+     if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
+-    return milliseconds;
+   }
++  return milliseconds;
+ }
+ 
+ module.exports = { parseDuration };

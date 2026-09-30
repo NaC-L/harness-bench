@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: exact half-even rounding is symmetric and normalizes zero
+ok 1 - exact half-even rounding is symmetric and normalizes zero
+  ---
+  duration_ms: 2.6953
+  type: 'test'
+  ...
+# Subtest: rounding stays exact beyond Number precision and checks the rounded safe range
+ok 2 - rounding stays exact beyond Number precision and checks the rounded safe range
+  ---
+  duration_ms: 0.4698
+  type: 'test'
+  ...
+# Subtest: line and invoice discounts both honor the supplied order
+ok 3 - line and invoice discounts both honor the supplied order
+  ---
+  duration_ms: 0.7767
+  type: 'test'
+  ...
+# Subtest: percentage discounts round each reduction, not the remaining balance
+ok 4 - percentage discounts round each reduction, not the remaining balance
+  ---
+  duration_ms: 0.5444
+  type: 'test'
+  ...
+# Subtest: credits keep signed discounts and tax, and fixed discounts never change them
+ok 5 - credits keep signed discounts and tax, and fixed discounts never change them
+  ---
+  duration_ms: 0.2437
+  type: 'test'
+  ...
+# Subtest: invoice reductions are allocated once to positive balances with input-order ties
+ok 6 - invoice reductions are allocated once to positive balances with input-order ties
+  ---
+  duration_ms: 0.2578
+  type: 'test'
+  ...
+# Subtest: tax modes round per line or per rate and distribute signed largest remainders
+ok 7 - tax modes round per line or per rate and distribute signed largest remainders
+  ---
+  duration_ms: 0.2966
+  type: 'test'
+  ...
+# Subtest: exact arithmetic permits cancelling intermediates but rejects unsafe stored values
+ok 8 - exact arithmetic permits cancelling intermediates but rejects unsafe stored values
+  ---
+  duration_ms: 0.3025
+  type: 'test'
+  ...
+# Subtest: validation still rejects malformed input, including zero-balance fields
+ok 9 - validation still rejects malformed input, including zero-balance fields
+  ---
+  duration_ms: 0.4057
+  type: 'test'
+  ...
+# Subtest: inputs remain immutable and outputs retain their schema and summed totals
+ok 10 - inputs remain immutable and outputs retain their schema and summed totals
+  ---
+  duration_ms: 0.4354
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 11 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2628
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 12 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.7574
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 72.6885

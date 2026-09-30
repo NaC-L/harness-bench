@@ -1,0 +1,18 @@
+# OMP tool-description placement: native tool schemas (baseline) vs inline descriptions (candidate).
+# The arms differ only in the --config overlay. Both run against a fresh copy of the
+# benchmark-owned state in experiments/omp-isolated/agent, never the operator's ~/.omp,
+# and authenticate with a short-lived token computed per run (never stored).
+
+[harnesses.omp-baseline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-inline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/inline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }

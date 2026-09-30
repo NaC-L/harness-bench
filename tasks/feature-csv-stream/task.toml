@@ -1,0 +1,5 @@
+id = "feature-csv-stream"
+title = "Implement an incremental CSV parser"
+category = "feature"
+timeout_sec = 900
+check = ["node", "--test"]

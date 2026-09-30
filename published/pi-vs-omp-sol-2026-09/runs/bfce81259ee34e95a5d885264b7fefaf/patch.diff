@@ -1,0 +1,53 @@
+diff --git "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js" "{temp}\\hb-bfce8125-uaziao9n/src/lru.js"
+index 258677f..96c20c0 100644
+--- "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js"
++++ "{temp}\\hb-bfce8125-uaziao9n/src/lru.js"
+@@ -2,14 +2,43 @@
+ 
+ class LRUCache {
+   constructor(capacity) {
++    if (!Number.isInteger(capacity) || capacity <= 0) {
++      throw new RangeError('Capacity must be a positive integer Number');
++    }
+     this.capacity = capacity;
++    this._entries = new Map();
+   }
+ 
+-  get(key) { throw new Error('not implemented'); }
+-  set(key, value) { throw new Error('not implemented'); }
+-  has(key) { throw new Error('not implemented'); }
+-  delete(key) { throw new Error('not implemented'); }
+-  get size() { throw new Error('not implemented'); }
++  get(key) {
++    if (!this._entries.has(key)) {
++      return undefined;
++    }
++    const value = this._entries.get(key);
++    this._entries.delete(key);
++    this._entries.set(key, value);
++    return value;
++  }
++
++  set(key, value) {
++    this._entries.delete(key);
++    this._entries.set(key, value);
++    if (this._entries.size > this.capacity) {
++      this._entries.delete(this._entries.keys().next().value);
++    }
++    return this;
++  }
++
++  has(key) {
++    return this._entries.has(key);
++  }
++
++  delete(key) {
++    return this._entries.delete(key);
++  }
++
++  get size() {
++    return this._entries.size;
++  }
+ }
+ 
+ module.exports = { LRUCache };

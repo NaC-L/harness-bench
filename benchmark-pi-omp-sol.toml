@@ -1,0 +1,10 @@
+[harnesses.omp-sol]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/pi-omp-sol/omp.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+
+[harnesses.pi-sol]
+kind = "pi"
+command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--print", "--mode", "json", "--no-extensions", "--no-skills", "--no-prompt-templates", "--no-context-files", "--tools", "read,bash,edit,write", "--model", "openai/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "--session-id", "{session_id}", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--version"]
+env = { PI_TELEMETRY = "0" }

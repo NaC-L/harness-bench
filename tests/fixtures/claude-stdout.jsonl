@@ -1,0 +1,2 @@
+{"type":"system","subtype":"init"}
+{"type":"result","total_cost_usd":0.42,"num_turns":9,"duration_ms":8000,"duration_api_ms":2500,"result":"stdout fallback"}

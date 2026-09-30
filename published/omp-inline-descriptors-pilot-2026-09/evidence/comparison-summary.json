@@ -1,0 +1,341 @@
+{
+  "arms": {
+    "omp-baseline": {
+      "uncached_input_tokens": 32624,
+      "cached_input_tokens": 50816,
+      "total_input_tokens": 83440,
+      "output_tokens": 3375,
+      "requests": 16,
+      "tool_calls": 25,
+      "cost_usd": 0.1040796,
+      "attempts": 3,
+      "passed": 3,
+      "median_wall_time_sec": 65.85764829999971,
+      "runtime_range_sec": [
+        65.73902629999975,
+        80.7703134000003
+      ],
+      "median_first_request_input_tokens": 4035,
+      "first_requests_with_cache_hit": 0,
+      "total_tokens_per_correct_solution": 28938.333333333332
+    },
+    "omp-inline": {
+      "uncached_input_tokens": 26962,
+      "cached_input_tokens": 46720,
+      "total_input_tokens": 73682,
+      "output_tokens": 4118,
+      "requests": 19,
+      "tool_calls": 25,
+      "cost_usd": 0.099776,
+      "attempts": 3,
+      "passed": 3,
+      "median_wall_time_sec": 94.0724597999997,
+      "runtime_range_sec": [
+        64.06946919999973,
+        104.19466810000085
+      ],
+      "median_first_request_input_tokens": 2716,
+      "first_requests_with_cache_hit": 0,
+      "total_tokens_per_correct_solution": 25933.333333333332
+    }
+  },
+  "pairs": [
+    {
+      "task": "bugfix-duration",
+      "both_passed": true,
+      "percent_change_inline_vs_baseline": {
+        "total_input_tokens": -28.340172541923813,
+        "uncached_input_tokens": -54.63869098880452,
+        "output_tokens": -4.426559356136817,
+        "wall_time_sec": -2.7152185754558578,
+        "cost_usd": -39.07719362206328
+      }
+    },
+    {
+      "task": "debug-limiter",
+      "both_passed": true,
+      "percent_change_inline_vs_baseline": {
+        "total_input_tokens": 6.204177872748029,
+        "uncached_input_tokens": 51.87979705997139,
+        "output_tokens": 23.190546528803544,
+        "wall_time_sec": 29.00119327752968,
+        "cost_usd": 35.274598504193186
+      }
+    },
+    {
+      "task": "feature-lru",
+      "both_passed": true,
+      "percent_change_inline_vs_baseline": {
+        "total_input_tokens": -10.537320498658676,
+        "uncached_input_tokens": -21.958237421900694,
+        "output_tokens": 46.05647517039921,
+        "wall_time_sec": 43.099867909056734,
+        "cost_usd": -1.7039569667338217
+      }
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "80c591ff2ef84a4791337678d32693cc",
+      "harness": "omp-baseline",
+      "task": "bugfix-duration",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 12773,
+      "cached_input_tokens": 18176,
+      "total_input_tokens": 30949,
+      "output_tokens": 994,
+      "requests": 6,
+      "tool_calls": 9,
+      "wall_time_sec": 65.85764829999971,
+      "cost_usd": 0.03730359999999999,
+      "first_request_input_tokens": 4038,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "pre-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node -e \"const assert = require('node:assert/strict'); const { parseDuration } = require('./src/duration'); for (const [input, expected] of [['1h30m',5400000],['45s',45000],['2d4h',187200000],['1.5h',5400000],['250ms',250],['  0ms  ',0],['0.5ms',0.5],['30m1h30m',7200000],['1ms2ms',3],['1s1ms',1001]]) assert.equal(parseDuration(input),expected); for (const input of [null,undefined,42,{},[], '', '   ', '1h 30m', '1h\\n30m', '1H', '1S', '.5s', '1.s', '-1s', '+1s', '1e3s', '1s!', '1mss', '1s2', '\u0661s', '9'.repeat(309)+'ms', '1'+'0'.repeat(308)+'ms1'+'0'.repeat(308)+'ms']) assert.throws(() => parseDuration(input),TypeError); console.log('Additional duration checks passed');\""
+        }
+      ],
+      "tests_pass": 7,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    },
+    {
+      "run_id": "d718c214412a4d97a76b7ec5ae0d3759",
+      "harness": "omp-inline",
+      "task": "bugfix-duration",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 5794,
+      "cached_input_tokens": 16384,
+      "total_input_tokens": 22178,
+      "output_tokens": 950,
+      "requests": 6,
+      "tool_calls": 8,
+      "wall_time_sec": 64.06946919999973,
+      "cost_usd": 0.022726399999999997,
+      "first_request_input_tokens": 2716,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node -e \"const assert = require('node:assert/strict'); const {parseDuration: p} = require('./src/duration'); for (const [text, expected] of [['2d4h',187200000], ['1s2s',3000], ['30m1h',5400000], ['  1h30m\\n',5400000], ['0ms',0], ['0.5ms',0.5], ['1ms1m1s1h1d',90061001]]) assert.equal(p(text), expected); for (const value of [null, undefined, {}, [], true, '', '   ', '1h 30m', '1h\\n30m', '1H', '1MS', '1', '.5s', '1.s', '-1s', '+1s', '1e3s', '1s!', '1s2', '\uff11s', '9'.repeat(400) + 'ms', '1' + '0'.repeat(308) + 'ms' + '1' + '0'.repeat(308) + 'ms']) assert.throws(() => p(value), TypeError); console.log('Additional grammar, summation, and overflow checks passed');\""
+        }
+      ],
+      "tests_pass": 7,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    },
+    {
+      "run_id": "5a871c17c4f349d1b44a327433f82795",
+      "harness": "omp-inline",
+      "task": "debug-limiter",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 11675,
+      "cached_input_tokens": 17152,
+      "total_input_tokens": 28827,
+      "output_tokens": 1668,
+      "requests": 7,
+      "tool_calls": 9,
+      "wall_time_sec": 104.19466810000085,
+      "cost_usd": 0.0417452,
+      "first_request_input_tokens": 2532,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "pre-edit",
+          "command": "node --test; node -e \"const {createLimiter}=require('./src/limit'); createLimiter(1)(function () { return arguments.length; }).then(n => console.log('Task argument count:', n));\""
+        },
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node <<'NODE'\n'use strict';\nconst test = require('node:test');\nconst assert = require('node:assert/strict');\nconst { createLimiter } = require('./src/limit');\n\ntest('validates concurrency and rejects non-functions without consuming a slot', async () => {\n  for (const value of [0, -1, 1.5, NaN, Infinity, '2', null, undefined, 2n]) {\n    assert.throws(() => createLimiter(value), RangeError);\n  }\n  const run = createLimiter(1);\n  for (const value of [null, undefined, 42, {}]) {\n    const result = run(value);\n    assert.ok(result instanceof Promise);\n    await assert.rejects(result, TypeError);\n  }\n  assert.equal(await run(() => 42), 42);\n});\n\ntest('invokes each task once, without arguments, and recovers from throws and rejections', { timeout: 2000 }, async () => {\n  const run = createLimiter(1);\n  const error = new Error('expected');\n  const started = [];\n  const tasks = [\n    function () { throw error; },\n    function () { return Promise.reject(error); },\n    function () { return 42; },\n    function () { return Promise.resolve(43); }\n  ];\n  const results = tasks.map((fn, index) => run(function () {\n    assert.equal(arguments.length, 0);\n    assert.equal(this, undefined);\n    started.push(index);\n    return fn();\n  }));\n  const settled = await Promise.allSettled(results);\n  assert.deepEqual(started, [0, 1, 2, 3]);\n  assert.deepEqual(settled, [\n    { status: 'rejected', reason: error },\n    { status: 'rejected', reason: error },\n    { status: 'fulfilled', value: 42 },\n    { status: 'fulfilled', value: 43 }\n  ]);\n  assert.equal(await run(() => 'still usable'), 'still usable');\n});\nNODE"
+        }
+      ],
+      "tests_pass": 7,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    },
+    {
+      "run_id": "74903854005541f0b625dc92ae684579",
+      "harness": "omp-baseline",
+      "task": "debug-limiter",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 7687,
+      "cached_input_tokens": 19456,
+      "total_input_tokens": 27143,
+      "output_tokens": 1354,
+      "requests": 5,
+      "tool_calls": 9,
+      "wall_time_sec": 80.7703134000003,
+      "cost_usd": 0.0308596,
+      "first_request_input_tokens": 3851,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "pre-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node -e \"'use strict'; const assert = require('node:assert/strict'); const { createLimiter } = require('./src/limit'); (async () => { for (const value of [0, -1, 1.5, NaN, Infinity, '2', null, undefined, 2n]) assert.throws(() => createLimiter(value), RangeError); const run = createLimiter(1); for (const value of [null, undefined, 42, {}]) { const result = run(value); assert.ok(result instanceof Promise); await assert.rejects(result, TypeError); } assert.equal(await run(function () { assert.equal(arguments.length, 0); assert.equal(this, undefined); return 7; }), 7); const error = new Error('expected'); const tasks = [run(() => { throw error; }), run(() => Promise.reject(error)), run(() => ({ get then() { throw error; } })), run(() => ({ then(resolve) { resolve(11); } })), run(() => 42)]; const results = await Promise.allSettled(tasks); for (const result of results.slice(0, 3)) { assert.equal(result.status, 'rejected'); assert.equal(result.reason, error); } assert.deepEqual(results.slice(3), [{ status: 'fulfilled', value: 11 }, { status: 'fulfilled', value: 42 }]); assert.equal(await run(() => 'usable'), 'usable'); console.log('Supplemental contract checks passed'); })().catch(error => { console.error(error); process.exitCode = 1; });\""
+        }
+      ],
+      "tests_pass": 7,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    },
+    {
+      "run_id": "244515c3bbd8472c8c118169b0b0bc6c",
+      "harness": "omp-baseline",
+      "task": "feature-lru",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 12164,
+      "cached_input_tokens": 13184,
+      "total_input_tokens": 25348,
+      "output_tokens": 1027,
+      "requests": 5,
+      "tool_calls": 7,
+      "wall_time_sec": 65.73902629999975,
+      "cost_usd": 0.035916399999999994,
+      "first_request_input_tokens": 4035,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        }
+      ],
+      "tests_pass": 9,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    },
+    {
+      "run_id": "d8e3d34c7cd84dc9b6cd6436fca5cbf3",
+      "harness": "omp-inline",
+      "task": "feature-lru",
+      "passed": true,
+      "timed_out": false,
+      "tampered_files": [],
+      "errors": [],
+      "metric_errors": [],
+      "uncached_input_tokens": 9493,
+      "cached_input_tokens": 13184,
+      "total_input_tokens": 22677,
+      "output_tokens": 1500,
+      "requests": 6,
+      "tool_calls": 8,
+      "wall_time_sec": 94.0724597999997,
+      "cost_usd": 0.03530440000000001,
+      "first_request_input_tokens": 2716,
+      "first_request_cached_tokens": 0,
+      "models": [
+        "openai-codex/gpt-6.1-sol",
+        "gpt-6.1-sol"
+      ],
+      "verification_commands": [
+        {
+          "phase": "post-edit",
+          "command": "node --test"
+        },
+        {
+          "phase": "post-edit",
+          "command": "node -e \"const assert = require('node:assert/strict'); const { LRUCache } = require('./src/lru'); for (const capacity of [0, -1, 1.5, Infinity, -Infinity, NaN, '2', undefined, null, true, 2n, {}, new Number(2), Symbol()]) assert.throws(() => new LRUCache(capacity), RangeError); assert.throws(() => new LRUCache(), RangeError); const c = new LRUCache(2); c.set('a', undefined).set('b', 2); assert.equal(c.get('a'), undefined); c.set('c', 3); assert.equal(c.has('a'), true); assert.equal(c.has('b'), false); c.set('a', 4); assert.equal(c.size, 2); assert.equal(c.has('c'), true); c.has('c'); c.get('missing'); c.set('d', 5); assert.equal(c.has('c'), false); assert.equal(c.get('a'), 4); const object = {}, symbol = Symbol(); const keys = new LRUCache(8); for (const key of [object, symbol, NaN, undefined, null, 0, '0', 1n]) keys.set(key, key); assert.equal(keys.size, 8); for (const key of [object, symbol, NaN, undefined, null, -0, '0', 1n]) assert.equal(keys.has(key), true); assert.equal(keys.has({}), false); keys.set(-0, 'zero'); assert.equal(keys.size, 8); assert.equal(keys.get(0), 'zero'); assert.equal(keys.get(NaN), NaN); const order = new LRUCache(3); order.set('a', 1).set('b', 2).set('c', 3); assert.equal(order.delete('b'), true); assert.equal(order.delete('missing'), false); order.set('d', 4).set('e', 5); assert.equal(order.has('a'), false); assert.equal(order.has('c'), true); const independent = new LRUCache(1); independent.set('a', 99).set('b', 100); assert.equal(independent.has('a'), false); assert.equal(independent.size, 1); assert.equal(c.get('a'), 4); console.log('Additional capacity, recency, key-semantics, deletion, and independence checks passed');\""
+        }
+      ],
+      "tests_pass": 9,
+      "tests_fail": 0,
+      "auxiliary_usage_calls": 1,
+      "auxiliary_usage_purpose": "unexpected-stop"
+    }
+  ],
+  "accounting_checks": [
+    "Matched task/prompt/context hashes within pairs",
+    "Unique session sources",
+    "Per-assistant totalTokens equals input + cached input + output",
+    "All costs include failed attempts within the pilot",
+    "Inherited context hashes unchanged before/after pilot",
+    "Actual completion order matches alternating schedule",
+    "One same-model unexpected-stop auxiliary call per run, included in usage/cost totals"
+  ],
+  "limitations": [
+    "Three small fixtures, one paired trial each; not evidence for default changes",
+    "Cache state and remote provider load not controlled",
+    "natural observed cache; cold/warm state not forced or independently controlled"
+  ],
+  "aggregate_percent_change_inline_vs_baseline": {
+    "total_input_tokens": -11.694630872483225,
+    "uncached_input_tokens": -17.355321235899957,
+    "output_tokens": 22.01481481481482,
+    "cost_usd": -4.134912124950507,
+    "median_wall_time_sec": 42.84211815683694,
+    "median_first_request_input_tokens": -32.68897149938043,
+    "total_tokens_per_correct_solution": -10.384150204457754
+  },
+  "decision": "Keep native-schema baseline. Inline placement reduces prompt tokens but this pilot does not demonstrate a joint correctness/time/safety efficiency win; no default change.",
+  "verification_observation": "All six runs executed post-edit node --test. Duration baseline reproduced the failure before editing; inline duration did not. Both limiter arms reproduced before editing. No observed prohibited-file edits or timeouts; not a comprehensive safety test.",
+  "harness_version": "omp/18.4.4"
+}

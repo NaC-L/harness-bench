@@ -1,0 +1,47 @@
+# Explicit examples, not controlled comparisons: pin the SAME model/provider/effort
+# in two variants before attributing a difference to the harness.
+# Placeholders: {prompt}, {workdir}, {session_dir}, {session_id}, {task_dir}, {run_id},
+# {benchmark_dir}, {python}, {timeout_sec}. Runtime paths also work in version_command.
+# Isolated workdirs are NOT security sandboxes. Run only trusted tasks/commands.
+# No permission-bypass flags: configure approval policy in a sandbox yourself.
+# Isolation (recommended for any comparison): `state_template = "<dir>"` copies a
+# checked-in directory into a fresh per-run state root (PI_CODING_AGENT_DIR for omp/pi,
+# CLAUDE_CONFIG_DIR, CODEX_HOME) so the operator's instructions, settings, MCP servers
+# and memories are not read. `env_commands = { VAR = [argv] }` computes values per run
+# from the operator's environment (e.g. ["omp", "token", "openai-codex"]); values are
+# never recorded. See benchmark-omp-descriptors.toml for a complete isolated pair.
+
+[harnesses.omp]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--no-prewalk", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+
+[harnesses.claude]
+kind = "claude"
+command = ["claude", "--print", "--verbose", "--output-format", "stream-json", "--session-id", "{session_id}", "--permission-mode", "acceptEdits", "--allowedTools", "Read,Edit,Write,Bash(node --test*)", "--max-budget-usd", "2", "{prompt}"]
+version_command = ["claude", "--version"]
+
+# Requires Codex CLI to be installed. This template has not been live-tested here.
+[harnesses.codex]
+kind = "codex"
+command = ["codex", "exec", "--json", "--sandbox", "workspace-write", "--skip-git-repo-check", "{prompt}"]
+version_command = ["codex", "--version"]
+
+# Local pinned Pi 0.99.1. Requires its own /login or documented provider env keys.
+# Explicit model/effort; existing OMP example still uses user defaults, not a matched arm.
+[harnesses.pi]
+kind = "pi"
+command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--mode", "json", "--session-dir", "{session_dir}", "--session-id", "{session_id}", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--no-extensions", "--no-skills", "--no-prompt-templates", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--version"]
+env = { PI_TELEMETRY = "0" }
+
+# Herdr is terminal orchestration, not a model harness. Usage comes from OMP sessions.
+# Every run creates an owned named foreground server and cleans up its pane processes.
+[harnesses.herdr-omp]
+kind = "omp"
+command = ["{python}", "{benchmark_dir}/bench/herdr_driver.py", "--herdr", "{benchmark_dir}/.tools/herdr/herdr.exe", "--workdir", "{workdir}", "--session-dir", "{session_dir}", "--run-id", "{run_id}", "--timeout-sec", "{timeout_sec}", "--kind", "omp", "--prompt", "{prompt}", "--", "--model", "anthropic/claude-opus-5-5", "--thinking", "high"]
+version_command = ["{python}", "-c", "import subprocess,sys; print(subprocess.check_output([sys.argv[1],'--version'],text=True).strip() + ' | ' + subprocess.check_output(['omp','--version'],text=True).strip())", "{benchmark_dir}/.tools/herdr/herdr.exe"]
+
+# T3 0.0.44 is installed under .tools/t3; its isolated web-server smoke passed.
+# Its documented CLI has no create-thread/prompt/wait task command. Do not add
+# `t3 serve` as a benchmark arm: server startup is not an agent task result.

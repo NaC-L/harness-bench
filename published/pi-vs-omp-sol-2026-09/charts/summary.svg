@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="512" viewBox="0 0 800 512" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Efficiency summary — verdict: better</title>
+<desc id="chart-desc">pi-sol relative to omp-sol. Lower is better. Shading marks the comparison margin. Unknown metrics are not plotted.</desc>
+<rect width="800" height="512" fill="#FFFFFF"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="24.00" y="32.00" font-size="22" text-anchor="start" fill="#222222">Efficiency summary — verdict: better</text>
+<text x="24.00" y="56.00" font-size="14" text-anchor="start" fill="#222222">Candidate relative to baseline (%); lower = better.</text>
+<circle cx="30.00" cy="80.00" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" />
+<text x="44.00" y="84.00" font-size="14" text-anchor="start" fill="#222222">omp-sol</text>
+<circle cx="30.00" cy="104.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" />
+<text x="44.00" y="108.00" font-size="14" text-anchor="start" fill="#222222">pi-sol</text>
+<rect x="563.20" y="160" width="75.20" height="242" fill="#EEF0F3"/>
+<line x1="300.00" y1="160.00" x2="300.00" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="300.00" y="430.00" font-size="12" text-anchor="middle" fill="#222222">-80%</text>
+<line x1="375.20" y1="160.00" x2="375.20" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="375.20" y="430.00" font-size="12" text-anchor="middle" fill="#222222">-60%</text>
+<line x1="450.40" y1="160.00" x2="450.40" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="450.40" y="430.00" font-size="12" text-anchor="middle" fill="#222222">-40%</text>
+<line x1="525.60" y1="160.00" x2="525.60" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="525.60" y="430.00" font-size="12" text-anchor="middle" fill="#222222">-20%</text>
+<line x1="600.80" y1="160.00" x2="600.80" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="600.80" y="430.00" font-size="12" text-anchor="middle" fill="#222222">0%</text>
+<line x1="676.00" y1="160.00" x2="676.00" y2="402.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="676.00" y="430.00" font-size="12" text-anchor="middle" fill="#222222">20%</text>
+<line x1="600.80" y1="160.00" x2="600.80" y2="402.00" stroke="#0072B2" stroke-width="2" />
+<text x="24.00" y="189.00" font-size="13" text-anchor="start" fill="#222222">Tokens per correct (total)</text>
+<line x1="600.80" y1="184.00" x2="388.67" y2="184.00" stroke="#E69F00" stroke-width="2" />
+<circle cx="388.67" cy="184.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="summary-marker"/>
+<text x="776.00" y="189.00" font-size="14" text-anchor="end" fill="#222222">-56.4%</text>
+<text x="24.00" y="237.00" font-size="13" text-anchor="start" fill="#222222">Tokens per correct (uncached)</text>
+<line x1="600.80" y1="232.00" x2="425.19" y2="232.00" stroke="#E69F00" stroke-width="2" />
+<circle cx="425.19" cy="232.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="summary-marker"/>
+<text x="776.00" y="237.00" font-size="14" text-anchor="end" fill="#222222">-46.7%</text>
+<text x="24.00" y="285.00" font-size="13" text-anchor="start" fill="#222222">Cost per correct</text>
+<line x1="600.80" y1="280.00" x2="442.93" y2="280.00" stroke="#E69F00" stroke-width="2" />
+<circle cx="442.93" cy="280.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="summary-marker"/>
+<text x="776.00" y="285.00" font-size="14" text-anchor="end" fill="#222222">-42.0%</text>
+<text x="24.00" y="333.00" font-size="13" text-anchor="start" fill="#222222">Median wall time</text>
+<line x1="600.80" y1="328.00" x2="556.32" y2="328.00" stroke="#E69F00" stroke-width="2" />
+<circle cx="556.32" cy="328.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="summary-marker"/>
+<text x="776.00" y="333.00" font-size="14" text-anchor="end" fill="#222222">-11.8%</text>
+<text x="24.00" y="381.00" font-size="13" text-anchor="start" fill="#222222">P90 wall time</text>
+<line x1="600.80" y1="376.00" x2="541.27" y2="376.00" stroke="#E69F00" stroke-width="2" />
+<circle cx="541.27" cy="376.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="summary-marker"/>
+<text x="776.00" y="381.00" font-size="14" text-anchor="end" fill="#222222">-15.8%</text>
+<text x="488.00" y="459.00" font-size="14" text-anchor="middle" fill="#222222">Relative change (%)</text>
+<text x="24.00" y="489.00" font-size="12" text-anchor="start" fill="#222222">Shaded band: ±10% margin. Unknown includes an undefined zero-baseline ratio.</text>
+</g>
+</svg>

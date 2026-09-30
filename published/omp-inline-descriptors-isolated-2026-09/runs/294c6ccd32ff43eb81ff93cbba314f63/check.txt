@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: invokes tasks once with no arguments and adopts their results
+ok 1 - invokes tasks once with no arguments and adopts their results
+  ---
+  duration_ms: 0.6469
+  type: 'test'
+  ...
+# Subtest: synchronous throws release capacity and preserve queued submission order
+ok 2 - synchronous throws release capacity and preserve queued submission order
+  ---
+  duration_ms: 1.2681
+  type: 'test'
+  ...
+# Subtest: validates concurrency and rejects invalid tasks without poisoning the queue
+ok 3 - validates concurrency and rejects invalid tasks without poisoning the queue
+  ---
+  duration_ms: 1.2848
+  type: 'test'
+  ...
+# Subtest: synchronous throws, rejected promises, and thrown non-Errors release slots
+ok 4 - synchronous throws, rejected promises, and thrown non-Errors release slots
+  ---
+  duration_ms: 0.2379
+  type: 'test'
+  ...
+# Subtest: each rejected task frees one slot while other work remains pending
+ok 5 - each rejected task frees one slot while other work remains pending
+  ---
+  duration_ms: 3.091
+  type: 'test'
+  ...
+# Subtest: ordinary values, thenables, and invocation counts are preserved
+ok 6 - ordinary values, thenables, and invocation counts are preserved
+  ---
+  duration_ms: 0.4987
+  type: 'test'
+  ...
+# Subtest: separate limiter instances do not share slots
+ok 7 - separate limiter instances do not share slots
+  ---
+  duration_ms: 0.1482
+  type: 'test'
+  ...
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 8 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 3.8238
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 9 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.6561
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 68.2381

@@ -1,0 +1,5 @@
+id = "feature-lru"
+title = "Implement a bounded least-recently-used cache"
+category = "feature"
+timeout_sec = 600
+check = ["node", "--test"]

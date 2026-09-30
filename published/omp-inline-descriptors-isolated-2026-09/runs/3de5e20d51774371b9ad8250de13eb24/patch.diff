@@ -1,0 +1,152 @@
+diff --git "{temp}\\hb-3de5e20d-i6zqk90p/lru.test.js" "{temp}\\hb-3de5e20d-i6zqk90p/lru.test.js"
+new file mode 100644
+index 0000000..d15c67f
+--- /dev/null
++++ "{temp}\\hb-3de5e20d-i6zqk90p/lru.test.js"
+@@ -0,0 +1,93 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { LRUCache } = require('./src/lru');
++
++test('capacity must be a positive integer Number', () => {
++  for (const capacity of [0, -0, -1, 0.5, Infinity, -Infinity, NaN, '2', null, undefined, true, 2n, Symbol('capacity'), {}, new Number(2)]) {
++    assert.throws(() => new LRUCache(capacity), RangeError);
++  }
++  assert.throws(() => new LRUCache(), RangeError);
++  for (const capacity of [1, 2, Number.MAX_VALUE]) {
++    assert.equal(new LRUCache(capacity).size, 0);
++  }
++});
++
++test('getting an undefined value refreshes recency', () => {
++  const cache = new LRUCache(2);
++  cache.set('a', undefined).set('b', 2);
++  assert.equal(cache.get('a'), undefined);
++  cache.set('c', 3);
++  assert.equal(cache.has('a'), true);
++  assert.equal(cache.has('b'), false);
++  assert.equal(cache.size, 2);
++});
++
++test('updates refresh recency without growing or evicting unrelated entries', () => {
++  const cache = new LRUCache(2);
++  cache.set('a', 1).set('b', 2);
++  assert.equal(cache.set('a', 3), cache);
++  assert.equal(cache.size, 2);
++  assert.equal(cache.has('b'), true);
++  cache.set('c', 4);
++  assert.equal(cache.has('b'), false);
++  assert.equal(cache.get('a'), 3);
++});
++
++test('has and missing gets do not refresh recency or insert entries', () => {
++  const cache = new LRUCache(2);
++  cache.set('a', 1).set('b', 2);
++  assert.equal(cache.has('a'), true);
++  assert.equal(cache.has('missing'), false);
++  assert.equal(cache.get('missing'), undefined);
++  assert.equal(cache.size, 2);
++  cache.set('c', 3);
++  assert.equal(cache.has('a'), false);
++  assert.equal(cache.has('b'), true);
++});
++
++test('deletion preserves survivor recency and reinsertion is most recent', () => {
++  const cache = new LRUCache(3);
++  cache.set('a', 1).set('b', 2).set('c', 3);
++  assert.equal(cache.delete('b'), true);
++  assert.equal(cache.delete('missing'), false);
++  assert.equal(cache.size, 2);
++  cache.set('b', 4).set('d', 5);
++  assert.equal(cache.has('a'), false);
++  assert.equal(cache.has('c'), true);
++  assert.equal(cache.get('b'), 4);
++});
++
++test('keys and values retain Map semantics and identity', () => {
++  const cache = new LRUCache(10);
++  const object = {};
++  const otherObject = {};
++  const symbol = Symbol('key');
++  const value = {};
++  for (const key of [object, otherObject, symbol, undefined, null, NaN, 0, '0', 1n]) {
++    cache.set(key, value);
++    assert.equal(cache.get(key), value);
++  }
++  assert.equal(cache.size, 9);
++  assert.equal(cache.has({}), false);
++  assert.equal(cache.get(-0), value);
++  cache.set(-0, undefined);
++  assert.equal(cache.size, 9);
++  assert.equal(cache.has(0), true);
++  assert.equal(cache.get(0), undefined);
++  assert.equal(cache.delete(NaN), true);
++  assert.equal(cache.has(NaN), false);
++});
++
++test('single-entry caches evict undefined keys and stay independent', () => {
++  const first = new LRUCache(1);
++  const second = new LRUCache(1);
++  first.set(undefined, 1);
++  second.set(undefined, 2);
++  first.set('next', 3);
++  assert.equal(first.has(undefined), false);
++  assert.equal(first.get('next'), 3);
++  assert.equal(first.size, 1);
++  assert.equal(second.get(undefined), 2);
++  assert.equal(second.size, 1);
++});
+diff --git "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js" "{temp}\\hb-3de5e20d-i6zqk90p/src/lru.js"
+index 258677f..afee68a 100644
+--- "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js"
++++ "{temp}\\hb-3de5e20d-i6zqk90p/src/lru.js"
+@@ -1,15 +1,43 @@
+ 'use strict';
+ 
+ class LRUCache {
++  #entries = new Map();
++
+   constructor(capacity) {
++    if (!Number.isInteger(capacity) || capacity <= 0) {
++      throw new RangeError('Capacity must be a positive integer Number');
++    }
+     this.capacity = capacity;
+   }
+ 
+-  get(key) { throw new Error('not implemented'); }
+-  set(key, value) { throw new Error('not implemented'); }
+-  has(key) { throw new Error('not implemented'); }
+-  delete(key) { throw new Error('not implemented'); }
+-  get size() { throw new Error('not implemented'); }
++  get(key) {
++    if (!this.#entries.has(key)) return undefined;
++    const value = this.#entries.get(key);
++    this.#entries.delete(key);
++    this.#entries.set(key, value);
++    return value;
++  }
++
++  set(key, value) {
++    this.#entries.delete(key);
++    this.#entries.set(key, value);
++    if (this.#entries.size > this.capacity) {
++      this.#entries.delete(this.#entries.keys().next().value);
++    }
++    return this;
++  }
++
++  has(key) {
++    return this.#entries.has(key);
++  }
++
++  delete(key) {
++    return this.#entries.delete(key);
++  }
++
++  get size() {
++    return this.#entries.size;
++  }
+ }
+ 
+ module.exports = { LRUCache };

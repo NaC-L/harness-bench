@@ -1,0 +1,6 @@
+# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its
+# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,
+# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom
+# agents leak into results. Everything not set here is an OMP default.
+memory:
+  backend: "off"

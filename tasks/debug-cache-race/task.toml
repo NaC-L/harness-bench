@@ -1,0 +1,5 @@
+id = "debug-cache-race"
+title = "Diagnose stale writes and poisoned cache flights"
+category = "debug"
+timeout_sec = 900
+check = ["node", "--test"]

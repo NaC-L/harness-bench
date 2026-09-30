@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: half-even rounding is exact and symmetric across small signed ratios
+ok 1 - half-even rounding is exact and symmetric across small signed ratios
+  ---
+  duration_ms: 4.6408
+  type: 'test'
+  ...
+# Subtest: rounding checks the exact result before conversion, not an overflowing numerator
+ok 2 - rounding checks the exact result before conversion, not an overflowing numerator
+  ---
+  duration_ms: 0.632
+  type: 'test'
+  ...
+# Subtest: line and invoice discounts retain supplied order and round each reduction
+ok 3 - line and invoice discounts retain supplied order and round each reduction
+  ---
+  duration_ms: 1.1297
+  type: 'test'
+  ...
+# Subtest: credits receive signed percentage discounts but no fixed or invoice discounts
+ok 4 - credits receive signed percentage discounts but no fixed or invoice discounts
+  ---
+  duration_ms: 0.6236
+  type: 'test'
+  ...
+# Subtest: aggregate invoice reductions are allocated once with original-index ties
+ok 5 - aggregate invoice reductions are allocated once with original-index ties
+  ---
+  duration_ms: 0.2677
+  type: 'test'
+  ...
+# Subtest: both tax modes use half-even rounding, with rate-specific invoice allocation
+ok 6 - both tax modes use half-even rounding, with rate-specific invoice allocation
+  ---
+  duration_ms: 0.1924
+  type: 'test'
+  ...
+# Subtest: invoice tax allocates signed remainders for positive, zero and negative groups
+ok 7 - invoice tax allocates signed remainders for positive, zero and negative groups
+  ---
+  duration_ms: 0.2507
+  type: 'test'
+  ...
+# Subtest: large exact products and cancelling totals stay safe without premature rounding
+ok 8 - large exact products and cancelling totals stay safe without premature rounding
+  ---
+  duration_ms: 0.2119
+  type: 'test'
+  ...
+# Subtest: unsafe stored products, discount bases, fields and totals are rejected
+ok 9 - unsafe stored products, discount bases, fields and totals are rejected
+  ---
+  duration_ms: 0.3671
+  type: 'test'
+  ...
+# Subtest: empty invoices, defaults, input immutability and positive zero are preserved
+ok 10 - empty invoices, defaults, input immutability and positive zero are preserved
+  ---
+  duration_ms: 0.4553
+  type: 'test'
+  ...
+# Subtest: validation remains strict even for zero lines and exhausted discounts
+ok 11 - validation remains strict even for zero lines and exhausted discounts
+  ---
+  duration_ms: 0.4274
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 12 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.3883
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 13 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.8373
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.3272

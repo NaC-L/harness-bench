@@ -1,0 +1,11 @@
+{"type":"session_meta","timestamp":"2026-09-30T00:00:00Z","payload":{"cwd":"c:\\BENCH\\work","timestamp":"2026-09-30T00:00:00Z"}}
+{"type":"turn_context","payload":{"model":"codex-model"}}
+{"type":"event_msg","payload":{"type":"token_count","info":null}}
+{"type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"input_tokens":100,"cached_input_tokens":40,"output_tokens":5}}}}
+{"type":"response_item","payload":{"type":"function_call","name":"exec_command","call_id":"f1"}}
+{"type":"response_item","payload":{"type":"custom_tool_call","name":"apply_patch","call_id":"f2"}}
+{"type":"response_item","payload":{"type":"local_shell_call","call_id":"f3"}}
+{"type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"input_tokens":180,"cached_input_tokens":70,"output_tokens":12}}}}
+{"type":"event_msg","payload":{"type":"token_count","info":null}}
+{"type":"event_msg","timestamp":"2026-09-30T00:00:04Z","payload":{"type":"task_complete","last_agent_message":"codex finished"}}
+not-json

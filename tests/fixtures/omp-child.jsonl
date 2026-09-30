@@ -1,0 +1,2 @@
+{"type":"session","cwd":"C:\\bench\\work","parentSession":"main"}
+{"type":"message","timestamp":"2026-09-30T00:00:04Z","message":{"role":"assistant","model":"worker","duration":250,"usage":{"input":7,"output":4,"cacheRead":3,"cacheWrite":1,"cost":0.07},"content":[{"type":"toolCall","name":"write"},{"type":"text","text":"child finished"}]}}

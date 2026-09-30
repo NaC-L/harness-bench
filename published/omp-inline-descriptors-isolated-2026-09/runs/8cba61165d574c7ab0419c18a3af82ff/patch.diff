@@ -1,0 +1,249 @@
+diff --git "{temp}\\hb-8cba6116-rsa5tq9i/checks/csv.test.js" "{temp}\\hb-8cba6116-rsa5tq9i/checks/csv.test.js"
+new file mode 100644
+index 0000000..36d13aa
+--- /dev/null
++++ "{temp}\\hb-8cba6116-rsa5tq9i/checks/csv.test.js"
+@@ -0,0 +1,146 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createParser, parse } = require('../src/csv');
++const { toObjects } = require('../src/rows');
++
++function stream(chunks, options) {
++  const parser = createParser(options);
++  const records = [];
++  for (const chunk of chunks) records.push(...parser.push(chunk));
++  records.push(...parser.end());
++  return records;
++}
++
++function partitions(text) {
++  const chunks = [text.split('')];
++  for (let i = 0; i <= text.length; i++) {
++    for (let j = i; j <= text.length; j++) {
++      chunks.push(['', text.slice(0, i), '', text.slice(i, j), '', text.slice(j), '']);
++    }
++  }
++  return chunks;
++}
++
++test('grammar is unchanged across every pair of chunk boundaries', () => {
++  const cases = [
++    ['', []],
++    ['\uFEFF', []],
++    ['\n\r\n\r', [[''], [''], ['']]],
++    ['a,b,\r\nc\rd\n', [['a', 'b', ''], ['c'], ['d']]],
++    ['\uFEFF"a,b","say ""hi"""\r\n"x\r\ny\rz\n",tail',
++      [['a,b', 'say "hi"'], ['x\r\ny\rz\n', 'tail']]],
++    ['a"b,"",\uFEFF😀', [['a"b', '', '\uFEFF😀']]],
++    ['\uFEFF\uFEFF,', [['\uFEFF', '']]],
++    ['""', [['']]],
++    ['""""', [['"']]],
++  ];
++  for (const [text, expected] of cases) {
++    assert.deepEqual(parse(text), expected);
++    for (const chunks of partitions(text)) {
++      assert.deepEqual(stream(chunks), expected, JSON.stringify(chunks));
++    }
++  }
++});
++
++test('push emits at CR immediately and never re-emits completed records', () => {
++  const parser = createParser({ header: true });
++  assert.deepEqual(parser.push('a,b\r'), [['a', 'b']]);
++  assert.deepEqual(parser.push(''), []);
++  assert.deepEqual(parser.push('\n"c\r'), []);
++  assert.deepEqual(parser.push('\nd",e\r'), [['c\r\nd', 'e']]);
++  assert.deepEqual(parser.push('\n\n'), [['']]);
++  assert.deepEqual(parser.push('tail,'), []);
++  assert.deepEqual(parser.end(), [['tail', '']]);
++  assert.deepEqual(parser.end(), []);
++  assert.throws(() => parser.push(''), Error);
++});
++
++test('delimiter validation uses UTF-16 code units without coercion', () => {
++  for (const delimiter of ['', 'ab', '😀', '"', '\r', '\n', null, 1, {}, true]) {
++    assert.throws(() => createParser({ delimiter }), RangeError);
++    assert.throws(() => parse('', { delimiter }), RangeError);
++  }
++  for (const delimiter of [';', ' ', '\t', '\0', '\uFEFF', '\uD83D']) {
++    const text = `a${delimiter}"b${delimiter}c"${delimiter}`;
++    const expected = [['a', `b${delimiter}c`, '']];
++    for (const chunks of partitions(text)) {
++      assert.deepEqual(stream(chunks, { delimiter }), expected);
++    }
++  }
++  assert.deepEqual(parse('a,b', { delimiter: undefined }), [['a', 'b']]);
++});
++
++test('push rejects non-strings and empty chunks do not consume the initial BOM', () => {
++  const parser = createParser();
++  for (const chunk of [undefined, null, 1, {}, [], Buffer.from('x'), new String('x')]) {
++    assert.throws(() => parser.push(chunk), TypeError);
++  }
++  assert.deepEqual(parser.push(''), []);
++  assert.deepEqual(parser.push('\uFEFFa\n'), [['a']]);
++  assert.deepEqual(parser.end(), []);
++  assert.throws(() => parse(null), TypeError);
++});
++
++test('syntax errors report physical lines independently of chunk boundaries', () => {
++  const cases = [
++    ['"a" ', 1],
++    ['a\r\n"b"x', 2],
++    ['"a\r\nb\rc\n"x', 4],
++    ['\n\r\n"a"\t', 3],
++    ['"a', 1],
++    ['"a\r\nb\rc\n', 4],
++    ['"a""', 1],
++  ];
++  for (const [text, line] of cases) {
++    for (const chunks of partitions(text)) {
++      assert.throws(() => stream(chunks), error =>
++        error instanceof SyntaxError && error.message.includes(`line ${line}`));
++    }
++  }
++  const parser = createParser();
++  assert.deepEqual(parser.push('"a"'), []);
++  assert.throws(() => parser.push(' '), { name: 'SyntaxError', message: /line 1/ });
++});
++
++test('independent parsers and empty or separator-terminated input', () => {
++  const a = createParser();
++  const b = createParser({ delimiter: ';' });
++  assert.deepEqual(a.push('"a'), []);
++  assert.deepEqual(b.push('b;c\r'), [['b', 'c']]);
++  assert.deepEqual(a.push('"\n'), [['a']]);
++  assert.deepEqual(b.push('\nd'), []);
++  assert.deepEqual(a.end(), []);
++  assert.deepEqual(b.end(), [['d']]);
++  for (const text of ['', '\uFEFF', 'a\n', 'a\r', 'a\r\n']) {
++    const parser = createParser();
++    parser.push(text);
++    assert.deepEqual(parser.end(), []);
++    assert.deepEqual(parser.end(), []);
++    assert.throws(() => parser.push(''), Error);
++  }
++});
++
++test('header conversion retains duplicate, padding, and special-key behavior', () => {
++  assert.deepEqual(parse('x,x,x_2,x\na,b,c,d,ignored\nz', { header: true }), [
++    { x: 'a', x_2: 'b', x_2_2: 'c', x_3: 'd' },
++    { x: 'z', x_2: '', x_2_2: '', x_3: '' },
++  ]);
++  const objects = parse('__proto__,constructor,toString,\na,b,c,d', { header: true });
++  assert.equal(Object.getPrototypeOf(objects[0]), Object.prototype);
++  for (const [key, value] of [['__proto__', 'a'], ['constructor', 'b'], ['toString', 'c'], ['', 'd']]) {
++    assert.deepEqual(Object.getOwnPropertyDescriptor(objects[0], key), {
++      value, enumerable: true, writable: true, configurable: true,
++    });
++  }
++  assert.deepEqual(parse('', { header: true }), []);
++  assert.deepEqual(parse('name', { header: true }), []);
++  assert.deepEqual(parse('a\nb', { header: ['custom'] }), [['a'], ['b']]);
++  const records = Object.freeze([Object.freeze(['v']), Object.freeze([])]);
++  const header = Object.freeze(['x', 'x']);
++  const options = Object.freeze({ header });
++  assert.deepEqual(toObjects(records, options), [{ x: 'v', x_2: '' }, { x: '', x_2: '' }]);
++  assert.deepEqual(toObjects(records, { header: [] }), [{}, {}]);
++  assert.deepEqual(records, [['v'], []]);
++  assert.deepEqual(header, ['x', 'x']);
++});
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-8cba6116-rsa5tq9i/src/csv.js"
+index ce27ede..9c425a1 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-8cba6116-rsa5tq9i/src/csv.js"
+@@ -47,7 +47,91 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one UTF-16 code unit other than quote, CR, or LF');
++  }
++
++  const FIELD_START = 0;
++  const UNQUOTED = 1;
++  const QUOTED = 2;
++  const AFTER_QUOTE = 3;
++  let state = FIELD_START;
++  let field = '';
++  let row = [];
++  let recordStarted = false;
++  let atStart = true;
++  let previousCR = false;
++  let line = 1;
++  let ended = false;
++
++  function finishField() {
++    row.push(field);
++    field = '';
++    state = FIELD_START;
++  }
++
++  return {
++    push(chunk) {
++      if (ended) throw new Error('Cannot push after end');
++      if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++      const records = [];
++      // Index by code unit: a delimiter may itself be a single surrogate.
++      for (let i = 0; i < chunk.length; i++) {
++        const char = chunk[i];
++        if (atStart) {
++          atStart = false;
++          if (char === '\uFEFF') continue;
++        }
++
++        const pairedLF = previousCR && char === '\n';
++        if (char === '\r' || (char === '\n' && !pairedLF)) line++;
++        previousCR = char === '\r';
++
++        // An outside CR already emitted its record, including across pushes.
++        if (pairedLF && state !== QUOTED) continue;
++        recordStarted = true;
++
++        if (state === QUOTED) {
++          if (char === '"') state = AFTER_QUOTE;
++          else field += char;
++        } else if (state === AFTER_QUOTE && char === '"') {
++          // The preceding quote was the first half of an escaped quote.
++          field += '"';
++          state = QUOTED;
++        } else if (char === delimiter) {
++          finishField();
++        } else if (char === '\r' || char === '\n') {
++          finishField();
++          records.push(row);
++          row = [];
++          recordStarted = false;
++        } else if (state === AFTER_QUOTE) {
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        } else if (state === FIELD_START && char === '"') {
++          state = QUOTED;
++        } else {
++          field += char;
++          state = UNQUOTED;
++        }
++      }
++      return records;
++    },
++
++    end() {
++      if (ended) return [];
++      ended = true;
++      if (state === QUOTED) {
++        throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++      }
++      if (!recordStarted) return [];
++      finishField();
++      const records = [row];
++      row = [];
++      return records;
++    },
++  };
+ }
+ 
+ /**

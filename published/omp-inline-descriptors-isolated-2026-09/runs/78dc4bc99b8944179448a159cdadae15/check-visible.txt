@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: rounding is exact half-even for both signs, including positive zero
+ok 1 - rounding is exact half-even for both signs, including positive zero
+  ---
+  duration_ms: 0.9853
+  type: 'test'
+  ...
+# Subtest: rounding checks safe range only after exact arithmetic
+ok 2 - rounding checks safe range only after exact arithmetic
+  ---
+  duration_ms: 0.7447
+  type: 'test'
+  ...
+# Subtest: line and invoice discounts preserve order and round each reduction, not each balance
+ok 3 - line and invoice discounts preserve order and round each reduction, not each balance
+  ---
+  duration_ms: 0.9653
+  type: 'test'
+  ...
+# Subtest: credits receive signed percentage reductions but no fixed or invoice discount
+ok 4 - credits receive signed percentage reductions but no fixed or invoice discount
+  ---
+  duration_ms: 0.5535
+  type: 'test'
+  ...
+# Subtest: invoice discounts allocate the aggregate reduction once using original-index ties
+ok 5 - invoice discounts allocate the aggregate reduction once using original-index ties
+  ---
+  duration_ms: 0.216
+  type: 'test'
+  ...
+# Subtest: both tax modes use half-even rounding and invoice mode uses signed remainders
+ok 6 - both tax modes use half-even rounding and invoice mode uses signed remainders
+  ---
+  duration_ms: 0.4576
+  type: 'test'
+  ...
+# Subtest: exact arithmetic permits cancelling sums but rejects unsafe stored fields and bases
+ok 7 - exact arithmetic permits cancelling sums but rejects unsafe stored fields and bases
+  ---
+  duration_ms: 0.34
+  type: 'test'
+  ...
+# Subtest: input validation still applies to empty and zero-value invoices
+ok 8 - input validation still applies to empty and zero-value invoices
+  ---
+  duration_ms: 0.3274
+  type: 'test'
+  ...
+# Subtest: inputs remain unchanged and all returned zero amounts are positive zero
+ok 9 - inputs remain unchanged and all returned zero amounts are positive zero
+  ---
+  duration_ms: 0.8045
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 10 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2014
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 11 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.6735
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 69.9484

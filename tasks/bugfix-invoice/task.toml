@@ -1,0 +1,5 @@
+id = "bugfix-invoice"
+title = "Repair cent rounding and ordered invoice discounts"
+category = "bugfix"
+timeout_sec = 900
+check = ["node", "--test"]

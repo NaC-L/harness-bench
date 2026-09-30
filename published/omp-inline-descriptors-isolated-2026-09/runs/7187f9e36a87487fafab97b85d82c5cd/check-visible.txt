@@ -1,0 +1,226 @@
+TAP version 13
+# Subtest: invalidate: obsolete success cannot overwrite or detach a newer flight (old first)
+ok 1 - invalidate: obsolete success cannot overwrite or detach a newer flight (old first)
+  ---
+  duration_ms: 1.6461
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete success cannot overwrite or detach a newer flight (new first)
+ok 2 - invalidate: obsolete success cannot overwrite or detach a newer flight (new first)
+  ---
+  duration_ms: 0.1362
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection cannot detach a newer flight
+ok 3 - invalidate: obsolete rejection cannot detach a newer flight
+  ---
+  duration_ms: 0.3989
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success cannot overwrite or detach a newer flight (old first)
+ok 4 - clear: obsolete success cannot overwrite or detach a newer flight (old first)
+  ---
+  duration_ms: 0.1332
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success cannot overwrite or detach a newer flight (new first)
+ok 5 - clear: obsolete success cannot overwrite or detach a newer flight (new first)
+  ---
+  duration_ms: 0.1522
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection cannot detach a newer flight
+ok 6 - clear: obsolete rejection cannot detach a newer flight
+  ---
+  duration_ms: 0.1223
+  type: 'test'
+  ...
+# Subtest: set: obsolete success cannot overwrite or detach a newer flight (old first)
+ok 7 - set: obsolete success cannot overwrite or detach a newer flight (old first)
+  ---
+  duration_ms: 0.1258
+  type: 'test'
+  ...
+# Subtest: set: obsolete success cannot overwrite or detach a newer flight (new first)
+ok 8 - set: obsolete success cannot overwrite or detach a newer flight (new first)
+  ---
+  duration_ms: 0.0699
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection cannot detach a newer flight
+ok 9 - set: obsolete rejection cannot detach a newer flight
+  ---
+  duration_ms: 0.2741
+  type: 'test'
+  ...
+# Subtest: repeated barriers detach each generation, including keys without stored values
+ok 10 - repeated barriers detach each generation, including keys without stored values
+  ---
+  duration_ms: 0.342
+  type: 'test'
+  ...
+# Subtest: set wins over pending loads without restarting its TTL
+ok 11 - set wins over pending loads without restarting its TTL
+  ---
+  duration_ms: 0.1804
+  type: 'test'
+  ...
+# Subtest: throw: rejection reason Error: failure is shared and permits retry
+ok 12 - throw: rejection reason Error: failure is shared and permits retry
+  ---
+  duration_ms: 0.161
+  type: 'test'
+  ...
+# Subtest: throw: rejection reason undefined is shared and permits retry
+ok 13 - throw: rejection reason undefined is shared and permits retry
+  ---
+  duration_ms: 0.0611
+  type: 'test'
+  ...
+# Subtest: throw: rejection reason null is shared and permits retry
+ok 14 - throw: rejection reason null is shared and permits retry
+  ---
+  duration_ms: 0.1022
+  type: 'test'
+  ...
+# Subtest: throw: rejection reason failure is shared and permits retry
+ok 15 - throw: rejection reason failure is shared and permits retry
+  ---
+  duration_ms: 0.0772
+  type: 'test'
+  ...
+# Subtest: throw: rejection reason 0 is shared and permits retry
+ok 16 - throw: rejection reason 0 is shared and permits retry
+  ---
+  duration_ms: 0.042
+  type: 'test'
+  ...
+# Subtest: reject: rejection reason Error: failure is shared and permits retry
+ok 17 - reject: rejection reason Error: failure is shared and permits retry
+  ---
+  duration_ms: 0.0632
+  type: 'test'
+  ...
+# Subtest: reject: rejection reason undefined is shared and permits retry
+ok 18 - reject: rejection reason undefined is shared and permits retry
+  ---
+  duration_ms: 0.0528
+  type: 'test'
+  ...
+# Subtest: reject: rejection reason null is shared and permits retry
+ok 19 - reject: rejection reason null is shared and permits retry
+  ---
+  duration_ms: 0.043
+  type: 'test'
+  ...
+# Subtest: reject: rejection reason failure is shared and permits retry
+ok 20 - reject: rejection reason failure is shared and permits retry
+  ---
+  duration_ms: 0.0428
+  type: 'test'
+  ...
+# Subtest: reject: rejection reason 0 is shared and permits retry
+ok 21 - reject: rejection reason 0 is shared and permits retry
+  ---
+  duration_ms: 0.0837
+  type: 'test'
+  ...
+# Subtest: thenable: rejection reason Error: failure is shared and permits retry
+ok 22 - thenable: rejection reason Error: failure is shared and permits retry
+  ---
+  duration_ms: 0.2874
+  type: 'test'
+  ...
+# Subtest: thenable: rejection reason undefined is shared and permits retry
+ok 23 - thenable: rejection reason undefined is shared and permits retry
+  ---
+  duration_ms: 0.0502
+  type: 'test'
+  ...
+# Subtest: thenable: rejection reason null is shared and permits retry
+ok 24 - thenable: rejection reason null is shared and permits retry
+  ---
+  duration_ms: 0.0382
+  type: 'test'
+  ...
+# Subtest: thenable: rejection reason failure is shared and permits retry
+ok 25 - thenable: rejection reason failure is shared and permits retry
+  ---
+  duration_ms: 0.0344
+  type: 'test'
+  ...
+# Subtest: thenable: rejection reason 0 is shared and permits retry
+ok 26 - thenable: rejection reason 0 is shared and permits retry
+  ---
+  duration_ms: 0.0345
+  type: 'test'
+  ...
+# Subtest: invalidate called synchronously from load is a barrier
+ok 27 - invalidate called synchronously from load is a barrier
+  ---
+  duration_ms: 0.1282
+  type: 'test'
+  ...
+# Subtest: clear called synchronously from load is a barrier
+ok 28 - clear called synchronously from load is a barrier
+  ---
+  duration_ms: 0.0787
+  type: 'test'
+  ...
+# Subtest: set called synchronously from load is a barrier
+ok 29 - set called synchronously from load is a barrier
+  ---
+  duration_ms: 0.0324
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit and expires at its exact deadline
+ok 30 - TTL starts at commit and expires at its exact deadline
+  ---
+  duration_ms: 0.0777
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates only unsettled flights; size does not detach them
+ok 31 - zero TTL deduplicates only unsettled flights; size does not detach them
+  ---
+  duration_ms: 0.4807
+  type: 'test'
+  ...
+# Subtest: keys use SameValueZero identity and cache instances are isolated
+ok 32 - keys use SameValueZero identity and cache instances are isolated
+  ---
+  duration_ms: 0.2142
+  type: 'test'
+  ...
+# Subtest: clear detaches all pending keys and removes stored values
+ok 33 - clear detaches all pending keys and removes stored values
+  ---
+  duration_ms: 0.0976
+  type: 'test'
+  ...
+# Subtest: a loader may read another key
+ok 34 - a loader may read another key
+  ---
+  duration_ms: 0.0648
+  type: 'test'
+  ...
+# Subtest: constructor validates load, clock and TTL
+ok 35 - constructor validates load, clock and TTL
+  ---
+  duration_ms: 0.2647
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 36 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.9679
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.8881

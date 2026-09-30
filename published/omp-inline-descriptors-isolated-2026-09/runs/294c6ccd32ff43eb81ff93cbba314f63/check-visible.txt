@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: invokes tasks once with no arguments and adopts their results
+ok 1 - invokes tasks once with no arguments and adopts their results
+  ---
+  duration_ms: 0.6675
+  type: 'test'
+  ...
+# Subtest: synchronous throws release capacity and preserve queued submission order
+ok 2 - synchronous throws release capacity and preserve queued submission order
+  ---
+  duration_ms: 1.2257
+  type: 'test'
+  ...
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 3 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 3.0386
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 4 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.4178
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 63.6515

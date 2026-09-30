@@ -1,0 +1,286 @@
+TAP version 13
+# Subtest: invalidate: resolve of detached flight, old-first
+ok 1 - invalidate: resolve of detached flight, old-first
+  ---
+  duration_ms: 1.4807
+  type: 'test'
+  ...
+# Subtest: invalidate: reject of detached flight, old-first
+ok 2 - invalidate: reject of detached flight, old-first
+  ---
+  duration_ms: 0.2353
+  type: 'test'
+  ...
+# Subtest: invalidate: resolve of detached flight, new-first
+ok 3 - invalidate: resolve of detached flight, new-first
+  ---
+  duration_ms: 0.1126
+  type: 'test'
+  ...
+# Subtest: invalidate: reject of detached flight, new-first
+ok 4 - invalidate: reject of detached flight, new-first
+  ---
+  duration_ms: 0.136
+  type: 'test'
+  ...
+# Subtest: clear: resolve of detached flight, old-first
+ok 5 - clear: resolve of detached flight, old-first
+  ---
+  duration_ms: 0.1816
+  type: 'test'
+  ...
+# Subtest: clear: reject of detached flight, old-first
+ok 6 - clear: reject of detached flight, old-first
+  ---
+  duration_ms: 0.8386
+  type: 'test'
+  ...
+# Subtest: clear: resolve of detached flight, new-first
+ok 7 - clear: resolve of detached flight, new-first
+  ---
+  duration_ms: 0.1547
+  type: 'test'
+  ...
+# Subtest: clear: reject of detached flight, new-first
+ok 8 - clear: reject of detached flight, new-first
+  ---
+  duration_ms: 0.0794
+  type: 'test'
+  ...
+# Subtest: repeated invalidations each detach a flight even without stored values
+ok 9 - repeated invalidations each detach a flight even without stored values
+  ---
+  duration_ms: 0.3433
+  type: 'test'
+  ...
+# Subtest: set wins over detached resolve without restarting its TTL
+ok 10 - set wins over detached resolve without restarting its TTL
+  ---
+  duration_ms: 0.3429
+  type: 'test'
+  ...
+# Subtest: set wins over detached reject without restarting its TTL
+ok 11 - set wins over detached reject without restarting its TTL
+  ---
+  duration_ms: 0.1453
+  type: 'test'
+  ...
+# Subtest: expired set value and size pruning do not expose or detach pending flights
+ok 12 - expired set value and size pruning do not expose or detach pending flights
+  ---
+  duration_ms: 0.1088
+  type: 'test'
+  ...
+# Subtest: clear detaches every key and deletes stored values
+ok 13 - clear detaches every key and deletes stored values
+  ---
+  duration_ms: 0.169
+  type: 'test'
+  ...
+# Subtest: synchronous throw (Error: failure) releases the flight for retry
+ok 14 - synchronous throw (Error: failure) releases the flight for retry
+  ---
+  duration_ms: 0.1379
+  type: 'test'
+  ...
+# Subtest: synchronous throw (undefined) releases the flight for retry
+ok 15 - synchronous throw (undefined) releases the flight for retry
+  ---
+  duration_ms: 0.0443
+  type: 'test'
+  ...
+# Subtest: synchronous throw (null) releases the flight for retry
+ok 16 - synchronous throw (null) releases the flight for retry
+  ---
+  duration_ms: 0.0353
+  type: 'test'
+  ...
+# Subtest: synchronous throw (failure) releases the flight for retry
+ok 17 - synchronous throw (failure) releases the flight for retry
+  ---
+  duration_ms: 0.0441
+  type: 'test'
+  ...
+# Subtest: synchronous throw (0) releases the flight for retry
+ok 18 - synchronous throw (0) releases the flight for retry
+  ---
+  duration_ms: 0.0359
+  type: 'test'
+  ...
+# Subtest: rejected promise (Error: failure) releases the flight for retry
+ok 19 - rejected promise (Error: failure) releases the flight for retry
+  ---
+  duration_ms: 0.0527
+  type: 'test'
+  ...
+# Subtest: rejected promise (undefined) releases the flight for retry
+ok 20 - rejected promise (undefined) releases the flight for retry
+  ---
+  duration_ms: 0.366
+  type: 'test'
+  ...
+# Subtest: rejected promise (null) releases the flight for retry
+ok 21 - rejected promise (null) releases the flight for retry
+  ---
+  duration_ms: 0.0603
+  type: 'test'
+  ...
+# Subtest: rejected promise (failure) releases the flight for retry
+ok 22 - rejected promise (failure) releases the flight for retry
+  ---
+  duration_ms: 0.1403
+  type: 'test'
+  ...
+# Subtest: rejected promise (0) releases the flight for retry
+ok 23 - rejected promise (0) releases the flight for retry
+  ---
+  duration_ms: 0.0581
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (Error: failure) releases the flight for retry
+ok 24 - rejecting thenable (Error: failure) releases the flight for retry
+  ---
+  duration_ms: 0.0849
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (undefined) releases the flight for retry
+ok 25 - rejecting thenable (undefined) releases the flight for retry
+  ---
+  duration_ms: 0.0433
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (null) releases the flight for retry
+ok 26 - rejecting thenable (null) releases the flight for retry
+  ---
+  duration_ms: 0.0579
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (failure) releases the flight for retry
+ok 27 - rejecting thenable (failure) releases the flight for retry
+  ---
+  duration_ms: 0.0319
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (0) releases the flight for retry
+ok 28 - rejecting thenable (0) releases the flight for retry
+  ---
+  duration_ms: 0.0313
+  type: 'test'
+  ...
+# Subtest: throwing then getter (Error: failure) releases the flight for retry
+ok 29 - throwing then getter (Error: failure) releases the flight for retry
+  ---
+  duration_ms: 0.5714
+  type: 'test'
+  ...
+# Subtest: throwing then getter (undefined) releases the flight for retry
+ok 30 - throwing then getter (undefined) releases the flight for retry
+  ---
+  duration_ms: 0.1737
+  type: 'test'
+  ...
+# Subtest: throwing then getter (null) releases the flight for retry
+ok 31 - throwing then getter (null) releases the flight for retry
+  ---
+  duration_ms: 0.0721
+  type: 'test'
+  ...
+# Subtest: throwing then getter (failure) releases the flight for retry
+ok 32 - throwing then getter (failure) releases the flight for retry
+  ---
+  duration_ms: 0.0421
+  type: 'test'
+  ...
+# Subtest: throwing then getter (0) releases the flight for retry
+ok 33 - throwing then getter (0) releases the flight for retry
+  ---
+  duration_ms: 0.0338
+  type: 'test'
+  ...
+# Subtest: invalidate before invocation is a barrier
+ok 34 - invalidate before invocation is a barrier
+  ---
+  duration_ms: 0.1651
+  type: 'test'
+  ...
+# Subtest: invalidate inside load is a barrier
+ok 35 - invalidate inside load is a barrier
+  ---
+  duration_ms: 0.0422
+  type: 'test'
+  ...
+# Subtest: set before invocation is a barrier
+ok 36 - set before invocation is a barrier
+  ---
+  duration_ms: 0.0336
+  type: 'test'
+  ...
+# Subtest: set inside load is a barrier
+ok 37 - set inside load is a barrier
+  ---
+  duration_ms: 0.0274
+  type: 'test'
+  ...
+# Subtest: clear before invocation is a barrier
+ok 38 - clear before invocation is a barrier
+  ---
+  duration_ms: 0.0289
+  type: 'test'
+  ...
+# Subtest: clear inside load is a barrier
+ok 39 - clear inside load is a barrier
+  ---
+  duration_ms: 0.0304
+  type: 'test'
+  ...
+# Subtest: synchronous reentrant reads join the registered flight and can load another key
+ok 40 - synchronous reentrant reads join the registered flight and can load another key
+  ---
+  duration_ms: 0.1153
+  type: 'test'
+  ...
+# Subtest: TTL 0 starts at commit and expiry is exact
+ok 41 - TTL 0 starts at commit and expiry is exact
+  ---
+  duration_ms: 0.0958
+  type: 'test'
+  ...
+# Subtest: TTL 100 starts at commit and expiry is exact
+ok 42 - TTL 100 starts at commit and expiry is exact
+  ---
+  duration_ms: 0.0384
+  type: 'test'
+  ...
+# Subtest: Map key identity, cached undefined/null, and instance isolation
+ok 43 - Map key identity, cached undefined/null, and instance isolation
+  ---
+  duration_ms: 0.1105
+  type: 'test'
+  ...
+# Subtest: value, Promise and thenable loaders cache their results
+ok 44 - value, Promise and thenable loaders cache their results
+  ---
+  duration_ms: 0.1202
+  type: 'test'
+  ...
+# Subtest: constructor validation and default TTL remain unchanged
+ok 45 - constructor validation and default TTL remain unchanged
+  ---
+  duration_ms: 0.4577
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 46 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.4043
+  type: 'test'
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 84.3955

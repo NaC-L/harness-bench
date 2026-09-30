@@ -1,0 +1,207 @@
+diff --git "{temp}\\hb-05d0f1a6-i_qgiph_/pricing.test.js" "{temp}\\hb-05d0f1a6-i_qgiph_/pricing.test.js"
+new file mode 100644
+index 0000000..66a565f
+--- /dev/null
++++ "{temp}\\hb-05d0f1a6-i_qgiph_/pricing.test.js"
+@@ -0,0 +1,158 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { buildInvoice } = require('./src');
++const { roundRatio } = require('./src/rounding');
++
++const percent = rateBps => ({ type: 'percent', rateBps });
++const fixed = amountCents => ({ type: 'fixed', amountCents });
++const invoice = (lines, options = {}) => buildInvoice({ currency: 'USD', lines, ...options });
++
++function assertTotals(result) {
++  for (const field of ['discountCents', 'netCents', 'taxCents', 'totalCents']) {
++    assert.equal(result[field], result.lines.reduce((sum, line) => sum + line[field], 0));
++  }
++  assert.equal(result.subtotalCents, result.lines.reduce((sum, line) => sum + line.grossCents, 0));
++  for (const line of result.lines) {
++    assert.equal(line.grossCents - line.netCents, line.discountCents);
++    assert.equal(line.netCents + line.taxCents, line.totalCents);
++  }
++}
++
++test('half-even rounding is symmetric, exact, and normalizes zero', () => {
++  for (const [numerator, expected] of [
++    [0n, 0], [1n, 0], [3n, 2], [5n, 2], [7n, 4],
++    [-1n, 0], [-3n, -2], [-5n, -2], [-7n, -4],
++  ]) {
++    assert.equal(roundRatio(numerator, 2n), expected);
++  }
++  assert.equal(roundRatio(149n, 100n), 1);
++  assert.equal(roundRatio(151n, 100n), 2);
++  assert.equal(roundRatio(-149n, 100n), -1);
++  assert.equal(roundRatio(-151n, 100n), -2);
++  const huge = 10n ** 400n;
++  assert.equal(roundRatio(huge, huge * 3n), 0);
++  assert.equal(roundRatio(huge * 3n, huge * 2n), 2);
++});
++
++test('rounding checks the safe range only after exact rounding', () => {
++  const max = BigInt(Number.MAX_SAFE_INTEGER);
++  for (const sign of [1n, -1n]) {
++    assert.equal(roundRatio(sign * ((max - 1n) * 10000n + 5001n), 10000n), Number(sign * max));
++    assert.equal(roundRatio(sign * (max * 10000n + 4999n), 10000n), Number(sign * max));
++    assert.throws(() => roundRatio(sign * (max * 10000n + 5000n), 10000n), RangeError);
++  }
++  assert.throws(() => roundRatio(1, 2n), TypeError);
++  assert.throws(() => roundRatio(1n, 2), TypeError);
++  assert.throws(() => roundRatio(1n, 0n), RangeError);
++  assert.throws(() => roundRatio(1n, -2n), RangeError);
++});
++
++test('discounts retain caller order at both line and invoice levels', () => {
++  for (const [discounts, expected] of [
++    [[percent(5000), fixed(10)], 43],
++    [[fixed(10), percent(5000)], 47],
++    [[percent(5000), percent(5000)], 27],
++    [[fixed(200), percent(5000)], 0],
++  ]) {
++    for (const level of ['line', 'invoice']) {
++      const result = level === 'line'
++        ? invoice([{ unitCents: 105, taxBps: 1000, discounts }])
++        : invoice([{ unitCents: 105, taxBps: 1000 }], { discounts });
++      assert.equal(result.netCents, expected);
++      assertTotals(result);
++    }
++  }
++});
++
++test('percentage discounts round the reduction, including credits', () => {
++  const result = invoice([105, -105, 0].map(unitCents => ({
++    unitCents, taxBps: 1000, discounts: [percent(5000), fixed(10)],
++  })));
++  assert.deepEqual(result.lines.map(line => line.netCents), [43, -53, 0]);
++  assert.deepEqual(result.lines.map(line => line.discountCents), [62, -52, 0]);
++  assert.deepEqual(result.lines.map(line => line.taxCents), [4, -5, 0]);
++  assertTotals(result);
++});
++
++test('invoice discounts use positive post-line balances and allocate once', () => {
++  const result = invoice([
++    { unitCents: 120, discounts: [percent(5000)], taxBps: 1000 },
++    { unitCents: 45, taxBps: 1000 },
++    { unitCents: -5, taxBps: 1000 },
++    { unitCents: 0 },
++  ], { discounts: [percent(5000), fixed(10)] });
++  assert.deepEqual(result.lines.map(line => line.netCents), [25, 18, -5, 0]);
++  assert.deepEqual(result.lines.map(line => line.taxCents), [2, 2, 0, 0]);
++  assertTotals(result);
++  const tied = invoice([1, 1, 1].map(unitCents => ({ unitCents })), { discounts: [fixed(1)] });
++  assert.deepEqual(tied.lines.map(line => line.netCents), [0, 1, 1]);
++  const credits = invoice([{ unitCents: -5 }], { discounts: [fixed(100), percent(5000)] });
++  assert.equal(credits.netCents, -5);
++});
++
++test('tax modes use half-even rounding at their documented level', () => {
++  for (const [taxMode, expected] of [['line', [0, 0]], ['invoice', [1, 0]]]) {
++    const result = invoice([5, 5].map(unitCents => ({ unitCents, taxBps: 1000 })), { taxMode });
++    assert.deepEqual(result.lines.map(line => line.taxCents), expected);
++    assertTotals(result);
++  }
++  const result = invoice([
++    { unitCents: 5, taxBps: 1000 },
++    { unitCents: 5, taxBps: 2000 },
++    { unitCents: 5, taxBps: 1000 },
++    { unitCents: -5, taxBps: 1000 },
++  ], { taxMode: 'invoice' });
++  assert.deepEqual(result.lines.map(line => line.taxCents), [1, 1, 0, -1]);
++  assertTotals(result);
++  const negative = invoice([-5, -5, -5].map(unitCents => ({ unitCents, taxBps: 1000 })), { taxMode: 'invoice' });
++  assert.deepEqual(negative.lines.map(line => line.taxCents), [0, -1, -1]);
++  assertTotals(negative);
++});
++
++test('exact intermediate arithmetic permits cancellation but rejects unsafe stored fields', () => {
++  const max = Number.MAX_SAFE_INTEGER;
++  assert.equal(invoice([max, 1, -max].map(unitCents => ({ unitCents }))).totalCents, 1);
++  for (const taxMode of ['line', 'invoice']) {
++    const result = invoice([
++      { unitCents: max, discounts: [percent(10000)], taxBps: 10000 },
++      { unitCents: -max, discounts: [percent(10000)], taxBps: 10000 },
++    ], { taxMode });
++    assert.equal(result.netCents, 0);
++  }
++  assert.throws(() => invoice([{ unitCents: max, quantity: 2 }]), RangeError);
++  assert.throws(() => invoice([{ unitCents: max, taxBps: 10000 }]), RangeError);
++  assert.throws(() => invoice([{ unitCents: max }, { unitCents: 1 }]), RangeError);
++  assert.throws(() => invoice([max, 1, -max].map(unitCents => ({ unitCents })), { discounts: [fixed(0)] }), RangeError);
++});
++
++test('input validation still applies to zero balances', () => {
++  for (const line of [
++    { unitCents: 0, taxBps: -1 },
++    { unitCents: 0, quantity: null },
++    { unitCents: 0, currency: 'EUR' },
++    { unitCents: 0, discounts: [percent(10001)] },
++    { unitCents: 0, discounts: [fixed(-1)] },
++  ]) assert.throws(() => invoice([line]), RangeError);
++  assert.throws(() => invoice([{ unitCents: 0, discounts: [{ type: 'unknown' }] }]), TypeError);
++  assert.throws(() => invoice([{ unitCents: 0, discounts: null }]), TypeError);
++  assert.throws(() => invoice([], { taxMode: null }), RangeError);
++  assert.throws(() => buildInvoice({ currency: 'usd', lines: [] }), TypeError);
++});
++
++test('frozen inputs remain unchanged and empty/zero amounts are positive zero', () => {
++  const discounts = Object.freeze([Object.freeze(percent(5000)), Object.freeze(fixed(10))]);
++  const input = Object.freeze({
++    currency: 'USD', discounts,
++    lines: Object.freeze([Object.freeze({ unitCents: 105, discounts, taxBps: 1000 })]),
++  });
++  const result = buildInvoice(input);
++  assert.equal(result.netCents, 11);
++  assert.equal(input.lines[0].unitCents, 105);
++  assertTotals(result);
++  const empty = invoice([]);
++  assert.deepEqual(empty.lines, []);
++  for (const value of Object.values(empty).filter(value => typeof value === 'number')) assert.equal(value, 0);
++  const zero = invoice([{ unitCents: -0, quantity: -0, taxBps: -0 }]);
++  for (const value of Object.values(zero.lines[0]).filter(value => typeof value === 'number')) assert.equal(value, 0);
++});
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js" "{temp}\\hb-05d0f1a6-i_qgiph_/src/discounts.js"
+index 5bf8d65..ddff630 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js"
++++ "{temp}\\hb-05d0f1a6-i_qgiph_/src/discounts.js"
+@@ -13,10 +13,8 @@ const { difference } = require('./money');
+  * Called for both line discounts and the positive invoice-discount basis.
+  */
+ function applyDiscounts(amountCents, discounts) {
+-  const priority = { fixed: 0, percent: 1 };
+-  const schedule = discounts.slice().sort((a, b) => priority[a.type] - priority[b.type]);
+   let current = amountCents;
+-  for (const discount of schedule) {
++  for (const discount of discounts) {
+     if (discount.type === 'fixed') {
+       if (current > 0) current -= Math.min(current, discount.amountCents);
+     } else {
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js" "{temp}\\hb-05d0f1a6-i_qgiph_/src/rounding.js"
+index 57f5e99..51da40b 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js"
++++ "{temp}\\hb-05d0f1a6-i_qgiph_/src/rounding.js"
+@@ -1,5 +1,5 @@
+ 'use strict';
+-const { integer } = require('./money');
++const { cents } = require('./money');
+ 
+ /**
+  * Round the exact rational numerator / denominator to the nearest integer cent.
+@@ -14,7 +14,14 @@ function roundRatio(numerator, denominator) {
+     throw new TypeError('A ratio requires BigInts');
+   }
+   if (denominator <= 0n) throw new RangeError('Denominator must be positive');
+-  return integer(Math.round(Number(numerator) / Number(denominator)), 'rounded cents');
++  const magnitude = numerator < 0n ? -numerator : numerator;
++  let rounded = magnitude / denominator;
++  const twiceRemainder = (magnitude % denominator) * 2n;
++  if (twiceRemainder > denominator ||
++      (twiceRemainder === denominator && rounded % 2n !== 0n)) {
++    rounded += 1n;
++  }
++  return cents(numerator < 0n ? -rounded : rounded, 'rounded cents');
+ }
+ 
+ module.exports = { roundRatio };

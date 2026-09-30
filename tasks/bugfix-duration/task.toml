@@ -1,0 +1,5 @@
+id = "bugfix-duration"
+title = "Parse complete compound durations"
+category = "bugfix"
+timeout_sec = 600
+check = ["node", "--test"]

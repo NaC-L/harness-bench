@@ -1,0 +1,250 @@
+TAP version 13
+# Subtest: chunk boundaries preserve ""
+ok 1 - chunk boundaries preserve ""
+  ---
+  duration_ms: 1.4234
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "﻿"
+ok 2 - chunk boundaries preserve "﻿"
+  ---
+  duration_ms: 0.1677
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "\\n"
+ok 3 - chunk boundaries preserve "\\n"
+  ---
+  duration_ms: 0.2333
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "\\r\\n\\r\\n"
+ok 4 - chunk boundaries preserve "\\r\\n\\r\\n"
+  ---
+  duration_ms: 0.0874
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "a\\rb\\nc\\r\\nd"
+ok 5 - chunk boundaries preserve "a\\rb\\nc\\r\\nd"
+  ---
+  duration_ms: 0.1861
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "a,,b,"
+ok 6 - chunk boundaries preserve "a,,b,"
+  ---
+  duration_ms: 0.0612
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "\\"\\""
+ok 7 - chunk boundaries preserve "\\"\\""
+  ---
+  duration_ms: 0.1587
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "\\"a,b\\",\\"say \\"\\"hi\\"\\"\\"\\r\\n"
+ok 8 - chunk boundaries preserve "\\"a,b\\",\\"say \\"\\"hi\\"\\"\\"\\r\\n"
+  ---
+  duration_ms: 0.1083
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "\\"a\\r\\nb\\rc\\nd\\",tail\\r\\n"
+ok 9 - chunk boundaries preserve "\\"a\\r\\nb\\rc\\nd\\",tail\\r\\n"
+  ---
+  duration_ms: 0.6646
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "a\\"b,\\"c\\""
+ok 10 - chunk boundaries preserve "a\\"b,\\"c\\""
+  ---
+  duration_ms: 0.2362
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "﻿a,﻿b\\n﻿c"
+ok 11 - chunk boundaries preserve "﻿a,﻿b\\n﻿c"
+  ---
+  duration_ms: 0.1178
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "﻿﻿"
+ok 12 - chunk boundaries preserve "﻿﻿"
+  ---
+  duration_ms: 0.0387
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "😀,\\"😀\\""
+ok 13 - chunk boundaries preserve "😀,\\"😀\\""
+  ---
+  duration_ms: 0.0413
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "left;\\"right;side\\";"
+ok 14 - chunk boundaries preserve "left;\\"right;side\\";"
+  ---
+  duration_ms: 0.0665
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "a\\tb\\t"
+ok 15 - chunk boundaries preserve "a\\tb\\t"
+  ---
+  duration_ms: 0.027
+  type: 'test'
+  ...
+# Subtest: chunk boundaries preserve "a\\u0000b"
+ok 16 - chunk boundaries preserve "a\\u0000b"
+  ---
+  duration_ms: 0.0281
+  type: 'test'
+  ...
+# Subtest: completed records are emitted immediately, including at CR before LF arrives
+ok 17 - completed records are emitted immediately, including at CR before LF arrives
+  ---
+  duration_ms: 0.3463
+  type: 'test'
+  ...
+# Subtest: empty chunks leave the initial BOM eligible for stripping
+ok 18 - empty chunks leave the initial BOM eligible for stripping
+  ---
+  duration_ms: 0.0529
+  type: 'test'
+  ...
+# Subtest: delimiter validation occurs at creation without coercion
+ok 19 - delimiter validation occurs at creation without coercion
+  ---
+  duration_ms: 0.1427
+  type: 'test'
+  ...
+# Subtest: push rejects nonstrings without consuming input
+ok 20 - push rejects nonstrings without consuming input
+  ---
+  duration_ms: 0.1904
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 1: "\\"a\\"x"
+ok 21 - syntax errors report physical line 1: "\\"a\\"x"
+  ---
+  duration_ms: 0.1316
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 1: "\\"a\\" "
+ok 22 - syntax errors report physical line 1: "\\"a\\" "
+  ---
+  duration_ms: 0.0594
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 2: "a\\r\\n\\"b\\"x"
+ok 23 - syntax errors report physical line 2: "a\\r\\n\\"b\\"x"
+  ---
+  duration_ms: 0.0731
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 2: "\\"a\\r\\nb\\"x"
+ok 24 - syntax errors report physical line 2: "\\"a\\r\\nb\\"x"
+  ---
+  duration_ms: 0.069
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 3: "\\"a\\rb\\nc\\"x"
+ok 25 - syntax errors report physical line 3: "\\"a\\rb\\nc\\"x"
+  ---
+  duration_ms: 0.0719
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 3: "\\"a\\r\\n\\r\\nb\\"x"
+ok 26 - syntax errors report physical line 3: "\\"a\\r\\n\\r\\nb\\"x"
+  ---
+  duration_ms: 0.0772
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 1: "\\""
+ok 27 - syntax errors report physical line 1: "\\""
+  ---
+  duration_ms: 0.0384
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 2: "\\"a\\r\\n"
+ok 28 - syntax errors report physical line 2: "\\"a\\r\\n"
+  ---
+  duration_ms: 0.0453
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 3: "\\"a\\r\\n\\r"
+ok 29 - syntax errors report physical line 3: "\\"a\\r\\n\\r"
+  ---
+  duration_ms: 0.0573
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical line 1: "\\"a\\"\\""
+ok 30 - syntax errors report physical line 1: "\\"a\\"\\""
+  ---
+  duration_ms: 0.0925
+  type: 'test'
+  ...
+# Subtest: parsers maintain independent state
+ok 31 - parsers maintain independent state
+  ---
+  duration_ms: 0.0623
+  type: 'test'
+  ...
+# Subtest: parse header mode preserves unique names, padding, and special own keys
+ok 32 - parse header mode preserves unique names, padding, and special own keys
+  ---
+  duration_ms: 0.253
+  type: 'test'
+  ...
+# Subtest: row helper still accepts frozen explicit headers and records without mutation
+ok 33 - row helper still accepts frozen explicit headers and records without mutation
+  ---
+  duration_ms: 0.0987
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 34 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.2429
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 35 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1129
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 36 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1204
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 37 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.0644
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 38 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.1609
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 39 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.1054
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 40 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1091
+  type: 'test'
+  ...
+1..40
+# tests 40
+# suites 0
+# pass 40
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 75.3163

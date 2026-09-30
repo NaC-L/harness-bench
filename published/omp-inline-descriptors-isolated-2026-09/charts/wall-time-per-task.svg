@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="578" viewBox="0 0 800 578" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Wall time per task</title>
+<desc id="chart-desc">Per-task seconds for omp-baseline and omp-inline. Filled dots are passed runs; hollow dots are failed runs. Short ticks show medians. 0 runs omitted for unknown seconds.</desc>
+<rect width="800" height="578" fill="#FFFFFF"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="24.00" y="32.00" font-size="22" text-anchor="start" fill="#222222">Wall time per task</text>
+<text x="24.00" y="56.00" font-size="14" text-anchor="start" fill="#222222">Every known run, including failures; horizontal jitter is for visibility only.</text>
+<circle cx="30.00" cy="80.00" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" />
+<text x="44.00" y="84.00" font-size="14" text-anchor="start" fill="#222222">omp-baseline</text>
+<circle cx="30.00" cy="104.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" />
+<text x="44.00" y="108.00" font-size="14" text-anchor="start" fill="#222222">omp-inline</text>
+<circle cx="30.00" cy="132.00" r="4.5" fill="#FFFFFF" stroke="#444444" stroke-width="2" />
+<text x="44.00" y="136.00" font-size="14" text-anchor="start" fill="#222222">Failed run (hollow); filled = passed</text>
+<line x1="430.00" y1="132.00" x2="450.00" y2="132.00" stroke="#444444" stroke-width="3" />
+<text x="458.00" y="136.00" font-size="14" text-anchor="start" fill="#222222">Median of known runs</text>
+<line x1="92.00" y1="470.00" x2="776.00" y2="470.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="80.00" y="474.00" font-size="12" text-anchor="end" fill="#222222">0 s</text>
+<line x1="92.00" y1="395.00" x2="776.00" y2="395.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="80.00" y="399.00" font-size="12" text-anchor="end" fill="#222222">100 s</text>
+<line x1="92.00" y1="320.00" x2="776.00" y2="320.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="80.00" y="324.00" font-size="12" text-anchor="end" fill="#222222">200 s</text>
+<line x1="92.00" y1="245.00" x2="776.00" y2="245.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="80.00" y="249.00" font-size="12" text-anchor="end" fill="#222222">300 s</text>
+<line x1="92.00" y1="170.00" x2="776.00" y2="170.00" stroke="#D5D9DE" stroke-width="1" />
+<text x="80.00" y="174.00" font-size="12" text-anchor="end" fill="#222222">400 s</text>
+<text x="92.00" y="160.00" font-size="12" text-anchor="start" fill="#222222">seconds</text>
+<circle cx="127.34" cy="424.82" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="118.94" cy="420.70" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="132.53" cy="415.37" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="124.13" cy="414.16" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="115.34" y1="418.04" x2="139.34" y2="418.04" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="170.66" cy="417.08" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="162.26" cy="410.66" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="175.85" cy="409.17" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="167.45" cy="403.13" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="158.66" y1="409.92" x2="182.66" y2="409.92" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="149.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">bugfix-duration</text>
+<line x1="206.00" y1="170.00" x2="206.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
+<circle cx="241.34" cy="287.78" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="232.94" cy="259.46" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="246.53" cy="251.87" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="238.13" cy="250.22" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="229.34" y1="255.66" x2="253.34" y2="255.66" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="284.66" cy="332.41" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="276.26" cy="315.92" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="289.85" cy="310.59" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="281.45" cy="307.86" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="272.66" y1="313.26" x2="296.66" y2="313.26" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="263.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">bugfix-invoice</text>
+<line x1="320.00" y1="170.00" x2="320.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
+<circle cx="355.34" cy="307.41" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="346.94" cy="268.61" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="360.53" cy="256.41" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="352.13" cy="246.66" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="343.34" y1="262.51" x2="367.34" y2="262.51" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="398.66" cy="302.74" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="390.26" cy="297.72" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="403.85" cy="290.70" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="395.45" cy="276.76" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="386.66" y1="294.21" x2="410.66" y2="294.21" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="377.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">debug-cache-race</text>
+<line x1="434.00" y1="170.00" x2="434.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
+<circle cx="469.34" cy="391.93" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="460.94" cy="387.46" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="474.53" cy="372.31" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="466.13" cy="368.74" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="457.34" y1="379.88" x2="481.34" y2="379.88" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="512.66" cy="394.34" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="504.26" cy="391.05" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="517.85" cy="387.90" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="509.45" cy="384.33" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="500.66" y1="389.48" x2="524.66" y2="389.48" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="491.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">debug-limiter</text>
+<line x1="548.00" y1="170.00" x2="548.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
+<circle cx="583.34" cy="306.32" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="574.94" cy="301.21" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="588.53" cy="300.44" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="580.13" cy="276.41" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="571.34" y1="300.83" x2="595.34" y2="300.83" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="626.66" cy="321.14" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="618.26" cy="313.48" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="631.85" cy="306.73" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="623.45" cy="272.38" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="614.66" y1="310.11" x2="638.66" y2="310.11" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="605.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">feature-csv-</text>
+<text x="605.00" y="512.00" font-size="12" text-anchor="middle" fill="#222222">stream</text>
+<line x1="662.00" y1="170.00" x2="662.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
+<circle cx="697.34" cy="400.08" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="688.94" cy="395.98" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="702.53" cy="383.42" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="694.13" cy="363.37" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="685.34" y1="389.70" x2="709.34" y2="389.70" stroke="#0072B2" stroke-width="3" class="median-tick"/>
+<circle cx="740.66" cy="403.38" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="732.26" cy="402.54" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="745.85" cy="397.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<circle cx="737.45" cy="395.37" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
+<line x1="728.66" y1="399.77" x2="752.66" y2="399.77" stroke="#E69F00" stroke-width="3" class="median-tick"/>
+<text x="719.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">feature-lru</text>
+<text x="24.00" y="546.00" font-size="12" text-anchor="start" fill="#222222">0 runs omitted: unknown seconds. Medians use known runs, including failures.</text>
+</g>
+</svg>

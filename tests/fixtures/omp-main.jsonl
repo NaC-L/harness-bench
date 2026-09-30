@@ -1,0 +1,9 @@
+{"type":"session","timestamp":"2026-09-30T00:00:00Z","cwd":"C:\\bench\\work"}
+{"type":"model_change","model":"primary"}
+{"type":"message","timestamp":"2026-09-30T00:00:01Z","message":{"role":"assistant","model":"primary","duration":1000,"usage":{"input":10,"output":2,"cacheRead":4,"cacheWrite":1,"cost":{"total":0.1}},"content":[{"type":"toolCall","id":"t1","name":"read"},{"type":"toolCall","id":"t2","name":"read"}]}}
+{"type":"message","timestamp":"2026-09-30T00:00:02Z","usage":{"input":20,"output":3,"cacheRead":5,"cacheWrite":2,"cost":0.2},"message":{"role":"assistant","model":"primary","duration":500,"content":[{"type":"toolCall","id":"t3","name":"bash"}]}}
+{"type":"model_usage","model":"judge","usage":{"input":3,"output":1,"cacheRead":2,"cacheWrite":0,"cost":{"total":0.03}}}
+{"type":"compaction"}
+{"type":"message","timestamp":"2026-09-30T00:00:03Z","message":{"role":"assistant","content":[{"type":"text","text":"main finished"}]}}
+malformed-json
+{"type":"message","message":null}

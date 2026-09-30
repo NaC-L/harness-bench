@@ -1,0 +1,69 @@
+{
+  "model": "gpt-6.1-sol",
+  "thinking": "high",
+  "trials_per_task": 3,
+  "arms": {
+    "pi-sol": {
+      "attempts": 9,
+      "passed": 9,
+      "median_wall_time_sec": 74.84021510000093,
+      "mean_wall_time_sec": 74.46955678888884,
+      "reported_cost_usd": 0.2167948,
+      "tool_calls": 61,
+      "requests": 54,
+      "assistant_models": {
+        "gpt-6.1-sol": 54
+      },
+      "secondary_calls": [],
+      "errors": [],
+      "tasks": {
+        "bugfix-duration": {
+          "passed": 3,
+          "median_wall_time_sec": 65.92317399999956
+        },
+        "debug-limiter": {
+          "passed": 3,
+          "median_wall_time_sec": 81.32750560000022
+        },
+        "feature-lru": {
+          "passed": 3,
+          "median_wall_time_sec": 80.96152989999973
+        }
+      }
+    },
+    "omp-sol": {
+      "attempts": 9,
+      "passed": 9,
+      "median_wall_time_sec": 84.88058330000058,
+      "mean_wall_time_sec": 83.63557158888882,
+      "reported_cost_usd": 0.3736992,
+      "tool_calls": 79,
+      "requests": 53,
+      "assistant_models": {
+        "gpt-6.1-sol": 53
+      },
+      "secondary_calls": [],
+      "errors": [],
+      "tasks": {
+        "bugfix-duration": {
+          "passed": 3,
+          "median_wall_time_sec": 67.70263829999931
+        },
+        "debug-limiter": {
+          "passed": 3,
+          "median_wall_time_sec": 92.79522910000014
+        },
+        "feature-lru": {
+          "passed": 3,
+          "median_wall_time_sec": 93.33654080000088
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Native system prompts and tool implementations differ.",
+    "Pi provider openai and OMP provider openai-codex use independently configured authentication and transport.",
+    "Reported costs are token-based estimates, not subscription charges.",
+    "Three trials on three small tasks cannot establish general performance."
+  ]
+}

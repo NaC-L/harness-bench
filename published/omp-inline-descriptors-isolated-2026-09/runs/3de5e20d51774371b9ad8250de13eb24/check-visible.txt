@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: capacity must be a positive integer Number
+ok 1 - capacity must be a positive integer Number
+  ---
+  duration_ms: 1.3441
+  type: 'test'
+  ...
+# Subtest: getting an undefined value refreshes recency
+ok 2 - getting an undefined value refreshes recency
+  ---
+  duration_ms: 0.1767
+  type: 'test'
+  ...
+# Subtest: updates refresh recency without growing or evicting unrelated entries
+ok 3 - updates refresh recency without growing or evicting unrelated entries
+  ---
+  duration_ms: 0.1276
+  type: 'test'
+  ...
+# Subtest: has and missing gets do not refresh recency or insert entries
+ok 4 - has and missing gets do not refresh recency or insert entries
+  ---
+  duration_ms: 0.0754
+  type: 'test'
+  ...
+# Subtest: deletion preserves survivor recency and reinsertion is most recent
+ok 5 - deletion preserves survivor recency and reinsertion is most recent
+  ---
+  duration_ms: 0.117
+  type: 'test'
+  ...
+# Subtest: keys and values retain Map semantics and identity
+ok 6 - keys and values retain Map semantics and identity
+  ---
+  duration_ms: 0.6942
+  type: 'test'
+  ...
+# Subtest: single-entry caches evict undefined keys and stay independent
+ok 7 - single-entry caches evict undefined keys and stay independent
+  ---
+  duration_ms: 0.1407
+  type: 'test'
+  ...
+# Subtest: stores entries, chains sets, and reports size
+ok 8 - stores entries, chains sets, and reports size
+  ---
+  duration_ms: 0.5758
+  type: 'test'
+  ...
+# Subtest: get refreshes recency before eviction
+ok 9 - get refreshes recency before eviction
+  ---
+  duration_ms: 0.1293
+  type: 'test'
+  ...
+# Subtest: delete reports whether a key existed
+ok 10 - delete reports whether a key existed
+  ---
+  duration_ms: 0.0727
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 65.0116

@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: exact half-even rounding is symmetric, including zero and both tie parities
+ok 1 - exact half-even rounding is symmetric, including zero and both tie parities
+  ---
+  duration_ms: 0.7605
+  type: 'test'
+  ...
+# Subtest: rounding retains exact precision and checks the rounded result for overflow
+ok 2 - rounding retains exact precision and checks the rounded result for overflow
+  ---
+  duration_ms: 0.349
+  type: 'test'
+  ...
+# Subtest: line and invoice discounts preserve supplied order and round each reduction
+ok 3 - line and invoice discounts preserve supplied order and round each reduction
+  ---
+  duration_ms: 0.9202
+  type: 'test'
+  ...
+# Subtest: credits receive signed percentage discounts, ignore fixed discounts and invoice allocation
+ok 4 - credits receive signed percentage discounts, ignore fixed discounts and invoice allocation
+  ---
+  duration_ms: 0.5671
+  type: 'test'
+  ...
+# Subtest: invoice discounts allocate the aggregate reduction once with index-based ties
+ok 5 - invoice discounts allocate the aggregate reduction once with index-based ties
+  ---
+  duration_ms: 0.1821
+  type: 'test'
+  ...
+# Subtest: both tax modes handle signed ties, rate groups and zero group bases
+ok 6 - both tax modes handle signed ties, rate groups and zero group bases
+  ---
+  duration_ms: 0.3627
+  type: 'test'
+  ...
+# Subtest: safe final results allow large exact intermediates but unsafe stored fields fail
+ok 7 - safe final results allow large exact intermediates but unsafe stored fields fail
+  ---
+  duration_ms: 0.3583
+  type: 'test'
+  ...
+# Subtest: validation still applies to zero lines and exhausted discount schedules
+ok 8 - validation still applies to zero lines and exhausted discount schedules
+  ---
+  duration_ms: 0.2766
+  type: 'test'
+  ...
+# Subtest: inputs are not mutated, defaults are preserved and returned zero amounts are positive
+ok 9 - inputs are not mutated, defaults are preserved and returned zero amounts are positive
+  ---
+  duration_ms: 0.3579
+  type: 'test'
+  ...
+# Subtest: half-even line tax is symmetric for positive and credit half cents
+ok 10 - half-even line tax is symmetric for positive and credit half cents
+  ---
+  duration_ms: 1.6554
+  type: 'test'
+  ...
+# Subtest: percent rounds the discount amount rather than the odd remaining balance
+ok 11 - percent rounds the discount amount rather than the odd remaining balance
+  ---
+  duration_ms: 0.2016
+  type: 'test'
+  ...
+# Subtest: credit percentage discount preserves the signed halfway-even reduction
+ok 12 - credit percentage discount preserves the signed halfway-even reduction
+  ---
+  duration_ms: 0.0831
+  type: 'test'
+  ...
+# Subtest: interleaved fixed and percentage coupons keep all supplied positions
+ok 13 - interleaved fixed and percentage coupons keep all supplied positions
+  ---
+  duration_ms: 0.1406
+  type: 'test'
+  ...
+# Subtest: repeated percentages are rounded separately at every stage
+ok 14 - repeated percentages are rounded separately at every stage
+  ---
+  duration_ms: 0.1066
+  type: 'test'
+  ...
+# Subtest: invoice coupons use ordered positive-balance discounts and exclude credits
+ok 15 - invoice coupons use ordered positive-balance discounts and exclude credits
+  ---
+  duration_ms: 0.2858
+  type: 'test'
+  ...
+# Subtest: invoice percentage rounds once on the positive basis before allocating
+ok 16 - invoice percentage rounds once on the positive basis before allocating
+  ---
+  duration_ms: 0.1201
+  type: 'test'
+  ...
+# Subtest: line coupons precede aggregate invoice coupons and proportional tax bases
+ok 17 - line coupons precede aggregate invoice coupons and proportional tax bases
+  ---
+  duration_ms: 0.2205
+  type: 'test'
+  ...
+# Subtest: invoice-tax groups round half-even independently for distinct rates
+ok 18 - invoice-tax groups round half-even independently for distinct rates
+  ---
+  duration_ms: 0.3153
+  type: 'test'
+  ...
+# Subtest: negative invoice-tax groups round signed half cents before allocation
+ok 19 - negative invoice-tax groups round signed half cents before allocation
+  ---
+  duration_ms: 0.3385
+  type: 'test'
+  ...
+# Subtest: large discount products retain exact cents beyond floating-point precision
+ok 20 - large discount products retain exact cents beyond floating-point precision
+  ---
+  duration_ms: 0.9652
+  type: 'test'
+  ...
+# Subtest: large tax products stay exact when the final line total is still safe
+ok 21 - large tax products stay exact when the final line total is still safe
+  ---
+  duration_ms: 0.33
+  type: 'test'
+  ...
+# Subtest: canceling large tax numerators preserve a small halfway-even group result
+ok 22 - canceling large tax numerators preserve a small halfway-even group result
+  ---
+  duration_ms: 0.2209
+  type: 'test'
+  ...
+# Subtest: small signed percentage lattice follows exact discount-amount rounding
+ok 23 - small signed percentage lattice follows exact discount-amount rounding
+  ---
+  duration_ms: 5.0507
+  type: 'test'
+  ...
+# Subtest: trap: line tax boundaries remain distinct from invoice tax rounding
+ok 24 - trap: line tax boundaries remain distinct from invoice tax rounding
+  ---
+  duration_ms: 0.2757
+  type: 'test'
+  ...
+# Subtest: trap: fixed coupons cap positive amounts at zero and leave credits untouched
+ok 25 - trap: fixed coupons cap positive amounts at zero and leave credits untouched
+  ---
+  duration_ms: 0.2007
+  type: 'test'
+  ...
+# Subtest: trap: mixed currencies are rejected even on a zero-quantity line
+ok 26 - trap: mixed currencies are rejected even on a zero-quantity line
+  ---
+  duration_ms: 0.7635
+  type: 'test'
+  ...
+# Subtest: trap: zero quantity never charges but still validates every line field
+ok 27 - trap: zero quantity never charges but still validates every line field
+  ---
+  duration_ms: 0.2069
+  type: 'test'
+  ...
+# Subtest: trap: discount largest-remainder shares respect line index and exclude credits
+ok 28 - trap: discount largest-remainder shares respect line index and exclude credits
+  ---
+  duration_ms: 0.291
+  type: 'test'
+  ...
+# Subtest: trap: signed invoice-tax allocation works when the group basis cancels to zero
+ok 29 - trap: signed invoice-tax allocation works when the group basis cancels to zero
+  ---
+  duration_ms: 0.2522
+  type: 'test'
+  ...
+# Subtest: trap: tax allocation tie order is original index across interleaved rate groups
+ok 30 - trap: tax allocation tie order is original index across interleaved rate groups
+  ---
+  duration_ms: 0.1422
+  type: 'test'
+  ...
+# Subtest: trap: frozen input graphs stay unchanged and results own fresh objects
+ok 31 - trap: frozen input graphs stay unchanged and results own fresh objects
+  ---
+  duration_ms: 0.2237
+  type: 'test'
+  ...
+# Subtest: trap: empty and all-credit invoices do not invent invoice discount charges
+ok 32 - trap: empty and all-credit invoices do not invent invoice discount charges
+  ---
+  duration_ms: 0.2263
+  type: 'test'
+  ...
+# Subtest: trap: unsafe computed fields throw rather than silently clamp or round
+ok 33 - trap: unsafe computed fields throw rather than silently clamp or round
+  ---
+  duration_ms: 0.2778
+  type: 'test'
+  ...
+# Subtest: trap: exact signed subtotal sums may cancel an unsafe intermediate sum
+ok 34 - trap: exact signed subtotal sums may cancel an unsafe intermediate sum
+  ---
+  duration_ms: 0.0969
+  type: 'test'
+  ...
+# Subtest: trap: malformed schemas and numeric fields keep documented error types
+ok 35 - trap: malformed schemas and numeric fields keep documented error types
+  ---
+  duration_ms: 0.461
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 36 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.3486
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 37 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 1.3141
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 93.3651

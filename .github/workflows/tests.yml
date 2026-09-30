@@ -1,0 +1,34 @@
+name: tests
+
+# No model calls: unit tests, task validation, and the reference-harness pipeline run.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.12", "3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate tasks
+        run: python -m bench.validate_tasks
+      - name: Reference pipeline (no model calls)
+        shell: bash
+        run: |
+          python -m bench --config benchmark-reference.toml --results results/reference run --harness reference-a reference-b --trials 3 --jobs 12
+          python -m bench --results results/reference compare --baseline reference-a --candidate reference-b | tee compare.txt
+          grep -q "Verdict: inconclusive" compare.txt
+          grep -q "token usage unknown" compare.txt

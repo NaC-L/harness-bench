@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: grammar is unchanged across every pair of chunk boundaries
+ok 1 - grammar is unchanged across every pair of chunk boundaries
+  ---
+  duration_ms: 6.2479
+  type: 'test'
+  ...
+# Subtest: push emits at CR immediately and never re-emits completed records
+ok 2 - push emits at CR immediately and never re-emits completed records
+  ---
+  duration_ms: 0.4888
+  type: 'test'
+  ...
+# Subtest: delimiter validation uses UTF-16 code units without coercion
+ok 3 - delimiter validation uses UTF-16 code units without coercion
+  ---
+  duration_ms: 1.0171
+  type: 'test'
+  ...
+# Subtest: push rejects non-strings and empty chunks do not consume the initial BOM
+ok 4 - push rejects non-strings and empty chunks do not consume the initial BOM
+  ---
+  duration_ms: 0.1706
+  type: 'test'
+  ...
+# Subtest: syntax errors report physical lines independently of chunk boundaries
+ok 5 - syntax errors report physical lines independently of chunk boundaries
+  ---
+  duration_ms: 1.688
+  type: 'test'
+  ...
+# Subtest: independent parsers and empty or separator-terminated input
+ok 6 - independent parsers and empty or separator-terminated input
+  ---
+  duration_ms: 0.2334
+  type: 'test'
+  ...
+# Subtest: header conversion retains duplicate, padding, and special-key behavior
+ok 7 - header conversion retains duplicate, padding, and special-key behavior
+  ---
+  duration_ms: 0.4302
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 8 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.107
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 9 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1164
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 10 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1234
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 11 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.0658
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 12 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.1674
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 13 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.0424
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 14 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1273
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.2993

@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: exact rounding chooses the nearest even cent for either sign
+ok 1 - exact rounding chooses the nearest even cent for either sign
+  ---
+  duration_ms: 4.4962
+  type: 'test'
+  ...
+# Subtest: rounding stays exact above Number precision and checks the rounded result
+ok 2 - rounding stays exact above Number precision and checks the rounded result
+  ---
+  duration_ms: 0.5613
+  type: 'test'
+  ...
+# Subtest: line discounts retain order, round each reduction, and respect credits and caps
+ok 3 - line discounts retain order, round each reduction, and respect credits and caps
+  ---
+  duration_ms: 1.0483
+  type: 'test'
+  ...
+# Subtest: invoice discounts use ordered positive balances and exclude credits
+ok 4 - invoice discounts use ordered positive balances and exclude credits
+  ---
+  duration_ms: 0.4098
+  type: 'test'
+  ...
+# Subtest: tax modes preserve per-rate grouping, signed remainders and input-order ties
+ok 5 - tax modes preserve per-rate grouping, signed remainders and input-order ties
+  ---
+  duration_ms: 0.4207
+  type: 'test'
+  ...
+# Subtest: safe-range checks allow exact cancellation but reject unsafe stored amounts
+ok 6 - safe-range checks allow exact cancellation but reject unsafe stored amounts
+  ---
+  duration_ms: 0.3273
+  type: 'test'
+  ...
+# Subtest: validation still checks zero lines and all discount entries
+ok 7 - validation still checks zero lines and all discount entries
+  ---
+  duration_ms: 0.2391
+  type: 'test'
+  ...
+# Subtest: inputs remain unchanged, totals reconcile, and empty/credit zeros are positive zero
+ok 8 - inputs remain unchanged, totals reconcile, and empty/credit zeros are positive zero
+  ---
+  duration_ms: 0.2523
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 9 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2544
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 10 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.6957
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.2816

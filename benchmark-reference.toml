@@ -1,0 +1,13 @@
+# Verify the benchmark pipeline end to end without any model calls.
+# Both arms copy the reference solution; compare will report
+# inconclusive: token usage unknown because kind "none" has no token data.
+
+[harnesses.reference-a]
+kind = "none"
+command = ["{python}", "-c", "import shutil,sys; shutil.copytree(sys.argv[1] + '/solution', '.', dirs_exist_ok=True)", "{task_dir}"]
+version_command = ["{python}", "--version"]
+
+[harnesses.reference-b]
+kind = "none"
+command = ["{python}", "-c", "import shutil,sys; shutil.copytree(sys.argv[1] + '/solution', '.', dirs_exist_ok=True)", "{task_dir}"]
+version_command = ["{python}", "--version"]

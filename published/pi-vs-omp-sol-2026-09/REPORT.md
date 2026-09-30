@@ -2,7 +2,9 @@
 
 Verdict: better (pi-sol vs baseline omp-sol, margin 10%, min trials 3)
 
-| Dimension | Result | Baseline | Candidate |
+**Winner: pi-sol (candidate). Compared with omp-sol (baseline) it uses fewer tokens and runs faster; correctness and safety are the same.**
+
+| Dimension | pi-sol vs omp-sol | omp-sol (baseline) | pi-sol (candidate) |
 |---|---|---|---|
 | correctness | same | 9/9 passed, 0 regression runs, 0 unfinished | 9/9 passed, 0 regression runs, 0 unfinished |
 | tokens | better | 32744 total / 14341 uncached per correct, 0 aux calls | 14271 total / 7643 uncached per correct, 0 aux calls |
@@ -42,8 +44,8 @@ No manifest.json; setup not recorded.
 
 config path not recorded; replace CONFIG with the harness configuration.
 ```console
-python -m bench --config CONFIG --results results/pi-vs-omp-sol-2026-09-rerun run --harness omp-sol pi-sol --trials 3 --jobs 1
-python -m bench --config CONFIG --results published/pi-vs-omp-sol-2026-09 compare --baseline omp-sol --candidate pi-sol --margin 0.1 --min-trials 3 --format markdown
+python -m bench --config CONFIG --results results/.head-pi-vs-omp-sol-2026-09-rerun run --harness omp-sol pi-sol --trials 3 --jobs 1
+python -m bench --config CONFIG --results published/.head-pi-vs-omp-sol-2026-09 compare --baseline omp-sol --candidate pi-sol --margin 0.1 --min-trials 3 --format markdown
 ```
 
 Run from the benchmark directory with the recorded config and tasks. The first command collects new trials in a fresh directory (compare it by pointing --results there); the second re-scores the runs in this report, and works on an exported bundle without model access.

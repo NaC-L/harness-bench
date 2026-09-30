@@ -281,14 +281,47 @@ def render_comparison(result: dict) -> str:
     }
     b, c = (result['scorecards'][result[k]] for k in ('baseline', 'candidate'))
     lines = [f"Verdict: {result['verdict']} ({result['candidate']} vs baseline {result['baseline']}, "
-             f"margin {result['margin']:.0%}, min trials {result['min_trials']})", '',
-             '| Dimension | Result | Baseline | Candidate |', '|---|---|---|---|']
+             f"margin {result['margin']:.0%}, min trials {result['min_trials']})", headline(result), '',
+             f"| Dimension | {result['candidate']} vs {result['baseline']} | {result['baseline']} (baseline) "
+             f"| {result['candidate']} (candidate) |", '|---|---|---|---|']
     for name, cell in cells.items():
         lines.append(f"| {name} | {result['dimensions'][name]} | {cell(b)} | {cell(c)} |")
     for title, items in (('Reasons', result['reasons']), ('Warnings', result['warnings'])):
         if items:
             lines += ['', f'{title}:', *(f'- {item}' for item in items)]
     return '\n'.join(lines)
+
+
+_BETTER = {'correctness': 'passes more runs', 'tokens': 'uses fewer tokens', 'time': 'runs faster', 'safety': 'is safer'}
+_WORSE = {'correctness': 'passes fewer runs', 'tokens': 'uses more tokens', 'time': 'runs slower', 'safety': 'is less safe'}
+
+
+def _series(items: list[str]) -> str:
+    return items[0] if len(items) == 1 else ', '.join(items[:-1]) + ' and ' + items[-1]
+
+
+def headline(result: dict) -> str:
+    """One sentence naming the winner, so a verdict word never has to be interpreted."""
+    b, c, dims = result['baseline'], result['candidate'], result['dimensions']
+    better = [_BETTER[k] for k, v in dims.items() if v == 'better']
+    worse = [_WORSE[k] for k, v in dims.items() if v == 'worse']
+    same = [k for k, v in dims.items() if v == 'same']
+    tail = f"; {_series(same)} {'is' if len(same) == 1 else 'are'} the same" if same else ''
+    verdict = result['verdict']
+    if verdict == 'better':
+        return f"Winner: {c} (candidate). Compared with {b} (baseline) it {_series(better)}{tail}."
+    if verdict == 'worse':
+        despite = f", although it {_series(better)}" if better else ''
+        return f"Winner: {b} (baseline). {c} (candidate) {_series(worse)}{despite}."
+    if verdict == 'tradeoff':
+        return (f"No overall winner (tradeoff): {c} (candidate) {_series(better)} "
+                f"but {_series(worse)} than {b} (baseline).")
+    if verdict == 'equivalent':
+        return (f"No winner: {c} (candidate) and {b} (baseline) are equivalent "
+                f"within the {result['margin']:.0%} margin.")
+    reasons = result['reasons']
+    more = f" (and {len(reasons) - 1} more)" if len(reasons) > 1 else ''
+    return f"No winner yet (inconclusive): {reasons[0] if reasons else 'insufficient data'}{more}."
 
 
 def _fenced(text: str, language: str = '') -> list[str]:
@@ -301,8 +334,9 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
     """A shareable comparison with per-task measurements and recorded setup."""
     baseline, candidate = result['baseline'], result['candidate']
     comparison = render_comparison(result).splitlines()
-    table_end = next((i for i, line in enumerate(comparison[2:], 2) if not line), len(comparison))
-    lines = [f'# {candidate} vs {baseline}', '', *comparison[:table_end]]
+    table_end = next((i for i, line in enumerate(comparison[3:], 3) if not line), len(comparison))
+    lines = [f'# {candidate} vs {baseline}', '', comparison[0], '', f'**{comparison[1]}**', '',
+             *comparison[3:table_end]]
     if charts:
         lines += ['', '## Charts', '']
         lines += [f'![{alt}]({path})' for alt, path in charts]

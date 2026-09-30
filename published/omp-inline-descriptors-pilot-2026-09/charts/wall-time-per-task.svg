@@ -1,49 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="560" viewBox="0 0 800 560" role="img" aria-labelledby="chart-title chart-desc">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="314" viewBox="0 0 760 314" role="img" aria-labelledby="chart-title chart-desc">
 <title id="chart-title">Wall time per task</title>
-<desc id="chart-desc">Per-task seconds for omp-baseline and omp-inline. Filled dots are passed runs; hollow dots are failed runs. Short ticks show medians. 0 runs omitted for unknown seconds.</desc>
-<rect width="800" height="560" fill="#FFFFFF"/>
-<g font-family="Arial, Helvetica, sans-serif">
-<text x="24.00" y="32.00" font-size="22" text-anchor="start" fill="#222222">Wall time per task</text>
-<text x="24.00" y="56.00" font-size="14" text-anchor="start" fill="#222222">Every known run, including failures; horizontal jitter is for visibility only.</text>
-<circle cx="30.00" cy="80.00" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" />
-<text x="44.00" y="84.00" font-size="14" text-anchor="start" fill="#222222">omp-baseline</text>
-<circle cx="30.00" cy="104.00" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" />
-<text x="44.00" y="108.00" font-size="14" text-anchor="start" fill="#222222">omp-inline</text>
-<circle cx="30.00" cy="132.00" r="4.5" fill="#FFFFFF" stroke="#444444" stroke-width="2" />
-<text x="44.00" y="136.00" font-size="14" text-anchor="start" fill="#222222">Failed run (hollow); filled = passed</text>
-<line x1="430.00" y1="132.00" x2="450.00" y2="132.00" stroke="#444444" stroke-width="3" />
-<text x="458.00" y="136.00" font-size="14" text-anchor="start" fill="#222222">Median of known runs</text>
-<line x1="92.00" y1="470.00" x2="776.00" y2="470.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="474.00" font-size="12" text-anchor="end" fill="#222222">0 s</text>
-<line x1="92.00" y1="410.00" x2="776.00" y2="410.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="414.00" font-size="12" text-anchor="end" fill="#222222">25 s</text>
-<line x1="92.00" y1="350.00" x2="776.00" y2="350.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="354.00" font-size="12" text-anchor="end" fill="#222222">50 s</text>
-<line x1="92.00" y1="290.00" x2="776.00" y2="290.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="294.00" font-size="12" text-anchor="end" fill="#222222">75 s</text>
-<line x1="92.00" y1="230.00" x2="776.00" y2="230.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="234.00" font-size="12" text-anchor="end" fill="#222222">100 s</text>
-<line x1="92.00" y1="170.00" x2="776.00" y2="170.00" stroke="#D5D9DE" stroke-width="1" />
-<text x="80.00" y="174.00" font-size="12" text-anchor="end" fill="#222222">125 s</text>
-<text x="92.00" y="160.00" font-size="12" text-anchor="start" fill="#222222">seconds</text>
-<circle cx="162.68" cy="311.94" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="150.68" y1="311.94" x2="174.68" y2="311.94" stroke="#0072B2" stroke-width="3" class="median-tick"/>
-<circle cx="249.32" cy="316.23" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="237.32" y1="316.23" x2="261.32" y2="316.23" stroke="#E69F00" stroke-width="3" class="median-tick"/>
-<text x="206.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">bugfix-duration</text>
-<line x1="320.00" y1="170.00" x2="320.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
-<circle cx="390.68" cy="276.15" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="378.68" y1="276.15" x2="402.68" y2="276.15" stroke="#0072B2" stroke-width="3" class="median-tick"/>
-<circle cx="477.32" cy="219.93" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="465.32" y1="219.93" x2="489.32" y2="219.93" stroke="#E69F00" stroke-width="3" class="median-tick"/>
-<text x="434.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">debug-limiter</text>
-<line x1="548.00" y1="170.00" x2="548.00" y2="470.00" stroke="#EEF0F3" stroke-width="1" />
-<circle cx="618.68" cy="312.23" r="4.5" fill="#0072B2" stroke="#0072B2" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="606.68" y1="312.23" x2="630.68" y2="312.23" stroke="#0072B2" stroke-width="3" class="median-tick"/>
-<circle cx="705.32" cy="244.23" r="4.5" fill="#E69F00" stroke="#E69F00" stroke-width="2" class="run-marker" data-passed="true"/>
-<line x1="693.32" y1="244.23" x2="717.32" y2="244.23" stroke="#E69F00" stroke-width="3" class="median-tick"/>
-<text x="662.00" y="494.00" font-size="12" text-anchor="middle" fill="#222222">feature-lru</text>
-<text x="24.00" y="528.00" font-size="12" text-anchor="start" fill="#222222">0 runs omitted: unknown seconds. Medians use known runs, including failures.</text>
+<desc id="chart-desc">omp-inline RUNS SLOWER ON 2/3 TASKS. Per-task seconds: candidate omp-inline vs baseline omp-baseline. Lower is better. Faint squares show each known run; hollow squares are failed runs. Large squares show medians of known runs, including failures; candidate medians have a two-pixel halo. bugfix-duration, omp-baseline: runs [65.85764829999971 seconds (passed)]; median=65.85764829999971 seconds. bugfix-duration, omp-inline: runs [64.06946919999973 seconds (passed)]; median=64.06946919999973 seconds. bugfix-duration: delta=-2.7152185754558578%, −2.7%. debug-limiter, omp-baseline: runs [80.7703134000003 seconds (passed)]; median=80.7703134000003 seconds. debug-limiter, omp-inline: runs [104.19466810000085 seconds (passed)]; median=104.19466810000085 seconds. debug-limiter: delta=29.00119327752968%, +29.0%. feature-lru, omp-baseline: runs [65.73902629999975 seconds (passed)]; median=65.73902629999975 seconds. feature-lru, omp-inline: runs [94.0724597999997 seconds (passed)]; median=94.0724597999997 seconds. feature-lru: delta=43.099867909056734%, +43.1%. OMP-INLINE RUNS SLOWER ON 2/3 TASKS · MEDIAN OF 1 RUNS PER ARM · WALL = ELAPSED SECONDS · 0 RUNS OMITTED: UNKNOWN SECONDS</desc>
+<rect width="760" height="314" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="313" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="17" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Wall time per task</text>
+<rect x="393" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="406.00" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-BASELINE (BASELINE)</text>
+<rect x="577" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="590.80" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-INLINE (CANDIDATE)</text>
+<rect x="24" y="78" width="7" height="7" fill="#000" stroke="#757575" stroke-width="1" opacity="1" shape-rendering="crispEdges" />
+<text x="38.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >HOLLOW = FAILED RUN</text>
+<rect x="193" y="80" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" />
+<text x="206.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >FAINT = EACH RUN</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >← FASTER IS BETTER</text>
+<text x="24.00" y="120.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >TASK</text>
+<text x="580.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >BASE</text>
+<text x="658.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >CAND</text>
+<text x="736.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >Δ</text>
+<line x1="242.5" y1="132.5" x2="242.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="242.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="0.0">0s</text>
+<line x1="308.5" y1="132.5" x2="308.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="308.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="26.048667025000213">26.05s</text>
+<line x1="374.5" y1="132.5" x2="374.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="374.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="52.09733405000043">52.1s</text>
+<line x1="440.5" y1="132.5" x2="440.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="440.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="78.14600107500064">78.15s</text>
+<line x1="506.5" y1="132.5" x2="506.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="506.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="104.19466810000085">104.19s</text>
+<g class="task-row" data-task="bugfix-duration">
+<title>bugfix-duration</title>
+<line x1="24.5" y1="172.5" x2="736.5" y2="172.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="156.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >bugfix-duration</text>
+<line x1="408.5" y1="152.5" x2="404.5" y2="152.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="406" y="141" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-baseline" data-passed="true" data-value="65.85764829999971"/>
+<rect x="404" y="148" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-baseline" data-value="65.85764829999971"/>
+<rect x="402" y="157" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-inline" data-passed="true" data-value="64.06946919999973"/>
+<rect x="398" y="146" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="400" y="148" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-inline" data-value="64.06946919999973"/>
+<text x="580.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >65.86s</text>
+<text x="658.00" y="156.00" font-size="11" text-anchor="end" fill="#44cfff" >64.07s</text>
+<text x="736.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−2.7%</text>
+</g>
+<g class="task-row" data-task="debug-limiter">
+<title>debug-limiter</title>
+<line x1="24.5" y1="212.5" x2="736.5" y2="212.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="196.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >debug-limiter</text>
+<line x1="446.5" y1="192.5" x2="506.5" y2="192.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="444" y="181" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-baseline" data-passed="true" data-value="80.7703134000003"/>
+<rect x="442" y="188" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-baseline" data-value="80.7703134000003"/>
+<rect x="504" y="197" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-inline" data-passed="true" data-value="104.19466810000085"/>
+<rect x="500" y="186" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="502" y="188" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-inline" data-value="104.19466810000085"/>
+<text x="580.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >80.77s</text>
+<text x="658.00" y="196.00" font-size="11" text-anchor="end" fill="#44cfff" >104.19s</text>
+<text x="736.00" y="196.00" font-size="11" text-anchor="end" fill="#f4644a" >+29.0%</text>
+</g>
+<g class="task-row" data-task="feature-lru">
+<title>feature-lru</title>
+<line x1="24.5" y1="252.5" x2="736.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="236.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >feature-lru</text>
+<line x1="408.5" y1="232.5" x2="480.5" y2="232.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="406" y="221" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-baseline" data-passed="true" data-value="65.73902629999975"/>
+<rect x="404" y="228" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-baseline" data-value="65.73902629999975"/>
+<rect x="478" y="237" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-inline" data-passed="true" data-value="94.0724597999997"/>
+<rect x="474" y="226" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="476" y="228" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-inline" data-value="94.0724597999997"/>
+<text x="580.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >65.74s</text>
+<text x="658.00" y="236.00" font-size="11" text-anchor="end" fill="#44cfff" >94.07s</text>
+<text x="736.00" y="236.00" font-size="11" text-anchor="end" fill="#f4644a" >+43.1%</text>
+</g>
+<text x="24.00" y="278.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">OMP-INLINE RUNS SLOWER ON 2/3 TASKS · MEDIAN OF 1 RUNS PER ARM · WALL = ELAPSED SECONDS · 0 RUNS OMITTED:</text>
+<text x="24.00" y="292.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">UNKNOWN SECONDS</text>
 </g>
 </svg>

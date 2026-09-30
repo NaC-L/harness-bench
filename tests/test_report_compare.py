@@ -178,5 +178,39 @@ class CompareTests(unittest.TestCase):
         self.assertIn('Invocation second', text)
 
 
+class HeadlineTests(unittest.TestCase):
+    """The headline must name the winner so readers never interpret a verdict word."""
+
+    def headline(self, rows):
+        return report.headline(report.compare(rows, 'base', 'cand'))
+
+    def test_every_verdict_names_a_winner_or_says_there_is_none(self):
+        cases = {
+            'Winner: cand (candidate). Compared with base (baseline) it uses fewer tokens; '
+            'correctness, time and safety are the same.': arm('base') + arm('cand', tokens=800),
+            'No overall winner (tradeoff): cand (candidate) uses fewer tokens but runs slower '
+            'than base (baseline).': arm('base') + arm('cand', tokens=800, wall=12.0),
+            'No winner: cand (candidate) and base (baseline) are equivalent within the 10% margin.':
+                arm('base') + arm('cand'),
+        }
+        for expected, rows in cases.items():
+            with self.subTest(expected=expected):
+                self.assertEqual(self.headline(rows), expected)
+        worse = arm('base') + arm('cand')
+        worse[-1]['passed'] = False
+        # One failure: 9 runs of tokens over 8 correct is +12.5% per correct, beyond the 10% margin.
+        self.assertEqual(self.headline(worse),
+                         'Winner: base (baseline). cand (candidate) passes fewer runs and uses more tokens.')
+        short = [r for r in arm('base') + arm('cand') if r['trial'] < 3]
+        self.assertTrue(self.headline(short).startswith('No winner yet (inconclusive): base/alpha: 2 trials < 3'))
+
+    def test_text_and_markdown_lead_with_the_headline(self):
+        result = report.compare(arm('base') + arm('cand', tokens=800), 'base', 'cand')
+        self.assertTrue(report.render_comparison(result).splitlines()[1].startswith('Winner: cand (candidate).'))
+        markdown = report.render_markdown(result, arm('base') + arm('cand', tokens=800), results_label='r')
+        self.assertIn('**Winner: cand (candidate).', markdown)
+        self.assertIn('| Dimension | cand vs base | base (baseline) | cand (candidate) |', markdown)
+
+
 if __name__ == '__main__':
     unittest.main()

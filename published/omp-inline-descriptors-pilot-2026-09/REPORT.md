@@ -2,7 +2,9 @@
 
 Verdict: inconclusive (omp-inline vs baseline omp-baseline, margin 10%, min trials 3)
 
-| Dimension | Result | Baseline | Candidate |
+**No winner yet (inconclusive): omp-baseline/bugfix-duration: 1 trials < 3 (and 5 more).**
+
+| Dimension | omp-inline vs omp-baseline | omp-baseline (baseline) | omp-inline (candidate) |
 |---|---|---|---|
 | correctness | same | 3/3 passed, 0 regression runs, 0 unfinished | 3/3 passed, 0 regression runs, 0 unfinished |
 | tokens | better | 28938 total / 12000 uncached per correct, 0 aux calls | 25933 total / 10360 uncached per correct, 0 aux calls |
@@ -50,8 +52,8 @@ No manifest.json; setup not recorded.
 
 config path not recorded; replace CONFIG with the harness configuration.
 ```console
-python -m bench --config CONFIG --results results/omp-inline-descriptors-pilot-2026-09-rerun run --harness omp-baseline omp-inline --trials 3 --jobs 1
-python -m bench --config CONFIG --results published/omp-inline-descriptors-pilot-2026-09 compare --baseline omp-baseline --candidate omp-inline --margin 0.1 --min-trials 3 --format markdown
+python -m bench --config CONFIG --results results/.head-omp-inline-descriptors-pilot-2026-09-rerun run --harness omp-baseline omp-inline --trials 3 --jobs 1
+python -m bench --config CONFIG --results published/.head-omp-inline-descriptors-pilot-2026-09 compare --baseline omp-baseline --candidate omp-inline --margin 0.1 --min-trials 3 --format markdown
 ```
 
 Run from the benchmark directory with the recorded config and tasks. The first command collects new trials in a fresh directory (compare it by pointing --results there); the second re-scores the runs in this report, and works on an exported bundle without model access.

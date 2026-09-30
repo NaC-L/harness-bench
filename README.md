@@ -12,13 +12,17 @@
 
 ## Published results
 
-| Bundle | Question | Verdict |
-| --- | --- | --- |
-| [omp-inline-descriptors-isolated-2026-09](published/omp-inline-descriptors-isolated-2026-09/REPORT.md) | OMP inline tool descriptions vs native tool schemas (GPT-6.1 Sol high, isolated state, 6 tasks × 4 trials) | `better`: −35% total / −16% uncached tokens per correct solution, median −17%, correctness at ceiling |
-| [omp-inline-descriptors-pilot-2026-09](published/omp-inline-descriptors-pilot-2026-09/REPORT.md) | Same question, 3 tasks × 1 trial screening pilot (operator state not isolated) | `inconclusive`: too few trials |
-| [pi-vs-omp-sol-2026-09](published/pi-vs-omp-sol-2026-09/REPORT.md) | Pi vs OMP, both GPT-6.1 Sol high (operator state not isolated) | `better` for Pi on efficiency; harness versions differ, legacy fields unknown |
+Each row compares a **baseline** arm with a **candidate** arm on the same tasks and model. The "Winner" column is the arm the rule favors, or states that there is none.
 
-![Efficiency summary: inline tool descriptions vs native schemas](published/omp-inline-descriptors-isolated-2026-09/charts/summary.svg)
+| Comparison (baseline → candidate) | Winner | By how much | Trust it? |
+| --- | --- | --- | --- |
+| **Where OMP puts tool descriptions:** native tool schemas (`omp-baseline`) → descriptions inlined in the system prompt (`omp-inline`). GPT-6.1 Sol high, isolated state, 6 tasks × 4 trials. [Report](published/omp-inline-descriptors-isolated-2026-09/REPORT.md) | **Inline descriptions** (`omp-inline`) | 35% fewer total tokens and 16% fewer uncached tokens per correct solution; median time 17% faster; 24/24 passed in both arms | Yes for efficiency. Correctness is at ceiling (both arms pass every run), so it cannot show a correctness difference. The "safer" part rests on one baseline run that skipped its final test |
+| **Same question, early pilot:** 3 tasks × 1 trial. [Report](published/omp-inline-descriptors-pilot-2026-09/REPORT.md) | **None** (inconclusive) | Too few trials to decide | No: superseded by the row above; ran with the operator's personal OMP state |
+| **Pi vs OMP**, both GPT-6.1 Sol high: `omp-sol` → `pi-sol`. 3 tasks × 3 trials. [Report](published/pi-vs-omp-sol-2026-09/REPORT.md) | **Pi** (`pi-sol`) | 56% fewer total tokens per correct solution; median time 12% faster; 9/9 passed in both arms | Partly: ran with the operator's personal state, and the two are different harnesses and versions |
+
+![Where OMP puts tool descriptions: inline beats native schemas on every efficiency metric](published/omp-inline-descriptors-isolated-2026-09/charts/summary.svg)
+
+Every `REPORT.md` opens with the same kind of sentence, for example: *"Winner: omp-inline (candidate). Compared with omp-baseline (baseline) it uses fewer tokens, runs faster and is safer; correctness is the same."*
 
 Re-score any bundle without model access: `python -m bench --results <bundle> compare --baseline <a> --candidate <b>`. Add charts to your own report with `compare --format markdown --charts-dir <dir>`; `export` includes them automatically.
 
@@ -99,9 +103,12 @@ Text is the default; `compare --format json` is also available (`--json` is a de
 - `REPORT.md`: verdict, dimension and per-task tables, setup, caveats, and reproduction commands.
 - `runs.jsonl`: only the selected arms; workdirs cleared and artifact paths made bundle-relative.
 - `manifest.json`: recorded provenance, when available.
-- `runs/<run_id>/`: available `patch.diff`, `check.txt`, and `check-visible.txt` files.
+- `SESSIONS.md`: task/trial-ordered links to captured sessions, with `--include-transcripts`.
+- `runs/<harness>/<task>/trial-<n>/`: available `patch.diff`, `check.txt`, and `check-visible.txt` files.
 
-Repository, home, and temporary paths are replaced with placeholders. **Transcripts are excluded by default**: `stdout.jsonl`, `stderr.txt`, and `sessions/` can contain your private system prompt/config. Add `--include-transcripts` only after reviewing them; path sanitization does not remove arbitrary secrets. Review patches and overlay contents for secrets too.
+Repository, home, and temporary paths are replaced with placeholders. **Transcripts are excluded by default**: they can contain your private system prompt/config. Add `--include-transcripts` after reviewing them to include `session.jsonl` alongside each trial's patch/check files, plus `stdout.jsonl` and `stderr.txt`. A session's companion files live in `session/`; multiple native session logs retain their names under `sessions/`. Path sanitization does not remove arbitrary secrets. Review patches and overlay contents for secrets too.
+
+To compare sessions, open the same task/trial under each harness, e.g. `runs/pi-sol/debug-limiter/trial-1/session.jsonl` and `runs/omp-sol/debug-limiter/trial-1/session.jsonl`. These are the original harness session records, not a lossy reconstruction from stdout. The bundles under `published/` include them; no manual `/dump` or lookup by run UUID is needed.
 
 `results/` is gitignored on purpose; `published/` is intended for reviewed bundles you choose to commit. Anyone can re-run `compare` directly on a bundle by setting the global `--results` to its exported directory; no original workdirs or model account are needed to inspect its verdict.
 

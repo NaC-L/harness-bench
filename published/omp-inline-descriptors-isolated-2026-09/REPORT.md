@@ -2,7 +2,9 @@
 
 Verdict: better (omp-inline vs baseline omp-baseline, margin 10%, min trials 3)
 
-| Dimension | Result | Baseline | Candidate |
+**Winner: omp-inline (candidate). Compared with omp-baseline (baseline) it uses fewer tokens, runs faster and is safer; correctness is the same.**
+
+| Dimension | omp-inline vs omp-baseline | omp-baseline (baseline) | omp-inline (candidate) |
 |---|---|---|---|
 | correctness | same | 24/24 passed, 0 regression runs, 0 unfinished | 24/24 passed, 0 regression runs, 0 unfinished |
 | tokens | better | 49057 total / 19148 uncached per correct, 0 aux calls | 32090 total / 16016 uncached per correct, 0 aux calls |
@@ -84,8 +86,8 @@ Task ids and hashes:
 ## Reproduce
 
 ```console
-python -m bench --config benchmark-omp-descriptors.toml --results results/.new-iso-rerun run --harness omp-baseline omp-inline --trials 4 --jobs 12 --task bugfix-duration bugfix-invoice debug-cache-race debug-limiter feature-csv-stream feature-lru
-python -m bench --config benchmark-omp-descriptors.toml --results published/.new-iso compare --baseline omp-baseline --candidate omp-inline --margin 0.1 --min-trials 3 --format markdown
+python -m bench --config benchmark-omp-descriptors.toml --results results/.head-omp-inline-descriptors-isolated-2026-09-rerun run --harness omp-baseline omp-inline --trials 4 --jobs 12 --task bugfix-duration bugfix-invoice debug-cache-race debug-limiter feature-csv-stream feature-lru
+python -m bench --config benchmark-omp-descriptors.toml --results published/.head-omp-inline-descriptors-isolated-2026-09 compare --baseline omp-baseline --candidate omp-inline --margin 0.1 --min-trials 3 --format markdown
 ```
 
 Run from the benchmark directory with the recorded config and tasks. The first command collects new trials in a fresh directory (compare it by pointing --results there); the second re-scores the runs in this report, and works on an exported bundle without model access.

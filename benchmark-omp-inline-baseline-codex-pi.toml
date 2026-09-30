@@ -1,0 +1,30 @@
+# Four native harness arms, one ChatGPT account/backend/model/effort.
+# See experiments/omp-inline-codex-pi/PLAN.md for run and analysis protocol.
+[harnesses.omp-inline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/inline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-baseline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.codex]
+kind = "codex"
+command = ["{python}", "{benchmark_dir}/bench/oauth_driver.py", "--kind", "codex", "--", "node", "{benchmark_dir}/.tools/codex/node_modules/@openai/codex/bin/codex.js", "exec", "--json", "--sandbox", "workspace-write", "--skip-git-repo-check", "--ignore-rules", "--model", "gpt-6.1-sol", "-c", "model_reasoning_effort=\"high\"", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/codex/node_modules/@openai/codex/bin/codex.js", "--version"]
+state_template = "experiments/omp-inline-codex-pi/codex"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.pi]
+kind = "pi"
+command = ["{python}", "{benchmark_dir}/bench/oauth_driver.py", "--kind", "pi", "--", "node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--print", "--mode", "json", "--no-extensions", "--no-skills", "--no-prompt-templates", "--no-context-files", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "--session-id", "{session_id}", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--version"]
+state_template = "experiments/omp-inline-codex-pi/pi"
+env = { PI_TELEMETRY = "0" }
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }

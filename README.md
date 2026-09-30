@@ -86,6 +86,23 @@ Command placeholders (from the `harnesses.toml` header):
 
 These expand without a shell; runtime paths also work in `version_command`. Use `--task` to select task IDs and `--timeout` to override the per-task agent timeout.
 
+### Four-arm OMP / Codex / Pi experiment
+
+[benchmark-omp-inline-baseline-codex-pi.toml](benchmark-omp-inline-baseline-codex-pi.toml)
+defines isolated `omp-inline`, `omp-baseline`, `codex` and `pi` arms using the same
+ChatGPT account/backend, `gpt-6.1-sol` and high effort. Install local Codex with
+`npm install --prefix .tools/codex @openai/codex@0.159.2` and Pi as above; authenticate
+OMP to `openai-codex`. Pi/Codex receive temporary access-only credentials from
+`omp token openai-codex`, never operator auth files or refresh tokens.
+
+See [the preregistered protocol](experiments/omp-inline-codex-pi/PLAN.md) for the
+four-run preflight, 72-run measured grid and three baseline comparisons. Windows
+Codex workspaces inherit parent sandbox ACLs; credential state remains private.
+Cross-harness results include native prompt/tool/sandbox differences, not just
+OMP descriptor placement. [Published results and combined graph](published/omp-inline-baseline-codex-pi-2026-09/REPORT.md)
+include sanitized per-run data; credentials and raw session artifacts are excluded.
+
+
 ## Read and share results
 
 After the quick start, these examples use the reference arms. For a model experiment, substitute its results directory and arm names.

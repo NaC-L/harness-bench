@@ -1,0 +1,4 @@
+# Benchmark-owned state: no operator MCP servers, instructions or memories.
+cli_auth_credentials_store = "file"
+[windows]
+sandbox = "unelevated"

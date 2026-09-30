@@ -196,6 +196,12 @@ def run_one(task: Task, h: Harness, results: Path, trial: int = 1,
     record['started'] = started
     try:
         resolve_env_commands(h, operator_env, env)
+        if h.kind == 'codex' and os.name == 'nt':
+            # Python 3.14 mkdtemp's owner-only ACL prevents the Windows sandbox
+            # from reading the workspace. Restore the parent sandbox ACLs here,
+            # never on the separate state directory containing credentials.
+            subprocess.run(['icacls', str(workdir), '/inheritance:e'],
+                           capture_output=True, check=True, timeout=30)
         overlay(task.repo, workdir)
         # No commits: diff against an empty index then exclude original files by no-index comparison.
         before = protected_hashes(workdir)

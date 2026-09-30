@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="554" viewBox="0 0 760 554" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Four-arm experiment token usage</title>
+<desc id="chart-desc">omp-inline, Total tokens · includes cache hits: 670,440 tokens; 18/18 passed. omp-baseline, Total tokens · includes cache hits: 864,349 tokens; 18/18 passed. codex, Total tokens · includes cache hits: 2,350,499 tokens; 18/18 passed. pi, Total tokens · includes cache hits: 420,220 tokens; 18/18 passed. omp-inline, Uncached input + output tokens: 307,944 tokens; 18/18 passed. omp-baseline, Uncached input + output tokens: 350,429 tokens; 18/18 passed. codex, Uncached input + output tokens: 366,115 tokens; 18/18 passed. pi, Uncached input + output tokens: 254,460 tokens; 18/18 passed. Both panels have linear axes starting at zero. 72 measured runs. Cache hits count once in total tokens. Preflights and cancelled attempt excluded. No pooled latency: 30 serial, 42 parallel runs. Correctness at ceiling; native harness prompts/tools differ.</desc>
+<rect width="760" height="554" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="553" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="30.00" font-size="17" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Four-arm experiment · token usage</text>
+<text x="24.00" y="52.00" font-size="10" text-anchor="start" fill="#a1a1a1" >GPT-6.1-SOL · HIGH EFFORT · 6 TASKS × 3 TRIALS · ALL ARMS 18/18 PASSED</text>
+<text x="736.00" y="76.00" font-size="10" text-anchor="end" fill="#a1a1a1" >← LOWER TOKEN USE</text>
+<text x="24.00" y="98.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Total tokens · includes cache hits</text>
+<line x1="180.5" y1="130.5" x2="180.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="180.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >0</text>
+<line x1="260.5" y1="130.5" x2="260.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="260.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >500.0k</text>
+<line x1="340.5" y1="130.5" x2="340.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="340.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >1.0m</text>
+<line x1="420.5" y1="130.5" x2="420.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="420.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >1.5m</text>
+<line x1="500.5" y1="130.5" x2="500.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="500.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >2.0m</text>
+<line x1="580.5" y1="130.5" x2="580.5" y2="258.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="580.00" y="120.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >2.5m</text>
+<text x="24.00" y="150.00" font-size="12" text-anchor="start" fill="#44cfff" >omp-inline</text>
+<rect x="180" y="139" width="107.270400" height="14" fill="#44cfff" shape-rendering="crispEdges" data-arm="omp-inline" data-metric="total_tokens" data-value="670440" data-domain-max="2500000"/>
+<text x="736.00" y="150.00" font-size="12" text-anchor="end" fill="#44cfff" >670,440</text>
+<text x="24.00" y="182.00" font-size="12" text-anchor="start" fill="#757575" >omp-baseline</text>
+<rect x="180" y="171" width="138.295840" height="14" fill="#757575" shape-rendering="crispEdges" data-arm="omp-baseline" data-metric="total_tokens" data-value="864349" data-domain-max="2500000"/>
+<text x="736.00" y="182.00" font-size="12" text-anchor="end" fill="#757575" >864,349</text>
+<text x="24.00" y="214.00" font-size="12" text-anchor="start" fill="#a86af4" >codex</text>
+<rect x="180" y="203" width="376.079840" height="14" fill="#a86af4" shape-rendering="crispEdges" data-arm="codex" data-metric="total_tokens" data-value="2350499" data-domain-max="2500000"/>
+<text x="736.00" y="214.00" font-size="12" text-anchor="end" fill="#a86af4" >2,350,499</text>
+<text x="24.00" y="246.00" font-size="12" text-anchor="start" fill="#ededed" >pi</text>
+<rect x="180" y="235" width="67.235200" height="14" fill="#ededed" shape-rendering="crispEdges" data-arm="pi" data-metric="total_tokens" data-value="420220" data-domain-max="2500000"/>
+<text x="736.00" y="246.00" font-size="12" text-anchor="end" fill="#ededed" >420,220</text>
+<line x1="24.5" y1="274.5" x2="736.5" y2="274.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="308.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Uncached input + output tokens</text>
+<line x1="180.5" y1="340.5" x2="180.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="180.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >0</text>
+<line x1="260.5" y1="340.5" x2="260.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="260.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >80.0k</text>
+<line x1="340.5" y1="340.5" x2="340.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="340.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >160.0k</text>
+<line x1="420.5" y1="340.5" x2="420.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="420.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >240.0k</text>
+<line x1="500.5" y1="340.5" x2="500.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="500.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >320.0k</text>
+<line x1="580.5" y1="340.5" x2="580.5" y2="468.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" />
+<text x="580.00" y="330.00" font-size="10" text-anchor="middle" fill="#a1a1a1" >400.0k</text>
+<text x="24.00" y="360.00" font-size="12" text-anchor="start" fill="#44cfff" >omp-inline</text>
+<rect x="180" y="349" width="307.944000" height="14" fill="#44cfff" shape-rendering="crispEdges" data-arm="omp-inline" data-metric="uncached_tokens" data-value="307944" data-domain-max="400000"/>
+<text x="736.00" y="360.00" font-size="12" text-anchor="end" fill="#44cfff" >307,944</text>
+<text x="24.00" y="392.00" font-size="12" text-anchor="start" fill="#757575" >omp-baseline</text>
+<rect x="180" y="381" width="350.429000" height="14" fill="#757575" shape-rendering="crispEdges" data-arm="omp-baseline" data-metric="uncached_tokens" data-value="350429" data-domain-max="400000"/>
+<text x="736.00" y="392.00" font-size="12" text-anchor="end" fill="#757575" >350,429</text>
+<text x="24.00" y="424.00" font-size="12" text-anchor="start" fill="#a86af4" >codex</text>
+<rect x="180" y="413" width="366.115000" height="14" fill="#a86af4" shape-rendering="crispEdges" data-arm="codex" data-metric="uncached_tokens" data-value="366115" data-domain-max="400000"/>
+<text x="736.00" y="424.00" font-size="12" text-anchor="end" fill="#a86af4" >366,115</text>
+<text x="24.00" y="456.00" font-size="12" text-anchor="start" fill="#ededed" >pi</text>
+<rect x="180" y="445" width="254.460000" height="14" fill="#ededed" shape-rendering="crispEdges" data-arm="pi" data-metric="uncached_tokens" data-value="254460" data-domain-max="400000"/>
+<text x="736.00" y="456.00" font-size="12" text-anchor="end" fill="#ededed" >254,460</text>
+<line x1="24.5" y1="484.5" x2="736.5" y2="484.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="518.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">72 MEASURED RUNS. CACHE HITS COUNT ONCE IN TOTAL TOKENS. PREFLIGHTS AND CANCELLED ATTEMPT EXCLUDED. NO</text>
+<text x="24.00" y="532.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">POOLED LATENCY: 30 SERIAL, 42 PARALLEL RUNS. CORRECTNESS AT CEILING; NATIVE HARNESS PROMPTS/TOOLS DIFFER.</text>
+</g>
+</svg>

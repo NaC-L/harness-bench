@@ -11,24 +11,40 @@ from .manifest import load_manifest
 from .runner import runtime_values
 
 
+def _spellings(root) -> list[str]:
+    """A root as given and fully resolved, longest first.
+
+    The same directory can appear under two names: Windows 8.3 short paths
+    (C:\\Users\\RUNNER~1) vs long ones, or macOS /var vs /private/var.
+    Longest first, so /private/var/x is not partly rewritten via /var/x.
+    """
+    root = str(root).rstrip('/\\')
+    if not root:
+        return []
+    return sorted({root, os.path.realpath(root).rstrip('/\\')}, key=len, reverse=True)
+
+
 def sanitize(value, *, benchmark_dir, home, temp):
     """Replace local roots in strings, including dictionary keys and escaped paths."""
     flags = re.IGNORECASE if os.name == 'nt' else 0
 
     def replace(text, root, replacement):
-        root = str(root).rstrip('/\\')
-        if not root:
-            return text
         pattern = r'[\\/]+'.join(re.escape(part) for part in re.split(r'[\\/]+', root))
         return re.sub(pattern, lambda match: replacement, text, flags=flags)
 
+    roots = [(form, rep) for root, rep in ((benchmark_dir, '{benchmark_dir}'), (home, '~'), (temp, '{temp}'))
+             for form in _spellings(root)]
+    # On Windows TEMP is usually inside HOME, so HOME's replacement may already have changed it.
+    for form in _spellings(temp):
+        portable = form
+        for root, rep in roots[:-len(_spellings(temp))]:
+            portable = replace(portable, root, rep)
+        roots.append((portable, '{temp}'))
+
     def text(value):
-        value = replace(value, benchmark_dir, '{benchmark_dir}')
-        value = replace(value, home, '~')
-        value = replace(value, temp, '{temp}')
-        # On Windows TEMP is usually inside HOME, so HOME's replacement changed it.
-        portable_temp = replace(replace(str(temp), benchmark_dir, '{benchmark_dir}'), home, '~')
-        return replace(value, portable_temp, '{temp}')
+        for root, rep in roots:
+            value = replace(value, root, rep)
+        return value
 
     def visit(value):
         if isinstance(value, str):

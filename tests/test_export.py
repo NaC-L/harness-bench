@@ -14,6 +14,23 @@ from tests import test_runner
 
 
 class SanitizeTests(unittest.TestCase):
+    def test_every_spelling_of_a_root_is_replaced(self):
+        # CI failures: Windows TEMP given as 8.3 short name but resolved paths are long,
+        # and macOS /var/folders is an alias of /private/var/folders.
+        aliases = {r'C:\Users\RUNNER~1\AppData\Local\Temp': r'C:\Users\runneradmin\AppData\Local\Temp',
+                   '/var/folders/ab/T': '/private/var/folders/ab/T'}
+        with patch('bench.export.os.path.realpath', side_effect=lambda p: aliases.get(p, p)), \
+             patch('bench.export.os.name', 'nt'):
+            windows = sanitize(r'C:\Users\runneradmin\AppData\Local\Temp\x and C:\Users\RUNNER~1\AppData\Local\Temp\y',
+                               benchmark_dir=r'D:\a\bench', home=r'C:\Users\runneradmin',
+                               temp=r'C:\Users\RUNNER~1\AppData\Local\Temp')
+        self.assertEqual(windows, r'{temp}\x and {temp}\y')
+        with patch('bench.export.os.path.realpath', side_effect=lambda p: aliases.get(p, p)), \
+             patch('bench.export.os.name', 'posix'):
+            mac = sanitize('/private/var/folders/ab/T/x /var/folders/ab/T/y', benchmark_dir='/Users/r/bench',
+                           home='/Users/r', temp='/var/folders/ab/T')
+        self.assertEqual(mac, '{temp}/x {temp}/y')
+
     def test_nested_paths_both_separator_styles_and_escaped_json(self):
         roots = {'benchmark_dir': r'C:\Users\Private\Desktop\benchmark',
                  'home': r'C:\Users\Private', 'temp': r'C:\Users\Private\AppData\Local\Temp'}

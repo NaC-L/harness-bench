@@ -185,7 +185,8 @@ class RunnerTests(unittest.TestCase):
                 self.assertEqual(collect.call_args.kwargs['env']['CODEX_HOME'], h.env['CODEX_HOME'])
                 session_dir = collect.call_args.kwargs['session_dir']
                 if kind in ('omp', 'pi'):
-                    self.assertEqual(session_dir, Path(row['artifact_dir']) / 'sessions')
+                    # Temp dirs have aliases (macOS /private/var, Windows 8.3 names); compare the directory.
+                    self.assertEqual(Path(session_dir).resolve(), (Path(row['artifact_dir']) / 'sessions').resolve())
                 else:
                     self.assertIsNone(session_dir)
 

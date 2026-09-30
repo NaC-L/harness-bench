@@ -94,12 +94,13 @@ class IsolationTests(unittest.TestCase):
         work = self.root / 'a' / 'b' / 'work'
         work.mkdir(parents=True)
         (self.root / 'a' / '.omp').mkdir()
+        root = self.root.resolve()  # the function reports resolved paths (macOS /private/var, Windows long names)
 
         def inside(found):  # the temp root itself sits under real directories of this machine
-            return [p for p in found if Path(p).is_relative_to(self.root)]
+            return [p for p in found if Path(p).is_relative_to(root)]
         self.assertEqual(inside(ancestor_context(work, home=self.root / 'nohome')), [])
         (self.root / 'a' / 'AGENTS.md').write_text('x')
-        self.assertEqual(inside(ancestor_context(work, home=self.root / 'nohome')), [str(self.root / 'a' / 'AGENTS.md')])
+        self.assertEqual(inside(ancestor_context(work, home=self.root / 'nohome')), [str(root / 'a' / 'AGENTS.md')])
         self.assertEqual(inside(ancestor_context(work, home=self.root / 'a')), [])
 
 

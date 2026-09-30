@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="394" viewBox="0 0 760 394" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">VERDICT: WORSE — OMP-LOW-VERBOSITY LOSES TO OMP-BASELINE</title>
+<desc id="chart-desc">VERDICT: WORSE — OMP-LOW-VERBOSITY LOSES TO OMP-BASELINE. Candidate relative changes; lower is better. Ordered-dither band: ±10% margin. Undefined zero-baseline ratios and missing metrics are unknown. Tokens / correct · total: omp-baseline baseline=66037.16666666667 tokens; omp-low-verbosity candidate=64964.916666666664 tokens; delta=-1.6237068519495468%, −1.6%. Tokens / correct · uncached: omp-baseline baseline=21994.5 tokens; omp-low-verbosity candidate=24538.25 tokens; delta=11.565391347836961%, +11.6%. Cost / correct: omp-baseline baseline=0.09239926666666666 cost; omp-low-verbosity candidate=0.09630050000000001 cost; delta=4.222147506221208%, +4.2%. Median wall: omp-baseline baseline=227.4500511499973 seconds; omp-low-verbosity candidate=215.97037799999816 seconds; delta=-5.047118297822939%, −5.0%. P90 wall: omp-baseline baseline=291.6513236000028 seconds; omp-low-verbosity candidate=313.6578842000017 seconds; delta=7.545503421126498%, +7.5%. omp-baseline: 12/12 correct runs; omp-low-verbosity: 12/12 correct runs. OMP-LOW-VERBOSITY IMPROVES 0/5 KNOWN EFFICIENCY METRICS; WORSENS 1/5 · ±10% MARGIN · SPEND / CORRECT INCLUDES FAILED ATTEMPTS · WALL = MEDIAN / P90 OF KNOWN RUNS · 0 UNKNOWN METRICS</desc>
+<rect width="760" height="394" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="393" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="16" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >VERDICT: WORSE — OMP-LOW-VERBOSITY LOSES TO OMP-BASELINE</text>
+<rect x="346" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="359.80" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-BASELINE (BASELINE)</text>
+<rect x="531" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="544.60" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-LOW-VERBOSITY (CANDIDATE)</text>
+<text x="24.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >DITHER = ±10% MARGIN</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >← LOWER IS BETTER</text>
+<text x="24.00" y="120.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >METRIC</text>
+<text x="580.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >BASE</text>
+<text x="658.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >CAND</text>
+<text x="736.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >Δ</text>
+<defs><pattern id="margin-dither" width="2" height="2" patternUnits="userSpaceOnUse" shape-rendering="crispEdges"><rect width="1" height="1" fill="#757575" fill-opacity=".25"/><rect x="1" y="1" width="1" height="1" fill="#757575" fill-opacity=".25"/></pattern></defs>
+<rect x="286.20" y="132" width="175.59" height="200" fill="url(#margin-dither)" class="margin-band" data-margin="0.1" shape-rendering="crispEdges"/>
+<line x1="242.5" y1="132.5" x2="242.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="242.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="-15.03500875218805">−15.0%</text>
+<line x1="308.5" y1="132.5" x2="308.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="308.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="-7.517504376094025">−7.5%</text>
+<line x1="374.5" y1="132.5" x2="374.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="374.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="0.0">0.0%</text>
+<line x1="440.5" y1="132.5" x2="440.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="440.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="7.517504376094026">+7.5%</text>
+<line x1="506.5" y1="132.5" x2="506.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="506.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="15.03500875218805">+15.0%</text>
+<g class="metric-row" data-metric="tokens_per_correct" data-change="-1.6237068519495468">
+<line x1="24.5" y1="172.5" x2="736.5" y2="172.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="156.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Tokens / correct · total</text>
+<line x1="374.5" y1="152.5" x2="366.5" y2="152.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 369.5 149.5 L 366.5 152.5 L 369.5 155.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="353" y="146" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="355" y="148" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="368.74" y="144.00" font-size="11" text-anchor="start" fill="#a1a1a1" >−1.6%</text>
+<text x="580.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >66.0k</text>
+<text x="658.00" y="156.00" font-size="11" text-anchor="end" fill="#44cfff" >65.0k</text>
+<text x="736.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−1.6%</text>
+</g>
+<g class="metric-row" data-metric="uncached_tokens_per_correct" data-change="11.565391347836961">
+<line x1="24.5" y1="212.5" x2="736.5" y2="212.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="196.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Tokens / correct · uncached</text>
+<line x1="374.5" y1="192.5" x2="468.5" y2="192.5" stroke="#f4644a" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 465.5 189.5 L 468.5 192.5 L 465.5 195.5" fill="none" stroke="#f4644a" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="469" y="186" width="12" height="12" fill="#f4644a" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="471" y="188" width="8" height="8" fill="#f4644a" stroke="#f4644a" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="466.54" y="184.00" font-size="11" text-anchor="end" fill="#f4644a" >+11.6%</text>
+<text x="580.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >22.0k</text>
+<text x="658.00" y="196.00" font-size="11" text-anchor="end" fill="#44cfff" >24.5k</text>
+<text x="736.00" y="196.00" font-size="11" text-anchor="end" fill="#f4644a" >+11.6%</text>
+</g>
+<g class="metric-row" data-metric="cost_per_correct" data-change="4.222147506221208">
+<line x1="24.5" y1="252.5" x2="736.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="236.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Cost / correct</text>
+<line x1="374.5" y1="232.5" x2="404.5" y2="232.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 401.5 229.5 L 404.5 232.5 L 401.5 235.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="405" y="226" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="407" y="228" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="402.07" y="224.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+4.2%</text>
+<text x="580.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >$0.092</text>
+<text x="658.00" y="236.00" font-size="11" text-anchor="end" fill="#44cfff" >$0.096</text>
+<text x="736.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+4.2%</text>
+</g>
+<g class="metric-row" data-metric="median_wall_time_sec" data-change="-5.047118297822939">
+<line x1="24.5" y1="292.5" x2="736.5" y2="292.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="276.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Median wall</text>
+<line x1="374.5" y1="272.5" x2="336.5" y2="272.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 339.5 269.5 L 336.5 272.5 L 339.5 275.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="323" y="266" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="325" y="268" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="338.69" y="264.00" font-size="11" text-anchor="start" fill="#a1a1a1" >−5.0%</text>
+<text x="580.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >227.45s</text>
+<text x="658.00" y="276.00" font-size="11" text-anchor="end" fill="#44cfff" >215.97s</text>
+<text x="736.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−5.0%</text>
+</g>
+<g class="metric-row" data-metric="p90_wall_time_sec" data-change="7.545503421126498">
+<line x1="24.5" y1="332.5" x2="736.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="316.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >P90 wall</text>
+<line x1="374.5" y1="312.5" x2="433.5" y2="312.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 430.5 309.5 L 433.5 312.5 L 430.5 315.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="434" y="306" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="436" y="308" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="431.25" y="304.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+7.5%</text>
+<text x="580.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >291.65s</text>
+<text x="658.00" y="316.00" font-size="11" text-anchor="end" fill="#44cfff" >313.66s</text>
+<text x="736.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+7.5%</text>
+</g>
+<text x="24.00" y="358.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">OMP-LOW-VERBOSITY IMPROVES 0/5 KNOWN EFFICIENCY METRICS; WORSENS 1/5 · ±10% MARGIN · SPEND / CORRECT</text>
+<text x="24.00" y="372.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">INCLUDES FAILED ATTEMPTS · WALL = MEDIAN / P90 OF KNOWN RUNS · 0 UNKNOWN METRICS</text>
+</g>
+</svg>

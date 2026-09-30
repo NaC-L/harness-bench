@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards older additions at both parent and child nodes
+ok 1 - assignment discards older additions at both parent and child nodes
+  ---
+  duration_ms: 1.309
+  type: 'test'
+  ...
+# Subtest: partial maxima use the correct identity for negative values
+ok 2 - partial maxima use the correct identity for negative values
+  ---
+  duration_ms: 0.2288
+  type: 'test'
+  ...
+# Subtest: threshold search propagates pending updates before inspecting children
+ok 3 - threshold search propagates pending updates before inspecting children
+  ---
+  duration_ms: 0.1957
+  type: 'test'
+  ...
+# Subtest: seeded mixed updates and queries agree with a plain array
+ok 4 - seeded mixed updates and queries agree with a plain array
+  ---
+  duration_ms: 20.6447
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and independent arrays
+ok 5 - validation, empty ranges, read-only length, and independent arrays
+  ---
+  duration_ms: 1.0222
+  type: 'test'
+  ...
+# Subtest: tree traversals remain logarithmic, with linear construction and export
+ok 6 - tree traversals remain logarithmic, with linear construction and export
+  ---
+  duration_ms: 6.7083
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6756
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 89.2196

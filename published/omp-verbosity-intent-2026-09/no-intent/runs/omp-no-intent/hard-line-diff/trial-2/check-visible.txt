@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and hunk roundtrips with repeated and empty lines
+ok 1 - exhaustive minimal scripts and hunk roundtrips with repeated and empty lines
+  ---
+  duration_ms: 34.9207
+  type: 'test'
+  ...
+# Subtest: seeded mixed-line roundtrips preserve prefix characters and longer edit paths
+ok 2 - seeded mixed-line roundtrips preserve prefix characters and longer edit paths
+  ---
+  duration_ms: 9.062
+  type: 'test'
+  ...
+# Subtest: zero-length coordinates at the top, middle, and end
+ok 3 - zero-length coordinates at the top, middle, and end
+  ---
+  duration_ms: 0.3498
+  type: 'test'
+  ...
+# Subtest: context touching and overlapping merges without duplicated equal lines
+ok 4 - context touching and overlapping merges without duplicated equal lines
+  ---
+  duration_ms: 0.153
+  type: 'test'
+  ...
+# Subtest: application retains unmentioned lines, checks new offsets, and returns a copy
+ok 5 - application retains unmentioned lines, checks new offsets, and returns a copy
+  ---
+  duration_ms: 0.1116
+  type: 'test'
+  ...
+# Subtest: malformed or nonapplicable hunks identify the failing hunk
+ok 6 - malformed or nonapplicable hunks identify the failing hunk
+  ---
+  duration_ms: 0.6037
+  type: 'test'
+  ...
+# Subtest: 20,000-line small edits, including repetitive inputs, complete under a second
+ok 7 - 20,000-line small edits, including repetitive inputs, complete under a second
+  ---
+  duration_ms: 19.0932
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.2554
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 133.2339

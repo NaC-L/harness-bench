@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions at the node and in overwritten children
+ok 1 - assignment discards additions at the node and in overwritten children
+  ---
+  duration_ms: 1.3794
+  type: 'test'
+  ...
+# Subtest: partial maxima use the identity for negative values
+ok 2 - partial maxima use the identity for negative values
+  ---
+  duration_ms: 0.2055
+  type: 'test'
+  ...
+# Subtest: threshold search sees lazy tags without another query flushing them
+ok 3 - threshold search sees lazy tags without another query flushing them
+  ---
+  duration_ms: 0.1987
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, and array independence are preserved
+ok 4 - API validation, empty ranges, and array independence are preserved
+  ---
+  duration_ms: 1.5106
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array across tree shapes
+ok 5 - mixed updates and queries agree with an array across tree shapes
+  ---
+  duration_ms: 17.5427
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.8422
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 101.6449

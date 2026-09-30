@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: literal syntax, arithmetic precedence, and associativity
+ok 1 - literal syntax, arithmetic precedence, and associativity
+  ---
+  duration_ms: 2.1486
+  type: 'test'
+  ...
+# Subtest: floor division and modulo use divisor signs and positive zeros
+ok 2 - floor division and modulo use divisor signs and positive zeros
+  ---
+  duration_ms: 3.4239
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short circuit, and coerce booleans in numeric contexts
+ok 3 - comparisons chain, short circuit, and coerce booleans in numeric contexts
+  ---
+  duration_ms: 0.2127
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once in left-to-right order
+ok 4 - variables and call arguments are read once in left-to-right order
+  ---
+  duration_ms: 0.7357
+  type: 'test'
+  ...
+# Subtest: all syntax is parsed before evaluation, including skipped comparisons
+ok 5 - all syntax is parsed before evaluation, including skipped comparisons
+  ---
+  duration_ms: 0.4263
+  type: 'test'
+  ...
+# Subtest: errors use actual token UTF-16 columns, including whitespace and EOF
+ok 6 - errors use actual token UTF-16 columns, including whitespace and EOF
+  ---
+  duration_ms: 0.2851
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains remain linear and stack safe
+ok 7 - 100,001-operand arithmetic and comparison chains remain linear and stack safe
+  ---
+  duration_ms: 298.6907
+  type: 'test'
+  ...
+# Subtest: randomized floored division and modulo match Python integers
+ok 8 - randomized floored division and modulo match Python integers
+  ---
+  duration_ms: 42.8897
+  type: 'test'
+  ...
+# Subtest: floored operators return positive zero and handle decimals
+ok 9 - floored operators return positive zero and handle decimals
+  ---
+  duration_ms: 0.461
+  type: 'test'
+  ...
+# Subtest: floored operators combine with power and unary precedence
+ok 10 - floored operators combine with power and unary precedence
+  ---
+  duration_ms: 0.1787
+  type: 'test'
+  ...
+# Subtest: division by zero raises at the operator column
+ok 11 - division by zero raises at the operator column
+  ---
+  duration_ms: 0.4742
+  type: 'test'
+  ...
+# Subtest: syntax errors report the column of the offending token after whitespace
+ok 12 - syntax errors report the column of the offending token after whitespace
+  ---
+  duration_ms: 1.4858
+  type: 'test'
+  ...
+# Subtest: unexpected end of input reports length plus one
+ok 13 - unexpected end of input reports length plus one
+  ---
+  duration_ms: 0.9086
+  type: 'test'
+  ...
+# Subtest: call and variable errors point at the identifier
+ok 14 - call and variable errors point at the identifier
+  ---
+  duration_ms: 0.3893
+  type: 'test'
+  ...
+# Subtest: inherited properties are not variables
+ok 15 - inherited properties are not variables
+  ---
+  duration_ms: 0.1913
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 16 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.7822
+  type: 'test'
+  ...
+# Subtest: power is right-associative
+ok 17 - power is right-associative
+  ---
+  duration_ms: 2.253
+  type: 'test'
+  ...
+# Subtest: unary minus binds looser than power on its left
+ok 18 - unary minus binds looser than power on its left
+  ---
+  duration_ms: 0.3304
+  type: 'test'
+  ...
+# Subtest: power accepts a signed right operand
+ok 19 - power accepts a signed right operand
+  ---
+  duration_ms: 0.1201
+  type: 'test'
+  ...
+# Subtest: comparison operators chain instead of comparing booleans
+ok 20 - comparison operators chain instead of comparing booleans
+  ---
+  duration_ms: 0.161
+  type: 'test'
+  ...
+# Subtest: trap: parenthesized comparisons behave as 0/1 numbers
+ok 21 - trap: parenthesized comparisons behave as 0/1 numbers
+  ---
+  duration_ms: 0.1542
+  type: 'test'
+  ...
+# Subtest: trap: chained comparison reads each shared operand exactly once
+ok 22 - trap: chained comparison reads each shared operand exactly once
+  ---
+  duration_ms: 1.0368
+  type: 'test'
+  ...
+# Subtest: false chained comparison short-circuits the remaining operands
+ok 23 - false chained comparison short-circuits the remaining operands
+  ---
+  duration_ms: 0.346
+  type: 'test'
+  ...
+# Subtest: chain short-circuit happens only after the whole formula parses
+ok 24 - chain short-circuit happens only after the whole formula parses
+  ---
+  duration_ms: 0.5135
+  type: 'test'
+  ...
+# Subtest: randomized chained comparisons match a short-circuit oracle
+ok 25 - randomized chained comparisons match a short-circuit oracle
+  ---
+  duration_ms: 26.3882
+  type: 'test'
+  ...
+# Subtest: trap: basic precedence and left associativity
+ok 26 - trap: basic precedence and left associativity
+  ---
+  duration_ms: 1.876
+  type: 'test'
+  ...
+# Subtest: trap: decimals and exponents
+ok 27 - trap: decimals and exponents
+  ---
+  duration_ms: 0.2927
+  type: 'test'
+  ...
+# Subtest: trap: built-in calls and variables
+ok 28 - trap: built-in calls and variables
+  ---
+  duration_ms: 0.7853
+  type: 'test'
+  ...
+# Subtest: trap: long flat arithmetic stays linear
+ok 29 - trap: long flat arithmetic stays linear
+  ---
+  duration_ms: 233.0492
+  type: 'test'
+  ...
+# Subtest: long comparison chains stay linear and chain correctly
+ok 30 - long comparison chains stay linear and chain correctly
+  ---
+  duration_ms: 285.2961
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 638.8502

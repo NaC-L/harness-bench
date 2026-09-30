@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: numeric version ordering compares every component
+ok 1 - numeric version ordering compares every component
+  ---
+  duration_ms: 2.1723
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects constraints before processing pending names
+ok 2 - FIFO discovery collects constraints before processing pending names
+  ---
+  duration_ms: 0.3555
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first complete assignment
+ok 3 - dependency key order determines the first complete assignment
+  ---
+  duration_ms: 0.1771
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints, queue entries, and selections
+ok 4 - backtracking removes abandoned constraints, queue entries, and selections
+  ---
+  duration_ms: 0.0976
+  type: 'test'
+  ...
+# Subtest: partial discovery rollback retains pre-choice constraints
+ok 5 - partial discovery rollback retains pre-choice constraints
+  ---
+  duration_ms: 0.1347
+  type: 'test'
+  ...
+# Subtest: compatible cycles and repeated discoveries terminate without re-expansion
+ok 6 - compatible cycles and repeated discoveries terminate without re-expansion
+  ---
+  duration_ms: 0.0769
+  type: 'test'
+  ...
+# Subtest: self and mutual cycle conflicts backtrack to compatible versions
+ok 7 - self and mutual cycle conflicts backtrack to compatible versions
+  ---
+  duration_ms: 0.2532
+  type: 'test'
+  ...
+# Subtest: missing packages, empty catalogs, and incompatible constraints are unsatisfiable
+ok 8 - missing packages, empty catalogs, and incompatible constraints are unsatisfiable
+  ---
+  duration_ms: 0.0878
+  type: 'test'
+  ...
+# Subtest: long dependency chains resolve and unwind without recursive stack depth
+ok 9 - long dependency chains resolve and unwind without recursive stack depth
+  ---
+  duration_ms: 119.087
+  type: 'test'
+  ...
+# Subtest: constraints are checked before enumerating combinations of choices
+ok 10 - constraints are checked before enumerating combinations of choices
+  ---
+  duration_ms: 0.9001
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are eagerly validated, even with empty roots
+ok 11 - all maps, versions, and ranges are eagerly validated, even with empty roots
+  ---
+  duration_ms: 0.8484
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate
+ok 12 - only own enumerable string keys participate
+  ---
+  duration_ms: 0.1298
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special package names produce a safe plain result
+ok 13 - null-prototype maps and special package names produce a safe plain result
+  ---
+  duration_ms: 0.0753
+  type: 'test'
+  ...
+# Subtest: resolution does not mutate input maps or leak state between calls
+ok 14 - resolution does not mutate input maps or leak state between calls
+  ---
+  duration_ms: 0.0754
+  type: 'test'
+  ...
+# Subtest: semver parsing and comparison obey canonical safe-integer versions
+ok 15 - semver parsing and comparison obey canonical safe-integer versions
+  ---
+  duration_ms: 0.2875
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges use the specified exclusive upper bounds
+ok 16 - caret and tilde ranges use the specified exclusive upper bounds
+  ---
+  duration_ms: 0.2793
+  type: 'test'
+  ...
+# Subtest: range terms are whitespace-separated AND predicates
+ok 17 - range terms are whitespace-separated AND predicates
+  ---
+  duration_ms: 0.2004
+  type: 'test'
+  ...
+# Subtest: generated small cyclic registries match an independent first-found oracle
+ok 18 - generated small cyclic registries match an independent first-found oracle
+  ---
+  duration_ms: 20.6443
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 19 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3786
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 226.6335

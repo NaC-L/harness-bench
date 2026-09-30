@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: orders every version component numerically
+ok 1 - orders every version component numerically
+  ---
+  duration_ms: 2.5485
+  type: 'test'
+  ...
+# Subtest: backtracking removes rejected dependencies and restores shared constraints
+ok 2 - backtracking removes rejected dependencies and restores shared constraints
+  ---
+  duration_ms: 0.3971
+  type: 'test'
+  ...
+# Subtest: undoes partially discovered dependencies on an immediate selected conflict
+ok 3 - undoes partially discovered dependencies on an immediate selected conflict
+  ---
+  duration_ms: 0.124
+  type: 'test'
+  ...
+# Subtest: FIFO root processing precedes dependency choices, rather than maximizing every version
+ok 4 - FIFO root processing precedes dependency choices, rather than maximizing every version
+  ---
+  duration_ms: 0.1279
+  type: 'test'
+  ...
+# Subtest: dependency discovery collects sibling constraints before processing the next name
+ok 5 - dependency discovery collects sibling constraints before processing the next name
+  ---
+  duration_ms: 0.1017
+  type: 'test'
+  ...
+# Subtest: backtracks to the most recent choice before changing an earlier version
+ok 6 - backtracks to the most recent choice before changing an earlier version
+  ---
+  duration_ms: 0.1133
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected version once and can backtrack
+ok 7 - cycles expand each selected version once and can backtrack
+  ---
+  duration_ms: 0.1155
+  type: 'test'
+  ...
+# Subtest: handles long cyclic chains without recursion or an iteration cutoff
+ok 8 - handles long cyclic chains without recursion or an iteration cutoff
+  ---
+  duration_ms: 65.4618
+  type: 'test'
+  ...
+# Subtest: unwinds a long failed branch without retaining unreachable selections
+ok 9 - unwinds a long failed branch without retaining unreachable selections
+  ---
+  duration_ms: 36.2415
+  type: 'test'
+  ...
+# Subtest: checks discovered constraints before exploring a Cartesian product
+ok 10 - checks discovered constraints before exploring a Cartesian product
+  ---
+  duration_ms: 1.3604
+  type: 'test'
+  ...
+# Subtest: missing packages and contradictory constraints are unsatisfiable
+ok 11 - missing packages and contradictory constraints are unsatisfiable
+  ---
+  duration_ms: 0.4047
+  type: 'test'
+  ...
+# Subtest: eagerly validates maps, versions, and ranges even when unreachable
+ok 12 - eagerly validates maps, versions, and ranges even when unreachable
+  ---
+  duration_ms: 0.7764
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate at every map level
+ok 13 - only own enumerable string keys participate at every map level
+  ---
+  duration_ms: 0.1739
+  type: 'test'
+  ...
+# Subtest: accepts null-prototype maps and preserves special names as own result properties
+ok 14 - accepts null-prototype maps and preserves special names as own result properties
+  ---
+  duration_ms: 0.1629
+  type: 'test'
+  ...
+# Subtest: does not mutate frozen inputs
+ok 15 - does not mutate frozen inputs
+  ---
+  duration_ms: 0.33
+  type: 'test'
+  ...
+# Subtest: matches first-found reference search on seeded branching and cyclic registries
+ok 16 - matches first-found reference search on seeded branching and cyclic registries
+  ---
+  duration_ms: 18.1779
+  type: 'test'
+  ...
+# Subtest: parse accepts exactly three canonical safe integer components
+ok 17 - parse accepts exactly three canonical safe integer components
+  ---
+  duration_ms: 1.4168
+  type: 'test'
+  ...
+# Subtest: compare uses numeric major, minor, and patch order and validates both inputs
+ok 18 - compare uses numeric major, minor, and patch order and validates both inputs
+  ---
+  duration_ms: 0.2034
+  type: 'test'
+  ...
+# Subtest: caret follows the first nonzero component and excludes its upper bound
+ok 19 - caret follows the first nonzero component and excludes its upper bound
+  ---
+  duration_ms: 0.3722
+  type: 'test'
+  ...
+# Subtest: tilde admits patch updates but excludes the next minor
+ok 20 - tilde admits patch updates but excludes the next minor
+  ---
+  duration_ms: 0.168
+  type: 'test'
+  ...
+# Subtest: safe integer boundary versions work in caret and tilde ranges
+ok 21 - safe integer boundary versions work in caret and tilde ranges
+  ---
+  duration_ms: 0.1435
+  type: 'test'
+  ...
+# Subtest: exact, wildcard, and comparison terms are combined with AND
+ok 22 - exact, wildcard, and comparison terms are combined with AND
+  ---
+  duration_ms: 0.2203
+  type: 'test'
+  ...
+# Subtest: malformed ranges are rejected eagerly, including terms after a wildcard
+ok 23 - malformed ranges are rejected eagerly, including terms after a wildcard
+  ---
+  duration_ms: 0.2838
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 24 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4839
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 198.5496

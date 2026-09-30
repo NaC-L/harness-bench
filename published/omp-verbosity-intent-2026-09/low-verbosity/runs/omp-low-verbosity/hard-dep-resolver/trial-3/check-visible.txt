@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: versions sort numerically at every component
+ok 1 - versions sort numerically at every component
+  ---
+  duration_ms: 2.162
+  type: 'test'
+  ...
+# Subtest: caret, tilde and conjunctions obey their numeric bounds
+ok 2 - caret, tilde and conjunctions obey their numeric bounds
+  ---
+  duration_ms: 0.591
+  type: 'test'
+  ...
+# Subtest: semver rejects noncanonical versions and malformed ranges eagerly
+ok 3 - semver rejects noncanonical versions and malformed ranges eagerly
+  ---
+  duration_ms: 0.6127
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated even when unreachable
+ok 4 - all maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.3546
+  type: 'test'
+  ...
+# Subtest: FIFO choices return the first assignment rather than a globally newer one
+ok 5 - FIFO choices return the first assignment rather than a globally newer one
+  ---
+  duration_ms: 0.2497
+  type: 'test'
+  ...
+# Subtest: discovery collects constraints before their FIFO processing
+ok 6 - discovery collects constraints before their FIFO processing
+  ---
+  duration_ms: 0.0856
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies, constraints and selections
+ok 7 - backtracking removes abandoned dependencies, constraints and selections
+  ---
+  duration_ms: 0.138
+  type: 'test'
+  ...
+# Subtest: cycles and shared dependencies expand selected packages only once
+ok 8 - cycles and shared dependencies expand selected packages only once
+  ---
+  duration_ms: 0.6996
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and inputs are not mutated
+ok 9 - only own enumerable string keys participate and inputs are not mutated
+  ---
+  duration_ms: 0.4044
+  type: 'test'
+  ...
+# Subtest: long chains, cycles and deep backtracking use no recursive search stack
+ok 10 - long chains, cycles and deep backtracking use no recursive search stack
+  ---
+  duration_ms: 103.0488
+  type: 'test'
+  ...
+# Subtest: already discovered conflicts prune choices before Cartesian enumeration
+ok 11 - already discovered conflicts prune choices before Cartesian enumeration
+  ---
+  duration_ms: 0.8421
+  type: 'test'
+  ...
+# Subtest: generated cyclic graphs agree with independent FIFO first-found search
+ok 12 - generated cyclic graphs agree with independent FIFO first-found search
+  ---
+  duration_ms: 11.0413
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 13 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4612
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 199.2296

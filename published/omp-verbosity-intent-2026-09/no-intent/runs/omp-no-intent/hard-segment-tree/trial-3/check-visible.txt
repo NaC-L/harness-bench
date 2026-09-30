@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions at both the parent and its children
+ok 1 - assignment discards additions at both the parent and its children
+  ---
+  duration_ms: 1.1928
+  type: 'test'
+  ...
+# Subtest: partial maxima retain negative values
+ok 2 - partial maxima retain negative values
+  ---
+  duration_ms: 0.1744
+  type: 'test'
+  ...
+# Subtest: threshold search propagates lazy tags before descending
+ok 3 - threshold search propagates lazy tags before descending
+  ---
+  duration_ms: 0.1485
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, and independent arrays are preserved
+ok 4 - API validation, empty ranges, and independent arrays are preserved
+  ---
+  duration_ms: 1.3457
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array oracle
+ok 5 - mixed updates and queries agree with an array oracle
+  ---
+  duration_ms: 16.3992
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.8409
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.0471

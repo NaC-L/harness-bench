@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exhaustive repeated/empty lines: minimal, ordered, deterministic, and roundtrippable
+ok 1 - exhaustive repeated/empty lines: minimal, ordered, deterministic, and roundtrippable
+  ---
+  duration_ms: 120.3156
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates at the beginning, middle, and end
+ok 2 - zero-line coordinates at the beginning, middle, and end
+  ---
+  duration_ms: 0.3885
+  type: 'test'
+  ...
+# Subtest: touching context merges, separated context retains complete-file coordinates
+ok 3 - touching context merges, separated context retains complete-file coordinates
+  ---
+  duration_ms: 0.2291
+  type: 'test'
+  ...
+# Subtest: application tracks offsets without modifying original coordinates
+ok 4 - application tracks offsets without modifying original coordinates
+  ---
+  duration_ms: 0.1407
+  type: 'test'
+  ...
+# Subtest: malformed or inapplicable hunks identify their index
+ok 5 - malformed or inapplicable hunks identify their index
+  ---
+  duration_ms: 1.117
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000-line files remain fast, including repetitive lines
+ok 6 - small edits to 20,000-line files remain fast, including repetitive lines
+  ---
+  duration_ms: 17.3895
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.4063
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 216.0063

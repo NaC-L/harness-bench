@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: minimal, deterministic scripts and patch roundtrips for exhaustive repeated lines
+ok 1 - minimal, deterministic scripts and patch roundtrips for exhaustive repeated lines
+  ---
+  duration_ms: 58.2916
+  type: 'test'
+  ...
+# Subtest: seeded varied inputs exercise nontrivial Myers paths and prefixed lines
+ok 2 - seeded varied inputs exercise nontrivial Myers paths and prefixed lines
+  ---
+  duration_ms: 27.8004
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates at the beginning, middle, and end
+ok 3 - zero-line coordinates at the beginning, middle, and end
+  ---
+  duration_ms: 0.7029
+  type: 'test'
+  ...
+# Subtest: context touching and overlapping merges, while larger gaps stay separate
+ok 4 - context touching and overlapping merges, while larger gaps stay separate
+  ---
+  duration_ms: 0.34
+  type: 'test'
+  ...
+# Subtest: multiple hunks use global original coordinates and shifted new coordinates
+ok 5 - multiple hunks use global original coordinates and shifted new coordinates
+  ---
+  duration_ms: 0.4102
+  type: 'test'
+  ...
+# Subtest: malformed or nonapplicable hunks identify the failing index
+ok 6 - malformed or nonapplicable hunks identify the failing index
+  ---
+  duration_ms: 1.293
+  type: 'test'
+  ...
+# Subtest: small edits in 20,000-line files remain comfortably subsecond
+ok 7 - small edits in 20,000-line files remain comfortably subsecond
+  ---
+  duration_ms: 20.5746
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3501
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 194.2741

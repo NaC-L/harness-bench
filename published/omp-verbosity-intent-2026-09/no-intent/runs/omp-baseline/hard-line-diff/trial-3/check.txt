@@ -1,0 +1,119 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs have minimal ordered scripts and patch roundtrips
+ok 1 - exhaustive short repetitive inputs have minimal ordered scripts and patch roundtrips
+  ---
+  duration_ms: 139.5089
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line coordinates at every boundary
+ok 2 - zero-line ranges use preceding line coordinates at every boundary
+  ---
+  duration_ms: 0.3315
+  type: 'test'
+  ...
+# Subtest: context windows merge exactly when they touch, without duplicated context
+ok 3 - context windows merge exactly when they touch, without duplicated context
+  ---
+  duration_ms: 0.265
+  type: 'test'
+  ...
+# Subtest: separate hunks retain original coordinates and cumulative new offsets
+ok 4 - separate hunks retain original coordinates and cumulative new offsets
+  ---
+  duration_ms: 0.1779
+  type: 'test'
+  ...
+# Subtest: malformed or nonapplicable hunks identify the failing index
+ok 5 - malformed or nonapplicable hunks identify the failing index
+  ---
+  duration_ms: 0.6049
+  type: 'test'
+  ...
+# Subtest: small changes in 20,000 unique or repetitive lines are fast and roundtrip
+ok 6 - small changes in 20,000 unique or repetitive lines are fast and roundtrip
+  ---
+  duration_ms: 20.545
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.4257
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 8 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 1.6564
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 9 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.2063
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 10 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.2219
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 11 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 16.1338
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 12 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.2486
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 13 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.731
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 14 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.4299
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 15 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.5147
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 16 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 17.8705
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 17 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.1952
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 18 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 48.8553
+  type: 'test'
+  ...
+# diff=3.574ms hunks=3.532ms total=7.106ms budget=1000ms
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 228.0954

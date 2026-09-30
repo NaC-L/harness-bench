@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards additions on both the assigned node and its descendants
+ok 1 - assignment discards additions on both the assigned node and its descendants
+  ---
+  duration_ms: 1.5987
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as the identity
+ok 2 - partial maxima use negative infinity as the identity
+  ---
+  duration_ms: 0.1122
+  type: 'test'
+  ...
+# Subtest: threshold search pushes assignments and additions before inspecting children
+ok 3 - threshold search pushes assignments and additions before inspecting children
+  ---
+  duration_ms: 0.128
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and independent arrays
+ok 4 - validation, empty ranges, read-only length, and independent arrays
+  ---
+  duration_ms: 1.4598
+  type: 'test'
+  ...
+# Subtest: mixed lazy workloads agree with an array oracle across uneven tree sizes
+ok 5 - mixed lazy workloads agree with an array oracle across uneven tree sizes
+  ---
+  duration_ms: 27.8162
+  type: 'test'
+  ...
+# Subtest: updates and queries visit logarithmically many nodes; materialization is linear
+ok 6 - updates and queries visit logarithmically many nodes; materialization is linear
+  ---
+  duration_ms: 4.6525
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.754
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.2828

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and roundtrips for repeated/empty lines
+ok 1 - exhaustive minimal scripts and roundtrips for repeated/empty lines
+  ---
+  duration_ms: 25.1222
+  type: 'test'
+  ...
+# Subtest: seeded minimal scripts and patch roundtrips with literal prefixes
+ok 2 - seeded minimal scripts and patch roundtrips with literal prefixes
+  ---
+  duration_ms: 10.193
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line coordinates at top and bottom
+ok 3 - zero-line ranges use preceding line coordinates at top and bottom
+  ---
+  duration_ms: 0.2533
+  type: 'test'
+  ...
+# Subtest: context touching merges, while larger gaps produce separate hunks
+ok 4 - context touching merges, while larger gaps produce separate hunks
+  ---
+  duration_ms: 0.1128
+  type: 'test'
+  ...
+# Subtest: multiple hunks use complete-file coordinates and preserve unmentioned lines
+ok 5 - multiple hunks use complete-file coordinates and preserve unmentioned lines
+  ---
+  duration_ms: 0.1321
+  type: 'test'
+  ...
+# Subtest: malformed, mismatching, overlapping and unordered hunks are rejected
+ok 6 - malformed, mismatching, overlapping and unordered hunks are rejected
+  ---
+  duration_ms: 0.6828
+  type: 'test'
+  ...
+# Subtest: invalid context is rejected
+ok 7 - invalid context is rejected
+  ---
+  duration_ms: 0.204
+  type: 'test'
+  ...
+# Subtest: small edits on 20,000 unique and repetitive lines stay below a second
+ok 8 - small edits on 20,000 unique and repetitive lines stay below a second
+  ---
+  duration_ms: 15.731
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3771
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 125.4748

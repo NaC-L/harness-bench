@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards older additions on both parent and child tags
+ok 1 - assignment discards older additions on both parent and child tags
+  ---
+  duration_ms: 1.3447
+  type: 'test'
+  ...
+# Subtest: partial maxima use the identity for negative values
+ok 2 - partial maxima use the identity for negative values
+  ---
+  duration_ms: 0.1417
+  type: 'test'
+  ...
+# Subtest: threshold search propagates updates before examining children
+ok 3 - threshold search propagates updates before examining children
+  ---
+  duration_ms: 0.168
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, and array independence are preserved
+ok 4 - API validation, empty ranges, and array independence are preserved
+  ---
+  duration_ms: 1.5093
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with a seeded array oracle
+ok 5 - mixed updates and queries agree with a seeded array oracle
+  ---
+  duration_ms: 12.5254
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.9367
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 96.9125

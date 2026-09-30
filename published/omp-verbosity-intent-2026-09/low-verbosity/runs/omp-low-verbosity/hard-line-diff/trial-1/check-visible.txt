@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs produce minimal, ordered roundtrips
+ok 1 - exhaustive short repetitive inputs produce minimal, ordered roundtrips
+  ---
+  duration_ms: 21.8883
+  type: 'test'
+  ...
+# Subtest: seeded repetitive inputs preserve empty lines and literal prefixes
+ok 2 - seeded repetitive inputs preserve empty lines and literal prefixes
+  ---
+  duration_ms: 17.2915
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding-line coordinates
+ok 3 - zero-length ranges use preceding-line coordinates
+  ---
+  duration_ms: 0.3052
+  type: 'test'
+  ...
+# Subtest: touching context merges, separated hunks keep full-file coordinates
+ok 4 - touching context merges, separated hunks keep full-file coordinates
+  ---
+  duration_ms: 0.1837
+  type: 'test'
+  ...
+# Subtest: application rejects malformed counts, coordinates, content and ordering
+ok 5 - application rejects malformed counts, coordinates, content and ordering
+  ---
+  duration_ms: 0.6687
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000 lines remain minimal and applicable
+ok 6 - small edits to 20,000 lines remain minimal and applicable
+  ---
+  duration_ms: 12.026
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3067
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 119.5183

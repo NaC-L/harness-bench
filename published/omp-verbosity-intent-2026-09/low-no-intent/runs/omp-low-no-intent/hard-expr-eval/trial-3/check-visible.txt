@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: number literals, precedence and associativity follow the grammar
+ok 1 - number literals, precedence and associativity follow the grammar
+  ---
+  duration_ms: 2.3622
+  type: 'test'
+  ...
+# Subtest: floor division and remainder cover all signs and normalize zero
+ok 2 - floor division and remainder cover all signs and normalize zero
+  ---
+  duration_ms: 2.6994
+  type: 'test'
+  ...
+# Subtest: comparisons chain, share operands, and coerce booleans in arithmetic
+ok 3 - comparisons chain, share operands, and coerce booleans in arithmetic
+  ---
+  duration_ms: 0.1961
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once each, in evaluation order
+ok 4 - variables and call arguments are read once each, in evaluation order
+  ---
+  duration_ms: 0.9774
+  type: 'test'
+  ...
+# Subtest: all syntax is parsed before getters or short-circuiting
+ok 5 - all syntax is parsed before getters or short-circuiting
+  ---
+  duration_ms: 0.7373
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and include UTF-16 offsets
+ok 6 - error columns identify tokens after whitespace and include UTF-16 offsets
+  ---
+  duration_ms: 0.4022
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat chains and calls avoid operand-depth recursion
+ok 7 - 100,001-operand flat chains and calls avoid operand-depth recursion
+  ---
+  duration_ms: 296.5696
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2317
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 391.8189

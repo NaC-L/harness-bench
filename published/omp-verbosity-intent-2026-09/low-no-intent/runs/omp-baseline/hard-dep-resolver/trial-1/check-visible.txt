@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: versions are ordered numerically across all three components
+ok 1 - versions are ordered numerically across all three components
+  ---
+  duration_ms: 2.2605
+  type: 'test'
+  ...
+# Subtest: FIFO first-found selection collects root and dependency constraints immediately
+ok 2 - FIFO first-found selection collects root and dependency constraints immediately
+  ---
+  duration_ms: 0.5491
+  type: 'test'
+  ...
+# Subtest: dependency key order, not catalog order, determines the first solution
+ok 3 - dependency key order, not catalog order, determines the first solution
+  ---
+  duration_ms: 0.1693
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies, constraints, and descendant selections
+ok 4 - backtracking removes abandoned dependencies, constraints, and descendant selections
+  ---
+  duration_ms: 0.0885
+  type: 'test'
+  ...
+# Subtest: an immediate conflict undoes even partially appended dependencies and retries the latest choice
+ok 5 - an immediate conflict undoes even partially appended dependencies and retries the latest choice
+  ---
+  duration_ms: 0.129
+  type: 'test'
+  ...
+# Subtest: cycles and duplicate discoveries select and expand each package only once
+ok 6 - cycles and duplicate discoveries select and expand each package only once
+  ---
+  duration_ms: 0.127
+  type: 'test'
+  ...
+# Subtest: missing packages, empty catalogs, and conflicting requirements are unsatisfiable
+ok 7 - missing packages, empty catalogs, and conflicting requirements are unsatisfiable
+  ---
+  duration_ms: 0.1372
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated, even for unreachable entries and empty roots
+ok 8 - all maps, versions, and ranges are validated, even for unreachable entries and empty roots
+  ---
+  duration_ms: 0.6454
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special names are safe, and inputs are not mutated
+ok 9 - null-prototype maps and special names are safe, and inputs are not mutated
+  ---
+  duration_ms: 0.3938
+  type: 'test'
+  ...
+# Subtest: long cyclic chains use neither recursive stack depth nor an arbitrary iteration limit
+ok 10 - long cyclic chains use neither recursive stack depth nor an arbitrary iteration limit
+  ---
+  duration_ms: 107.3258
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before exploring the remaining Cartesian product
+ok 11 - discovered conflicts are checked before exploring the remaining Cartesian product
+  ---
+  duration_ms: 0.9739
+  type: 'test'
+  ...
+# Subtest: seeded small cyclic registries match the independent first-found reference search
+ok 12 - seeded small cyclic registries match the independent first-found reference search
+  ---
+  duration_ms: 15.3059
+  type: 'test'
+  ...
+# Subtest: parse accepts canonical safe-integer triples only
+ok 13 - parse accepts canonical safe-integer triples only
+  ---
+  duration_ms: 1.3554
+  type: 'test'
+  ...
+# Subtest: compare uses numeric major, minor, then patch precedence
+ok 14 - compare uses numeric major, minor, then patch precedence
+  ---
+  duration_ms: 0.2184
+  type: 'test'
+  ...
+# Subtest: ranges support exact, wildcard, comparison terms, and whitespace-separated intersections
+ok 15 - ranges support exact, wildcard, comparison terms, and whitespace-separated intersections
+  ---
+  duration_ms: 0.9296
+  type: 'test'
+  ...
+# Subtest: caret honors major-zero bounds and tilde always advances the minor
+ok 16 - caret honors major-zero bounds and tilde always advances the minor
+  ---
+  duration_ms: 0.2317
+  type: 'test'
+  ...
+# Subtest: upper bounds work at the maximum safe integer without rejecting valid bases
+ok 17 - upper bounds work at the maximum safe integer without rejecting valid bases
+  ---
+  duration_ms: 0.1338
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected eagerly, including terms after a wildcard or contradiction
+ok 18 - invalid ranges are rejected eagerly, including terms after a wildcard or contradiction
+  ---
+  duration_ms: 0.334
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 19 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5319
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 201.2678

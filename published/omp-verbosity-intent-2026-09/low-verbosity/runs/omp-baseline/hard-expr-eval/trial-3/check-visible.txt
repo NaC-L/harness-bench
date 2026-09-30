@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: floor division and modulo use floor semantics and normalize zero
+ok 1 - floor division and modulo use floor semantics and normalize zero
+  ---
+  duration_ms: 6.5125
+  type: 'test'
+  ...
+# Subtest: powers associate right and unary signs follow the Python grammar
+ok 2 - powers associate right and unary signs follow the Python grammar
+  ---
+  duration_ms: 0.8791
+  type: 'test'
+  ...
+# Subtest: comparison chains compare neighboring operands and coerce booleans numerically
+ok 3 - comparison chains compare neighboring operands and coerce booleans numerically
+  ---
+  duration_ms: 0.2053
+  type: 'test'
+  ...
+# Subtest: getter-backed variables are read once per occurrence, left to right
+ok 4 - getter-backed variables are read once per occurrence, left to right
+  ---
+  duration_ms: 1.2812
+  type: 'test'
+  ...
+# Subtest: only own variable properties are visible
+ok 5 - only own variable properties are visible
+  ---
+  duration_ms: 0.3714
+  type: 'test'
+  ...
+# Subtest: built-ins support full expressions and enforce syntax before evaluation
+ok 6 - built-ins support full expressions and enforce syntax before evaluation
+  ---
+  duration_ms: 0.3059
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and include trailing whitespace at EOF
+ok 7 - error columns identify tokens after whitespace and include trailing whitespace at EOF
+  ---
+  duration_ms: 0.5664
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic, comparison chains, and argument lists stay stack-safe
+ok 8 - long flat arithmetic, comparison chains, and argument lists stay stack-safe
+  ---
+  duration_ms: 265.7737
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2993
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 344.9912

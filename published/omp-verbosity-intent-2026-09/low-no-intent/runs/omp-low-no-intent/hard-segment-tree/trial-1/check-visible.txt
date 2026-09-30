@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards pending additions at parents and children
+ok 1 - assignment discards pending additions at parents and children
+  ---
+  duration_ms: 1.2996
+  type: 'test'
+  ...
+# Subtest: partial maxima retain negative values
+ok 2 - partial maxima retain negative values
+  ---
+  duration_ms: 0.1406
+  type: 'test'
+  ...
+# Subtest: threshold search propagates assignments and additions before descending
+ok 3 - threshold search propagates assignments and additions before descending
+  ---
+  duration_ms: 0.1718
+  type: 'test'
+  ...
+# Subtest: public API validates arguments, preserves empty ranges and copies arrays
+ok 4 - public API validates arguments, preserves empty ranges and copies arrays
+  ---
+  duration_ms: 1.2712
+  type: 'test'
+  ...
+# Subtest: mixed lazy updates and queries agree with a seeded array model
+ok 5 - mixed lazy updates and queries agree with a seeded array model
+  ---
+  duration_ms: 32.8791
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6648
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 100.7074

@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: numeric ordering and zero-major caret ranges select the highest compatible version
+ok 1 - numeric ordering and zero-major caret ranges select the highest compatible version
+  ---
+  duration_ms: 1.5964
+  type: 'test'
+  ...
+# Subtest: FIFO discovery and first-found search take precedence over global newest versions
+ok 2 - FIFO discovery and first-found search take precedence over global newest versions
+  ---
+  duration_ms: 0.9176
+  type: 'test'
+  ...
+# Subtest: backtracking undoes constraints, queued names, and abandoned selections
+ok 3 - backtracking undoes constraints, queued names, and abandoned selections
+  ---
+  duration_ms: 0.2461
+  type: 'test'
+  ...
+# Subtest: cycles expand each selection only once, and inconsistent cycles are unsatisfiable
+ok 4 - cycles expand each selection only once, and inconsistent cycles are unsatisfiable
+  ---
+  duration_ms: 0.1705
+  type: 'test'
+  ...
+# Subtest: long chains and deep backtracking do not depend on recursion or an iteration cap
+ok 5 - long chains and deep backtracking do not depend on recursion or an iteration cap
+  ---
+  duration_ms: 97.6968
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before exploring an unrelated Cartesian product
+ok 6 - discovered conflicts are checked before exploring an unrelated Cartesian product
+  ---
+  duration_ms: 0.7724
+  type: 'test'
+  ...
+# Subtest: missing packages and empty catalogs are unsatisfiable, and unreachable packages are not selected
+ok 7 - missing packages and empty catalogs are unsatisfiable, and unreachable packages are not selected
+  ---
+  duration_ms: 0.548
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated even when unreachable or root is empty
+ok 8 - all maps, versions, and ranges are validated even when unreachable or root is empty
+  ---
+  duration_ms: 0.9026
+  type: 'test'
+  ...
+# Subtest: conflicting unselected constraints prune before unrelated FIFO choices
+ok 9 - conflicting unselected constraints prune before unrelated FIFO choices
+  ---
+  duration_ms: 0.5325
+  type: 'test'
+  ...
+# Subtest: own enumerable string keys, null prototypes, special names, and immutable inputs
+ok 10 - own enumerable string keys, null prototypes, special names, and immutable inputs
+  ---
+  duration_ms: 0.5164
+  type: 'test'
+  ...
+# Subtest: first-found results agree with an independent small-graph reference search
+ok 11 - first-found results agree with an independent small-graph reference search
+  ---
+  duration_ms: 17.0584
+  type: 'test'
+  ...
+# Subtest: versions are canonical safe integer triples and compare numerically
+ok 12 - versions are canonical safe integer triples and compare numerically
+  ---
+  duration_ms: 1.7245
+  type: 'test'
+  ...
+# Subtest: all range operators have inclusive/exclusive boundaries and AND semantics
+ok 13 - all range operators have inclusive/exclusive boundaries and AND semantics
+  ---
+  duration_ms: 2.1312
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected eagerly, including terms after a wildcard
+ok 14 - invalid ranges are rejected eagerly, including terms after a wildcard
+  ---
+  duration_ms: 0.295
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 15 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5759
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 199.6345

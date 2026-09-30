@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: numeric literals, identifiers, grouping and arithmetic precedence
+ok 1 - numeric literals, identifiers, grouping and arithmetic precedence
+  ---
+  duration_ms: 1.8675
+  type: 'test'
+  ...
+# Subtest: floor division and remainder follow divisor sign and normalize zero
+ok 2 - floor division and remainder follow divisor sign and normalize zero
+  ---
+  duration_ms: 3.9323
+  type: 'test'
+  ...
+# Subtest: comparisons chain, use arithmetic precedence and coerce booleans numerically
+ok 3 - comparisons chain, use arithmetic precedence and coerce booleans numerically
+  ---
+  duration_ms: 0.1921
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence in evaluation order
+ok 4 - getters are read once per occurrence in evaluation order
+  ---
+  duration_ms: 0.635
+  type: 'test'
+  ...
+# Subtest: variables use own properties only
+ok 5 - variables use own properties only
+  ---
+  duration_ms: 0.2434
+  type: 'test'
+  ...
+# Subtest: built-ins accept expressions and evaluate boolean arguments as numbers
+ok 6 - built-ins accept expressions and evaluate boolean arguments as numbers
+  ---
+  duration_ms: 0.1068
+  type: 'test'
+  ...
+# Subtest: whole source and call arity are checked before any evaluation
+ok 7 - whole source and call arity are checked before any evaluation
+  ---
+  duration_ms: 0.295
+  type: 'test'
+  ...
+# Subtest: errors point to offending tokens after whitespace, or the full source end
+ok 8 - errors point to offending tokens after whitespace, or the full source end
+  ---
+  duration_ms: 0.3316
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic, comparisons and calls are stack-safe
+ok 9 - 100,001-operand flat arithmetic, comparisons and calls are stack-safe
+  ---
+  duration_ms: 264.4006
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.4316
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 376.4661

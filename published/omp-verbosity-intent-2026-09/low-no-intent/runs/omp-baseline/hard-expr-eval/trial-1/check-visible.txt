@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: arithmetic follows the documented precedence and associativity
+ok 1 - arithmetic follows the documented precedence and associativity
+  ---
+  duration_ms: 1.8189
+  type: 'test'
+  ...
+# Subtest: floor division and remainder follow Python, including floating-point rounding
+ok 2 - floor division and remainder follow Python, including floating-point rounding
+  ---
+  duration_ms: 2.6403
+  type: 'test'
+  ...
+# Subtest: comparisons chain and coerce parenthesized booleans in numeric contexts
+ok 3 - comparisons chain and coerce parenthesized booleans in numeric contexts
+  ---
+  duration_ms: 0.2501
+  type: 'test'
+  ...
+# Subtest: variables and arguments are read once per occurrence, in evaluation order
+ok 4 - variables and arguments are read once per occurrence, in evaluation order
+  ---
+  duration_ms: 0.9441
+  type: 'test'
+  ...
+# Subtest: invalid syntax is rejected before evaluating any part of the formula
+ok 5 - invalid syntax is rejected before evaluating any part of the formula
+  ---
+  duration_ms: 0.3486
+  type: 'test'
+  ...
+# Subtest: error columns point to tokens after whitespace and use UTF-16 offsets
+ok 6 - error columns point to tokens after whitespace and use UTF-16 offsets
+  ---
+  duration_ms: 0.2401
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic, comparisons, and calls remain linear and stack-safe
+ok 7 - long flat arithmetic, comparisons, and calls remain linear and stack-safe
+  ---
+  duration_ms: 246.9165
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3071
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 329.3346

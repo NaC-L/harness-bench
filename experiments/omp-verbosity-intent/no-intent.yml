@@ -1,0 +1,4 @@
+inlineToolDescriptors: "off"
+textVerbosity: "medium"
+tools:
+  intentTracing: false

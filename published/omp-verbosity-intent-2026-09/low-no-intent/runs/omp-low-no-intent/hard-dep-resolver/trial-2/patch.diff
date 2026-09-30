@@ -1,0 +1,318 @@
+diff --git "{temp}\\hb-1732b4b3-oo9kce6s/resolver.contract.test.js" "{temp}\\hb-1732b4b3-oo9kce6s/resolver.contract.test.js"
+new file mode 100644
+index 0000000..2e0430a
+--- /dev/null
++++ "{temp}\\hb-1732b4b3-oo9kce6s/resolver.contract.test.js"
+@@ -0,0 +1,236 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { resolve } = require('./src');
++const { parse, compare, satisfies, compileRange } = require('./src/semver');
++
++test('semver uses numeric components and canonical, safe versions', () => {
++  assert.deepEqual(parse('12.34.56'), [12, 34, 56]);
++  assert.equal(compare('1.10.0', '1.9.99'), 1);
++  assert.equal(compare('10.0.0', '9.99.99'), 1);
++  assert.equal(compare('1.2.10', '1.2.9'), 1);
++  assert.equal(compare('1.2.3', '1.2.3'), 0);
++  assert.equal(compare('0.0.0', '0.0.1'), -1);
++  assert.deepEqual(parse('9007199254740991.0.0'), [Number.MAX_SAFE_INTEGER, 0, 0]);
++  for (const version of [null, 123, '', '1.2', '01.2.3', '1.02.3', '1.2.03',
++    '-1.2.3', '1.2.3-beta', '1.2.3+build', ' 1.2.3', '1.2.3\n', '1.2.3\r',
++    '1.2.3\u2028', '9007199254740992.0.0']) {
++    assert.throws(() => parse(version), TypeError, String(version));
++    assert.throws(() => compare('1.0.0', version), TypeError);
++    assert.throws(() => satisfies(version, '*'), TypeError);
++  }
++});
++
++test('all range operators, AND terms, and zero-major caret boundaries', () => {
++  const cases = [
++    ['1.2.3', '1.2.3', true], ['1.2.4', '1.2.3', false],
++    ['0.0.0', '*', true], ['1.2.3', '>=1.2.3', true],
++    ['1.2.3', '>1.2.3', false], ['1.2.4', '>1.2.3', true],
++    ['1.2.3', '<=1.2.3', true], ['1.2.4', '<=1.2.3', false],
++    ['1.2.2', '<1.2.3', true], ['1.2.3', '<1.2.3', false],
++    ['1.2.3', '^1.2.3', true], ['1.9.0', '^1.2.3', true],
++    ['1.2.2', '^1.2.3', false], ['2.0.0', '^1.2.3', false],
++    ['0.2.3', '^0.2.3', true], ['0.2.9', '^0.2.3', true],
++    ['0.2.2', '^0.2.3', false], ['0.3.0', '^0.2.3', false],
++    ['0.0.3', '^0.0.3', true], ['0.0.2', '^0.0.3', false],
++    ['0.0.4', '^0.0.3', false], ['0.0.0', '^0.0.0', true],
++    ['0.0.1', '^0.0.0', false], ['1.2.9', '~1.2.3', true],
++    ['1.3.0', '~1.2.3', false], ['0.0.9', '~0.0.3', true],
++    ['0.1.0', '~0.0.3', false],
++    ['1.5.0', ' \t>=1.0.0\n<2.0.0 * ', true],
++    ['2.0.0', '>=1.0.0 <2.0.0', false],
++    ['1.0.0', '>2.0.0 <1.0.0', false],
++    ['9007199254740991.0.0', '^9007199254740991.0.0', true],
++    ['0.9007199254740991.0', '^0.9007199254740991.0', true],
++    ['0.0.9007199254740991', '^0.0.9007199254740991', true],
++  ];
++  for (const [version, range, expected] of cases) {
++    assert.equal(satisfies(version, range), expected, `${version} ${range}`);
++    assert.equal(compileRange(range)(parse(version)), expected);
++  }
++  for (const range of [null, 1, '', ' \n ', '^', '~', '>=', '1.2', '=1.2.3',
++    '>= 1.2.3', '1.2.3 || 2.0.0', '1.x', '^01.2.3', '* nonsense']) {
++    assert.throws(() => compileRange(range), TypeError, String(range));
++    assert.throws(() => satisfies('1.2.3', range), TypeError);
++  }
++});
++
++test('resolver orders every version component numerically', () => {
++  const registry = { a: { '9.99.99': {}, '10.0.0': {} },
++    b: { '1.9.99': {}, '1.10.0': {} }, c: { '1.2.9': {}, '1.2.10': {} } };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*', c: '*' }),
++    { a: '10.0.0', b: '1.10.0', c: '1.2.10' });
++  assert.deepEqual(resolve({ a: { '0.2.3': {}, '0.3.0': {} } }, { a: '^0.2.3' }),
++    { a: '0.2.3' });
++});
++
++test('FIFO discovery and first-found selection follow root and dependency key order', () => {
++  const registry = {
++    x: { '2.0.0': { y: '1.0.0' }, '1.0.0': { y: '2.0.0' } },
++    y: { '2.0.0': { x: '1.0.0' }, '1.0.0': { x: '2.0.0' } },
++    parent: { '1.0.0': { y: '*', x: '*' } },
++  };
++  assert.deepEqual(resolve(registry, { x: '*', y: '*' }), { x: '2.0.0', y: '1.0.0' });
++  assert.deepEqual(resolve(registry, { y: '*', x: '*' }), { y: '2.0.0', x: '1.0.0' });
++  assert.deepEqual(resolve(registry, { parent: '*' }),
++    { parent: '1.0.0', y: '2.0.0', x: '1.0.0' });
++});
++
++test('discovery collects constraints before processing later queued requirements', () => {
++  const registry = {
++    a: { '1.0.0': { b: '*', c: '1.0.0' } },
++    b: { '2.0.0': { c: '2.0.0' }, '1.0.0': { c: '1.0.0' } },
++    c: { '2.0.0': {}, '1.0.0': {} },
++  };
++  assert.deepEqual(resolve(registry, { a: '*' }),
++    { a: '1.0.0', b: '1.0.0', c: '1.0.0' });
++  assert.deepEqual(resolve(registry, { b: '*', c: '1.0.0' }),
++    { b: '1.0.0', c: '1.0.0' });
++});
++
++test('backtracking removes failed dependencies, constraints, and downstream selections', () => {
++  const registry = {
++    a: { '2.0.0': { b: '1.0.0', abandoned: '*' }, '1.0.0': { b: '2.0.0' } },
++    b: { '2.0.0': {}, '1.0.0': { leaf: '*' } },
++    leaf: { '1.0.0': {} },
++  };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*' }), { a: '1.0.0', b: '2.0.0' });
++  assert.deepEqual(resolve({ a: { '2.0.0': { a: '1.0.0' }, '1.0.0': {} } },
++    { a: '*' }), { a: '1.0.0' });
++});
++
++test('a discovered selected-package conflict retries the most recent choice', () => {
++  const registry = {
++    a: { '2.0.0': {}, '1.0.0': {} },
++    b: { '2.0.0': { a: '1.0.0' }, '1.0.0': { a: '2.0.0' } },
++  };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*' }), { a: '2.0.0', b: '1.0.0' });
++});
++
++test('cycles terminate, and missing or contradictory reachable packages are unsatisfiable', () => {
++  assert.deepEqual(resolve({ a: { '1.0.0': { a: '*' } } }, { a: '*' }), { a: '1.0.0' });
++  assert.deepEqual(resolve({ a: { '1.0.0': { b: '*' } }, b: { '1.0.0': { a: '*' } } },
++    { a: '*' }), { a: '1.0.0', b: '1.0.0' });
++  assert.equal(resolve({}, { missing: '*' }), null);
++  assert.equal(resolve({ a: {} }, { a: '*' }), null);
++  assert.equal(resolve({ a: { '1.0.0': { a: '>1.0.0' } } }, { a: '*' }), null);
++  assert.equal(resolve({ a: { '1.0.0': { b: '*' } } }, { a: '*' }), null);
++});
++
++test('validation is eager even for empty roots and unreachable entries', () => {
++  const badRegistries = [null, [], new Date(), Object.create({}),
++    { unused: null }, { unused: [] }, { unused: { bad: {} } },
++    { unused: { '1.0.0': null } }, { unused: { '1.0.0': [] } },
++    { unused: { '1.0.0': { bad: '^' } } }];
++  for (const registry of badRegistries) assert.throws(() => resolve(registry, {}), TypeError);
++  for (const root of [null, [], new Date(), Object.create({}), { a: '' }, { a: 1 }]) {
++    assert.throws(() => resolve({}, root), TypeError);
++  }
++  assert.deepEqual(resolve({ unused: { '1.0.0': { missing: '*' } } }, {}), {});
++});
++
++test('only own enumerable string keys participate; special names are safe and inputs untouched', () => {
++  const deps = Object.create(null);
++  deps.constructor = '*';
++  const registry = Object.create(null);
++  registry.__proto__ = Object.freeze({ '1.0.0': Object.freeze(deps) });
++  registry.constructor = Object.freeze({ '1.0.0': Object.freeze({}) });
++  Object.defineProperty(registry, 'hidden', { value: null });
++  registry[Symbol('ignored')] = null;
++  const root = Object.create(null);
++  root.__proto__ = '*';
++  Object.defineProperty(root, 'hidden', { value: 'invalid' });
++  root[Symbol('ignored')] = null;
++  Object.freeze(registry);
++  Object.freeze(root);
++  const result = resolve(registry, root);
++  assert.deepEqual(result, JSON.parse('{"__proto__":"1.0.0","constructor":"1.0.0"}'));
++  assert.equal(Object.getPrototypeOf(result), Object.prototype);
++  assert.equal(registry.__proto__['1.0.0'], deps);
++  assert.equal(root.__proto__, '*');
++});
++
++test('long chains and cyclic tails do not depend on call-stack depth or an iteration limit', () => {
++  const length = 20000;
++  const registry = {};
++  for (let i = 0; i < length; i += 1) {
++    registry[`p${i}`] = { '1.0.0': { [`p${(i + 1) % length}`]: '*' } };
++  }
++  const result = resolve(registry, { p0: '*' });
++  assert.equal(Object.keys(result).length, length);
++  assert.equal(result[`p${length - 1}`], '1.0.0');
++  registry[`p${length - 1}`]['1.0.0'] = { missing: '*' };
++  assert.equal(resolve(registry, { p0: '*' }), null);
++});
++
++test('already discovered conflicts prune choices before enumerating a Cartesian product', () => {
++  const registry = {};
++  const root = {};
++  const expected = {};
++  for (let i = 0; i < 60; i += 1) {
++    const name = `p${i}`;
++    registry[name] = { '2.0.0': { [name]: '1.0.0' }, '1.0.0': {} };
++    root[name] = '*';
++    expected[name] = '1.0.0';
++  }
++  assert.deepEqual(resolve(registry, root), expected);
++});
++
++// A small, deliberately copy-based reference search checks ordering as well as
++// satisfiability. Its recursion is bounded by the tiny generated registries.
++function referenceResolve(registry, root) {
++  function search(selected, constraints, pending) {
++    for (const [name, version] of selected) {
++      if (!constraints.get(name).every(range => satisfies(version, range))) return null;
++    }
++    if (pending.length === 0) return Object.fromEntries(selected);
++    const [name, ...rest] = pending;
++    if (selected.has(name)) return search(selected, constraints, rest);
++    const versions = Object.keys(registry[name] || {}).sort((a, b) => compare(b, a));
++    for (const version of versions) {
++      if (!constraints.get(name).every(range => satisfies(version, range))) continue;
++      const nextSelected = new Map(selected).set(name, version);
++      const nextConstraints = new Map([...constraints].map(([key, ranges]) => [key, [...ranges]]));
++      const nextPending = [...rest];
++      for (const [dependency, range] of Object.entries(registry[name][version])) {
++        if (!nextConstraints.has(dependency)) nextConstraints.set(dependency, []);
++        nextConstraints.get(dependency).push(range);
++        nextPending.push(dependency);
++      }
++      const result = search(nextSelected, nextConstraints, nextPending);
++      if (result !== null) return result;
++    }
++    return null;
++  }
++  return search(new Map(), new Map(Object.entries(root).map(([name, range]) => [name, [range]])),
++    Object.keys(root));
++}
++
++test('generated cyclic registries match an independent first-found reference search', () => {
++  let seed = 1732;
++  function random(limit) {
++    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
++    return seed % limit;
++  }
++  const names = ['a', 'b', 'c', 'd'];
++  const ranges = ['*', '1.0.0', '2.0.0', '>=1.0.0 <2.0.0', '>2.0.0'];
++  for (let sample = 0; sample < 300; sample += 1) {
++    const registry = {};
++    for (const name of names) {
++      registry[name] = {};
++      for (const version of ['1.0.0', '2.0.0', '3.0.0']) {
++        const deps = {};
++        for (let i = 0, count = random(4); i < count; i += 1) {
++          const dependency = [...names, 'missing'][random(5)];
++          deps[dependency] = ranges[random(ranges.length)];
++        }
++        registry[name][version] = deps;
++      }
++    }
++    const root = { [names[random(names.length)]]: '*' };
++    if (random(2)) root[names[random(names.length)]] = ranges[random(ranges.length)];
++    assert.deepEqual(resolve(registry, root), referenceResolve(registry, root),
++      `sample ${sample}: ${JSON.stringify({ registry, root })}`);
++  }
++});
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-1732b4b3-oo9kce6s/src/resolver.js"
+index b445e71..da0743a 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-1732b4b3-oo9kce6s/src/resolver.js"
+@@ -16,9 +16,10 @@ function requirements(record) {
+ }
+ 
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  for (let i = 0; i < 3; i += 1) {
++    if (left.tuple[i] !== right.tuple[i]) return left.tuple[i] < right.tuple[i] ? 1 : -1;
++  }
++  return 0;
+ }
+ 
+ /**
+@@ -87,6 +88,13 @@ function resolve(registry, root) {
+ 
+   function restore(frame) {
+     selected.delete(frame.name);
++    while (trail.length > frame.trailLength) {
++      const name = trail.pop();
++      const list = constraints.get(name);
++      list.pop();
++      if (list.length === 0) constraints.delete(name);
++    }
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
+   }
+ 
+@@ -106,9 +114,7 @@ function resolve(registry, root) {
+   }
+ 
+   append(initial);
+-  let iterations = 0;
+   for (;;) {
+-    if (++iterations > 4096) return null;
+     if (cursor === queue.length) {
+       const result = {};
+       for (const [name, version] of selected) {
+@@ -118,7 +124,8 @@ function resolve(registry, root) {
+     }
+     const name = queue[cursor++];
+     if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
++      const version = selected.get(name);
++      if (!constraints.get(name).every(test => test(version.tuple)) && !retry()) return null;
+       continue;
+     }
+     const tests = constraints.get(name);
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-1732b4b3-oo9kce6s/src/semver.js"
+index 5b1d55d..a638b26 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-1732b4b3-oo9kce6s/src/semver.js"
+@@ -13,7 +13,7 @@
+  * >= the base and < the next minor. Invalid versions/ranges throw TypeError.
+  */
+ function parse(version) {
+-  if (typeof version !== 'string' || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)) {
++  if (typeof version !== 'string' || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?![\s\S])/.test(version)) {
+     throw new TypeError('Invalid version');
+   }
+   const parts = version.split('.').map(Number);
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

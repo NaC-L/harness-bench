@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: numeric version ordering includes all components and safe integer limits
+ok 1 - numeric version ordering includes all components and safe integer limits
+  ---
+  duration_ms: 2.068
+  type: 'test'
+  ...
+# Subtest: semver AND terms, comparisons, caret and tilde boundaries
+ok 2 - semver AND terms, comparisons, caret and tilde boundaries
+  ---
+  duration_ms: 0.4864
+  type: 'test'
+  ...
+# Subtest: malformed versions and ranges always throw TypeError
+ok 3 - malformed versions and ranges always throw TypeError
+  ---
+  duration_ms: 0.5751
+  type: 'test'
+  ...
+# Subtest: FIFO discovery chooses the first solution, not a globally newest tuple
+ok 4 - FIFO discovery chooses the first solution, not a globally newest tuple
+  ---
+  duration_ms: 0.3745
+  type: 'test'
+  ...
+# Subtest: dependencies from earlier discoveries all constrain pending choices
+ok 5 - dependencies from earlier discoveries all constrain pending choices
+  ---
+  duration_ms: 0.1088
+  type: 'test'
+  ...
+# Subtest: backtracking undoes deeper selections, queues and dependency constraints
+ok 6 - backtracking undoes deeper selections, queues and dependency constraints
+  ---
+  duration_ms: 0.0958
+  type: 'test'
+  ...
+# Subtest: immediate conflicts retry the most recent choice and undo partial discovery
+ok 7 - immediate conflicts retry the most recent choice and undo partial discovery
+  ---
+  duration_ms: 0.1044
+  type: 'test'
+  ...
+# Subtest: cycles terminate and conflicting cycles can backtrack
+ok 8 - cycles terminate and conflicting cycles can backtrack
+  ---
+  duration_ms: 0.5322
+  type: 'test'
+  ...
+# Subtest: long chains and their backtracking do not use the recursive call stack
+ok 9 - long chains and their backtracking do not use the recursive call stack
+  ---
+  duration_ms: 106.8557
+  type: 'test'
+  ...
+# Subtest: discovered impossibilities are checked before unrelated Cartesian choices
+ok 10 - discovered impossibilities are checked before unrelated Cartesian choices
+  ---
+  duration_ms: 0.8875
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated even when unreachable
+ok 11 - all maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.4989
+  type: 'test'
+  ...
+# Subtest: own enumerable keys, null prototypes, special names and immutable inputs
+ok 12 - own enumerable keys, null prototypes, special names and immutable inputs
+  ---
+  duration_ms: 0.23
+  type: 'test'
+  ...
+# Subtest: seeded cyclic graphs agree with a copying first-found reference search
+ok 13 - seeded cyclic graphs agree with a copying first-found reference search
+  ---
+  duration_ms: 20.6034
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5593
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 195.949

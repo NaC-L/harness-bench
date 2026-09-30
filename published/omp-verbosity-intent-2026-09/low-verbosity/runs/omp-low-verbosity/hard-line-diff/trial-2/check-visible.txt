@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+ok 1 - exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+  ---
+  duration_ms: 120.4603
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line numbers at both ends
+ok 2 - zero-line ranges use preceding line numbers at both ends
+  ---
+  duration_ms: 0.2474
+  type: 'test'
+  ...
+# Subtest: touching contexts merge and separated contexts do not duplicate lines
+ok 3 - touching contexts merge and separated contexts do not duplicate lines
+  ---
+  duration_ms: 0.0894
+  type: 'test'
+  ...
+# Subtest: patches preserve prefix characters and unmentioned lines with cumulative offsets
+ok 4 - patches preserve prefix characters and unmentioned lines with cumulative offsets
+  ---
+  duration_ms: 0.1221
+  type: 'test'
+  ...
+# Subtest: malformed, mismatching, overlapping and unordered hunks report their index
+ok 5 - malformed, mismatching, overlapping and unordered hunks report their index
+  ---
+  duration_ms: 0.6243
+  type: 'test'
+  ...
+# Subtest: large sparse edits and repeated lines roundtrip
+ok 6 - large sparse edits and repeated lines roundtrip
+  ---
+  duration_ms: 14.2168
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.7516
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 199.285

@@ -1,0 +1,69 @@
+TAP version 13
+# Subtest: power follows Python precedence and right associativity
+ok 1 - power follows Python precedence and right associativity
+  ---
+  duration_ms: 1.7154
+  type: 'test'
+  ...
+# Subtest: floor division and remainder agree for all integer sign combinations
+ok 2 - floor division and remainder agree for all integer sign combinations
+  ---
+  duration_ms: 4.3984
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short-circuit, and coerce booleans numerically
+ok 3 - comparisons chain, short-circuit, and coerce booleans numerically
+  ---
+  duration_ms: 0.327
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence in left-to-right order
+ok 4 - getters are read once per occurrence in left-to-right order
+  ---
+  duration_ms: 0.8565
+  type: 'test'
+  ...
+# Subtest: the complete formula is parsed before evaluating any variable
+ok 5 - the complete formula is parsed before evaluating any variable
+  ---
+  duration_ms: 0.3605
+  type: 'test'
+  ...
+# Subtest: error columns refer to tokens after whitespace and to the full source at EOF
+ok 6 - error columns refer to tokens after whitespace and to the full source at EOF
+  ---
+  duration_ms: 0.6689
+  type: 'test'
+  ...
+# Subtest: numbers, identifiers, and built-in calls retain their contract
+ok 7 - numbers, identifiers, and built-in calls retain their contract
+  ---
+  duration_ms: 0.2378
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparison chains are stack-safe
+ok 8 - 100,001-operand flat arithmetic and comparison chains are stack-safe
+  ---
+  duration_ms: 242.9982
+  type: 'test'
+  ...
+# addition: 73.4 ms
+# multiplication: 43.5 ms
+# comparison: 49.9 ms
+# short-circuit comparison: 28.3 ms
+# call arguments: 42.8 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1652
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 320.6285

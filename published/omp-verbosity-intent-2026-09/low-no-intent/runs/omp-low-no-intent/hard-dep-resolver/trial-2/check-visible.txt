@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: semver uses numeric components and canonical, safe versions
+ok 1 - semver uses numeric components and canonical, safe versions
+  ---
+  duration_ms: 2.0054
+  type: 'test'
+  ...
+# Subtest: all range operators, AND terms, and zero-major caret boundaries
+ok 2 - all range operators, AND terms, and zero-major caret boundaries
+  ---
+  duration_ms: 0.6812
+  type: 'test'
+  ...
+# Subtest: resolver orders every version component numerically
+ok 3 - resolver orders every version component numerically
+  ---
+  duration_ms: 0.3656
+  type: 'test'
+  ...
+# Subtest: FIFO discovery and first-found selection follow root and dependency key order
+ok 4 - FIFO discovery and first-found selection follow root and dependency key order
+  ---
+  duration_ms: 0.2972
+  type: 'test'
+  ...
+# Subtest: discovery collects constraints before processing later queued requirements
+ok 5 - discovery collects constraints before processing later queued requirements
+  ---
+  duration_ms: 0.1636
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed dependencies, constraints, and downstream selections
+ok 6 - backtracking removes failed dependencies, constraints, and downstream selections
+  ---
+  duration_ms: 0.0967
+  type: 'test'
+  ...
+# Subtest: a discovered selected-package conflict retries the most recent choice
+ok 7 - a discovered selected-package conflict retries the most recent choice
+  ---
+  duration_ms: 0.1043
+  type: 'test'
+  ...
+# Subtest: cycles terminate, and missing or contradictory reachable packages are unsatisfiable
+ok 8 - cycles terminate, and missing or contradictory reachable packages are unsatisfiable
+  ---
+  duration_ms: 0.087
+  type: 'test'
+  ...
+# Subtest: validation is eager even for empty roots and unreachable entries
+ok 9 - validation is eager even for empty roots and unreachable entries
+  ---
+  duration_ms: 0.393
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate; special names are safe and inputs untouched
+ok 10 - only own enumerable string keys participate; special names are safe and inputs untouched
+  ---
+  duration_ms: 0.3217
+  type: 'test'
+  ...
+# Subtest: long chains and cyclic tails do not depend on call-stack depth or an iteration limit
+ok 11 - long chains and cyclic tails do not depend on call-stack depth or an iteration limit
+  ---
+  duration_ms: 138.9466
+  type: 'test'
+  ...
+# Subtest: already discovered conflicts prune choices before enumerating a Cartesian product
+ok 12 - already discovered conflicts prune choices before enumerating a Cartesian product
+  ---
+  duration_ms: 0.7393
+  type: 'test'
+  ...
+# Subtest: generated cyclic registries match an independent first-found reference search
+ok 13 - generated cyclic registries match an independent first-found reference search
+  ---
+  duration_ms: 13.8568
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5993
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 230.5338

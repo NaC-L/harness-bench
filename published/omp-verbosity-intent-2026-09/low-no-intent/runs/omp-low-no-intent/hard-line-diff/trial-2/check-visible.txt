@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and patch roundtrips for all short repetitive inputs
+ok 1 - minimal deterministic scripts and patch roundtrips for all short repetitive inputs
+  ---
+  duration_ms: 19.8582
+  type: 'test'
+  ...
+# Subtest: seeded larger repetitive inputs match the minimality oracle and roundtrip
+ok 2 - seeded larger repetitive inputs match the minimality oracle and roundtrip
+  ---
+  duration_ms: 25.2049
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line coordinates at top, middle and end
+ok 3 - zero-length ranges use preceding line coordinates at top, middle and end
+  ---
+  duration_ms: 0.3858
+  type: 'test'
+  ...
+# Subtest: touching context merges, larger gaps split, and coordinates remain global
+ok 4 - touching context merges, larger gaps split, and coordinates remain global
+  ---
+  duration_ms: 0.2726
+  type: 'test'
+  ...
+# Subtest: prefix characters, empty strings and retained original lines apply exactly
+ok 5 - prefix characters, empty strings and retained original lines apply exactly
+  ---
+  duration_ms: 0.2383
+  type: 'test'
+  ...
+# Subtest: malformed, mismatched, overlapping and out-of-order hunks identify their index
+ok 6 - malformed, mismatched, overlapping and out-of-order hunks identify their index
+  ---
+  duration_ms: 0.5702
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000-line files stay fast and roundtrip
+ok 7 - small edits to 20,000-line files stay fast and roundtrip
+  ---
+  duration_ms: 12.4661
+  type: 'test'
+  ...
+# unique 20,000-line roundtrip and identical diff: 4.8 ms
+# repetitive 20,000-line roundtrip and identical diff: 4.6 ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3976
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 122.0159

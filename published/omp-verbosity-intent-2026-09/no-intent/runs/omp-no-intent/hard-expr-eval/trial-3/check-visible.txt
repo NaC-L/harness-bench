@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: literals, grouping, precedence and associativity follow the grammar
+ok 1 - literals, grouping, precedence and associativity follow the grammar
+  ---
+  duration_ms: 1.9833
+  type: 'test'
+  ...
+# Subtest: division and modulo use floor semantics and positive zero
+ok 2 - division and modulo use floor semantics and positive zero
+  ---
+  duration_ms: 2.6826
+  type: 'test'
+  ...
+# Subtest: comparison chains share operands, short-circuit and coerce booleans numerically
+ok 3 - comparison chains share operands, short-circuit and coerce booleans numerically
+  ---
+  duration_ms: 0.7851
+  type: 'test'
+  ...
+# Subtest: variables use only own properties without mutation
+ok 4 - variables use only own properties without mutation
+  ---
+  duration_ms: 0.3638
+  type: 'test'
+  ...
+# Subtest: syntax errors are detected before variable evaluation
+ok 5 - syntax errors are detected before variable evaluation
+  ---
+  duration_ms: 0.3227
+  type: 'test'
+  ...
+# Subtest: error columns point at tokens after whitespace and include trailing whitespace at EOF
+ok 6 - error columns point at tokens after whitespace and include trailing whitespace at EOF
+  ---
+  duration_ms: 0.4162
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat chains evaluate without recursive stack growth
+ok 7 - 100,001-operand flat chains evaluate without recursive stack growth
+  ---
+  duration_ms: 348.7664
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.241
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 441.4793

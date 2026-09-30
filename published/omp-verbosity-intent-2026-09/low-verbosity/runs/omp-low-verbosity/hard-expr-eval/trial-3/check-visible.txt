@@ -1,0 +1,71 @@
+TAP version 13
+# Subtest: literal formats, precedence and left-associative arithmetic
+ok 1 - literal formats, precedence and left-associative arithmetic
+  ---
+  duration_ms: 1.8416
+  type: 'test'
+  ...
+# Subtest: power is right-associative and binds above a sign on its left
+ok 2 - power is right-associative and binds above a sign on its left
+  ---
+  duration_ms: 0.1892
+  type: 'test'
+  ...
+# Subtest: floor division and remainder follow divisor signs and normalize zero
+ok 3 - floor division and remainder follow divisor signs and normalize zero
+  ---
+  duration_ms: 3.029
+  type: 'test'
+  ...
+# Subtest: comparisons chain shared operands, not intermediate booleans
+ok 4 - comparisons chain shared operands, not intermediate booleans
+  ---
+  duration_ms: 0.5401
+  type: 'test'
+  ...
+# Subtest: variables and arguments are read once per occurrence in evaluation order
+ok 5 - variables and arguments are read once per occurrence in evaluation order
+  ---
+  duration_ms: 0.9339
+  type: 'test'
+  ...
+# Subtest: false chains short-circuit evaluation but not parsing
+ok 6 - false chains short-circuit evaluation but not parsing
+  ---
+  duration_ms: 0.1707
+  type: 'test'
+  ...
+# Subtest: calls enforce names and arity before any evaluation
+ok 7 - calls enforce names and arity before any evaluation
+  ---
+  duration_ms: 0.2724
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and use UTF-16 offsets
+ok 8 - error columns identify tokens after whitespace and use UTF-16 offsets
+  ---
+  duration_ms: 0.2377
+  type: 'test'
+  ...
+# Subtest: long flat formulas evaluate without recursive traversal or quadratic work
+ok 9 - long flat formulas evaluate without recursive traversal or quadratic work
+  ---
+  duration_ms: 218.6774
+  type: 'test'
+  ...
+# Four 100001-operand formulas: 218.0 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2004
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 299.809

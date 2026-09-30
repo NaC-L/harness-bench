@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: literal syntax, arithmetic precedence and associativity
+ok 1 - literal syntax, arithmetic precedence and associativity
+  ---
+  duration_ms: 1.8083
+  type: 'test'
+  ...
+# Subtest: floor division, divisor-signed modulo and positive zero
+ok 2 - floor division, divisor-signed modulo and positive zero
+  ---
+  duration_ms: 4.2988
+  type: 'test'
+  ...
+# Subtest: comparisons chain and boolean operands act as numbers
+ok 3 - comparisons chain and boolean operands act as numbers
+  ---
+  duration_ms: 0.3912
+  type: 'test'
+  ...
+# Subtest: getters run once per occurrence, left to right, with short-circuiting
+ok 4 - getters run once per occurrence, left to right, with short-circuiting
+  ---
+  duration_ms: 2.5168
+  type: 'test'
+  ...
+# Subtest: errors point to tokens after whitespace and EOF includes trailing whitespace
+ok 5 - errors point to tokens after whitespace and EOF includes trailing whitespace
+  ---
+  duration_ms: 0.5345
+  type: 'test'
+  ...
+# Subtest: parse the whole formula and validate calls before reading any variables
+ok 6 - parse the whole formula and validate calls before reading any variables
+  ---
+  duration_ms: 0.1642
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic, comparison and call argument chains avoid recursion
+ok 7 - long flat arithmetic, comparison and call argument chains avoid recursion
+  ---
+  duration_ms: 279.5991
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2065
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 366.6587

@@ -1,0 +1,131 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and roundtrips for repeated/empty lines
+ok 1 - exhaustive minimal scripts and roundtrips for repeated/empty lines
+  ---
+  duration_ms: 29.1425
+  type: 'test'
+  ...
+# Subtest: seeded minimal scripts and patch roundtrips with literal prefixes
+ok 2 - seeded minimal scripts and patch roundtrips with literal prefixes
+  ---
+  duration_ms: 10.2779
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line coordinates at top and bottom
+ok 3 - zero-line ranges use preceding line coordinates at top and bottom
+  ---
+  duration_ms: 0.212
+  type: 'test'
+  ...
+# Subtest: context touching merges, while larger gaps produce separate hunks
+ok 4 - context touching merges, while larger gaps produce separate hunks
+  ---
+  duration_ms: 0.1102
+  type: 'test'
+  ...
+# Subtest: multiple hunks use complete-file coordinates and preserve unmentioned lines
+ok 5 - multiple hunks use complete-file coordinates and preserve unmentioned lines
+  ---
+  duration_ms: 0.1271
+  type: 'test'
+  ...
+# Subtest: malformed, mismatching, overlapping and unordered hunks are rejected
+ok 6 - malformed, mismatching, overlapping and unordered hunks are rejected
+  ---
+  duration_ms: 0.9733
+  type: 'test'
+  ...
+# Subtest: invalid context is rejected
+ok 7 - invalid context is rejected
+  ---
+  duration_ms: 0.1845
+  type: 'test'
+  ...
+# Subtest: small edits on 20,000 unique and repetitive lines stay below a second
+ok 8 - small edits on 20,000 unique and repetitive lines stay below a second
+  ---
+  duration_ms: 16.4523
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.6276
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 10 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 1.7094
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 11 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 0.6804
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 12 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.1776
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 13 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 16.1328
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 14 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.2331
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 15 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.985
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 16 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.3436
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 17 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.339
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 18 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 17.459
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 19 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.3163
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 20 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 51.4507
+  type: 'test'
+  ...
+# diff=3.611ms hunks=4.300ms total=7.911ms budget=1000ms
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 135.3254

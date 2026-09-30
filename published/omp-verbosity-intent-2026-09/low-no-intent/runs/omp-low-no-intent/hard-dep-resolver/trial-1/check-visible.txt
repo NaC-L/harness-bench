@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: version ordering is numeric in every component
+ok 1 - version ordering is numeric in every component
+  ---
+  duration_ms: 2.0429
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints, dependencies, and selections
+ok 2 - backtracking removes abandoned constraints, dependencies, and selections
+  ---
+  duration_ms: 0.3853
+  type: 'test'
+  ...
+# Subtest: a conflict retries the most recent choice, not the constrained package
+ok 3 - a conflict retries the most recent choice, not the constrained package
+  ---
+  duration_ms: 0.1731
+  type: 'test'
+  ...
+# Subtest: a late cyclic conflict removes already selected descendants from the abandoned branch
+ok 4 - a late cyclic conflict removes already selected descendants from the abandoned branch
+  ---
+  duration_ms: 0.1373
+  type: 'test'
+  ...
+# Subtest: all discovered constraints apply before processing a queued name
+ok 5 - all discovered constraints apply before processing a queued name
+  ---
+  duration_ms: 0.0933
+  type: 'test'
+  ...
+# Subtest: dependency key order controls the first complete assignment
+ok 6 - dependency key order controls the first complete assignment
+  ---
+  duration_ms: 0.155
+  type: 'test'
+  ...
+# Subtest: self cycles and mutual cycles expand selected dependencies only once
+ok 7 - self cycles and mutual cycles expand selected dependencies only once
+  ---
+  duration_ms: 0.1197
+  type: 'test'
+  ...
+# Subtest: deep chains, cycles, and full-depth backtracking use no recursive stack or iteration cap
+ok 8 - deep chains, cycles, and full-depth backtracking use no recursive stack or iteration cap
+  ---
+  duration_ms: 95.8213
+  type: 'test'
+  ...
+# Subtest: discovered impossible constraints prune before unrelated choices form a product
+ok 9 - discovered impossible constraints prune before unrelated choices form a product
+  ---
+  duration_ms: 0.554
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible constraints are unsatisfiable, not malformed
+ok 10 - missing packages and incompatible constraints are unsatisfiable, not malformed
+  ---
+  duration_ms: 0.396
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated, even when unreachable or root is empty
+ok 11 - all maps, versions, and ranges are validated, even when unreachable or root is empty
+  ---
+  duration_ms: 0.7126
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate; special names are ordinary packages
+ok 12 - only own enumerable string keys participate; special names are ordinary packages
+  ---
+  duration_ms: 0.1435
+  type: 'test'
+  ...
+# Subtest: frozen inputs remain untouched across repeated calls and backtracking
+ok 13 - frozen inputs remain untouched across repeated calls and backtracking
+  ---
+  duration_ms: 0.1389
+  type: 'test'
+  ...
+# Subtest: semver helpers reject noncanonical versions and malformed ranges
+ok 14 - semver helpers reject noncanonical versions and malformed ranges
+  ---
+  duration_ms: 0.5249
+  type: 'test'
+  ...
+# Subtest: caret, tilde, comparisons, wildcards, and AND terms obey boundary rules
+ok 15 - caret, tilde, comparisons, wildcards, and AND terms obey boundary rules
+  ---
+  duration_ms: 0.2745
+  type: 'test'
+  ...
+# Subtest: first-found results match an independent FIFO oracle on generated cyclic graphs
+ok 16 - first-found results match an independent FIFO oracle on generated cyclic graphs
+  ---
+  duration_ms: 19.4353
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 17 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5794
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 197.5895

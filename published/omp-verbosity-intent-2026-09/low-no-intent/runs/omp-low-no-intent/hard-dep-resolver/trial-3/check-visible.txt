@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: numeric candidate order compares all three components
+ok 1 - numeric candidate order compares all three components
+  ---
+  duration_ms: 1.9076
+  type: 'test'
+  ...
+# Subtest: caret and tilde bounds, exact versions and AND terms
+ok 2 - caret and tilde bounds, exact versions and AND terms
+  ---
+  duration_ms: 0.4626
+  type: 'test'
+  ...
+# Subtest: canonical versions and ranges are validated strictly
+ok 3 - canonical versions and ranges are validated strictly
+  ---
+  duration_ms: 0.4204
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed dependencies, constraints and selections
+ok 4 - backtracking removes failed dependencies, constraints and selections
+  ---
+  duration_ms: 0.2752
+  type: 'test'
+  ...
+# Subtest: first complete assignment follows FIFO roots and dependency discovery
+ok 5 - first complete assignment follows FIFO roots and dependency discovery
+  ---
+  duration_ms: 0.2164
+  type: 'test'
+  ...
+# Subtest: cycles expand once and self-conflicts retry the current choice
+ok 6 - cycles expand once and self-conflicts retry the current choice
+  ---
+  duration_ms: 0.0938
+  type: 'test'
+  ...
+# Subtest: validation includes unreachable entries and empty roots
+ok 7 - validation includes unreachable entries and empty roots
+  ---
+  duration_ms: 0.2095
+  type: 'test'
+  ...
+# Subtest: own enumerable keys, null prototypes, special names and immutable inputs
+ok 8 - own enumerable keys, null prototypes, special names and immutable inputs
+  ---
+  duration_ms: 0.1292
+  type: 'test'
+  ...
+# Subtest: long dependency chains and large cycles do not use the call stack
+ok 9 - long dependency chains and large cycles do not use the call stack
+  ---
+  duration_ms: 135.0375
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before exploring the Cartesian product
+ok 10 - discovered conflicts are checked before exploring the Cartesian product
+  ---
+  duration_ms: 0.7829
+  type: 'test'
+  ...
+# Subtest: generated cyclic registries match the first-found reference search
+ok 11 - generated cyclic registries match the first-found reference search
+  ---
+  duration_ms: 9.4691
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 12 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4557
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 218.9685

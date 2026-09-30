@@ -19,8 +19,13 @@ Each row compares a **baseline** arm with a **candidate** arm on the same tasks 
 | **Where OMP puts tool descriptions:** native tool schemas (`omp-baseline`) → descriptions inlined in the system prompt (`omp-inline`). GPT-6.1 Sol high, isolated state, 6 tasks × 4 trials. [Report](published/omp-inline-descriptors-isolated-2026-09/REPORT.md) | **Inline descriptions** (`omp-inline`) | 35% fewer total tokens and 16% fewer uncached tokens per correct solution; median time 17% faster; 24/24 passed in both arms | Yes for efficiency. Correctness is at ceiling (both arms pass every run), so it cannot show a correctness difference. The "safer" part rests on one baseline run that skipped its final test |
 | **Same question, early pilot:** 3 tasks × 1 trial. [Report](published/omp-inline-descriptors-pilot-2026-09/REPORT.md) | **None** (inconclusive) | Too few trials to decide | No: superseded by the row above; ran with the operator's personal OMP state |
 | **Pi vs OMP**, both GPT-6.1 Sol high: `omp-sol` → `pi-sol`. 3 tasks × 3 trials. [Report](published/pi-vs-omp-sol-2026-09/REPORT.md) | **Pi** (`pi-sol`) | 56% fewer total tokens per correct solution; median time 12% faster; 9/9 passed in both arms | Partly: ran with the operator's personal state, and the two are different harnesses and versions |
+| **OMP verbosity:** medium → low, intent tracing on. GPT-6.1 Sol high, isolated state, 4 hard tasks × 3 trials. [Graphs/report](published/omp-verbosity-intent-2026-09/low-verbosity/REPORT.md) | **Baseline** | Candidate uses 11.6% more uncached tokens per correct solution; 12/12 passed in each arm | Descriptive; four concurrent workers, cache/load uncontrolled; correctness at ceiling |
+| **OMP tool-intent tracing:** on → off, medium verbosity. [Graphs/report](published/omp-verbosity-intent-2026-09/no-intent/REPORT.md) | **Baseline** | Candidate uses 12.5% more uncached tokens per correct solution; p90 time 11.8% higher | Same matched-model hard-task grid and parallel limitations |
+| **OMP combined settings:** medium/on → low/off. [Graphs/report](published/omp-verbosity-intent-2026-09/low-no-intent/REPORT.md) | **Baseline** | Candidate p90 time 11.7% higher despite a lower median; token changes within the 10% band | Same grid; all 48 runs passed. [Overview and portable data](published/omp-verbosity-intent-2026-09/README.md) |
 
 ![Where OMP puts tool descriptions: inline beats native schemas on every efficiency metric](published/omp-inline-descriptors-isolated-2026-09/charts/summary.svg)
+
+![OMP combined settings: lower median time but worse p90 time than baseline](published/omp-verbosity-intent-2026-09/low-no-intent/charts/summary.svg)
 
 Every `REPORT.md` opens with the same kind of sentence, for example: *"Winner: omp-inline (candidate). Compared with omp-baseline (baseline) it uses fewer tokens, runs faster and is safer; correctness is the same."*
 
@@ -59,6 +64,8 @@ Worked example: [benchmark-omp-descriptors.toml](benchmark-omp-descriptors.toml)
 
 The benchmark's global `--config` selects the TOML arm definitions; the OMP `--config` **inside each arm's argv** selects a run-local YAML overlay. An overlay alone does not isolate a run: OMP still reads the operator's `~/.omp/agent` (global `AGENTS.md`, settings, `models.yml`, MCP servers, memories). That is why both arms also set `state_template` and `env_commands`, described below.
 
+New settings experiment: [benchmark-omp-verbosity-intent.toml](benchmark-omp-verbosity-intent.toml) compares the isolated baseline with low response verbosity, disabled tool-intent tracing, and both together. The [2x2 protocol and commands](experiments/omp-verbosity-intent/PLAN.md) pin four hard tasks × four arms × three trials (48 measured runs), with a separate preflight. The four-worker grid passed 48/48; the existing comparison rule favors baseline in all three comparisons. [Graphs, interpretation and portable data](published/omp-verbosity-intent-2026-09/README.md). Correctness remains at ceiling; parallel latency includes shared provider load.
+
 ### Isolating harness state
 
 Without isolation, a result measures the harness **plus the operator's personal setup**. A canary check confirmed this for OMP: a non-isolated run quoted the operator's global `AGENTS.md` back, tried to connect to the operator's MCP servers, and sent about 970 more input tokens on its first request.
@@ -76,6 +83,15 @@ python -m bench --config benchmark-omp-descriptors.toml --results results/descri
 ```
 
 Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; the example uses 12 for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
+
+### Faster future experiments: screen, then confirm
+
+Use one runner with `--jobs 8` (eight concurrent runs total, not eight per arm). It already isolates each workspace/state and writes one manifest/index; no manual worker merge is needed. Keep model, thinking effort, task IDs and concurrency identical across arms. This is a throughput schedule, not an isolated-latency comparison; do not use `--alternate-order`.
+
+For four arms and four hard tasks, screen with one trial per cell (16 runs), then run a fresh confirmation grid with three trials (48 runs). Screening is exploratory: report every arm and do not lower `compare`'s three-trial minimum to announce a winner. Before confirmation, freeze the candidate set and acceptance criteria. If dropping candidates, include the baseline and disclose the screening selection; never pool screening rows with confirmation. New configurations still require a separate passing preflight with token metrics.
+
+Runnable four-arm commands are in the [settings experiment's future workflow](experiments/omp-verbosity-intent/PLAN.md#future-eight-worker-workflow). Use fresh result roots for every experiment. If rate limits make eight workers unreliable, diagnose and choose a lower fixed concurrency for a new run rather than changing an active grid or selectively retrying cells. Eight workers reduce potential elapsed time, not the model usage of the same grid; actual speedup is unmeasured.
+
 
 Command placeholders (from the `harnesses.toml` header):
 

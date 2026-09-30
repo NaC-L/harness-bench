@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+ok 1 - exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+  ---
+  duration_ms: 171.3282
+  type: 'test'
+  ...
+# Subtest: zero-length coordinates use the preceding line at top, middle and end
+ok 2 - zero-length coordinates use the preceding line at top, middle and end
+  ---
+  duration_ms: 0.3247
+  type: 'test'
+  ...
+# Subtest: touching context merges; larger gaps produce globally positioned hunks
+ok 3 - touching context merges; larger gaps produce globally positioned hunks
+  ---
+  duration_ms: 0.4298
+  type: 'test'
+  ...
+# Subtest: application retains gaps and respects offsets from earlier changes
+ok 4 - application retains gaps and respects offsets from earlier changes
+  ---
+  duration_ms: 0.165
+  type: 'test'
+  ...
+# Subtest: malformed or nonapplicable hunks identify the offending index
+ok 5 - malformed or nonapplicable hunks identify the offending index
+  ---
+  duration_ms: 0.4665
+  type: 'test'
+  ...
+# Subtest: small changes in 20,000-line files, including repetitive lines
+ok 6 - small changes in 20,000-line files, including repetitive lines
+  ---
+  duration_ms: 16.9789
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 2.1162
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 292.9902

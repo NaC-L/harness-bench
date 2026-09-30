@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 2.0885
+  type: 'test'
+  ...
+# Subtest: semver ranges implement exact, AND, comparison, caret and tilde bounds
+ok 2 - semver ranges implement exact, AND, comparison, caret and tilde bounds
+  ---
+  duration_ms: 0.4715
+  type: 'test'
+  ...
+# Subtest: semver rejects noncanonical versions and malformed ranges
+ok 3 - semver rejects noncanonical versions and malformed ranges
+  ---
+  duration_ms: 0.6754
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints, discoveries and transitive choices
+ok 4 - backtracking removes abandoned constraints, discoveries and transitive choices
+  ---
+  duration_ms: 0.3445
+  type: 'test'
+  ...
+# Subtest: conflicts unwind multiple choices, including immediately rejected versions
+ok 5 - conflicts unwind multiple choices, including immediately rejected versions
+  ---
+  duration_ms: 0.107
+  type: 'test'
+  ...
+# Subtest: the first solution follows FIFO discovery, not global version maximization
+ok 6 - the first solution follows FIFO discovery, not global version maximization
+  ---
+  duration_ms: 0.1719
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package only once and still check every constraint
+ok 7 - cycles expand each selected package only once and still check every constraint
+  ---
+  duration_ms: 0.0877
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated even when unreachable
+ok 8 - all maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.7414
+  type: 'test'
+  ...
+# Subtest: own enumerable keys, null prototypes, special names and immutable inputs
+ok 9 - own enumerable keys, null prototypes, special names and immutable inputs
+  ---
+  duration_ms: 0.3468
+  type: 'test'
+  ...
+# Subtest: long dependency chains and deep failure unwind without recursion or a search cutoff
+ok 10 - long dependency chains and deep failure unwind without recursion or a search cutoff
+  ---
+  duration_ms: 147.8141
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are pruned before exploring a Cartesian product
+ok 11 - discovered conflicts are pruned before exploring a Cartesian product
+  ---
+  duration_ms: 1.3342
+  type: 'test'
+  ...
+# Subtest: first-found results match an immutable oracle over generated cyclic graphs
+ok 12 - first-found results match an immutable oracle over generated cyclic graphs
+  ---
+  duration_ms: 45.0756
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 13 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.6248
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 277.9317

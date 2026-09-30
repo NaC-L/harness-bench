@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+ok 1 - minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+  ---
+  duration_ms: 38.7406
+  type: 'test'
+  ...
+# Subtest: mixed prefixes, empty lines, and seeded larger repetitive inputs
+ok 2 - mixed prefixes, empty lines, and seeded larger repetitive inputs
+  ---
+  duration_ms: 37.2328
+  type: 'test'
+  ...
+# Subtest: zero-length ranges name preceding lines in complete-file coordinates
+ok 3 - zero-length ranges name preceding lines in complete-file coordinates
+  ---
+  duration_ms: 0.4154
+  type: 'test'
+  ...
+# Subtest: context windows merge at exactly twice context, without duplication
+ok 4 - context windows merge at exactly twice context, without duplication
+  ---
+  duration_ms: 0.1963
+  type: 'test'
+  ...
+# Subtest: application retains omitted lines and does not mutate inputs or hunks
+ok 5 - application retains omitted lines and does not mutate inputs or hunks
+  ---
+  duration_ms: 0.24
+  type: 'test'
+  ...
+# Subtest: malformed, mismatched, overlapping, and misordered hunks are rejected
+ok 6 - malformed, mismatched, overlapping, and misordered hunks are rejected
+  ---
+  duration_ms: 0.7831
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000-line files remain fast
+ok 7 - small changes to 20,000-line files remain fast
+  ---
+  duration_ms: 24.0169
+  type: 'test'
+  ...
+# distinct lines: 11.3ms
+# repetitive lines: 8.1ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.5986
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 224.1245

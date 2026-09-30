@@ -1,0 +1,31 @@
+# 2x2 OMP response verbosity / tool-intent experiment.
+# Protocol: experiments/omp-verbosity-intent/PLAN.md.
+# Commands differ only in overlay path; baseline retains native tool descriptors.
+
+[harnesses.omp-baseline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-low-verbosity]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/low-verbosity.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-no-intent]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/no-intent.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-low-no-intent]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/low-no-intent.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }

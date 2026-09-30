@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+ok 1 - minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+  ---
+  duration_ms: 31.3193
+  type: 'test'
+  ...
+# Subtest: seeded random repetitive inputs agree with the independent minimality oracle
+ok 2 - seeded random repetitive inputs agree with the independent minimality oracle
+  ---
+  duration_ms: 20.6815
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates use the preceding line at both boundaries
+ok 3 - zero-line coordinates use the preceding line at both boundaries
+  ---
+  duration_ms: 0.3508
+  type: 'test'
+  ...
+# Subtest: context merges touching ranges without duplication, but not separated ranges
+ok 4 - context merges touching ranges without duplication, but not separated ranges
+  ---
+  duration_ms: 0.2152
+  type: 'test'
+  ...
+# Subtest: default context, prefix characters, empty lines, and input immutability
+ok 5 - default context, prefix characters, empty lines, and input immutability
+  ---
+  duration_ms: 0.3882
+  type: 'test'
+  ...
+# Subtest: application validates original coordinates, cumulative new coordinates and counts
+ok 6 - application validates original coordinates, cumulative new coordinates and counts
+  ---
+  duration_ms: 0.4363
+  type: 'test'
+  ...
+# Subtest: multiple pure insertions and deletions track offsets in original coordinates
+ok 7 - multiple pure insertions and deletions track offsets in original coordinates
+  ---
+  duration_ms: 0.136
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000 lines complete well under a second, including repetitive lines
+ok 8 - small edits to 20,000 lines complete well under a second, including repetitive lines
+  ---
+  duration_ms: 16.9391
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.5157
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 146.9414

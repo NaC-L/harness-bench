@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: Python power precedence and arithmetic associativity
+ok 1 - Python power precedence and arithmetic associativity
+  ---
+  duration_ms: 1.6024
+  type: 'test'
+  ...
+# Subtest: floor division and modulo signs, identities and positive zero
+ok 2 - floor division and modulo signs, identities and positive zero
+  ---
+  duration_ms: 2.2956
+  type: 'test'
+  ...
+# Subtest: comparison chains share operands, short-circuit, and coerce booleans numerically
+ok 3 - comparison chains share operands, short-circuit, and coerce booleans numerically
+  ---
+  duration_ms: 0.8907
+  type: 'test'
+  ...
+# Subtest: variables are own properties and occurrences read left to right without mutation
+ok 4 - variables are own properties and occurrences read left to right without mutation
+  ---
+  duration_ms: 0.3915
+  type: 'test'
+  ...
+# Subtest: built-in calls evaluate every argument once and left to right
+ok 5 - built-in calls evaluate every argument once and left to right
+  ---
+  duration_ms: 0.1736
+  type: 'test'
+  ...
+# Subtest: the entire source is parsed before any evaluation
+ok 6 - the entire source is parsed before any evaluation
+  ---
+  duration_ms: 0.2385
+  type: 'test'
+  ...
+# Subtest: errors use actual UTF-16 token offsets, including whitespace and EOF
+ok 7 - errors use actual UTF-16 token offsets, including whitespace and EOF
+  ---
+  duration_ms: 0.291
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparison chains are stack safe
+ok 8 - 100,001-operand flat arithmetic and comparison chains are stack safe
+  ---
+  duration_ms: 206.1924
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3356
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 280.2206

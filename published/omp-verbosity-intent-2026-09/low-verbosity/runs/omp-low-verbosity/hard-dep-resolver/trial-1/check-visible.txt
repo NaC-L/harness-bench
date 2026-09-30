@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: numeric ordering compares major, minor, and patch components
+ok 1 - numeric ordering compares major, minor, and patch components
+  ---
+  duration_ms: 2.0521
+  type: 'test'
+  ...
+# Subtest: backtracking removes descendant selections, constraints, and queued requirements
+ok 2 - backtracking removes descendant selections, constraints, and queued requirements
+  ---
+  duration_ms: 0.4525
+  type: 'test'
+  ...
+# Subtest: the first solution uses FIFO discoveries, not dependency-first or global maximization
+ok 3 - the first solution uses FIFO discoveries, not dependency-first or global maximization
+  ---
+  duration_ms: 0.191
+  type: 'test'
+  ...
+# Subtest: all discovered constraints apply before a queued name is selected
+ok 4 - all discovered constraints apply before a queued name is selected
+  ---
+  duration_ms: 0.1797
+  type: 'test'
+  ...
+# Subtest: cycles expand selected packages only once and still enforce constraints
+ok 5 - cycles expand selected packages only once and still enforce constraints
+  ---
+  duration_ms: 0.125
+  type: 'test'
+  ...
+# Subtest: only selected versions determine reachability; missing packages are unsatisfiable
+ok 6 - only selected versions determine reachability; missing packages are unsatisfiable
+  ---
+  duration_ms: 0.0791
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are eagerly validated, even when unreachable
+ok 7 - all maps, versions, and ranges are eagerly validated, even when unreachable
+  ---
+  duration_ms: 0.6513
+  type: 'test'
+  ...
+# Subtest: plain and null-prototype maps use only own enumerable string keys without mutation
+ok 8 - plain and null-prototype maps use only own enumerable string keys without mutation
+  ---
+  duration_ms: 0.1636
+  type: 'test'
+  ...
+# Subtest: long chains and deep failed branches use no recursion or arbitrary step limit
+ok 9 - long chains and deep failed branches use no recursion or arbitrary step limit
+  ---
+  duration_ms: 114.8122
+  type: 'test'
+  ...
+# Subtest: conflicts are checked during search, before any full Cartesian product
+ok 10 - conflicts are checked during search, before any full Cartesian product
+  ---
+  duration_ms: 1.2719
+  type: 'test'
+  ...
+# Subtest: first-found assignments match a snapshot DFS across generated cyclic graphs
+ok 11 - first-found assignments match a snapshot DFS across generated cyclic graphs
+  ---
+  duration_ms: 11.5337
+  type: 'test'
+  ...
+# Subtest: versions are canonical safe numeric triples
+ok 12 - versions are canonical safe numeric triples
+  ---
+  duration_ms: 1.3312
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges use the specified exclusive bounds
+ok 13 - caret and tilde ranges use the specified exclusive bounds
+  ---
+  duration_ms: 0.5089
+  type: 'test'
+  ...
+# Subtest: ranges are eagerly validated AND terms with whitespace and all operators
+ok 14 - ranges are eagerly validated AND terms with whitespace and all operators
+  ---
+  duration_ms: 1.1098
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 15 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.554
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 204.9635

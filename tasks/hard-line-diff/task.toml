@@ -1,0 +1,6 @@
+id = "hard-line-diff"
+title = "Implement minimal line diff with unified hunks and patching"
+category = "feature"
+timeout_sec = 1800
+check = ["node", "--test"]
+tags = ["hard"]

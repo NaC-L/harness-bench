@@ -44,7 +44,7 @@ python -m bench --config benchmark-reference.toml --results results/reference ru
 python -m bench --results results/reference compare --baseline reference-a --candidate reference-b
 ```
 
-The reference arms copy each task's `solution/` into the workdir. Expect **36 PASS runs** (six tasks × two arms × three trials), then `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions without model calls.
+The reference arms copy each task's `solution/` into the workdir. Expect **60 PASS runs** (ten tasks × two arms × three trials), then `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions without model calls.
 
 Use a fresh results directory for each experiment: runs and invocation manifests are appended, not replaced.
 
@@ -75,7 +75,7 @@ This command makes model calls; check your account and pinned model first:
 python -m bench --config benchmark-omp-descriptors.toml --results results/descriptors run --harness omp-baseline omp-inline --trials 3 --jobs 12
 ```
 
-Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; twice the task count (12 here) is fine for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
+Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; the example uses 12 for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
 
 Command placeholders (from the `harnesses.toml` header):
 
@@ -138,6 +138,29 @@ To compare sessions, open the same task/trial under each harness, e.g. `runs/pi-
 - **Cache and provider load are not controlled.** Concurrency, account limits, warm prefixes, and remote load can change token/time observations. Report conditions and repeat experiments rather than treating a small sample as universal superiority.
 - Unknown regression/verification fields are reported as warnings, not filled with zero. Verification detection is a tool-sequence signal, not proof of all safety properties.
 
+## Hard task tier
+
+The original six tasks reached a correctness ceiling in published experiments. Four original `hard-*` tasks add algorithmic constraints, interacting defects, seeded differential checks, and regression traps. They are not copied LeetCode exercises: they test repository debugging and implementation as well as algorithms, without intentionally reusing public problem statements.
+
+| Task | Challenge |
+| --- | --- |
+| `hard-segment-tree` | Compose lazy assignment/addition correctly; preserve logarithmic range queries and threshold search |
+| `hard-expr-eval` | Repair precedence, chained comparisons, floored arithmetic, and positioned errors across parser modules |
+| `hard-line-diff` | Produce minimal edits, unified hunks, and applicable patches; avoid quadratic work on sparse large diffs |
+| `hard-dep-resolver` | Resolve version constraints with deterministic backtracking, rollback, and legal dependency cycles |
+
+All four carry `tags = ["hard"]` and a 30-minute agent timeout. Tags are metadata, not a CLI filter; select task IDs explicitly. `run` without `--task` now includes all ten tasks. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
+
+Run just the hard tier without model calls:
+
+```sh
+python -m bench --config benchmark-reference.toml --results results/hard-reference run --harness reference-a reference-b --task hard-segment-tree hard-expr-eval hard-line-diff hard-dep-resolver --trials 3 --jobs 12
+```
+
+For an actual harness comparison, use your matched-model config and arm names with the same explicit task list. Those runs spend model usage. Use serial alternating pairs for latency comparisons.
+
+Calibration established that every starting repo fails and every reference passes. Visible-only bug fixes still fail hidden checks; naive alternatives fail performance guards. Seeded solution suites passed three repeated runs, and the full ten-task reference pipeline passed 60/60 runs at `--jobs 12`. Performance limits allow substantial local reference headroom but remain machine-dependent. **Model difficulty is not yet measured**: paid trials must establish whether these tasks reduce the correctness ceiling. Original tasks do not guarantee absence from future model training.
+
 ## Adding a task
 
 Create a directory under `tasks/` with this layout:
@@ -174,6 +197,10 @@ Current tasks:
 | `debug-limiter` | debug | Diagnose hanging asynchronous limiter tests |
 | `feature-csv-stream` | feature | Implement an incremental CSV parser |
 | `feature-lru` | feature | Implement a bounded least-recently-used cache |
+| `hard-segment-tree` | debug | Repair lazy range updates in a segment tree |
+| `hard-expr-eval` | bugfix | Fix Python-compatible arithmetic in a multi-module evaluator |
+| `hard-line-diff` | feature | Implement minimal line diff with unified hunks and patching |
+| `hard-dep-resolver` | debug | Diagnose missed solutions in a dependency resolver |
 
 ## Adding a harness
 

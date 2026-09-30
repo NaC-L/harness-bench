@@ -1,0 +1,6 @@
+id = "hard-segment-tree"
+title = "Repair lazy range updates in a segment tree"
+category = "debug"
+timeout_sec = 1800
+check = ["node", "--test"]
+tags = ["hard"]

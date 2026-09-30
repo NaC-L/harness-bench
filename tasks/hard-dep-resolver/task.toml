@@ -1,0 +1,6 @@
+id = "hard-dep-resolver"
+title = "Diagnose missed solutions in a dependency resolver"
+category = "debug"
+timeout_sec = 1800
+check = ["node", "--test"]
+tags = ["hard"]

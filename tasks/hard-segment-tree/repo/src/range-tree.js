@@ -1,0 +1,204 @@
+'use strict';
+
+/**
+ * A mutable sequence with lazy half-open range updates.
+ *
+ * new RangeTree(values) copies a nonempty Array of finite numbers; otherwise it
+ * throws RangeError. length is read-only. Every range uses integer endpoints
+ * 0 <= l <= r <= length; invalid endpoints throw RangeError before any mutation.
+ * assign(l, r, v) replaces each value in [l, r); add(l, r, v) increments it.
+ * Both require a finite numeric v (even for empty ranges), throw RangeError for
+ * invalid v, return undefined, and leave empty ranges unchanged.
+ * sum(l, r) returns the sum (0 for an empty range); max(l, r) returns the largest
+ * value (-Infinity for an empty range). get(i) requires an integer 0 <= i < length
+ * and otherwise throws RangeError. firstAtLeast(lo, x) returns the smallest index
+ * i >= lo with value >= x, or -1. lo must be an integer in [0, length]; x must be
+ * a number other than NaN (infinities are allowed); violations throw RangeError.
+ * toArray() returns an independent Array in index order; neither constructor
+ * input nor returned arrays alias the tree. Arithmetic is ordinary JS Number
+ * arithmetic; callers must keep updated values and aggregate sums finite.
+ *
+ * Construction is O(n) time and space. assign, add, sum, max, get, and
+ * firstAtLeast are O(log n) worst-case; length is O(1); toArray is O(n).
+ * No operation scans or materializes a range to implement an update or query.
+ * Internal lazy tags apply assignment before addition.
+ */
+class RangeTree {
+  constructor(values) {
+    if (!Array.isArray(values) || values.length === 0) {
+      throw new RangeError('values must be a nonempty array of finite numbers');
+    }
+    for (const value of values) {
+      if (!Number.isFinite(value)) {
+        throw new RangeError('values must be a nonempty array of finite numbers');
+      }
+    }
+    this._length = values.length;
+    const capacity = 4 * this._length;
+    this._sums = new Float64Array(capacity);
+    this._maxima = new Float64Array(capacity);
+    this._assignments = new Float64Array(capacity);
+    this._additions = new Float64Array(capacity);
+    this._hasAssignment = new Uint8Array(capacity);
+    this._build(1, 0, this._length, values);
+  }
+
+  get length() {
+    return this._length;
+  }
+
+  assign(l, r, v) {
+    this._checkRange(l, r);
+    this._checkValue(v);
+    if (l !== r) this._update(1, 0, this._length, l, r, v, true);
+  }
+
+  add(l, r, v) {
+    this._checkRange(l, r);
+    this._checkValue(v);
+    if (l !== r) this._update(1, 0, this._length, l, r, v, false);
+  }
+
+  sum(l, r) {
+    this._checkRange(l, r);
+    return l === r ? 0 : this._sum(1, 0, this._length, l, r);
+  }
+
+  max(l, r) {
+    this._checkRange(l, r);
+    return l === r ? -Infinity : this._max(1, 0, this._length, l, r);
+  }
+
+  firstAtLeast(lo, x) {
+    if (!Number.isInteger(lo) || lo < 0 || lo > this._length ||
+        typeof x !== 'number' || Number.isNaN(x)) {
+      throw new RangeError('invalid search arguments');
+    }
+    return this._first(1, 0, this._length, lo, x);
+  }
+
+  get(i) {
+    if (!Number.isInteger(i) || i < 0 || i >= this._length) {
+      throw new RangeError('invalid index');
+    }
+    return this._sum(1, 0, this._length, i, i + 1);
+  }
+
+  toArray() {
+    const result = new Array(this._length);
+    this._write(1, 0, this._length, result);
+    return result;
+  }
+
+  _checkRange(l, r) {
+    if (!Number.isInteger(l) || !Number.isInteger(r) ||
+        l < 0 || l > r || r > this._length) {
+      throw new RangeError('invalid half-open range');
+    }
+  }
+
+  _checkValue(v) {
+    if (!Number.isFinite(v)) throw new RangeError('value must be finite');
+  }
+
+  _build(node, left, right, values) {
+    if (right - left === 1) {
+      this._sums[node] = values[left];
+      this._maxima[node] = values[left];
+      return;
+    }
+    const middle = Math.floor((left + right) / 2);
+    this._build(node * 2, left, middle, values);
+    this._build(node * 2 + 1, middle, right, values);
+    this._pull(node);
+  }
+
+  _pull(node) {
+    this._sums[node] = this._sums[node * 2] + this._sums[node * 2 + 1];
+    this._maxima[node] = Math.max(this._maxima[node * 2], this._maxima[node * 2 + 1]);
+  }
+
+  _applyAssignment(node, size, value) {
+    this._sums[node] = size * value;
+    this._maxima[node] = value;
+    this._assignments[node] = value;
+    this._hasAssignment[node] = 1;
+  }
+
+  _applyAddition(node, size, value) {
+    this._sums[node] += size * value;
+    this._maxima[node] += value;
+    this._additions[node] += value;
+  }
+
+  _push(node, left, right) {
+    if (right - left === 1) return;
+    const middle = Math.floor((left + right) / 2);
+    if (this._hasAssignment[node]) {
+      const value = this._assignments[node];
+      this._applyAssignment(node * 2, middle - left, value);
+      this._applyAssignment(node * 2 + 1, right - middle, value);
+      this._hasAssignment[node] = 0;
+    }
+    const addition = this._additions[node];
+    if (addition !== 0) {
+      this._applyAddition(node * 2, middle - left, addition);
+      this._applyAddition(node * 2 + 1, right - middle, addition);
+      this._additions[node] = 0;
+    }
+  }
+
+  _update(node, left, right, l, r, value, assigning) {
+    if (l <= left && right <= r) {
+      if (assigning) this._applyAssignment(node, right - left, value);
+      else this._applyAddition(node, right - left, value);
+      return;
+    }
+    this._push(node, left, right);
+    const middle = Math.floor((left + right) / 2);
+    if (l < middle) this._update(node * 2, left, middle, l, r, value, assigning);
+    if (r > middle) this._update(node * 2 + 1, middle, right, l, r, value, assigning);
+    this._pull(node);
+  }
+
+  _sum(node, left, right, l, r) {
+    if (l <= left && right <= r) return this._sums[node];
+    this._push(node, left, right);
+    const middle = Math.floor((left + right) / 2);
+    let result = 0;
+    if (l < middle) result += this._sum(node * 2, left, middle, l, r);
+    if (r > middle) result += this._sum(node * 2 + 1, middle, right, l, r);
+    return result;
+  }
+
+  _max(node, left, right, l, r) {
+    if (l <= left && right <= r) return this._maxima[node];
+    this._push(node, left, right);
+    const middle = Math.floor((left + right) / 2);
+    let result = 0;
+    if (l < middle) result = Math.max(result, this._max(node * 2, left, middle, l, r));
+    if (r > middle) result = Math.max(result, this._max(node * 2 + 1, middle, right, l, r));
+    return result;
+  }
+
+  _first(node, left, right, lo, x) {
+    if (right <= lo || this._maxima[node] < x) return -1;
+    if (right - left === 1) return left;
+    const middle = Math.floor((left + right) / 2);
+    const found = this._first(node * 2, left, middle, lo, x);
+    return found !== -1 ? found : this._first(node * 2 + 1, middle, right, lo, x);
+  }
+
+  _write(node, left, right, result) {
+    if (right - left === 1) {
+      result[left] = this._sums[node];
+      return;
+    }
+    this._push(node, left, right);
+    const middle = Math.floor((left + right) / 2);
+    this._write(node * 2, left, middle, result);
+    this._write(node * 2 + 1, middle, right, result);
+  }
+}
+
+module.exports = { RangeTree };

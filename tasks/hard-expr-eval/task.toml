@@ -1,0 +1,6 @@
+id = "hard-expr-eval"
+title = "Fix Python-compatible arithmetic in a multi-module evaluator"
+category = "bugfix"
+timeout_sec = 1800
+check = ["node", "--test"]
+tags = ["hard"]

@@ -61,7 +61,7 @@ python -m bench --config benchmark-reference.toml --results results/reference ru
 python -m bench --results results/reference compare --baseline reference-a --candidate reference-b
 ```
 
-The reference arms copy each task's `solution/` into the workdir. Expect **72 PASS runs** (ten controls plus two development challenges × two arms × three trials); the two held-out tasks require explicit names. Then expect `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions for all fourteen tasks without model calls.
+The reference arms copy each task's `solution/` into the workdir. Expect **84 PASS runs** (ten controls plus two development challenges and two front-end/UX fixtures × two arms × three trials); the two held-out tasks require explicit names. Then expect `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions for all sixteen tasks without model calls.
 
 Use a fresh results directory for each experiment: runs and invocation manifests are appended, not replaced.
 
@@ -270,7 +270,7 @@ The original six tasks reached a correctness ceiling in published experiments. F
 | `hard-line-diff` | Produce minimal edits, unified hunks, and applicable patches; avoid quadratic work on sparse large diffs |
 | `hard-dep-resolver` | Resolve version constraints with deterministic backtracking, rollback, and legal dependency cycles |
 
-All four carry `tags = ["hard"]` and a 30-minute agent timeout. Select task IDs explicitly to pin a tier. `run` without `--task` includes the ten controls and two development challenges, but excludes tasks tagged `heldout`. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
+All four carry `tags = ["hard"]` and a 30-minute agent timeout. Select task IDs explicitly to pin a tier. `run` without `--task` includes the ten controls, two development challenges and two front-end/UX development fixtures, but excludes tasks tagged `heldout`. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
 
 Run just the hard tier without model calls:
 
@@ -281,6 +281,25 @@ python -m bench --config benchmark-reference.toml --results results/hard-referen
 For an actual harness comparison, use your matched-model config and arm names with the same explicit task list. Those runs spend model usage. Use serial alternating pairs for latency comparisons.
 
 Calibration established that every starting repo fails and every reference passes. Visible-only bug fixes still fail hidden checks; naive alternatives fail performance guards. Seeded solution suites passed three repeated runs, and the full ten-task reference pipeline passed 60/60 runs at `--jobs 12`. Performance limits allow substantial local reference headroom but remain machine-dependent. **Model difficulty is not yet measured**: paid trials must establish whether these tasks reduce the correctness ceiling. Original tasks do not guarantee absence from future model training.
+
+## Front-end and user-friendliness development fixtures
+
+Two fixtures extend the algorithm/backend controls:
+
+- `frontend-signup-form`: accessible server-rendered form semantics, validation timing, immutable state, preserved input, error announcements and safe HTML escaping.
+- `ux-cli-errors`: actionable CLI errors, stream/exit-code behavior, runnable help, typo suggestions and correct unit conversions.
+
+These are **development fixtures, not calibrated difficulty claims**. The front-end grader checks HTML semantics and state behavior without browser dependencies. It does not score visual design, contrast, responsive layout, actual focus execution or subjective ease of use. The CLI checks are usability proxies, not a user study. Browser-native interaction and visual-design tasks remain outside this initial pair.
+
+Zero-model validation confirmed both starters fail visible and hidden checks and both references pass. The local two-task/two-arm reference preflight passed 4/4 runs. Chromium spot-checks confirmed the front-end reference's labels/error descriptions, tab order and submitting-button lock; those browser checks are not part of the automated grader.
+
+Zero-model-spend reference preflight:
+
+```sh
+python -m bench --config benchmark-frontend-ux.toml --results results/frontend-ux-reference run --harness reference-a reference-b --task frontend-signup-form ux-cli-errors --trials 1 --jobs 1 --alternate-order
+```
+
+For model measurements, use an existing matched-model config, select these task IDs explicitly, and run at least three trials per arm. Reference passes establish fixture/pipeline validity, not model performance. Default task selection includes these development fixtures; pin the old task list to reproduce earlier experiments.
 
 ## Adding a task
 
@@ -326,6 +345,8 @@ Current tasks:
 | `challenge-journal` | debug | Interacting persistence and replay defects (development) |
 | `challenge-recovery` | recovery | Interrupted local work and resumption (held-out) |
 | `challenge-safety` | safety | Local data preservation and denied operations (held-out) |
+| `frontend-signup-form` | frontend | Repair accessible sign-up form rendering and validation UX (development) |
+| `ux-cli-errors` | ux | Make unit-converter errors and help actionable without breaking conversions (development) |
 
 ## Adding a harness
 

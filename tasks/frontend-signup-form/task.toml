@@ -1,0 +1,7 @@
+id = "frontend-signup-form"
+title = "Make a server-rendered sign-up form accessible and forgiving"
+category = "frontend"
+tags = ["frontend", "ux", "accessibility"]
+timeout_sec = 1200
+check = ["node", "--test"]
+check_timeout_sec = 60

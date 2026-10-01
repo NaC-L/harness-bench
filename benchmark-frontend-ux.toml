@@ -1,0 +1,14 @@
+# Zero-model-spend pipeline preflight for the frontend/UX development fixtures.
+# Task selection is explicit in the run command; configs define harness arms only.
+# python -m bench --config benchmark-frontend-ux.toml --results results/frontend-ux-reference run --harness reference-a reference-b --task frontend-signup-form ux-cli-errors --trials 1 --jobs 1 --alternate-order
+# Real comparisons use an existing matched-model config and these same task IDs.
+
+[harnesses.reference-a]
+kind = "none"
+command = ["{python}", "-c", "import shutil,sys; shutil.copytree(sys.argv[1] + '/solution', '.', dirs_exist_ok=True)", "{task_dir}"]
+version_command = ["{python}", "--version"]
+
+[harnesses.reference-b]
+kind = "none"
+command = ["{python}", "-c", "import shutil,sys; shutil.copytree(sys.argv[1] + '/solution', '.', dirs_exist_ok=True)", "{task_dir}"]
+version_command = ["{python}", "--version"]

@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: every chunk boundary preserves quoted commas and doubled quote escapes
+ok 1 - every chunk boundary preserves quoted commas and doubled quote escapes
+  ---
+  duration_ms: 3.3306
+  type: 'test'
+  ...
+# Subtest: every chunk boundary preserves raw mixed newlines inside quoted fields
+ok 2 - every chunk boundary preserves raw mixed newlines inside quoted fields
+  ---
+  duration_ms: 0.4189
+  type: 'test'
+  ...
+# Subtest: every chunk boundary distinguishes empty input blank rows and trailing separators
+ok 3 - every chunk boundary distinguishes empty input blank rows and trailing separators
+  ---
+  duration_ms: 0.4091
+  type: 'test'
+  ...
+# Subtest: every chunk boundary keeps quotes within unquoted fields literal
+ok 4 - every chunk boundary keeps quotes within unquoted fields literal
+  ---
+  duration_ms: 0.8799
+  type: 'test'
+  ...
+# Subtest: every chunk boundary strips only an initial BOM
+ok 5 - every chunk boundary strips only an initial BOM
+  ---
+  duration_ms: 0.2839
+  type: 'test'
+  ...
+# Subtest: every chunk boundary preserves Unicode including split surrogate pairs
+ok 6 - every chunk boundary preserves Unicode including split surrogate pairs
+  ---
+  duration_ms: 0.1122
+  type: 'test'
+  ...
+# Subtest: every chunk boundary honors semicolon delimiters without treating commas specially
+ok 7 - every chunk boundary honors semicolon delimiters without treating commas specially
+  ---
+  duration_ms: 0.4384
+  type: 'test'
+  ...
+# Subtest: every chunk boundary honors pipe tab and space delimiters
+ok 8 - every chunk boundary honors pipe tab and space delimiters
+  ---
+  duration_ms: 0.2421
+  type: 'test'
+  ...
+# Subtest: a CR emits immediately and its split LF never emits a second record
+ok 9 - a CR emits immediately and its split LF never emits a second record
+  ---
+  duration_ms: 0.3871
+  type: 'test'
+  ...
+# Subtest: a split doubled quote is not mistaken for the end of a quoted field
+ok 10 - a split doubled quote is not mistaken for the end of a quoted field
+  ---
+  duration_ms: 0.4962
+  type: 'test'
+  ...
+# Subtest: push returns only new records and parser instances retain independent state
+ok 11 - push returns only new records and parser instances retain independent state
+  ---
+  duration_ms: 0.189
+  type: 'test'
+  ...
+# Subtest: text after closing quotes is rejected during push with physical line numbers
+ok 12 - text after closing quotes is rejected during push with physical line numbers
+  ---
+  duration_ms: 2.5368
+  type: 'test'
+  ...
+# Subtest: unterminated quotes fail only at end and report the physical EOF line
+ok 13 - unterminated quotes fail only at end and report the physical EOF line
+  ---
+  duration_ms: 0.6657
+  type: 'test'
+  ...
+# Subtest: delimiter validation is strict and both APIs reject invalid delimiters
+ok 14 - delimiter validation is strict and both APIs reject invalid delimiters
+  ---
+  duration_ms: 0.5811
+  type: 'test'
+  ...
+# Subtest: end is idempotent and all pushes after end fail
+ok 15 - end is idempotent and all pushes after end fail
+  ---
+  duration_ms: 0.1421
+  type: 'test'
+  ...
+# Subtest: parse header mode preserves duplicate suffixes short rows BOM and custom delimiter
+ok 16 - parse header mode preserves duplicate suffixes short rows BOM and custom delimiter
+  ---
+  duration_ms: 0.252
+  type: 'test'
+  ...
+# Subtest: parse header mode treats prototype-related column names as own data properties
+ok 17 - parse header mode treats prototype-related column names as own data properties
+  ---
+  duration_ms: 0.1331
+  type: 'test'
+  ...
+# Subtest: streaming header option never converts records into objects
+ok 18 - streaming header option never converts records into objects
+  ---
+  duration_ms: 0.0431
+  type: 'test'
+  ...
+# Subtest: regression trap: duplicate header suffixes never collide with earlier names
+ok 19 - regression trap: duplicate header suffixes never collide with earlier names
+  ---
+  duration_ms: 0.0676
+  type: 'test'
+  ...
+# Subtest: regression trap: inferred headers pad short records and ignore surplus cells
+ok 20 - regression trap: inferred headers pad short records and ignore surplus cells
+  ---
+  duration_ms: 0.0475
+  type: 'test'
+  ...
+# Subtest: regression trap: explicit frozen headers preserve input and special keys as data
+ok 21 - regression trap: explicit frozen headers preserve input and special keys as data
+  ---
+  duration_ms: 0.1739
+  type: 'test'
+  ...
+# Subtest: regression trap: empty inputs and explicit empty headers retain helper semantics
+ok 22 - regression trap: empty inputs and explicit empty headers retain helper semantics
+  ---
+  duration_ms: 0.0708
+  type: 'test'
+  ...
+# Subtest: regression trap: invalid helper header modes remain TypeErrors
+ok 23 - regression trap: invalid helper header modes remain TypeErrors
+  ---
+  duration_ms: 0.0912
+  type: 'test'
+  ...
+# Subtest: single push emits complete comma-separated records
+ok 24 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.4056
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 25 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.1434
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 26 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.1764
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 27 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.076
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 28 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.1947
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 29 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 2.2326
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 30 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1666
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 99.2961

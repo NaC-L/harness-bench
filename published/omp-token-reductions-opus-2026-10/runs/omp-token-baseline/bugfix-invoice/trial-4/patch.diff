@@ -1,0 +1,44 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js" "{temp}\\hb-fe4427e3-vkyl6fj5/src/discounts.js"
+index 5bf8d65..ddff630 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js"
++++ "{temp}\\hb-fe4427e3-vkyl6fj5/src/discounts.js"
+@@ -13,10 +13,8 @@ const { difference } = require('./money');
+  * Called for both line discounts and the positive invoice-discount basis.
+  */
+ function applyDiscounts(amountCents, discounts) {
+-  const priority = { fixed: 0, percent: 1 };
+-  const schedule = discounts.slice().sort((a, b) => priority[a.type] - priority[b.type]);
+   let current = amountCents;
+-  for (const discount of schedule) {
++  for (const discount of discounts) {
+     if (discount.type === 'fixed') {
+       if (current > 0) current -= Math.min(current, discount.amountCents);
+     } else {
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js" "{temp}\\hb-fe4427e3-vkyl6fj5/src/rounding.js"
+index 57f5e99..245cb4e 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js"
++++ "{temp}\\hb-fe4427e3-vkyl6fj5/src/rounding.js"
+@@ -1,5 +1,5 @@
+ 'use strict';
+-const { integer } = require('./money');
++const { cents } = require('./money');
+ 
+ /**
+  * Round the exact rational numerator / denominator to the nearest integer cent.
+@@ -14,7 +14,15 @@ function roundRatio(numerator, denominator) {
+     throw new TypeError('A ratio requires BigInts');
+   }
+   if (denominator <= 0n) throw new RangeError('Denominator must be positive');
+-  return integer(Math.round(Number(numerator) / Number(denominator)), 'rounded cents');
++  let quotient = numerator / denominator;
++  let remainder = numerator % denominator;
++  if (remainder < 0n) {
++    quotient -= 1n;
++    remainder += denominator;
++  }
++  const twice = remainder * 2n;
++  if (twice > denominator || (twice === denominator && quotient % 2n !== 0n)) quotient += 1n;
++  return cents(quotient, 'rounded cents');
+ }
+ 
+ module.exports = { roundRatio };

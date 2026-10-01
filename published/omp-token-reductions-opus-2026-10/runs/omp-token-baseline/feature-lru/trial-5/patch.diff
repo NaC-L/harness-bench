@@ -1,0 +1,58 @@
+diff --git "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js" "{temp}\\hb-4b426546-7886c50w/src/lru.js"
+index 258677f..22d8061 100644
+--- "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js"
++++ "{temp}\\hb-4b426546-7886c50w/src/lru.js"
+@@ -1,15 +1,48 @@
+ 'use strict';
+ 
++// Map iteration order is insertion order; re-inserting a key moves it to the
++// end, so the first key is always the least recently used.
+ class LRUCache {
++  #map = new Map();
++
+   constructor(capacity) {
++    if (typeof capacity !== 'number' || !Number.isInteger(capacity) || capacity <= 0) {
++      throw new RangeError('capacity must be a positive integer');
++    }
+     this.capacity = capacity;
+   }
+ 
+-  get(key) { throw new Error('not implemented'); }
+-  set(key, value) { throw new Error('not implemented'); }
+-  has(key) { throw new Error('not implemented'); }
+-  delete(key) { throw new Error('not implemented'); }
+-  get size() { throw new Error('not implemented'); }
++  get(key) {
++    const map = this.#map;
++    if (!map.has(key)) return undefined;
++    const value = map.get(key);
++    map.delete(key);
++    map.set(key, value);
++    return value;
++  }
++
++  set(key, value) {
++    const map = this.#map;
++    if (map.has(key)) {
++      map.delete(key);
++    } else if (map.size >= this.capacity) {
++      map.delete(map.keys().next().value);
++    }
++    map.set(key, value);
++    return this;
++  }
++
++  has(key) {
++    return this.#map.has(key);
++  }
++
++  delete(key) {
++    return this.#map.delete(key);
++  }
++
++  get size() {
++    return this.#map.size;
++  }
+ }
+ 
+ module.exports = { LRUCache };

@@ -1,0 +1,33 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-17b4fc82-b8kgqyj0/src/flight.js"
+index bc0283d..9dfe166 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-17b4fc82-b8kgqyj0/src/flight.js"
+@@ -7,14 +7,22 @@ function createFlights() {
+ 
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
++      if (pending.has(key)) return pending.get(key).promise;
++      // Only the flight still registered for key may unregister itself or
++      // commit; a detached flight just settles its original callers.
++      const flight = {};
++      flight.promise = Promise.resolve().then(work).then(value => {
++        if (pending.get(key) === flight) {
++          pending.delete(key);
++          commit(value);
++        }
+         return value;
++      }, reason => {
++        if (pending.get(key) === flight) pending.delete(key);
++        throw reason;
+       });
+-      pending.set(key, promise);
+-      return promise;
++      pending.set(key, flight);
++      return flight.promise;
+     },
+     forget(key) {
+       pending.delete(key);

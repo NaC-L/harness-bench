@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: floor division and modulo follow Python for negative operands
+ok 1 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3523
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 67.8693

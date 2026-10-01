@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="446" viewBox="0 0 760 446" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">OPUS 5.5: COMBINED CANDIDATE SWAPS READ FOR BASH, EDIT ERRORS RISE</title>
+<desc id="chart-desc">OPUS 5.5: COMBINED CANDIDATE SWAPS READ FOR BASH, EDIT ERRORS RISE. Bare read calls: baseline 255, candidate 49. Ranged read calls: baseline 18, candidate 45. Bash calls: baseline 114, candidate 177. Bash file-dump commands: baseline 11, candidate 64. Edit errors: baseline 2, candidate 25. Folded (summarized) reads: baseline 15, candidate 0. Counts from session tool calls/results (analyze.py). File-dump is a regex proxy (cat/type/Get-Content); transcripts show candidate dumps sources, baseline mostly package.json. Descriptive, not causal attribution.</desc>
+<rect width="760" height="446" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="445" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="16" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >OPUS 5.5: COMBINED CANDIDATE SWAPS READ FOR BASH, EDIT ERRORS RISE</text>
+<rect x="336" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="349.00" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-TOKEN-BASELINE (BASELINE)</text>
+<rect x="560" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="573.40" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-TOKEN-CANDIDATE (CANDIDATE)</text>
+<text x="24.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >TOTALS OVER 50 + 50 RUNS</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >EACH ROW: OWN ZERO-BASED SCALE</text>
+<g class="metric-row" data-metric="bare_reads">
+<text x="24.00" y="126.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Bare read calls</text>
+<rect x="262" y="114" width="378" height="8" fill="#757575" shape-rendering="crispEdges" data-value="255"/>
+<rect x="262" y="128" width="72" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="49"/>
+<text x="736.00" y="122.00" font-size="11" text-anchor="end" fill="#757575" >255</text>
+<text x="736.00" y="136.00" font-size="11" text-anchor="end" fill="#44cfff" >49</text>
+<line x1="24.5" y1="146.5" x2="736.5" y2="146.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<g class="metric-row" data-metric="ranged_reads">
+<text x="24.00" y="170.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Ranged read calls</text>
+<rect x="262" y="158" width="151" height="8" fill="#757575" shape-rendering="crispEdges" data-value="18"/>
+<rect x="262" y="172" width="378" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="45"/>
+<text x="736.00" y="166.00" font-size="11" text-anchor="end" fill="#757575" >18</text>
+<text x="736.00" y="180.00" font-size="11" text-anchor="end" fill="#44cfff" >45</text>
+<line x1="24.5" y1="190.5" x2="736.5" y2="190.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<g class="metric-row" data-metric="bash_calls">
+<text x="24.00" y="214.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Bash calls</text>
+<rect x="262" y="202" width="243" height="8" fill="#757575" shape-rendering="crispEdges" data-value="114"/>
+<rect x="262" y="216" width="378" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="177"/>
+<text x="736.00" y="210.00" font-size="11" text-anchor="end" fill="#757575" >114</text>
+<text x="736.00" y="224.00" font-size="11" text-anchor="end" fill="#44cfff" >177</text>
+<line x1="24.5" y1="234.5" x2="736.5" y2="234.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<g class="metric-row" data-metric="shell_file_dump_candidates">
+<text x="24.00" y="258.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Bash file-dump commands</text>
+<rect x="262" y="246" width="64" height="8" fill="#757575" shape-rendering="crispEdges" data-value="11"/>
+<rect x="262" y="260" width="378" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="64"/>
+<text x="736.00" y="254.00" font-size="11" text-anchor="end" fill="#757575" >11</text>
+<text x="736.00" y="268.00" font-size="11" text-anchor="end" fill="#44cfff" >64</text>
+<line x1="24.5" y1="278.5" x2="736.5" y2="278.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<g class="metric-row" data-metric="edit_errors">
+<text x="24.00" y="302.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Edit errors</text>
+<rect x="262" y="290" width="30" height="8" fill="#757575" shape-rendering="crispEdges" data-value="2"/>
+<rect x="262" y="304" width="378" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="25"/>
+<text x="736.00" y="298.00" font-size="11" text-anchor="end" fill="#757575" >2</text>
+<text x="736.00" y="312.00" font-size="11" text-anchor="end" fill="#44cfff" >25</text>
+<line x1="24.5" y1="322.5" x2="736.5" y2="322.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<g class="metric-row" data-metric="folded_reads">
+<text x="24.00" y="346.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Folded (summarized) reads</text>
+<rect x="262" y="334" width="378" height="8" fill="#757575" shape-rendering="crispEdges" data-value="15"/>
+<rect x="262" y="348" width="0" height="8" fill="#44cfff" shape-rendering="crispEdges" data-value="0"/>
+<text x="736.00" y="342.00" font-size="11" text-anchor="end" fill="#757575" >15</text>
+<text x="736.00" y="356.00" font-size="11" text-anchor="end" fill="#44cfff" >0</text>
+<line x1="24.5" y1="366.5" x2="736.5" y2="366.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+</g>
+<text x="24.00" y="396.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">COUNTS FROM SESSION TOOL CALLS/RESULTS (ANALYZE.PY). FILE-DUMP IS A REGEX PROXY (CAT/TYPE/GET-CONTENT);</text>
+<text x="24.00" y="410.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">TRANSCRIPTS SHOW CANDIDATE DUMPS SOURCES, BASELINE MOSTLY PACKAGE.JSON. DESCRIPTIVE, NOT CAUSAL</text>
+<text x="24.00" y="424.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">ATTRIBUTION.</text>
+</g>
+</svg>

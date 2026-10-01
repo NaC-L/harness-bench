@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="594" viewBox="0 0 760 594" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Total tokens per task</title>
+<desc id="chart-desc">omp-token-candidate USES MORE TOKENS ON 8/10 TASKS. Per-task tokens: candidate omp-token-candidate vs baseline omp-token-baseline. Lower is better. Faint squares show each known run; hollow squares are failed runs. Large squares show medians of known runs, including failures; candidate medians have a two-pixel halo. bugfix-duration, omp-token-baseline: runs [33207 tokens (passed), 33567 tokens (passed), 34159 tokens (passed), 42573 tokens (passed), 42939 tokens (passed)]; median=34159 tokens. bugfix-duration, omp-token-candidate: runs [34626 tokens (passed), 43955 tokens (passed), 44268 tokens (passed), 44347 tokens (passed), 44622 tokens (passed)]; median=44268 tokens. bugfix-duration: delta=29.59395766855002%, +29.6%. bugfix-invoice, omp-token-baseline: runs [86986 tokens (passed), 87468 tokens (passed), 92165 tokens (passed), 104247 tokens (passed), 110963 tokens (passed)]; median=92165 tokens. bugfix-invoice, omp-token-candidate: runs [105600 tokens (passed), 121013 tokens (passed), 122255 tokens (passed), 124931 tokens (passed), 126002 tokens (passed)]; median=122255 tokens. bugfix-invoice: delta=32.6479683176911%, +32.6%. debug-cache-race, omp-token-baseline: runs [80928 tokens (passed), 93048 tokens (passed), 100131 tokens (passed), 104768 tokens (passed), 116941 tokens (passed)]; median=100131 tokens. debug-cache-race, omp-token-candidate: runs [59148 tokens (passed), 85266 tokens (passed), 85528 tokens (passed), 160498 tokens (passed), 169079 tokens (passed)]; median=85528 tokens. debug-cache-race: delta=-14.583895097422372%, −14.6%. debug-limiter, omp-token-baseline: runs [42083 tokens (passed), 42707 tokens (passed), 42995 tokens (passed), 44122 tokens (passed), 53917 tokens (passed)]; median=42995 tokens. debug-limiter, omp-token-candidate: runs [35138 tokens (passed), 44864 tokens (passed), 45125 tokens (passed), 45662 tokens (passed), 56150 tokens (passed)]; median=45125 tokens. debug-limiter: delta=4.95406442609605%, +5.0%. feature-csv-stream, omp-token-baseline: runs [105830 tokens (passed), 106318 tokens (passed), 114862 tokens (passed), 130731 tokens (passed), 153603 tokens (passed)]; median=114862 tokens. feature-csv-stream, omp-token-candidate: runs [81646 tokens (passed), 142942 tokens (passed), 152602 tokens (passed), 153971 tokens (passed), 188731 tokens (passed)]; median=152602 tokens. feature-csv-stream: delta=32.85681948773311%, +32.9%. feature-lru, omp-token-baseline: runs [42272 tokens (passed), 42410 tokens (passed), 42768 tokens (passed), 43536 tokens (passed), 43719 tokens (passed)]; median=42768 tokens. feature-lru, omp-token-candidate: runs [34739 tokens (passed), 43231 tokens (passed), 43681 tokens (passed), 43684 tokens (passed), 78932 tokens (passed)]; median=43681 tokens. feature-lru: delta=2.134773662551437%, +2.1%. hard-dep-resolver, omp-token-baseline: runs [90963 tokens (passed), 107216 tokens (passed), 107366 tokens (passed), 125183 tokens (passed), 164367 tokens (passed)]; median=107366 tokens. hard-dep-resolver, omp-token-candidate: runs [133870 tokens (passed), 137323 tokens (passed), 138235 tokens (passed), 153602 tokens (passed), 174061 tokens (passed)]; median=138235 tokens. hard-dep-resolver: delta=28.751187526777567%, +28.8%. hard-expr-eval, omp-token-baseline: runs [119441 tokens (passed), 126422 tokens (passed), 277170 tokens (passed), 296702 tokens (passed), 373220 tokens (passed)]; median=277170 tokens. hard-expr-eval, omp-token-candidate: runs [120533 tokens (passed), 148469 tokens (passed), 289154 tokens (passed), 356199 tokens (passed), 382024 tokens (passed)]; median=289154 tokens. hard-expr-eval: delta=4.32370025616049%, +4.3%. hard-line-diff, omp-token-baseline: runs [141623 tokens (passed), 149674 tokens (passed), 172335 tokens (passed), 181299 tokens (passed), 299614 tokens (passed)]; median=172335 tokens. hard-line-diff, omp-token-candidate: runs [129299 tokens (passed), 134329 tokens (passed), 143249 tokens (passed), 155056 tokens (passed), 251923 tokens (passed)]; median=143249 tokens. hard-line-diff: delta=-16.877593060028428%, −16.9%. hard-segment-tree, omp-token-baseline: runs [87260 tokens (passed), 88404 tokens (passed), 88492 tokens (passed), 89458 tokens (passed), 91564 tokens (passed)]; median=88492 tokens. hard-segment-tree, omp-token-candidate: runs [71152 tokens (passed), 83478 tokens (passed), 93344 tokens (passed), 93427 tokens (passed), 135728 tokens (passed)]; median=93344 tokens. hard-segment-tree: delta=5.4829815124531%, +5.5%. OMP-TOKEN-CANDIDATE USES MORE TOKENS ON 8/10 TASKS · MEDIAN OF 5 RUNS PER ARM · TOKENS = INPUT + CACHE READ + CACHE WRITE + OUTPUT · 0 RUNS OMITTED: UNKNOWN TOKENS</desc>
+<rect width="760" height="594" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="593" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="17" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Total tokens per task</text>
+<rect x="294" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="307.00" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-TOKEN-BASELINE (BASELINE)</text>
+<rect x="518" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="531.40" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-TOKEN-CANDIDATE (CANDIDATE)</text>
+<rect x="24" y="78" width="7" height="7" fill="#000" stroke="#757575" stroke-width="1" opacity="1" shape-rendering="crispEdges" />
+<text x="38.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >HOLLOW = FAILED RUN</text>
+<rect x="193" y="80" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" />
+<text x="206.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >FAINT = EACH RUN</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >← FEWER IS BETTER</text>
+<text x="24.00" y="120.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >TASK</text>
+<text x="580.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >BASE</text>
+<text x="658.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >CAND</text>
+<text x="736.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >Δ</text>
+<line x1="242.5" y1="132.5" x2="242.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="242.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="0.0">0</text>
+<line x1="308.5" y1="132.5" x2="308.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="308.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="95506.0">95.5k</text>
+<line x1="374.5" y1="132.5" x2="374.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="374.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="191012.0">191.0k</text>
+<line x1="440.5" y1="132.5" x2="440.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="440.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="286518.0">286.5k</text>
+<line x1="506.5" y1="132.5" x2="506.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="506.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="382024.0">382.0k</text>
+<g class="task-row" data-task="bugfix-duration">
+<title>bugfix-duration</title>
+<line x1="24.5" y1="172.5" x2="736.5" y2="172.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="156.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >bugfix-duration</text>
+<line x1="265.5" y1="152.5" x2="272.5" y2="152.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="262" y="141" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="33207"/>
+<rect x="263" y="142" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="33567"/>
+<rect x="263" y="143" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="34159"/>
+<rect x="269" y="141" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42573"/>
+<rect x="269" y="142" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42939"/>
+<rect x="261" y="148" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="34159"/>
+<rect x="263" y="157" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="34626"/>
+<rect x="270" y="158" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="43955"/>
+<rect x="270" y="159" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="44268"/>
+<rect x="270" y="157" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="44347"/>
+<rect x="270" y="158" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="44622"/>
+<rect x="266" y="146" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="268" y="148" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="44268"/>
+<text x="580.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >34.2k</text>
+<text x="658.00" y="156.00" font-size="11" text-anchor="end" fill="#44cfff" >44.3k</text>
+<text x="736.00" y="156.00" font-size="11" text-anchor="end" fill="#f4644a" >+29.6%</text>
+</g>
+<g class="task-row" data-task="bugfix-invoice">
+<title>bugfix-invoice</title>
+<line x1="24.5" y1="212.5" x2="736.5" y2="212.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="196.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >bugfix-invoice</text>
+<line x1="305.5" y1="192.5" x2="326.5" y2="192.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="300" y="181" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="86986"/>
+<rect x="300" y="182" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="87468"/>
+<rect x="303" y="183" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="92165"/>
+<rect x="312" y="181" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="104247"/>
+<rect x="316" y="182" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="110963"/>
+<rect x="301" y="188" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="92165"/>
+<rect x="312" y="197" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="105600"/>
+<rect x="323" y="198" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="121013"/>
+<rect x="324" y="199" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="122255"/>
+<rect x="326" y="197" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="124931"/>
+<rect x="327" y="198" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="126002"/>
+<rect x="320" y="186" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="322" y="188" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="122255"/>
+<text x="580.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >92.2k</text>
+<text x="658.00" y="196.00" font-size="11" text-anchor="end" fill="#44cfff" >122.3k</text>
+<text x="736.00" y="196.00" font-size="11" text-anchor="end" fill="#f4644a" >+32.6%</text>
+</g>
+<g class="task-row" data-task="debug-cache-race">
+<title>debug-cache-race</title>
+<line x1="24.5" y1="252.5" x2="736.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="236.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >debug-cache-race</text>
+<line x1="311.5" y1="232.5" x2="301.5" y2="232.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="295" y="221" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="80928"/>
+<rect x="304" y="222" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="93048"/>
+<rect x="309" y="223" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="100131"/>
+<rect x="312" y="221" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="104768"/>
+<rect x="320" y="222" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="116941"/>
+<rect x="307" y="228" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="100131"/>
+<rect x="280" y="237" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="59148"/>
+<rect x="298" y="238" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="85266"/>
+<rect x="299" y="239" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="85528"/>
+<rect x="350" y="237" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="160498"/>
+<rect x="356" y="238" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="169079"/>
+<rect x="295" y="226" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="297" y="228" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="85528"/>
+<text x="580.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >100.1k</text>
+<text x="658.00" y="236.00" font-size="11" text-anchor="end" fill="#44cfff" >85.5k</text>
+<text x="736.00" y="236.00" font-size="11" text-anchor="end" fill="#4ade80" >−14.6%</text>
+</g>
+<g class="task-row" data-task="debug-limiter">
+<title>debug-limiter</title>
+<line x1="24.5" y1="292.5" x2="736.5" y2="292.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="276.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >debug-limiter</text>
+<line x1="271.5" y1="272.5" x2="273.5" y2="272.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="269" y="261" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42083"/>
+<rect x="269" y="262" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42707"/>
+<rect x="269" y="263" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42995"/>
+<rect x="270" y="261" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="44122"/>
+<rect x="277" y="262" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="53917"/>
+<rect x="267" y="268" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="42995"/>
+<rect x="264" y="277" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="35138"/>
+<rect x="271" y="278" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="44864"/>
+<rect x="271" y="279" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="45125"/>
+<rect x="271" y="277" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="45662"/>
+<rect x="278" y="278" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="56150"/>
+<rect x="267" y="266" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="269" y="268" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="45125"/>
+<text x="580.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >43.0k</text>
+<text x="658.00" y="276.00" font-size="11" text-anchor="end" fill="#44cfff" >45.1k</text>
+<text x="736.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+5.0%</text>
+</g>
+<g class="task-row" data-task="feature-csv-stream">
+<title>feature-csv-stream</title>
+<line x1="24.5" y1="332.5" x2="736.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="316.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >feature-csv-stream</text>
+<line x1="321.5" y1="312.5" x2="347.5" y2="312.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="313" y="301" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="105830"/>
+<rect x="313" y="302" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="106318"/>
+<rect x="319" y="303" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="114862"/>
+<rect x="330" y="301" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="130731"/>
+<rect x="346" y="302" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="153603"/>
+<rect x="317" y="308" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="114862"/>
+<rect x="296" y="317" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="81646"/>
+<rect x="338" y="318" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="142942"/>
+<rect x="345" y="319" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="152602"/>
+<rect x="346" y="317" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="153971"/>
+<rect x="370" y="318" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="188731"/>
+<rect x="341" y="306" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="343" y="308" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="152602"/>
+<text x="580.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >114.9k</text>
+<text x="658.00" y="316.00" font-size="11" text-anchor="end" fill="#44cfff" >152.6k</text>
+<text x="736.00" y="316.00" font-size="11" text-anchor="end" fill="#f4644a" >+32.9%</text>
+</g>
+<g class="task-row" data-task="feature-lru">
+<title>feature-lru</title>
+<line x1="24.5" y1="372.5" x2="736.5" y2="372.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="356.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >feature-lru</text>
+<line x1="271.5" y1="352.5" x2="272.5" y2="352.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="269" y="341" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42272"/>
+<rect x="269" y="342" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42410"/>
+<rect x="269" y="343" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="42768"/>
+<rect x="270" y="341" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="43536"/>
+<rect x="270" y="342" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="43719"/>
+<rect x="267" y="348" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="42768"/>
+<rect x="264" y="357" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="34739"/>
+<rect x="269" y="358" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="43231"/>
+<rect x="270" y="359" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="43681"/>
+<rect x="270" y="357" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="43684"/>
+<rect x="294" y="358" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="78932"/>
+<rect x="266" y="346" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="268" y="348" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="43681"/>
+<text x="580.00" y="356.00" font-size="11" text-anchor="end" fill="#a1a1a1" >42.8k</text>
+<text x="658.00" y="356.00" font-size="11" text-anchor="end" fill="#44cfff" >43.7k</text>
+<text x="736.00" y="356.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+2.1%</text>
+</g>
+<g class="task-row" data-task="hard-dep-resolver">
+<title>hard-dep-resolver</title>
+<line x1="24.5" y1="412.5" x2="736.5" y2="412.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="396.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-dep-resolver</text>
+<line x1="316.5" y1="392.5" x2="337.5" y2="392.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="302" y="381" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="90963"/>
+<rect x="314" y="382" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="107216"/>
+<rect x="314" y="383" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="107366"/>
+<rect x="326" y="381" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="125183"/>
+<rect x="353" y="382" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="164367"/>
+<rect x="312" y="388" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="107366"/>
+<rect x="332" y="397" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="133870"/>
+<rect x="334" y="398" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="137323"/>
+<rect x="335" y="399" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="138235"/>
+<rect x="346" y="397" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="153602"/>
+<rect x="360" y="398" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="174061"/>
+<rect x="331" y="386" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="333" y="388" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="138235"/>
+<text x="580.00" y="396.00" font-size="11" text-anchor="end" fill="#a1a1a1" >107.4k</text>
+<text x="658.00" y="396.00" font-size="11" text-anchor="end" fill="#44cfff" >138.2k</text>
+<text x="736.00" y="396.00" font-size="11" text-anchor="end" fill="#f4644a" >+28.8%</text>
+</g>
+<g class="task-row" data-task="hard-expr-eval">
+<title>hard-expr-eval</title>
+<line x1="24.5" y1="452.5" x2="736.5" y2="452.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="436.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-expr-eval</text>
+<line x1="433.5" y1="432.5" x2="441.5" y2="432.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="322" y="421" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="119441"/>
+<rect x="327" y="422" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="126422"/>
+<rect x="431" y="423" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="277170"/>
+<rect x="445" y="421" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="296702"/>
+<rect x="497" y="422" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="373220"/>
+<rect x="429" y="428" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="277170"/>
+<rect x="323" y="437" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="120533"/>
+<rect x="342" y="438" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="148469"/>
+<rect x="439" y="439" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="289154"/>
+<rect x="486" y="437" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="356199"/>
+<rect x="504" y="438" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="382024"/>
+<rect x="435" y="426" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="437" y="428" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="289154"/>
+<text x="580.00" y="436.00" font-size="11" text-anchor="end" fill="#a1a1a1" >277.2k</text>
+<text x="658.00" y="436.00" font-size="11" text-anchor="end" fill="#44cfff" >289.2k</text>
+<text x="736.00" y="436.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+4.3%</text>
+</g>
+<g class="task-row" data-task="hard-line-diff">
+<title>hard-line-diff</title>
+<line x1="24.5" y1="492.5" x2="736.5" y2="492.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="476.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-line-diff</text>
+<line x1="361.5" y1="472.5" x2="340.5" y2="472.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="337" y="461" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="141623"/>
+<rect x="343" y="462" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="149674"/>
+<rect x="359" y="463" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="172335"/>
+<rect x="365" y="461" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="181299"/>
+<rect x="447" y="462" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="299614"/>
+<rect x="357" y="468" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="172335"/>
+<rect x="329" y="477" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="129299"/>
+<rect x="332" y="478" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="134329"/>
+<rect x="338" y="479" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="143249"/>
+<rect x="347" y="477" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="155056"/>
+<rect x="414" y="478" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="251923"/>
+<rect x="334" y="466" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="336" y="468" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="143249"/>
+<text x="580.00" y="476.00" font-size="11" text-anchor="end" fill="#a1a1a1" >172.3k</text>
+<text x="658.00" y="476.00" font-size="11" text-anchor="end" fill="#44cfff" >143.2k</text>
+<text x="736.00" y="476.00" font-size="11" text-anchor="end" fill="#4ade80" >−16.9%</text>
+</g>
+<g class="task-row" data-task="hard-segment-tree">
+<title>hard-segment-tree</title>
+<line x1="24.5" y1="532.5" x2="736.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="516.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-segment-tree</text>
+<line x1="303.5" y1="512.5" x2="306.5" y2="512.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="300" y="501" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="87260"/>
+<rect x="301" y="502" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="88404"/>
+<rect x="301" y="503" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="88492"/>
+<rect x="301" y="501" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="89458"/>
+<rect x="303" y="502" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-baseline" data-passed="true" data-value="91564"/>
+<rect x="299" y="508" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-baseline" data-value="88492"/>
+<rect x="289" y="517" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="71152"/>
+<rect x="297" y="518" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="83478"/>
+<rect x="304" y="519" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="93344"/>
+<rect x="304" y="517" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="93427"/>
+<rect x="333" y="518" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-token-candidate" data-passed="true" data-value="135728"/>
+<rect x="300" y="506" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="302" y="508" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-token-candidate" data-value="93344"/>
+<text x="580.00" y="516.00" font-size="11" text-anchor="end" fill="#a1a1a1" >88.5k</text>
+<text x="658.00" y="516.00" font-size="11" text-anchor="end" fill="#44cfff" >93.3k</text>
+<text x="736.00" y="516.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+5.5%</text>
+</g>
+<text x="24.00" y="558.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">OMP-TOKEN-CANDIDATE USES MORE TOKENS ON 8/10 TASKS · MEDIAN OF 5 RUNS PER ARM · TOKENS = INPUT + CACHE</text>
+<text x="24.00" y="572.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">READ + CACHE WRITE + OUTPUT · 0 RUNS OMITTED: UNKNOWN TOKENS</text>
+</g>
+</svg>

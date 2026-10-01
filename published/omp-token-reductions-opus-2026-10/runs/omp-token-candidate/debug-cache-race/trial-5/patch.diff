@@ -1,0 +1,49 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-19aca478-25vt6zq6/src/flight.js"
+index bc0283d..5585414 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-19aca478-25vt6zq6/src/flight.js"
+@@ -1,19 +1,36 @@
+ 'use strict';
+ 
+ // A detached flight still settles its original callers. The registry tracks
+-// only flights available for subsequent readers of each key.
++// only flights available for subsequent readers of each key. A flight may
++// commit or unregister only while it is still the registered flight for its key;
++// once detached (forget/clear), it can neither store a value nor evict a newer
++// flight.
+ function createFlights() {
+   const pending = new Map();
+ 
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
++      if (pending.has(key)) return pending.get(key).promise;
++      const token = {};
++      const isCurrent = () => pending.get(key) === token;
++      // Deferred start: the flight is registered before work runs, so a load
++      // that reads its own key joins this flight, and mutations made by the
++      // load synchronously detach it.
++      const promise = Promise.resolve().then(work).then(
++        value => {
++          if (isCurrent()) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          if (isCurrent()) pending.delete(key);
++          throw reason;
++        }
++      );
++      token.promise = promise;
++      pending.set(key, token);
+       return promise;
+     },
+     forget(key) {

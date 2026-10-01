@@ -1,0 +1,252 @@
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-c20468f0-afwx1nde/src/diff.js"
+index 5eeb030..fa6cb00 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-c20468f0-afwx1nde/src/diff.js"
+@@ -14,7 +14,129 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  if (!Array.isArray(a) || !Array.isArray(b)) {
++    throw new TypeError('diffLines expects two arrays of strings');
++  }
++  const n = a.length;
++  const m = b.length;
++
++  // Intern lines as integers so the inner loops compare numbers.
++  const ids = new Map();
++  const A = new Int32Array(n);
++  const B = new Int32Array(m);
++  for (let i = 0; i < n; i++) {
++    let id = ids.get(a[i]);
++    if (id === undefined) { id = ids.size; ids.set(a[i], id); }
++    A[i] = id;
++  }
++  for (let j = 0; j < m; j++) {
++    let id = ids.get(b[j]);
++    if (id === undefined) { id = ids.size; ids.set(b[j], id); }
++    B[j] = id;
++  }
++
++  // Raw script: codes 0 = equal, 1 = delete, 2 = insert, in path order.
++  const codes = [];
++  const size = n + m + 2;
++  const vf = new Int32Array(2 * size + 1);
++  const vb = new Int32Array(2 * size + 1);
++  myers(A, 0, n, B, 0, m, vf, vb, size, codes);
++
++  // Emit; inside each run without equals, all deletes precede all inserts.
++  const out = [];
++  let i = 0;
++  let j = 0;
++  let k = 0;
++  while (k < codes.length) {
++    if (codes[k] === 0) {
++      out.push({ op: 'equal', line: a[i++] });
++      j++;
++      k++;
++      continue;
++    }
++    let dels = 0;
++    let ins = 0;
++    for (; k < codes.length && codes[k] !== 0; k++) {
++      if (codes[k] === 1) dels++; else ins++;
++    }
++    for (; dels > 0; dels--) out.push({ op: 'delete', line: a[i++] });
++    for (; ins > 0; ins--) out.push({ op: 'insert', line: b[j++] });
++  }
++  return out;
++}
++
++/**
++ * Linear-space Myers diff of A[aLo, aHi) against B[bLo, bHi), appending codes.
++ * vf/vb are shared scratch diagonals indexed by k + off.
++ */
++function myers(A, aLo, aHi, B, bLo, bHi, vf, vb, off, codes) {
++  // Common prefix.
++  const pre = aLo;
++  while (aLo < aHi && bLo < bHi && A[aLo] === B[bLo]) { aLo++; bLo++; }
++  for (let p = pre; p < aLo; p++) codes.push(0);
++  // Common suffix (emitted after the middle).
++  let suffix = 0;
++  while (aLo < aHi && bLo < bHi && A[aHi - 1] === B[bHi - 1]) { aHi--; bHi--; suffix++; }
++
++  if (aLo === aHi) {
++    for (let q = bLo; q < bHi; q++) codes.push(2);
++  } else if (bLo === bHi) {
++    for (let p = aLo; p < aHi; p++) codes.push(1);
++  } else {
++    const s = middleSnake(A, aLo, aHi, B, bLo, bHi, vf, vb, off);
++    myers(A, aLo, aLo + s.x0, B, bLo, bLo + s.y0, vf, vb, off, codes);
++    for (let p = s.x0; p < s.x1; p++) codes.push(0);
++    myers(A, aLo + s.x1, aHi, B, bLo + s.y1, bHi, vf, vb, off, codes);
++  }
++
++  for (; suffix > 0; suffix--) codes.push(0);
++}
++
++/**
++ * Find the middle snake (local coordinates) of a minimal path. Requires both
++ * ranges nonempty with differing first and last elements.
++ */
++function middleSnake(A, aLo, aHi, B, bLo, bHi, vf, vb, off) {
++  const N = aHi - aLo;
++  const M = bHi - bLo;
++  const delta = N - M;
++  const odd = (delta & 1) !== 0;
++  const max = (N + M + 1) >> 1;
++  vf[off + 1] = 0;
++  vb[off + 1] = 0;
++  for (let d = 0; d <= max; d++) {
++    // Forward pass.
++    for (let k = -d; k <= d; k += 2) {
++      let x = (k === -d || (k !== d && vf[off + k - 1] < vf[off + k + 1]))
++        ? vf[off + k + 1]
++        : vf[off + k - 1] + 1;
++      let y = x - k;
++      const x0 = x;
++      const y0 = y;
++      while (x < N && y < M && A[aLo + x] === B[bLo + y]) { x++; y++; }
++      vf[off + k] = x;
++      const kr = delta - k;
++      if (odd && kr >= -(d - 1) && kr <= d - 1 && x + vb[off + kr] >= N) {
++        return { x0, y0, x1: x, y1: y };
++      }
++    }
++    // Reverse pass, in reversed coordinates.
++    for (let k = -d; k <= d; k += 2) {
++      let x = (k === -d || (k !== d && vb[off + k - 1] < vb[off + k + 1]))
++        ? vb[off + k + 1]
++        : vb[off + k - 1] + 1;
++      let y = x - k;
++      const x0 = x;
++      const y0 = y;
++      while (x < N && y < M && A[aHi - 1 - x] === B[bHi - 1 - y]) { x++; y++; }
++      vb[off + k] = x;
++      const kf = delta - k;
++      if (!odd && kf >= -d && kf <= d && x + vf[off + kf] >= N) {
++        return { x0: N - x, y0: M - y, x1: N - x0, y1: M - y0 };
++      }
++    }
++  }
++  throw new Error('diffLines: middle snake not found');
+ }
+ 
+ /**
+@@ -34,7 +156,56 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  if (!Number.isInteger(context) || context < 0) {
++    throw new RangeError('context must be a nonnegative integer');
++  }
++  const script = diffLines(a, b);
++  const len = script.length;
++
++  // Old/new line counts before each script position.
++  const oldBefore = new Int32Array(len + 1);
++  const newBefore = new Int32Array(len + 1);
++  for (let k = 0; k < len; k++) {
++    const op = script[k].op;
++    oldBefore[k + 1] = oldBefore[k] + (op === 'insert' ? 0 : 1);
++    newBefore[k + 1] = newBefore[k] + (op === 'delete' ? 0 : 1);
++  }
++
++  const hunks = [];
++  let k = 0;
++  while (k < len) {
++    if (script[k].op === 'equal') { k++; continue; }
++    const firstChange = k;
++    // Extend over changed regions whose separating gap is <= 2 * context.
++    let lastChange = k;
++    let p = k + 1;
++    while (p < len) {
++      if (script[p].op !== 'equal') { lastChange = p; p++; continue; }
++      let q = p;
++      while (q < len && script[q].op === 'equal') q++;
++      if (q < len && q - p <= 2 * context) { p = q; continue; }
++      break;
++    }
++    const start = Math.max(0, firstChange - context);
++    const end = Math.min(len, lastChange + 1 + context);
++
++    const lines = [];
++    for (let r = start; r < end; r++) {
++      const e = script[r];
++      lines.push((e.op === 'equal' ? ' ' : e.op === 'delete' ? '-' : '+') + e.line);
++    }
++    const oldLines = oldBefore[end] - oldBefore[start];
++    const newLines = newBefore[end] - newBefore[start];
++    hunks.push({
++      oldStart: oldLines === 0 ? oldBefore[start] : oldBefore[start] + 1,
++      oldLines,
++      newStart: newLines === 0 ? newBefore[start] : newBefore[start] + 1,
++      newLines,
++      lines,
++    });
++    k = lastChange + 1;
++  }
++  return hunks;
+ }
+ 
+ /**
+@@ -48,7 +219,57 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  if (!Array.isArray(a)) throw new TypeError('applyHunks expects an array of lines');
++  if (!Array.isArray(hunks)) throw new TypeError('applyHunks expects an array of hunks');
++  const out = [];
++  let pos = 0; // next unconsumed index in a
++  for (let h = 0; h < hunks.length; h++) {
++    const fail = (why) => new Error(`hunk ${h} does not apply: ${why}`);
++    const hunk = hunks[h];
++    if (hunk === null || typeof hunk !== 'object') throw fail('not an object');
++    const { oldStart, oldLines, newStart, newLines, lines } = hunk;
++    for (const [name, v] of [['oldStart', oldStart], ['oldLines', oldLines],
++      ['newStart', newStart], ['newLines', newLines]]) {
++      if (!Number.isInteger(v) || v < 0) throw fail(`invalid ${name}`);
++    }
++    if (!Array.isArray(lines) || lines.length === 0) throw fail('missing lines');
++
++    let ctx = 0;
++    let del = 0;
++    let ins = 0;
++    for (const line of lines) {
++      if (typeof line !== 'string' || line.length === 0) throw fail('malformed line');
++      const c = line[0];
++      if (c === ' ') ctx++;
++      else if (c === '-') del++;
++      else if (c === '+') ins++;
++      else throw fail('malformed line prefix');
++    }
++    if (ctx + del !== oldLines) throw fail('oldLines does not match lines');
++    if (ctx + ins !== newLines) throw fail('newLines does not match lines');
++
++    if (oldLines > 0 && oldStart === 0) throw fail('oldStart out of range');
++    const oldIdx = oldLines === 0 ? oldStart : oldStart - 1;
++    if (oldIdx < pos) throw fail('overlapping or out-of-order hunk');
++    if (oldIdx + oldLines > a.length) throw fail('old range beyond end of input');
++
++    for (let i = pos; i < oldIdx; i++) out.push(a[i]);
++    const newIdx = out.length;
++    if (newStart !== (newLines === 0 ? newIdx : newIdx + 1)) throw fail('newStart mismatch');
++
++    let i = oldIdx;
++    for (const line of lines) {
++      const c = line[0];
++      const text = line.slice(1);
++      if (c === '+') { out.push(text); continue; }
++      if (a[i] !== text) throw fail(`line ${i + 1} mismatch`);
++      if (c === ' ') out.push(text);
++      i++;
++    }
++    pos = i;
++  }
++  for (let i = pos; i < a.length; i++) out.push(a[i]);
++  return out;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

@@ -1,0 +1,225 @@
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-2c131b01-pazd4l6h/src/evaluator.js"
+index 7f2b237..04af5eb 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-2c131b01-pazd4l6h/src/evaluator.js"
+@@ -2,6 +2,28 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++// Python float floor division/modulo (CPython float_divmod); zero results are +0.
++function floorMod(left, right) {
++  const mod = left % right;
++  if (mod === 0) return 0;
++  return (right < 0) !== (mod < 0) ? mod + right : mod;
++}
++
++function floorDiv(left, right) {
++  const mod = left % right;
++  let div = (left - mod) / right;
++  if (mod && (right < 0) !== (mod < 0)) div -= 1;
++  if (div === 0) return 0;
++  const floored = Math.floor(div);
++  return div - floored > 0.5 ? floored + 1 : floored;
++}
++
++/** Python pow: 1 ** y and (-1) ** ±inf are 1, unlike JavaScript's NaN. */
++function power(left, right) {
++  if (left === 1 || (left === -1 && !Number.isFinite(right) && !Number.isNaN(right))) return 1;
++  return left ** right;
++}
++
+ function apply(operator, left, right) {
+   left = Number(left);
+   right = Number(right);
+@@ -14,16 +36,9 @@ function apply(operator, left, right) {
+     case '-': return left - right;
+     case '*': return left * right;
+     case '/': return left / right;
+-    case '**': return left ** right;
+-    case '//': {
+-      const quotient = Math.trunc(left / right);
+-      return quotient === 0 ? 0 : quotient;
+-    }
+-    case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
+-    }
++    case '**': return power(left, right);
++    case '//': return floorDiv(left, right);
++    case '%': return floorMod(left, right);
+     case '<': return left < right;
+     case '<=': return left <= right;
+     case '>': return left > right;
+@@ -99,13 +114,14 @@ function evaluateAst(root, variables) {
+         frame.index = 0;
+         frames.push({ node: node.args[0], phase: 0 });
+       } else {
+-        const value = Number(result);
+-        if (frame.index === 0) frame.value = value;
+-        else if (node.name === 'min') frame.value = Math.min(frame.value, value);
+-        else frame.value = Math.max(frame.value, value);
++        // Python min/max keep the earliest extreme argument, comparing with < / >.
++        if (frame.index === 0) frame.value = result;
++        else if (node.name === 'min' ? Number(result) < Number(frame.value) : Number(result) > Number(frame.value)) {
++          frame.value = result;
++        }
+         frame.index += 1;
+         if (frame.index === node.args.length) {
+-          result = node.name === 'abs' ? Math.abs(frame.value) : frame.value;
++          result = node.name === 'abs' ? Math.abs(Number(frame.value)) : frame.value;
+           frames.pop();
+         } else {
+           frames.push({ node: node.args[frame.index], phase: 0 });
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-2c131b01-pazd4l6h/src/parser.js"
+index 4af2109..cf625bd 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-2c131b01-pazd4l6h/src/parser.js"
+@@ -2,25 +2,33 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++const COMPARISONS = new Set(['<', '<=', '>', '>=', '==', '!=']);
++const PRODUCTS = new Set(['*', '/', '//', '%']);
++const FUNCTIONS = new Set(['min', 'max', 'abs']);
++
+ /** Parse a complete token sequence into an AST. Nodes retain operator columns. */
+ function parse(tokens) {
+   let position = 0;
+   const current = () => tokens[position];
+   const take = () => tokens[position++];
+-  const is = value => current().value === value;
++  const is = value => current().type === 'operator' && current().value === value;
+   const expect = value => {
+     if (!is(value)) throw new ExprError(`Expected ${value}`, current().column);
+     return take();
+   };
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
++  // comparison := sum (op sum)*, kept as one chain node so a < b < c is a < b and b < c.
+   function comparison() {
+-    let left = sum();
+-    while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++    const first = sum();
++    if (!(current().type === 'operator' && COMPARISONS.has(current().value))) return first;
++    const operands = [first];
++    const operators = [];
++    while (current().type === 'operator' && COMPARISONS.has(current().value)) {
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+@@ -33,54 +41,61 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
+-    while (['*', '/', '//', '%'].includes(current().value)) {
++    let left = unary();
++    while (current().type === 'operator' && PRODUCTS.has(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+ 
++  // unary := ('+' | '-') unary | power; collected iteratively to avoid per-sign recursion.
+   function unary() {
+-    if (is('+') || is('-')) {
+-      return { type: 'unary', operator: take(), operand: unary() };
++    const signs = [];
++    while (is('+') || is('-')) signs.push(take());
++    let node = power();
++    for (let i = signs.length - 1; i >= 0; i -= 1) {
++      node = { type: 'unary', operator: signs[i], operand: node };
+     }
+-    return primary();
++    return node;
+   }
+ 
++  // power := primary ('**' unary)?; right-associative through unary -> power.
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
+-      const operator = take();
+-      left = binary(operator, left, unary());
++    const base = primary();
++    if (!is('**')) return base;
++    const operator = take();
++    return binary(operator, base, unary());
++  }
++
++  function call(token) {
++    const name = token.value;
++    if (!FUNCTIONS.has(name)) throw new ExprError('Unknown function', token.column);
++    take(); // '('
++    if (is(')')) throw new ExprError('Wrong argument count', token.column);
++    const args = [comparison()];
++    while (is(',')) {
++      if (name === 'abs') throw new ExprError('Wrong argument count', token.column);
++      take();
++      args.push(comparison());
+     }
+-    return left;
++    expect(')');
++    return { type: 'call', name, args };
+   }
+ 
+   function primary() {
+-    const token = take();
+-    if (token.type === 'number') return { type: 'number', value: token.value };
++    const token = current();
++    if (token.type === 'number') {
++      take();
++      return { type: 'number', value: token.value };
++    }
+     if (token.type === 'identifier') {
+-      if (!is('(')) return { type: 'variable', name: token.value, column: token.column };
+       take();
+-      const args = [];
+-      if (!is(')')) {
+-        args.push(comparison());
+-        while (is(',')) {
+-          take();
+-          args.push(comparison());
+-        }
+-      }
+-      expect(')');
+-      if (!['min', 'max', 'abs'].includes(token.value)) {
+-        throw new ExprError('Unknown function', token.column);
+-      }
+-      if (!args.length || (token.value === 'abs' && args.length !== 1)) {
+-        throw new ExprError('Wrong argument count', token.column);
+-      }
+-      return { type: 'call', name: token.value, args };
++      if (is('(')) return call(token);
++      return { type: 'variable', name: token.value, column: token.column };
+     }
+-    if (token.value === '(') {
++    if (is('(')) {
++      take();
+       const expression = comparison();
+       expect(')');
+       return expression;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-2c131b01-pazd4l6h/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-2c131b01-pazd4l6h/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

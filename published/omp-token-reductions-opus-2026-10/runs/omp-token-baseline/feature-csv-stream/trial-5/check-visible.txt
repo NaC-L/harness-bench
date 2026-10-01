@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: single push emits complete comma-separated records
+ok 1 - single push emits complete comma-separated records
+  ---
+  duration_ms: 1.9898
+  type: 'test'
+  ...
+# Subtest: single push parses quoted commas and doubled quotes
+ok 2 - single push parses quoted commas and doubled quotes
+  ---
+  duration_ms: 0.2463
+  type: 'test'
+  ...
+# Subtest: end flushes one unfinished record including empty fields
+ok 3 - end flushes one unfinished record including empty fields
+  ---
+  duration_ms: 0.2717
+  type: 'test'
+  ...
+# Subtest: single push preserves a newline inside a quoted field
+ok 4 - single push preserves a newline inside a quoted field
+  ---
+  duration_ms: 0.1303
+  type: 'test'
+  ...
+# Subtest: parse header mode uses the first record as object keys
+ok 5 - parse header mode uses the first record as object keys
+  ---
+  duration_ms: 0.292
+  type: 'test'
+  ...
+# Subtest: rows helper keeps duplicate columns with suffixes
+ok 6 - rows helper keeps duplicate columns with suffixes
+  ---
+  duration_ms: 1.4986
+  type: 'test'
+  ...
+# Subtest: rows helper pads short records and ignores surplus cells
+ok 7 - rows helper pads short records and ignores surplus cells
+  ---
+  duration_ms: 0.1415
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 81.3499

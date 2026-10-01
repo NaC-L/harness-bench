@@ -1,0 +1,72 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-5425f309-ywpb2lzg/src/resolver.js"
+index b445e71..eb6cce1 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-5425f309-ywpb2lzg/src/resolver.js"
+@@ -15,10 +15,12 @@ function requirements(record) {
+   return Object.keys(record).map(name => ({ name, accepts: compileRange(record[name]) }));
+ }
+ 
++// Numerically highest version first.
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  for (let i = 0; i < 3; i += 1) {
++    if (left.tuple[i] !== right.tuple[i]) return left.tuple[i] < right.tuple[i] ? 1 : -1;
++  }
++  return 0;
+ }
+ 
+ /**
+@@ -85,9 +87,13 @@ function resolve(registry, root) {
+     return true;
+   }
+ 
++  // Undo everything recorded after this frame was pushed: its selection, the
++  // constraints and queue entries its version discovered, and the cursor.
+   function restore(frame) {
+     selected.delete(frame.name);
+     cursor = frame.cursor;
++    queue.length = frame.queueLength;
++    while (trail.length > frame.trailLength) constraints.get(trail.pop()).pop();
+   }
+ 
+   function retry() {
+@@ -106,9 +112,7 @@ function resolve(registry, root) {
+   }
+ 
+   append(initial);
+-  let iterations = 0;
+   for (;;) {
+-    if (++iterations > 4096) return null;
+     if (cursor === queue.length) {
+       const result = {};
+       for (const [name, version] of selected) {
+@@ -117,10 +121,8 @@ function resolve(registry, root) {
+       return result;
+     }
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
++    // Selected names were checked against each constraint as it was appended.
++    if (selected.has(name)) continue;
+     const tests = constraints.get(name);
+     const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+     choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-5425f309-ywpb2lzg/src/semver.js"
+index 5b1d55d..54f9d6a 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-5425f309-ywpb2lzg/src/semver.js"
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

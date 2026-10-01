@@ -1,0 +1,17 @@
+# Opus 5.5 repeat of benchmark-omp-token-reductions.toml: combined inline descriptors +
+# read threshold 300 + lean bash/edit payloads + proportional verification.
+# Only --model and the per-run credential differ from the Sol grid. Protocol: experiments/omp-token-reductions-opus/PLAN.md.
+
+[harnesses.omp-token-baseline]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--system-prompt-template", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/prompts/system/system-prompt.md", "--config", "{benchmark_dir}/experiments/omp-token-reductions/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }
+
+[harnesses.omp-token-candidate]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--system-prompt-template", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md", "--config", "{benchmark_dir}/experiments/omp-token-reductions/candidate.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }

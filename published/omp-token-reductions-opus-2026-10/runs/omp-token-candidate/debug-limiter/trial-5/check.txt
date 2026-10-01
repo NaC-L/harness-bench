@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: validates concurrency and rejects invalid tasks without poisoning the queue
+ok 1 - validates concurrency and rejects invalid tasks without poisoning the queue
+  ---
+  duration_ms: 1.4443
+  type: 'test'
+  ...
+# Subtest: synchronous throws, rejected promises, and thrown non-Errors release slots
+ok 2 - synchronous throws, rejected promises, and thrown non-Errors release slots
+  ---
+  duration_ms: 0.2619
+  type: 'test'
+  ...
+# Subtest: each rejected task frees one slot while other work remains pending
+ok 3 - each rejected task frees one slot while other work remains pending
+  ---
+  duration_ms: 3.4648
+  type: 'test'
+  ...
+# Subtest: ordinary values, thenables, and invocation counts are preserved
+ok 4 - ordinary values, thenables, and invocation counts are preserved
+  ---
+  duration_ms: 0.6152
+  type: 'test'
+  ...
+# Subtest: separate limiter instances do not share slots
+ok 5 - separate limiter instances do not share slots
+  ---
+  duration_ms: 0.1497
+  type: 'test'
+  ...
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 6 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 4.1904
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 7 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.5706
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.4196

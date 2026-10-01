@@ -93,11 +93,11 @@ class ExportTests(unittest.TestCase):
         self.assertFalse((self.out / 'runs' / 'not-exported').exists())
         for row in clean:
             self.assertIsNone(row['workdir'])
-            self.assertEqual(row['artifact_dir'], 'runs/' + row['run_id'])
+            self.assertEqual(row['artifact_dir'], f"runs/{row['harness']}/{row['task']}/trial-{row['trial']}")
             artifact = self.out / row['artifact_dir']
             for name in ('patch.diff', 'check.txt', 'check-visible.txt'):
                 self.assertTrue((artifact / name).exists())
-            for name in ('sessions', 'stdout.jsonl', 'stderr.txt', 'run.json'):
+            for name in ('session.jsonl', 'sessions', 'stdout.jsonl', 'stderr.txt', 'run.json'):
                 self.assertFalse((artifact / name).exists())
         for path in self.out.rglob('*'):
             if path.is_file():
@@ -117,11 +117,11 @@ class ExportTests(unittest.TestCase):
 
     def test_include_transcripts_sanitizes_copied_text(self):
         export(self.rows, self.results, self.out, 'base', 'cand', min_trials=1, include_transcripts=True)
-        for row in self.rows:
-            artifact = self.out / 'runs' / row['run_id']
+        for row in report.load(self.out / 'runs.jsonl'):
+            artifact = self.out / row['artifact_dir']
             self.assertTrue((artifact / 'stdout.jsonl').exists())
             self.assertTrue((artifact / 'stderr.txt').exists())
-            session = artifact / 'sessions' / 'session.jsonl'
+            session = artifact / 'session.jsonl'
             self.assertTrue(session.exists())
             text = session.read_text(encoding='utf-8')
             self.assertNotIn(str(Path.home()).replace('\\', '\\\\'), text)
@@ -129,6 +129,32 @@ class ExportTests(unittest.TestCase):
             self.assertIn('~', text)
             self.assertIn('{temp}', text)
             json.loads(text)
+            self.assertEqual(row['metrics']['session_files'], [session.relative_to(self.out).as_posix()])
+
+    def test_companion_files_survive_session_rename(self):
+        source = Path(self.rows[0]['artifact_dir']) / 'sessions'
+        (source / 'session' / 'subagent').mkdir(parents=True)
+        (source / 'session' / 'subagent' / 'output.log').write_text('captured output', encoding='utf-8')
+        export(self.rows, self.results, self.out, 'base', 'cand', min_trials=1, include_transcripts=True)
+        row = report.load(self.out / 'runs.jsonl')[0]
+        companion = self.out / row['artifact_dir'] / 'session' / 'subagent' / 'output.log'
+        self.assertEqual(companion.read_text(encoding='utf-8'), 'captured output')
+
+    def test_multiple_sessions_and_repeated_trial_do_not_overwrite(self):
+        row = self.rows[0]
+        source = Path(row['artifact_dir']) / 'sessions'
+        (source / 'second.jsonl').write_text('{"message": "second session"}\n', encoding='utf-8')
+        duplicate = dict(row, run_id='another-run')
+        export(self.rows + [duplicate], self.results, self.out, 'base', 'cand',
+               min_trials=1, include_transcripts=True)
+        clean = report.load(self.out / 'runs.jsonl')
+        self.assertNotEqual(clean[0]['artifact_dir'], clean[-1]['artifact_dir'])
+        for item in (clean[0], clean[-1]):
+            artifact = self.out / item['artifact_dir']
+            self.assertEqual(json.loads((artifact / 'sessions' / 'second.jsonl').read_text())['message'],
+                             'second session')
+            self.assertEqual({Path(p).name for p in item['metrics']['session_files']},
+                             {'session.jsonl', 'second.jsonl'})
 
     def test_existing_out_is_refused_without_overwriting(self):
         self.out.mkdir()
@@ -146,7 +172,8 @@ class ExportTests(unittest.TestCase):
         export(self.rows, self.results, self.out, 'base', 'cand', min_trials=1)
         self.assertFalse((self.out / 'manifest.json').exists())
         self.assertIn('No manifest.json; setup not recorded.', (self.out / 'REPORT.md').read_text(encoding='utf-8'))
-        self.assertTrue(all((self.out / 'runs' / row['run_id'] / 'patch.diff').exists() for row in self.rows))
+        self.assertTrue(all((self.out / row['artifact_dir'] / 'patch.diff').exists()
+                            for row in report.load(self.out / 'runs.jsonl')))
 
     def test_invalid_comparison_does_not_create_out(self):
         with self.assertRaisesRegex(ValueError, 'no runs for harness: missing'):

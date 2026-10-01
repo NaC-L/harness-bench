@@ -187,6 +187,27 @@ sanitization**: use a reviewed exported bundle for sharing, and review the HTML 
 The generated [Opus vs Sol explorer](published/opus-vs-sol-2026-10/EXPLORER.html)
 contains all 60 runs; download it and open locally (GitHub's file view does not execute HTML).
 
+### Browser-hosted experiment index
+
+Open [the experiment website](https://nac-l.github.io/harness-bench/) and select a
+bundle to inspect its runs without downloading HTML. The `pages` GitHub Actions
+workflow rebuilds the index and explorers when `published/`, `bench/`, or its
+workflow changes on `main`; it can also be run manually. Pages must use the
+**GitHub Actions** publishing source.
+
+Only committed `published/` data is deployed, never private `results/`. Review
+bundles for secrets before committing: publishing makes their captured content
+browser-accessible. JSONL bundles get explorers; CSV-only historical reports link
+to their original GitHub bundle. The build does not re-score old reports.
+
+To preview the same site locally, choose a new output directory:
+
+```sh
+python -m bench.site --out results/site-preview
+```
+
+Open `results/site-preview/index.html` directly in a browser.
+
 `results/` is gitignored on purpose; `published/` is intended for reviewed bundles you choose to commit. Anyone can re-run `compare` directly on a bundle by setting the global `--results` to its exported directory; no original workdirs or model account are needed to inspect its verdict.
 
 `run` automatically appends an invocation to `manifest.json` before scheduling runs. It records command templates, harness versions/config hashes, referenced repository overlay files, task hashes, trial/job settings, and platform/Python/Node versions. Keep this provenance with the run index.

@@ -6,7 +6,7 @@ from html import escape
 from pathlib import Path
 from urllib.parse import quote
 
-from .explorer import collect, render
+from .explorer import STYLE, collect, render
 
 
 REPOSITORY = 'https://github.com/NaC-L/harness-bench'
@@ -26,31 +26,42 @@ def build(published: Path, out: Path) -> int:
                      key=lambda p: p.relative_to(root).as_posix(), reverse=True)
     out.mkdir(parents=True)
     cards = []
+    graph_count = 0
     for directory in bundles:
         relative = directory.relative_to(root)
         label = relative.as_posix()
         data = collect(directory)
         data['title'] = label
+        data['index_href'] = '../' * len(relative.parts) + 'index.html'
+        graph_count += len(data['charts'])
         target = out / relative / 'EXPLORER.html'
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render(data), encoding='utf-8', newline='\n')
         arms = sorted({str(run['row'].get('harness', 'unknown')) for run in data['runs']})
         source = f'{REPOSITORY}/tree/main/published/{quote(label, safe="/")}'
-        cards.append(f'<article><h2><a href="{quote(label, safe="/")}/EXPLORER.html">'
+        kind = 'Graphs + sessions' if data['charts'] else 'Run explorer'
+        cards.append(f'<article class="experiment"><span class="experiment-mark" aria-hidden="true"></span>'
+                     f'<div><h2><a href="{quote(label, safe="/")}/EXPLORER.html">'
                      f'{escape(label)}</a></h2><p>{len(data["runs"])} runs · '
                      f'{escape(", ".join(arms))}</p><a class="source" href="{source}">'
-                     'Source bundle on GitHub</a></article>')
+                     'Source bundle on GitHub</a></div><span class="experiment-kind">'
+                     f'{kind}<br>{len(data["charts"])} saved plots</span></article>')
     # Historical CSV-only reports remain accessible without inventing session records.
     for directory in sorted(root.iterdir()):
         if directory.is_dir() and directory.resolve().is_relative_to(root) and not any(
                 p.is_relative_to(directory) for p in bundles):
             label = directory.name
             source = f'{REPOSITORY}/tree/main/published/{quote(label, safe="")}'
-            cards.append(f'<article><h2><a href="{source}">{escape(label)}</a></h2>'
-                         '<p>Legacy report · no JSONL session explorer</p></article>')
+            cards.append(f'<article class="experiment"><span class="experiment-mark" aria-hidden="true"></span>'
+                         f'<div><h2><a href="{source}">{escape(label)}</a></h2>'
+                         '<p>Legacy report · no JSONL session explorer</p></div>'
+                         '<span class="experiment-kind">Source report</span></article>')
     content = '\n'.join(cards) or '<p>No published run bundles yet.</p>'
-    (out / 'index.html').write_text(INDEX.replace('__EXPERIMENTS__', content),
-                                  encoding='utf-8', newline='\n')
+    index = (INDEX.replace('__BENCH_STYLE__', STYLE)
+             .replace('__BUNDLE_COUNT__', str(len(bundles)))
+             .replace('__GRAPH_COUNT__', str(graph_count))
+             .replace('__EXPERIMENTS__', content))
+    (out / 'index.html').write_text(index, encoding='utf-8', newline='\n')
     (out / '.nojekyll').write_text('', encoding='utf-8')
     return len(bundles)
 
@@ -69,9 +80,15 @@ def main() -> None:
 
 INDEX = '''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Harness Bench · Experiments</title><style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#10151d;color:#edf2fa;font:16px/1.6 system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:32px;margin:0}h2{font-size:19px;margin:0;overflow-wrap:anywhere}p{color:#b4c2d6}a{color:#7ed6ed;text-underline-offset:4px}a:hover{color:#edf2fa}:focus-visible{outline:3px solid #7ed6ed;outline-offset:4px}.experiments{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;margin-top:28px}article{background:#19212d;border:1px solid #3c4a60;border-radius:10px;padding:20px}article p{overflow-wrap:anywhere;margin:10px 0}.source{font-size:14px}footer{margin-top:32px;color:#b4c2d6}@media(max-width:500px){main{padding:24px 16px}h1{font-size:27px}}
-</style></head><body><main><h1>Harness Bench</h1><p>Published coding-agent experiments. Select an experiment, then click a run to inspect messages, tool calls, checks, and patches.</p><p>Reviewed repository snapshots only. Missing data stays unknown; saved reports are not re-scored.</p><div class="experiments">__EXPERIMENTS__</div><footer><a href="https://github.com/NaC-L/harness-bench">Repository and reproduction instructions</a> · Explorers also work offline when saved.</footer></main></body></html>'''
+<title>Harness Bench · Experiments</title><style>__BENCH_STYLE__</style></head><body>
+<div class="topbar"><nav class="topbar-inner" aria-label="Site"><a class="brand" href="https://github.com/NaC-L/harness-bench">Harness Bench</a><a href="#experiments">Research</a></nav></div>
+<header class="page-header"><p class="eyebrow">Research / Coding-agent experiments</p><h1>Measure the harness.</h1>
+<p class="lede">Published experiments on coding agents. Follow the comparison graphs, then inspect the messages, tool calls, checks, and patches behind each run.</p>
+<div class="stats"><div class="stat"><small>Run bundles</small><strong>__BUNDLE_COUNT__</strong></div><div class="stat"><small>Saved graphs</small><strong>__GRAPH_COUNT__</strong></div><div class="stat"><small>Portable explorers</small><strong>HTML</strong></div><div class="stat"><small>Comparison reports</small><strong>Frozen</strong></div></div>
+<p class="micro muted">Reviewed snapshots only · Missing stays unknown · Reports are not re-scored</p></header>
+<main><div class="section-heading" id="experiments"><h2>Experiments</h2><span class="micro muted">Source / Evidence</span></div>
+<div class="experiments">__EXPERIMENTS__</div>
+<footer><a href="https://github.com/NaC-L/harness-bench">Repository and reproduction instructions</a><br>Explorers also work offline when saved. No external fonts or scripts.</footer></main></body></html>'''
 
 
 if __name__ == '__main__':

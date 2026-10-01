@@ -19,8 +19,22 @@ class ExplorerTests(unittest.TestCase):
             (root / 'runs.jsonl').write_text('\n'.join(map(json.dumps, rows)), encoding='utf-8')
             self.assertEqual([run['files'] for run in collect(root)['runs']], [{}, {}])
 
+    def test_external_chart_symlink_is_not_embedded(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'bundle'
+            (root / 'charts').mkdir(parents=True)
+            (root / 'runs.jsonl').write_text('', encoding='utf-8')
+            outside = Path(temp) / 'private.svg'
+            outside.write_text('<svg xmlns="http://www.w3.org/2000/svg">'
+                               '<title>private chart</title></svg>', encoding='utf-8')
+            try:
+                (root / 'charts' / 'summary.svg').symlink_to(outside)
+            except OSError as exc:
+                self.skipTest(f'symlinks unavailable: {exc}')
+            self.assertEqual(collect(root)['charts'], [])
+
     def test_payload_preserves_hostile_text_without_closing_script(self):
-        data = {'runs': [], 'report': '</script><script>alert(1)</script>&', 'title': 'ü'}
+        data = {'runs': [], 'report': '</script><script>alert(1)</script>& __BENCH_STYLE__', 'title': 'ü'}
         html = render(data)
         payload = html.split('<script type="application/json" id="bench-data">', 1)[1].split('</script>', 1)[0]
         self.assertNotIn('<', payload)

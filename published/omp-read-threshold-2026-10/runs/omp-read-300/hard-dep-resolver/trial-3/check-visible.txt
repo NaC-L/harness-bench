@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: candidate ordering compares every component numerically
+ok 1 - candidate ordering compares every component numerically
+  ---
+  duration_ms: 2.4121
+  type: 'test'
+  ...
+# Subtest: FIFO processes roots before dependencies and collects constraints on discovery
+ok 2 - FIFO processes roots before dependencies and collects constraints on discovery
+  ---
+  duration_ms: 0.6285
+  type: 'test'
+  ...
+# Subtest: first-found selection follows root order rather than globally maximizing versions
+ok 3 - first-found selection follows root order rather than globally maximizing versions
+  ---
+  duration_ms: 0.378
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first complete assignment
+ok 4 - dependency key order determines the first complete assignment
+  ---
+  duration_ms: 0.1856
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints, dependencies, and descendant choices
+ok 5 - backtracking removes abandoned constraints, dependencies, and descendant choices
+  ---
+  duration_ms: 0.2582
+  type: 'test'
+  ...
+# Subtest: an immediate conflict rolls back even partially discovered dependencies
+ok 6 - an immediate conflict rolls back even partially discovered dependencies
+  ---
+  duration_ms: 0.1413
+  type: 'test'
+  ...
+# Subtest: cycles expand selected versions only once and still enforce conflicting edges
+ok 7 - cycles expand selected versions only once and still enforce conflicting edges
+  ---
+  duration_ms: 0.2442
+  type: 'test'
+  ...
+# Subtest: long chains and rollback use explicit frames without an iteration cutoff
+ok 8 - long chains and rollback use explicit frames without an iteration cutoff
+  ---
+  duration_ms: 113.947
+  type: 'test'
+  ...
+# Subtest: conflicts are checked before exploring unrelated combinations
+ok 9 - conflicts are checked before exploring unrelated combinations
+  ---
+  duration_ms: 0.8421
+  type: 'test'
+  ...
+# Subtest: missing packages are unsatisfiable, empty roots select nothing, and inputs stay unchanged
+ok 10 - missing packages are unsatisfiable, empty roots select nothing, and inputs stay unchanged
+  ---
+  duration_ms: 0.444
+  type: 'test'
+  ...
+# Subtest: all registry entries are validated eagerly even with an empty root
+ok 11 - all registry entries are validated eagerly even with an empty root
+  ---
+  duration_ms: 0.6176
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special names use only own enumerable string keys
+ok 12 - null-prototype maps and special names use only own enumerable string keys
+  ---
+  duration_ms: 0.1571
+  type: 'test'
+  ...
+# Subtest: caret bounds follow the first nonzero component, including zero-major ranges
+ok 13 - caret bounds follow the first nonzero component, including zero-major ranges
+  ---
+  duration_ms: 1.293
+  type: 'test'
+  ...
+# Subtest: resolver uses the corrected zero-major caret bounds
+ok 14 - resolver uses the corrected zero-major caret bounds
+  ---
+  duration_ms: 1.3654
+  type: 'test'
+  ...
+# Subtest: tilde, comparisons, exact versions, and whitespace-separated AND terms retain their semantics
+ok 15 - tilde, comparisons, exact versions, and whitespace-separated AND terms retain their semantics
+  ---
+  duration_ms: 0.3775
+  type: 'test'
+  ...
+# Subtest: canonical safe-integer versions and numeric comparison keep their public API
+ok 16 - canonical safe-integer versions and numeric comparison keep their public API
+  ---
+  duration_ms: 0.6147
+  type: 'test'
+  ...
+# Subtest: caret and tilde upper bounds work at safe-integer component limits
+ok 17 - caret and tilde upper bounds work at safe-integer component limits
+  ---
+  duration_ms: 0.1485
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.6111
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 198.5543

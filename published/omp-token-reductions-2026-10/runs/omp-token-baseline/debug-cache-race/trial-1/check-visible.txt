@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: invalidate: obsolete value, old settles first
+ok 1 - invalidate: obsolete value, old settles first
+  ---
+  duration_ms: 2.8558
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, old settles first
+ok 2 - invalidate: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.609
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete value, fresh settles first
+ok 3 - invalidate: obsolete value, fresh settles first
+  ---
+  duration_ms: 0.2175
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, fresh settles first
+ok 4 - invalidate: obsolete rejection, fresh settles first
+  ---
+  duration_ms: 0.1175
+  type: 'test'
+  ...
+# Subtest: clear: obsolete value, old settles first
+ok 5 - clear: obsolete value, old settles first
+  ---
+  duration_ms: 0.1541
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, old settles first
+ok 6 - clear: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.1584
+  type: 'test'
+  ...
+# Subtest: clear: obsolete value, fresh settles first
+ok 7 - clear: obsolete value, fresh settles first
+  ---
+  duration_ms: 0.0894
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, fresh settles first
+ok 8 - clear: obsolete rejection, fresh settles first
+  ---
+  duration_ms: 0.0756
+  type: 'test'
+  ...
+# Subtest: invalidate: repeated barriers with no stored value detach every generation
+ok 9 - invalidate: repeated barriers with no stored value detach every generation
+  ---
+  duration_ms: 0.3301
+  type: 'test'
+  ...
+# Subtest: clear: repeated barriers with no stored value detach every generation
+ok 10 - clear: repeated barriers with no stored value detach every generation
+  ---
+  duration_ms: 1.0967
+  type: 'test'
+  ...
+# Subtest: clear detaches all keys, while invalidate leaves other flights deduplicated
+ok 11 - clear detaches all keys, while invalidate leaves other flights deduplicated
+  ---
+  duration_ms: 0.5005
+  type: 'test'
+  ...
+# Subtest: set wins over old loads without refreshing its TTL; expiry starts a fresh flight
+ok 12 - set wins over old loads without refreshing its TTL; expiry starts a fresh flight
+  ---
+  duration_ms: 0.2712
+  type: 'test'
+  ...
+# Subtest: throw rejection reaches all waiters unchanged and permits retry
+ok 13 - throw rejection reaches all waiters unchanged and permits retry
+  ---
+  duration_ms: 0.3437
+  type: 'test'
+  ...
+# Subtest: promise rejection reaches all waiters unchanged and permits retry
+ok 14 - promise rejection reaches all waiters unchanged and permits retry
+  ---
+  duration_ms: 0.2714
+  type: 'test'
+  ...
+# Subtest: thenable rejection reaches all waiters unchanged and permits retry
+ok 15 - thenable rejection reaches all waiters unchanged and permits retry
+  ---
+  duration_ms: 0.1812
+  type: 'test'
+  ...
+# Subtest: synchronous invalidate during load remains a barrier on success
+ok 16 - synchronous invalidate during load remains a barrier on success
+  ---
+  duration_ms: 0.254
+  type: 'test'
+  ...
+# Subtest: synchronous invalidate during load remains a barrier on failure
+ok 17 - synchronous invalidate during load remains a barrier on failure
+  ---
+  duration_ms: 0.0932
+  type: 'test'
+  ...
+# Subtest: synchronous set during load remains a barrier on success
+ok 18 - synchronous set during load remains a barrier on success
+  ---
+  duration_ms: 0.039
+  type: 'test'
+  ...
+# Subtest: synchronous set during load remains a barrier on failure
+ok 19 - synchronous set during load remains a barrier on failure
+  ---
+  duration_ms: 0.0397
+  type: 'test'
+  ...
+# Subtest: synchronous clear during load remains a barrier on success
+ok 20 - synchronous clear during load remains a barrier on success
+  ---
+  duration_ms: 0.0448
+  type: 'test'
+  ...
+# Subtest: synchronous clear during load remains a barrier on failure
+ok 21 - synchronous clear during load remains a barrier on failure
+  ---
+  duration_ms: 0.0477
+  type: 'test'
+  ...
+# Subtest: reentrant own-key reads join the registered flight, while other keys load independently
+ok 22 - reentrant own-key reads join the registered flight, while other keys load independently
+  ---
+  duration_ms: 0.3576
+  type: 'test'
+  ...
+# Subtest: TTL 0 starts at commit and expires at the exact boundary
+ok 23 - TTL 0 starts at commit and expires at the exact boundary
+  ---
+  duration_ms: 0.1585
+  type: 'test'
+  ...
+# Subtest: TTL 10 starts at commit and expires at the exact boundary
+ok 24 - TTL 10 starts at commit and expires at the exact boundary
+  ---
+  duration_ms: 0.0646
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 25 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 3.3484
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 111.0573

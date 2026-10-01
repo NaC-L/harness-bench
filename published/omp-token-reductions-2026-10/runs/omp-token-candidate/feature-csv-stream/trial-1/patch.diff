@@ -1,0 +1,91 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-6a7dc65d-afjwh4ks/src/csv.js"
+index ce27ede..8d044c1 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-6a7dc65d-afjwh4ks/src/csv.js"
+@@ -47,7 +47,85 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const { delimiter = ',' } = options;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one UTF-16 code unit other than quote, CR, or LF');
++  }
++
++  // A quote remains pending until the next character distinguishes an escape
++  // from a closed field. These states also distinguish empty input from '""'.
++  const START = 0, UNQUOTED = 1, QUOTED = 2, CLOSED = 3;
++  let state = START;
++  let row = [];
++  let field = '';
++  let atStart = true;
++  let previousCR = false;
++  let line = 1;
++  let ended = false;
++
++  return {
++    push(chunk) {
++      if (ended) throw new Error('cannot push after end');
++      if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++      const records = [];
++      for (let index = 0; index < chunk.length; index++) {
++        const character = chunk[index];
++        if (atStart) {
++          atStart = false;
++          if (character === '\uFEFF') continue;
++        }
++
++        const crlf = previousCR && character === '\n';
++        previousCR = character === '\r';
++        if (character === '\r' || (character === '\n' && !crlf)) line++;
++
++        if (state === QUOTED) {
++          if (character === '"') state = CLOSED;
++          else field += character;
++          continue;
++        }
++        if (state === CLOSED && character === '"') {
++          field += '"';
++          state = QUOTED;
++          continue;
++        }
++        // An outside CR already emitted its record, even across empty pushes.
++        if (crlf) continue;
++
++        if (character === delimiter) {
++          row.push(field);
++          field = '';
++          state = START;
++        } else if (character === '\r' || character === '\n') {
++          row.push(field);
++          records.push(row);
++          row = [];
++          field = '';
++          state = START;
++        } else if (state === CLOSED) {
++          throw new SyntaxError(`unexpected character after closing quote at line ${line}`);
++        } else if (state === START && character === '"') {
++          state = QUOTED;
++        } else {
++          field += character;
++          state = UNQUOTED;
++        }
++      }
++      return records;
++    },
++
++    end() {
++      if (ended) return [];
++      ended = true;
++      if (state === QUOTED) {
++        throw new SyntaxError(`unterminated quoted field at line ${line}`);
++      }
++      if (state === START && row.length === 0) return [];
++      row.push(field);
++      return [row];
++    },
++  };
+ }
+ 
+ /**

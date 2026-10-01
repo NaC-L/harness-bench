@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: invalidate: obsolete resolve, old settles first
+ok 1 - invalidate: obsolete resolve, old settles first
+  ---
+  duration_ms: 2.6311
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete resolve, old settles last
+ok 2 - invalidate: obsolete resolve, old settles last
+  ---
+  duration_ms: 0.1557
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, old settles first
+ok 3 - invalidate: obsolete reject, old settles first
+  ---
+  duration_ms: 0.2417
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, old settles last
+ok 4 - invalidate: obsolete reject, old settles last
+  ---
+  duration_ms: 0.1746
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, old settles first
+ok 5 - clear: obsolete resolve, old settles first
+  ---
+  duration_ms: 0.2181
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, old settles last
+ok 6 - clear: obsolete resolve, old settles last
+  ---
+  duration_ms: 0.0995
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, old settles first
+ok 7 - clear: obsolete reject, old settles first
+  ---
+  duration_ms: 0.1319
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, old settles last
+ok 8 - clear: obsolete reject, old settles last
+  ---
+  duration_ms: 0.0675
+  type: 'test'
+  ...
+# Subtest: set: obsolete resolve, old settles first
+ok 9 - set: obsolete resolve, old settles first
+  ---
+  duration_ms: 0.3319
+  type: 'test'
+  ...
+# Subtest: set: obsolete resolve, old settles last
+ok 10 - set: obsolete resolve, old settles last
+  ---
+  duration_ms: 1.0583
+  type: 'test'
+  ...
+# Subtest: set: obsolete reject, old settles first
+ok 11 - set: obsolete reject, old settles first
+  ---
+  duration_ms: 0.1506
+  type: 'test'
+  ...
+# Subtest: set: obsolete reject, old settles last
+ok 12 - set: obsolete reject, old settles last
+  ---
+  duration_ms: 0.0639
+  type: 'test'
+  ...
+# Subtest: invalidate: repeated barriers detach every generation
+ok 13 - invalidate: repeated barriers detach every generation
+  ---
+  duration_ms: 0.1743
+  type: 'test'
+  ...
+# Subtest: clear: repeated barriers detach every generation
+ok 14 - clear: repeated barriers detach every generation
+  ---
+  duration_ms: 0.0574
+  type: 'test'
+  ...
+# Subtest: invalidate: mutation before deferred load invocation remains a barrier
+ok 15 - invalidate: mutation before deferred load invocation remains a barrier
+  ---
+  duration_ms: 0.0724
+  type: 'test'
+  ...
+# Subtest: invalidate: synchronous mutation inside load remains a barrier
+ok 16 - invalidate: synchronous mutation inside load remains a barrier
+  ---
+  duration_ms: 0.1727
+  type: 'test'
+  ...
+# Subtest: clear: mutation before deferred load invocation remains a barrier
+ok 17 - clear: mutation before deferred load invocation remains a barrier
+  ---
+  duration_ms: 0.0716
+  type: 'test'
+  ...
+# Subtest: clear: synchronous mutation inside load remains a barrier
+ok 18 - clear: synchronous mutation inside load remains a barrier
+  ---
+  duration_ms: 0.0395
+  type: 'test'
+  ...
+# Subtest: set: mutation before deferred load invocation remains a barrier
+ok 19 - set: mutation before deferred load invocation remains a barrier
+  ---
+  duration_ms: 0.04
+  type: 'test'
+  ...
+# Subtest: set: synchronous mutation inside load remains a barrier
+ok 20 - set: synchronous mutation inside load remains a barrier
+  ---
+  duration_ms: 0.0473
+  type: 'test'
+  ...
+# Subtest: set preserves its own TTL despite obsolete completion
+ok 21 - set preserves its own TTL despite obsolete completion
+  ---
+  duration_ms: 0.147
+  type: 'test'
+  ...
+# Subtest: throw: rejection is shared and subsequent reads retry
+ok 22 - throw: rejection is shared and subsequent reads retry
+  ---
+  duration_ms: 0.2138
+  type: 'test'
+  ...
+# Subtest: promise: rejection is shared and subsequent reads retry
+ok 23 - promise: rejection is shared and subsequent reads retry
+  ---
+  duration_ms: 0.1268
+  type: 'test'
+  ...
+# Subtest: thenable: rejection is shared and subsequent reads retry
+ok 24 - thenable: rejection is shared and subsequent reads retry
+  ---
+  duration_ms: 0.599
+  type: 'test'
+  ...
+# Subtest: TTL 0: deduplicates pending work and starts expiry at commit
+ok 25 - TTL 0: deduplicates pending work and starts expiry at commit
+  ---
+  duration_ms: 0.1769
+  type: 'test'
+  ...
+# Subtest: TTL 10: deduplicates pending work and starts expiry at commit
+ok 26 - TTL 10: deduplicates pending work and starts expiry at commit
+  ---
+  duration_ms: 0.0459
+  type: 'test'
+  ...
+# Subtest: reentrant reads join their own flight and other keys load independently
+ok 27 - reentrant reads join their own flight and other keys load independently
+  ---
+  duration_ms: 0.1149
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 28 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.8017
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 86.7975

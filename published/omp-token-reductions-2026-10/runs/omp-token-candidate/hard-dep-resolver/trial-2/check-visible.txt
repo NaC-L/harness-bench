@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: numeric ordering compares major and patch components
+ok 1 - numeric ordering compares major and patch components
+  ---
+  duration_ms: 2.5247
+  type: 'test'
+  ...
+# Subtest: first-found selection uses FIFO discovery and immediately collected constraints
+ok 2 - first-found selection uses FIFO discovery and immediately collected constraints
+  ---
+  duration_ms: 0.3819
+  type: 'test'
+  ...
+# Subtest: root and dependency key order determine the first-found assignment
+ok 3 - root and dependency key order determine the first-found assignment
+  ---
+  duration_ms: 0.7589
+  type: 'test'
+  ...
+# Subtest: a conflict retries the latest choice, preserving earlier choices
+ok 4 - a conflict retries the latest choice, preserving earlier choices
+  ---
+  duration_ms: 0.1399
+  type: 'test'
+  ...
+# Subtest: rollback removes a partially appended dependency list and its constraints
+ok 5 - rollback removes a partially appended dependency list and its constraints
+  ---
+  duration_ms: 0.0974
+  type: 'test'
+  ...
+# Subtest: rollback removes selected descendants and unreachable requirements
+ok 6 - rollback removes selected descendants and unreachable requirements
+  ---
+  duration_ms: 0.1207
+  type: 'test'
+  ...
+# Subtest: cycles expand once and incompatible cycles backtrack
+ok 7 - cycles expand once and incompatible cycles backtrack
+  ---
+  duration_ms: 0.1219
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible root ranges are unsatisfiable
+ok 8 - missing packages and incompatible root ranges are unsatisfiable
+  ---
+  duration_ms: 0.0762
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated even when unreachable
+ok 9 - all maps, versions, and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.7066
+  type: 'test'
+  ...
+# Subtest: null-prototype maps, special names, and own enumerable string keys are supported
+ok 10 - null-prototype maps, special names, and own enumerable string keys are supported
+  ---
+  duration_ms: 0.3541
+  type: 'test'
+  ...
+# Subtest: resolution does not mutate inputs or leak state between calls
+ok 11 - resolution does not mutate inputs or leak state between calls
+  ---
+  duration_ms: 0.1848
+  type: 'test'
+  ...
+# Subtest: long dependency chains ending in a cycle do not use the call stack
+ok 12 - long dependency chains ending in a cycle do not use the call stack
+  ---
+  duration_ms: 89.5455
+  type: 'test'
+  ...
+# Subtest: backtracking has no arbitrary iteration limit
+ok 13 - backtracking has no arbitrary iteration limit
+  ---
+  duration_ms: 12.5437
+  type: 'test'
+  ...
+# Subtest: selected-version conflicts prune choices before expanding a Cartesian product
+ok 14 - selected-version conflicts prune choices before expanding a Cartesian product
+  ---
+  duration_ms: 0.5075
+  type: 'test'
+  ...
+# Subtest: parse accepts canonical safe integer triples and compare is numeric
+ok 15 - parse accepts canonical safe integer triples and compare is numeric
+  ---
+  duration_ms: 1.3242
+  type: 'test'
+  ...
+# Subtest: versions reject noncanonical syntax and unsafe components
+ok 16 - versions reject noncanonical syntax and unsafe components
+  ---
+  duration_ms: 0.4913
+  type: 'test'
+  ...
+# Subtest: range operators and whitespace-separated conjunctions honor boundaries
+ok 17 - range operators and whitespace-separated conjunctions honor boundaries
+  ---
+  duration_ms: 1.2365
+  type: 'test'
+  ...
+# Subtest: caret uses the first nonzero component for its exclusive upper bound
+ok 18 - caret uses the first nonzero component for its exclusive upper bound
+  ---
+  duration_ms: 0.5507
+  type: 'test'
+  ...
+# Subtest: tilde limits the minor version, including zero major
+ok 19 - tilde limits the minor version, including zero major
+  ---
+  duration_ms: 0.0994
+  type: 'test'
+  ...
+# Subtest: range upper bounds beyond safe component maxima remain ordered
+ok 20 - range upper bounds beyond safe component maxima remain ordered
+  ---
+  duration_ms: 0.1093
+  type: 'test'
+  ...
+# Subtest: invalid range syntax is rejected eagerly, including later AND terms
+ok 21 - invalid range syntax is rejected eagerly, including later AND terms
+  ---
+  duration_ms: 0.2208
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 22 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.6441
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 194.8388

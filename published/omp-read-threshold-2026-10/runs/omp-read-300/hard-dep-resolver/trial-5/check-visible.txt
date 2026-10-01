@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: numeric ordering applies to every version component
+ok 1 - numeric ordering applies to every version component
+  ---
+  duration_ms: 2.0452
+  type: 'test'
+  ...
+# Subtest: backtracking removes constraints and dependencies of abandoned versions
+ok 2 - backtracking removes constraints and dependencies of abandoned versions
+  ---
+  duration_ms: 0.4695
+  type: 'test'
+  ...
+# Subtest: immediate conflicts undo even partially discovered dependencies
+ok 3 - immediate conflicts undo even partially discovered dependencies
+  ---
+  duration_ms: 0.2414
+  type: 'test'
+  ...
+# Subtest: the first complete assignment follows FIFO rather than dependency recursion
+ok 4 - the first complete assignment follows FIFO rather than dependency recursion
+  ---
+  duration_ms: 0.1141
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first solution
+ok 5 - dependency key order determines the first solution
+  ---
+  duration_ms: 0.2048
+  type: 'test'
+  ...
+# Subtest: discovery collects all constraints before a pending name is selected
+ok 6 - discovery collects all constraints before a pending name is selected
+  ---
+  duration_ms: 0.0866
+  type: 'test'
+  ...
+# Subtest: cycles terminate and conflicting self-dependencies backtrack
+ok 7 - cycles terminate and conflicting self-dependencies backtrack
+  ---
+  duration_ms: 0.2209
+  type: 'test'
+  ...
+# Subtest: long dependency chains resolve without a stack or iteration limit
+ok 8 - long dependency chains resolve without a stack or iteration limit
+  ---
+  duration_ms: 101.1394
+  type: 'test'
+  ...
+# Subtest: conflicts prune choices before expanding the remaining Cartesian product
+ok 9 - conflicts prune choices before expanding the remaining Cartesian product
+  ---
+  duration_ms: 0.9644
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible combined constraints are unsatisfiable
+ok 10 - missing packages and incompatible combined constraints are unsatisfiable
+  ---
+  duration_ms: 0.4143
+  type: 'test'
+  ...
+# Subtest: validation includes unreachable entries and an empty root
+ok 11 - validation includes unreachable entries and an empty root
+  ---
+  duration_ms: 0.7624
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special package names are safe and inputs stay unchanged
+ok 12 - null-prototype maps and special package names are safe and inputs stay unchanged
+  ---
+  duration_ms: 0.1828
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate
+ok 13 - only own enumerable string keys participate
+  ---
+  duration_ms: 0.085
+  type: 'test'
+  ...
+# Subtest: semver parses canonical safe integers and compares numerically
+ok 14 - semver parses canonical safe integers and compares numerically
+  ---
+  duration_ms: 0.2737
+  type: 'test'
+  ...
+# Subtest: caret and tilde bounds handle zero components and exclusive upper bounds
+ok 15 - caret and tilde bounds handle zero components and exclusive upper bounds
+  ---
+  duration_ms: 0.3033
+  type: 'test'
+  ...
+# Subtest: range terms combine with AND and invalid terms validate eagerly
+ok 16 - range terms combine with AND and invalid terms validate eagerly
+  ---
+  duration_ms: 0.1524
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 17 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.555
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 192.0153

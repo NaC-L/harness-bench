@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: arithmetic follows the documented precedence and associativity
+ok 1 - arithmetic follows the documented precedence and associativity
+  ---
+  duration_ms: 2.0544
+  type: 'test'
+  ...
+# Subtest: division and modulo obey sign, reconstruction and positive-zero rules
+ok 2 - division and modulo obey sign, reconstruction and positive-zero rules
+  ---
+  duration_ms: 0.7092
+  type: 'test'
+  ...
+# Subtest: comparison chains retain operands and coerce booleans numerically
+ok 3 - comparison chains retain operands and coerce booleans numerically
+  ---
+  duration_ms: 0.2044
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence in left-to-right evaluation order
+ok 4 - getters are read once per occurrence in left-to-right evaluation order
+  ---
+  duration_ms: 0.5766
+  type: 'test'
+  ...
+# Subtest: the complete formula is parsed before any variables are read
+ok 5 - the complete formula is parsed before any variables are read
+  ---
+  duration_ms: 0.267
+  type: 'test'
+  ...
+# Subtest: errors identify tokens after whitespace and the full UTF-16 end offset
+ok 6 - errors identify tokens after whitespace and the full UTF-16 end offset
+  ---
+  duration_ms: 0.2271
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat addition evaluates without recursive traversal
+ok 7 - 100,001-operand flat addition evaluates without recursive traversal
+  ---
+  duration_ms: 82.4541
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat multiplication evaluates without recursive traversal
+ok 8 - 100,001-operand flat multiplication evaluates without recursive traversal
+  ---
+  duration_ms: 46.0227
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat comparison evaluates without recursive traversal
+ok 9 - 100,001-operand flat comparison evaluates without recursive traversal
+  ---
+  duration_ms: 50.1584
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.26
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 266.9239

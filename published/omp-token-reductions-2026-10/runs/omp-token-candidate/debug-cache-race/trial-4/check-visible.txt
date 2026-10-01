@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: detached success, new flight settles first
+ok 1 - detached success, new flight settles first
+  ---
+  duration_ms: 2.5097
+  type: 'test'
+  ...
+# Subtest: detached success, old flight settles first
+ok 2 - detached success, old flight settles first
+  ---
+  duration_ms: 0.2286
+  type: 'test'
+  ...
+# Subtest: detached rejection, new flight settles first
+ok 3 - detached rejection, new flight settles first
+  ---
+  duration_ms: 0.2072
+  type: 'test'
+  ...
+# Subtest: detached rejection, old flight settles first
+ok 4 - detached rejection, old flight settles first
+  ---
+  duration_ms: 0.1539
+  type: 'test'
+  ...
+# Subtest: each invalidation is a barrier even without a stored value
+ok 5 - each invalidation is a barrier even without a stored value
+  ---
+  duration_ms: 0.3223
+  type: 'test'
+  ...
+# Subtest: clear detaches every key without affecting another cache instance
+ok 6 - clear detaches every key without affecting another cache instance
+  ---
+  duration_ms: 0.2944
+  type: 'test'
+  ...
+# Subtest: set wins without extending TTL; obsolete load settles after expiry
+ok 7 - set wins without extending TTL; obsolete load settles after expiry
+  ---
+  duration_ms: 0.1751
+  type: 'test'
+  ...
+# Subtest: set wins without extending TTL; obsolete load settles before expiry
+ok 8 - set wins without extending TTL; obsolete load settles before expiry
+  ---
+  duration_ms: 0.1399
+  type: 'test'
+  ...
+# Subtest: throw rejection releases the flight and preserves the reason for every waiter
+ok 9 - throw rejection releases the flight and preserves the reason for every waiter
+  ---
+  duration_ms: 0.3099
+  type: 'test'
+  ...
+# Subtest: promise rejection releases the flight and preserves the reason for every waiter
+ok 10 - promise rejection releases the flight and preserves the reason for every waiter
+  ---
+  duration_ms: 0.2933
+  type: 'test'
+  ...
+# Subtest: thenable rejection releases the flight and preserves the reason for every waiter
+ok 11 - thenable rejection releases the flight and preserves the reason for every waiter
+  ---
+  duration_ms: 0.3586
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate then returns is a barrier
+ok 12 - synchronous load invalidate then returns is a barrier
+  ---
+  duration_ms: 0.8576
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate then throws is a barrier
+ok 13 - synchronous load invalidate then throws is a barrier
+  ---
+  duration_ms: 0.0853
+  type: 'test'
+  ...
+# Subtest: synchronous load set then returns is a barrier
+ok 14 - synchronous load set then returns is a barrier
+  ---
+  duration_ms: 0.062
+  type: 'test'
+  ...
+# Subtest: synchronous load set then throws is a barrier
+ok 15 - synchronous load set then throws is a barrier
+  ---
+  duration_ms: 0.0562
+  type: 'test'
+  ...
+# Subtest: synchronous load clear then returns is a barrier
+ok 16 - synchronous load clear then returns is a barrier
+  ---
+  duration_ms: 0.0576
+  type: 'test'
+  ...
+# Subtest: synchronous load clear then throws is a barrier
+ok 17 - synchronous load clear then throws is a barrier
+  ---
+  duration_ms: 0.058
+  type: 'test'
+  ...
+# Subtest: reentrant reads join their own flight and other keys load independently
+ok 18 - reentrant reads join their own flight and other keys load independently
+  ---
+  duration_ms: 0.2104
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending work but never reuses settled values
+ok 19 - zero TTL deduplicates pending work but never reuses settled values
+  ---
+  duration_ms: 0.1556
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 20 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.4414
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 76.3914

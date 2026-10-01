@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: power is right associative and binds asymmetrically around unary signs
+ok 1 - power is right associative and binds asymmetrically around unary signs
+  ---
+  duration_ms: 2.2898
+  type: 'test'
+  ...
+# Subtest: comparisons chain numeric operands rather than intermediate booleans
+ok 2 - comparisons chain numeric operands rather than intermediate booleans
+  ---
+  duration_ms: 0.3453
+  type: 'test'
+  ...
+# Subtest: comparison operands and call arguments read getters once in order
+ok 3 - comparison operands and call arguments read getters once in order
+  ---
+  duration_ms: 0.9948
+  type: 'test'
+  ...
+# Subtest: false chains skip runtime errors but do not skip parsing
+ok 4 - false chains skip runtime errors but do not skip parsing
+  ---
+  duration_ms: 0.1663
+  type: 'test'
+  ...
+# Subtest: floor division and modulo preserve integer identity and normalize zeros
+ok 5 - floor division and modulo preserve integer identity and normalize zeros
+  ---
+  duration_ms: 0.4504
+  type: 'test'
+  ...
+# Subtest: errors point to token starts after whitespace and to the full source end
+ok 6 - errors point to token starts after whitespace and to the full source end
+  ---
+  duration_ms: 0.5101
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic and comparison chains do not consume the call stack
+ok 7 - long flat arithmetic and comparison chains do not consume the call stack
+  ---
+  duration_ms: 235.8992
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.6803
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 331.2171

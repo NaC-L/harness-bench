@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignments discard additions on both the node and its descendants
+ok 1 - assignments discard additions on both the node and its descendants
+  ---
+  duration_ms: 1.6157
+  type: 'test'
+  ...
+# Subtest: partial maxima preserve negative values and the empty-range identity
+ok 2 - partial maxima preserve negative values and the empty-range identity
+  ---
+  duration_ms: 0.1928
+  type: 'test'
+  ...
+# Subtest: threshold search propagates lazy assignments and additions before descent
+ok 3 - threshold search propagates lazy assignments and additions before descent
+  ---
+  duration_ms: 0.3197
+  type: 'test'
+  ...
+# Subtest: mixed overlapping updates match an array model across all query APIs
+ok 4 - mixed overlapping updates match an array model across all query APIs
+  ---
+  duration_ms: 11.9662
+  type: 'test'
+  ...
+# Subtest: validation is atomic, empty updates are inert, and arrays do not alias
+ok 5 - validation is atomic, empty updates are inert, and arrays do not alias
+  ---
+  duration_ms: 1.0416
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.7089
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 84.1505

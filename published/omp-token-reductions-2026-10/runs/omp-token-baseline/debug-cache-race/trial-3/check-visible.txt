@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: invalidate: obsolete success, old settles first
+ok 1 - invalidate: obsolete success, old settles first
+  ---
+  duration_ms: 2.1462
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, old settles first
+ok 2 - invalidate: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.1651
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete success, new settles first
+ok 3 - invalidate: obsolete success, new settles first
+  ---
+  duration_ms: 0.1282
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, new settles first
+ok 4 - invalidate: obsolete rejection, new settles first
+  ---
+  duration_ms: 0.1172
+  type: 'test'
+  ...
+# Subtest: invalidate: barrier before loader invocation
+ok 5 - invalidate: barrier before loader invocation
+  ---
+  duration_ms: 0.1604
+  type: 'test'
+  ...
+# Subtest: invalidate: synchronous loader mutation is a barrier
+ok 6 - invalidate: synchronous loader mutation is a barrier
+  ---
+  duration_ms: 0.1102
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, old settles first
+ok 7 - clear: obsolete success, old settles first
+  ---
+  duration_ms: 0.2122
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, old settles first
+ok 8 - clear: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.0967
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, new settles first
+ok 9 - clear: obsolete success, new settles first
+  ---
+  duration_ms: 0.2155
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, new settles first
+ok 10 - clear: obsolete rejection, new settles first
+  ---
+  duration_ms: 0.2507
+  type: 'test'
+  ...
+# Subtest: clear: barrier before loader invocation
+ok 11 - clear: barrier before loader invocation
+  ---
+  duration_ms: 0.8502
+  type: 'test'
+  ...
+# Subtest: clear: synchronous loader mutation is a barrier
+ok 12 - clear: synchronous loader mutation is a barrier
+  ---
+  duration_ms: 0.198
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, old settles first
+ok 13 - set: obsolete success, old settles first
+  ---
+  duration_ms: 0.2416
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, old settles first
+ok 14 - set: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.1006
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, new settles first
+ok 15 - set: obsolete success, new settles first
+  ---
+  duration_ms: 0.06
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, new settles first
+ok 16 - set: obsolete rejection, new settles first
+  ---
+  duration_ms: 0.0522
+  type: 'test'
+  ...
+# Subtest: set: barrier before loader invocation
+ok 17 - set: barrier before loader invocation
+  ---
+  duration_ms: 0.0533
+  type: 'test'
+  ...
+# Subtest: set: synchronous loader mutation is a barrier
+ok 18 - set: synchronous loader mutation is a barrier
+  ---
+  duration_ms: 0.0442
+  type: 'test'
+  ...
+# Subtest: throw: failures reach all waiters and allow retry
+ok 19 - throw: failures reach all waiters and allow retry
+  ---
+  duration_ms: 0.2676
+  type: 'test'
+  ...
+# Subtest: promise: failures reach all waiters and allow retry
+ok 20 - promise: failures reach all waiters and allow retry
+  ---
+  duration_ms: 0.109
+  type: 'test'
+  ...
+# Subtest: thenable: failures reach all waiters and allow retry
+ok 21 - thenable: failures reach all waiters and allow retry
+  ---
+  duration_ms: 0.087
+  type: 'test'
+  ...
+# Subtest: repeated invalidation separates every flight, even without stored values
+ok 22 - repeated invalidation separates every flight, even without stored values
+  ---
+  duration_ms: 0.1646
+  type: 'test'
+  ...
+# Subtest: set TTL is not extended by an obsolete completion
+ok 23 - set TTL is not extended by an obsolete completion
+  ---
+  duration_ms: 0.102
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit; zero TTL still deduplicates pending loads
+ok 24 - TTL starts at commit; zero TTL still deduplicates pending loads
+  ---
+  duration_ms: 0.439
+  type: 'test'
+  ...
+# Subtest: clear detaches flights and removes stored values across keys
+ok 25 - clear detaches flights and removes stored values across keys
+  ---
+  duration_ms: 0.2313
+  type: 'test'
+  ...
+# Subtest: reentrant loads join their own flight and can load another key
+ok 26 - reentrant loads join their own flight and can load another key
+  ---
+  duration_ms: 0.1386
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 27 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.609
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.7477

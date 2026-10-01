@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions pending on both ancestors and descendants
+ok 1 - assignment discards additions pending on both ancestors and descendants
+  ---
+  duration_ms: 1.8217
+  type: 'test'
+  ...
+# Subtest: partial maxima use the negative-infinity identity
+ok 2 - partial maxima use the negative-infinity identity
+  ---
+  duration_ms: 0.2214
+  type: 'test'
+  ...
+# Subtest: threshold search propagates assignments and additions before descending
+ok 3 - threshold search propagates assignments and additions before descending
+  ---
+  duration_ms: 0.1986
+  type: 'test'
+  ...
+# Subtest: mixed updates and interleaved queries match an independent array model
+ok 4 - mixed updates and interleaved queries match an independent array model
+  ---
+  duration_ms: 10.4156
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, and array independence preserve the API
+ok 5 - validation, empty ranges, and array independence preserve the API
+  ---
+  duration_ms: 1.6655
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.7033
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 92.0259

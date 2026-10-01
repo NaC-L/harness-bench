@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: versions are ordered numerically at every component
+ok 1 - versions are ordered numerically at every component
+  ---
+  duration_ms: 1.9941
+  type: 'test'
+  ...
+# Subtest: FIFO discovery preserves the first complete assignment
+ok 2 - FIFO discovery preserves the first complete assignment
+  ---
+  duration_ms: 0.52
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first complete assignment
+ok 3 - dependency key order determines the first complete assignment
+  ---
+  duration_ms: 0.1578
+  type: 'test'
+  ...
+# Subtest: all discovered constraints apply before a queued package is selected
+ok 4 - all discovered constraints apply before a queued package is selected
+  ---
+  duration_ms: 0.0901
+  type: 'test'
+  ...
+# Subtest: partial dependency discovery is undone after a selected-name conflict
+ok 5 - partial dependency discovery is undone after a selected-name conflict
+  ---
+  duration_ms: 0.1336
+  type: 'test'
+  ...
+# Subtest: exhausted nested choices remove selections, constraints, and reachability
+ok 6 - exhausted nested choices remove selections, constraints, and reachability
+  ---
+  duration_ms: 0.0871
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package once and can backtrack
+ok 7 - cycles expand each selected package once and can backtrack
+  ---
+  duration_ms: 0.1484
+  type: 'test'
+  ...
+# Subtest: long dependency chains do not depend on recursion or an iteration cap
+ok 8 - long dependency chains do not depend on recursion or an iteration cap
+  ---
+  duration_ms: 109.9693
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices instead of enumerating a Cartesian product
+ok 9 - discovered conflicts prune choices instead of enumerating a Cartesian product
+  ---
+  duration_ms: 0.7849
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible constraints are unsatisfiable
+ok 10 - missing packages and incompatible constraints are unsatisfiable
+  ---
+  duration_ms: 0.6376
+  type: 'test'
+  ...
+# Subtest: plain and null-prototype maps support reserved names without mutation
+ok 11 - plain and null-prototype maps support reserved names without mutation
+  ---
+  duration_ms: 0.2934
+  type: 'test'
+  ...
+# Subtest: all registry entries and root requirements are validated eagerly
+ok 12 - all registry entries and root requirements are validated eagerly
+  ---
+  duration_ms: 0.8913
+  type: 'test'
+  ...
+# Subtest: parse rejects noncanonical versions, including trailing line terminators
+ok 13 - parse rejects noncanonical versions, including trailing line terminators
+  ---
+  duration_ms: 0.4011
+  type: 'test'
+  ...
+# Subtest: caret and tilde bounds follow major, zero-major minor, and patch rules
+ok 14 - caret and tilde bounds follow major, zero-major minor, and patch rules
+  ---
+  duration_ms: 0.3422
+  type: 'test'
+  ...
+# Subtest: ranges support exact, wildcard, comparisons, whitespace, and conjunctions
+ok 15 - ranges support exact, wildcard, comparisons, whitespace, and conjunctions
+  ---
+  duration_ms: 0.3475
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5231
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 197.3709

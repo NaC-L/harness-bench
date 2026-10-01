@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: version ordering is numeric in every component
+ok 1 - version ordering is numeric in every component
+  ---
+  duration_ms: 3.4025
+  type: 'test'
+  ...
+# Subtest: first-found selection follows root FIFO order, not global version maximization
+ok 2 - first-found selection follows root FIFO order, not global version maximization
+  ---
+  duration_ms: 0.5369
+  type: 'test'
+  ...
+# Subtest: dependency FIFO order and immediate discovery constraints determine the first solution
+ok 3 - dependency FIFO order and immediate discovery constraints determine the first solution
+  ---
+  duration_ms: 0.2538
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints but retains root constraints
+ok 4 - backtracking removes abandoned constraints but retains root constraints
+  ---
+  duration_ms: 0.2685
+  type: 'test'
+  ...
+# Subtest: immediate conflicts undo partially appended dependencies before retrying
+ok 5 - immediate conflicts undo partially appended dependencies before retrying
+  ---
+  duration_ms: 0.15
+  type: 'test'
+  ...
+# Subtest: exhausted descendant choices remove their selected packages and discoveries
+ok 6 - exhausted descendant choices remove their selected packages and discoveries
+  ---
+  duration_ms: 0.151
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package once and still enforce new constraints
+ok 7 - cycles expand each selected package once and still enforce new constraints
+  ---
+  duration_ms: 0.1465
+  type: 'test'
+  ...
+# Subtest: long chains and deep backtracking do not use recursive call-stack depth
+ok 8 - long chains and deep backtracking do not use recursive call-stack depth
+  ---
+  duration_ms: 100.6346
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before enumerating a Cartesian product
+ok 9 - discovered conflicts prune choices before enumerating a Cartesian product
+  ---
+  duration_ms: 1.1957
+  type: 'test'
+  ...
+# Subtest: missing packages are unsatisfiable and empty roots have no reachable packages
+ok 10 - missing packages are unsatisfiable and empty roots have no reachable packages
+  ---
+  duration_ms: 0.3758
+  type: 'test'
+  ...
+# Subtest: all registry entries and ranges are validated eagerly
+ok 11 - all registry entries and ranges are validated eagerly
+  ---
+  duration_ms: 0.6534
+  type: 'test'
+  ...
+# Subtest: null-prototype maps, special keys, and frozen inputs preserve map semantics
+ok 12 - null-prototype maps, special keys, and frozen inputs preserve map semantics
+  ---
+  duration_ms: 0.1415
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate
+ok 13 - only own enumerable string keys participate
+  ---
+  duration_ms: 0.118
+  type: 'test'
+  ...
+# Subtest: caret ranges enforce positive-major, zero-major, and zero-minor boundaries
+ok 14 - caret ranges enforce positive-major, zero-major, and zero-minor boundaries
+  ---
+  duration_ms: 0.14
+  type: 'test'
+  ...
+# Subtest: tilde, conjunctions, and compiled ranges retain their boundaries
+ok 15 - tilde, conjunctions, and compiled ranges retain their boundaries
+  ---
+  duration_ms: 0.1114
+  type: 'test'
+  ...
+# Subtest: range upper bounds at maximum safe components do not wrap
+ok 16 - range upper bounds at maximum safe components do not wrap
+  ---
+  duration_ms: 0.0946
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 17 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.23
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 206.3509

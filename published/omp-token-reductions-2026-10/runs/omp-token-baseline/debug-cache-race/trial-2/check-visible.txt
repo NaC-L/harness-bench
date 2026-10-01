@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: invalidate: detached success cannot overwrite or detach a replacement (old first)
+ok 1 - invalidate: detached success cannot overwrite or detach a replacement (old first)
+  ---
+  duration_ms: 1.716
+  type: 'test'
+  ...
+# Subtest: invalidate: detached success cannot overwrite or detach a replacement (new first)
+ok 2 - invalidate: detached success cannot overwrite or detach a replacement (new first)
+  ---
+  duration_ms: 0.1355
+  type: 'test'
+  ...
+# Subtest: clear: detached success cannot overwrite or detach a replacement (old first)
+ok 3 - clear: detached success cannot overwrite or detach a replacement (old first)
+  ---
+  duration_ms: 0.166
+  type: 'test'
+  ...
+# Subtest: clear: detached success cannot overwrite or detach a replacement (new first)
+ok 4 - clear: detached success cannot overwrite or detach a replacement (new first)
+  ---
+  duration_ms: 0.1244
+  type: 'test'
+  ...
+# Subtest: repeated invalidations are barriers even with no stored value
+ok 5 - repeated invalidations are barriers even with no stored value
+  ---
+  duration_ms: 0.2131
+  type: 'test'
+  ...
+# Subtest: clear detaches every key and removes stored values
+ok 6 - clear detaches every key and removes stored values
+  ---
+  duration_ms: 0.2483
+  type: 'test'
+  ...
+# Subtest: set wins over an earlier load without restarting its TTL
+ok 7 - set wins over an earlier load without restarting its TTL
+  ---
+  duration_ms: 0.1645
+  type: 'test'
+  ...
+# Subtest: expiration of a set value cannot reattach a detached load
+ok 8 - expiration of a set value cannot reattach a detached load
+  ---
+  duration_ms: 0.1122
+  type: 'test'
+  ...
+# Subtest: throw rejection (object) reaches all waiters and allows retry
+ok 9 - throw rejection (object) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.3292
+  type: 'test'
+  ...
+# Subtest: throw rejection (string) reaches all waiters and allows retry
+ok 10 - throw rejection (string) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.9678
+  type: 'test'
+  ...
+# Subtest: throw rejection (undefined) reaches all waiters and allows retry
+ok 11 - throw rejection (undefined) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.1453
+  type: 'test'
+  ...
+# Subtest: promise rejection (object) reaches all waiters and allows retry
+ok 12 - promise rejection (object) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.076
+  type: 'test'
+  ...
+# Subtest: promise rejection (string) reaches all waiters and allows retry
+ok 13 - promise rejection (string) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0481
+  type: 'test'
+  ...
+# Subtest: promise rejection (undefined) reaches all waiters and allows retry
+ok 14 - promise rejection (undefined) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0379
+  type: 'test'
+  ...
+# Subtest: thenable rejection (object) reaches all waiters and allows retry
+ok 15 - thenable rejection (object) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0616
+  type: 'test'
+  ...
+# Subtest: thenable rejection (string) reaches all waiters and allows retry
+ok 16 - thenable rejection (string) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0379
+  type: 'test'
+  ...
+# Subtest: thenable rejection (undefined) reaches all waiters and allows retry
+ok 17 - thenable rejection (undefined) reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0709
+  type: 'test'
+  ...
+# Subtest: detached rejection preserves a pending replacement
+ok 18 - detached rejection preserves a pending replacement
+  ---
+  duration_ms: 0.1303
+  type: 'test'
+  ...
+# Subtest: detached rejection preserves a settled replacement
+ok 19 - detached rejection preserves a settled replacement
+  ---
+  duration_ms: 0.0535
+  type: 'test'
+  ...
+# Subtest: a replacement rejection allows retry while an obsolete load is still pending
+ok 20 - a replacement rejection allows retry while an obsolete load is still pending
+  ---
+  duration_ms: 0.1047
+  type: 'test'
+  ...
+# Subtest: synchronous loader invalidate survives success
+ok 21 - synchronous loader invalidate survives success
+  ---
+  duration_ms: 0.1007
+  type: 'test'
+  ...
+# Subtest: synchronous loader invalidate survives rejection
+ok 22 - synchronous loader invalidate survives rejection
+  ---
+  duration_ms: 0.0412
+  type: 'test'
+  ...
+# Subtest: synchronous loader clear survives success
+ok 23 - synchronous loader clear survives success
+  ---
+  duration_ms: 0.0307
+  type: 'test'
+  ...
+# Subtest: synchronous loader clear survives rejection
+ok 24 - synchronous loader clear survives rejection
+  ---
+  duration_ms: 0.2092
+  type: 'test'
+  ...
+# Subtest: synchronous loader set survives success
+ok 25 - synchronous loader set survives success
+  ---
+  duration_ms: 0.0465
+  type: 'test'
+  ...
+# Subtest: synchronous loader set survives rejection
+ok 26 - synchronous loader set survives rejection
+  ---
+  duration_ms: 0.0321
+  type: 'test'
+  ...
+# Subtest: a loader can join its own flight and load another key independently
+ok 27 - a loader can join its own flight and load another key independently
+  ---
+  duration_ms: 0.1347
+  type: 'test'
+  ...
+# Subtest: TTL 0 begins at commit and size never detaches active flights
+ok 28 - TTL 0 begins at commit and size never detaches active flights
+  ---
+  duration_ms: 0.0954
+  type: 'test'
+  ...
+# Subtest: TTL 10 begins at commit and size never detaches active flights
+ok 29 - TTL 10 begins at commit and size never detaches active flights
+  ---
+  duration_ms: 0.0482
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 30 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.3342
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.2408

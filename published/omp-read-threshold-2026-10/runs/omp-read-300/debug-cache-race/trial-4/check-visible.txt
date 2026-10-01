@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: invalidate: obsolete resolve, older flight settles first
+ok 1 - invalidate: obsolete resolve, older flight settles first
+  ---
+  duration_ms: 2.313
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete resolve, newer flight settles first
+ok 2 - invalidate: obsolete resolve, newer flight settles first
+  ---
+  duration_ms: 0.133
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, older flight settles first
+ok 3 - invalidate: obsolete reject, older flight settles first
+  ---
+  duration_ms: 0.4176
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, newer flight settles first
+ok 4 - invalidate: obsolete reject, newer flight settles first
+  ---
+  duration_ms: 0.1646
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, older flight settles first
+ok 5 - clear: obsolete resolve, older flight settles first
+  ---
+  duration_ms: 0.1795
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, newer flight settles first
+ok 6 - clear: obsolete resolve, newer flight settles first
+  ---
+  duration_ms: 0.0898
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, older flight settles first
+ok 7 - clear: obsolete reject, older flight settles first
+  ---
+  duration_ms: 0.1455
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, newer flight settles first
+ok 8 - clear: obsolete reject, newer flight settles first
+  ---
+  duration_ms: 0.0824
+  type: 'test'
+  ...
+# Subtest: repeated invalidations are distinct barriers without stored values
+ok 9 - repeated invalidations are distinct barriers without stored values
+  ---
+  duration_ms: 0.2586
+  type: 'test'
+  ...
+# Subtest: clear detaches flights for every key and removes stored values
+ok 10 - clear detaches flights for every key and removes stored values
+  ---
+  duration_ms: 0.3668
+  type: 'test'
+  ...
+# Subtest: set wins over an old load without restarting its TTL
+ok 11 - set wins over an old load without restarting its TTL
+  ---
+  duration_ms: 1.0734
+  type: 'test'
+  ...
+# Subtest: expiry after set starts a fresh load while the detached load remains pending
+ok 12 - expiry after set starts a fresh load while the detached load remains pending
+  ---
+  duration_ms: 0.1986
+  type: 'test'
+  ...
+# Subtest: throw failures share their reason, are not cached, and permit retry
+ok 13 - throw failures share their reason, are not cached, and permit retry
+  ---
+  duration_ms: 0.297
+  type: 'test'
+  ...
+# Subtest: promise failures share their reason, are not cached, and permit retry
+ok 14 - promise failures share their reason, are not cached, and permit retry
+  ---
+  duration_ms: 0.1079
+  type: 'test'
+  ...
+# Subtest: thenable failures share their reason, are not cached, and permit retry
+ok 15 - thenable failures share their reason, are not cached, and permit retry
+  ---
+  duration_ms: 0.1337
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate prevents its own result from committing
+ok 16 - synchronous load invalidate prevents its own result from committing
+  ---
+  duration_ms: 0.1041
+  type: 'test'
+  ...
+# Subtest: synchronous load clear prevents its own result from committing
+ok 17 - synchronous load clear prevents its own result from committing
+  ---
+  duration_ms: 0.0444
+  type: 'test'
+  ...
+# Subtest: synchronous load set prevents its own result from committing
+ok 18 - synchronous load set prevents its own result from committing
+  ---
+  duration_ms: 0.032
+  type: 'test'
+  ...
+# Subtest: reentrant reads join the current flight while another key loads independently
+ok 19 - reentrant reads join the current flight while another key loads independently
+  ---
+  duration_ms: 0.0992
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates only unsettled loads; size does not detach them
+ok 20 - zero TTL deduplicates only unsettled loads; size does not detach them
+  ---
+  duration_ms: 0.1849
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 21 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.6185
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 72.5251

@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: invalidate: old completion cannot cross the barrier
+ok 1 - invalidate: old completion cannot cross the barrier
+  ---
+  duration_ms: 2.3693
+  type: 'test'
+  ...
+# Subtest: invalidate: fresh completion cannot cross the barrier
+ok 2 - invalidate: fresh completion cannot cross the barrier
+  ---
+  duration_ms: 0.1736
+  type: 'test'
+  ...
+# Subtest: clear: old completion cannot cross the barrier
+ok 3 - clear: old completion cannot cross the barrier
+  ---
+  duration_ms: 0.2456
+  type: 'test'
+  ...
+# Subtest: clear: fresh completion cannot cross the barrier
+ok 4 - clear: fresh completion cannot cross the barrier
+  ---
+  duration_ms: 0.1326
+  type: 'test'
+  ...
+# Subtest: repeated invalidations detach flights even without stored values
+ok 5 - repeated invalidations detach flights even without stored values
+  ---
+  duration_ms: 0.3338
+  type: 'test'
+  ...
+# Subtest: set wins over old loads without restarting its TTL
+ok 6 - set wins over old loads without restarting its TTL
+  ---
+  duration_ms: 0.1797
+  type: 'test'
+  ...
+# Subtest: expired set starts a new flight while the detached load is pending
+ok 7 - expired set starts a new flight while the detached load is pending
+  ---
+  duration_ms: 0.1834
+  type: 'test'
+  ...
+# Subtest: throw rejection reaches all waiters and permits retry
+ok 8 - throw rejection reaches all waiters and permits retry
+  ---
+  duration_ms: 0.1846
+  type: 'test'
+  ...
+# Subtest: promise rejection reaches all waiters and permits retry
+ok 9 - promise rejection reaches all waiters and permits retry
+  ---
+  duration_ms: 0.2816
+  type: 'test'
+  ...
+# Subtest: thenable rejection reaches all waiters and permits retry
+ok 10 - thenable rejection reaches all waiters and permits retry
+  ---
+  duration_ms: 0.2772
+  type: 'test'
+  ...
+# Subtest: obsolete rejection cannot detach a newer flight
+ok 11 - obsolete rejection cannot detach a newer flight
+  ---
+  duration_ms: 0.4376
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate detaches its already registered flight
+ok 12 - synchronous load invalidate detaches its already registered flight
+  ---
+  duration_ms: 0.1258
+  type: 'test'
+  ...
+# Subtest: synchronous load set detaches its already registered flight
+ok 13 - synchronous load set detaches its already registered flight
+  ---
+  duration_ms: 0.5071
+  type: 'test'
+  ...
+# Subtest: synchronous load clear detaches its already registered flight
+ok 14 - synchronous load clear detaches its already registered flight
+  ---
+  duration_ms: 0.0404
+  type: 'test'
+  ...
+# Subtest: reentrant own-key read joins while another key loads independently
+ok 15 - reentrant own-key read joins while another key loads independently
+  ---
+  duration_ms: 0.1151
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit and size expiration preserves other active flights
+ok 16 - TTL starts at commit and size expiration preserves other active flights
+  ---
+  duration_ms: 0.1157
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates only unsettled loads
+ok 17 - zero TTL deduplicates only unsettled loads
+  ---
+  duration_ms: 0.1048
+  type: 'test'
+  ...
+# Subtest: clear detaches every key without affecting another cache instance
+ok 18 - clear detaches every key without affecting another cache instance
+  ---
+  duration_ms: 0.3176
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 19 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.3219
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.342

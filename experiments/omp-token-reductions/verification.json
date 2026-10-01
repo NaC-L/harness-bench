@@ -1,0 +1,1929 @@
+{
+  "sourceBaselineRevision": "27cdf191bab644f78f1d680eb4ef6ce8002d6afc",
+  "wireSmoke": {
+    "api": "openai-responses",
+    "model": "openai/gpt-5-mini",
+    "toolNames": [
+      "read",
+      "bash",
+      "edit",
+      "write"
+    ],
+    "astEditEnabled": false,
+    "units": "JavaScript string characters, not tokens",
+    "arms": [
+      {
+        "repo": "omp-token-baseline",
+        "exit": 0,
+        "modes": [
+          {
+            "inline": false,
+            "wireCharacters": 6352,
+            "systemCharacters": 8800,
+            "totalCharacters": 15152,
+            "tools": [
+              {
+                "name": "read",
+                "descriptionCharacters": 1522,
+                "required": [
+                  "i",
+                  "path"
+                ],
+                "strict": true
+              },
+              {
+                "name": "bash",
+                "descriptionCharacters": 642,
+                "required": [
+                  "i",
+                  "command",
+                  "timeout",
+                  "cwd",
+                  "pty",
+                  "async",
+                  "name",
+                  "ready"
+                ],
+                "strict": true
+              },
+              {
+                "name": "edit",
+                "descriptionCharacters": 1954,
+                "required": [
+                  "i",
+                  "input"
+                ],
+                "strict": true
+              },
+              {
+                "name": "write",
+                "descriptionCharacters": 298,
+                "required": [
+                  "i",
+                  "path",
+                  "content"
+                ],
+                "strict": true
+              }
+            ]
+          },
+          {
+            "inline": true,
+            "wireCharacters": 1589,
+            "systemCharacters": 13913,
+            "totalCharacters": 15502,
+            "tools": [
+              {
+                "name": "read",
+                "descriptionCharacters": 0,
+                "required": [
+                  "i",
+                  "path"
+                ],
+                "strict": true
+              },
+              {
+                "name": "bash",
+                "descriptionCharacters": 0,
+                "required": [
+                  "i",
+                  "command",
+                  "timeout",
+                  "cwd",
+                  "pty",
+                  "async",
+                  "name",
+                  "ready"
+                ],
+                "strict": true
+              },
+              {
+                "name": "edit",
+                "descriptionCharacters": 0,
+                "required": [
+                  "i",
+                  "input"
+                ],
+                "strict": true
+              },
+              {
+                "name": "write",
+                "descriptionCharacters": 0,
+                "required": [
+                  "i",
+                  "path",
+                  "content"
+                ],
+                "strict": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "repo": "oh-my-pi",
+        "exit": 0,
+        "modes": [
+          {
+            "inline": false,
+            "wireCharacters": 6000,
+            "systemCharacters": 9023,
+            "totalCharacters": 15023,
+            "tools": [
+              {
+                "name": "read",
+                "descriptionCharacters": 1522,
+                "required": [
+                  "i",
+                  "path"
+                ],
+                "strict": true
+              },
+              {
+                "name": "bash",
+                "descriptionCharacters": 642,
+                "required": [
+                  "command",
+                  "i"
+                ],
+                "strict": false
+              },
+              {
+                "name": "edit",
+                "descriptionCharacters": 1954,
+                "required": [
+                  "i",
+                  "input"
+                ],
+                "strict": true
+              },
+              {
+                "name": "write",
+                "descriptionCharacters": 298,
+                "required": [
+                  "i",
+                  "path",
+                  "content"
+                ],
+                "strict": true
+              }
+            ]
+          },
+          {
+            "inline": true,
+            "wireCharacters": 1649,
+            "systemCharacters": 14136,
+            "totalCharacters": 15785,
+            "tools": [
+              {
+                "name": "read",
+                "descriptionCharacters": 127,
+                "required": [
+                  "i",
+                  "path"
+                ],
+                "strict": true
+              },
+              {
+                "name": "bash",
+                "descriptionCharacters": 103,
+                "required": [
+                  "command",
+                  "i"
+                ],
+                "strict": false
+              },
+              {
+                "name": "edit",
+                "descriptionCharacters": 84,
+                "required": [
+                  "i",
+                  "input"
+                ],
+                "strict": true
+              },
+              {
+                "name": "write",
+                "descriptionCharacters": 98,
+                "required": [
+                  "i",
+                  "path",
+                  "content"
+                ],
+                "strict": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "bashOmissionBoundaries": [
+    {
+      "repo": "omp-token-baseline",
+      "exit": 0,
+      "result": [
+        {
+          "asyncEnabled": false,
+          "launchEnabled": false,
+          "commandOnlyAccepted": false
+        },
+        {
+          "asyncEnabled": false,
+          "launchEnabled": true,
+          "commandOnlyAccepted": false
+        },
+        {
+          "asyncEnabled": true,
+          "launchEnabled": false,
+          "commandOnlyAccepted": false
+        },
+        {
+          "asyncEnabled": true,
+          "launchEnabled": true,
+          "commandOnlyAccepted": false
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "repo": "oh-my-pi",
+      "exit": 0,
+      "result": [
+        {
+          "asyncEnabled": false,
+          "launchEnabled": false,
+          "commandOnlyAccepted": true
+        },
+        {
+          "asyncEnabled": false,
+          "launchEnabled": true,
+          "commandOnlyAccepted": true
+        },
+        {
+          "asyncEnabled": true,
+          "launchEnabled": false,
+          "commandOnlyAccepted": true
+        },
+        {
+          "asyncEnabled": true,
+          "launchEnabled": true,
+          "commandOnlyAccepted": true
+        }
+      ],
+      "stderr": ""
+    }
+  ],
+  "pairedEditRuntime": [
+    {
+      "repo": "omp-token-baseline",
+      "exit": 0,
+      "result": {
+        "firstError": false,
+        "echo": "[fixture.txt#C60E]\n2:row-2\n3:row-3\n4:new\n5:row-5\n6:row-6",
+        "tuiPreservesContext": true,
+        "secondError": false,
+        "unseenRejected": true,
+        "diskFourthLine": "newer",
+        "diskUnseenLine": "row-25"
+      },
+      "stderr": ""
+    },
+    {
+      "repo": "oh-my-pi",
+      "exit": 0,
+      "result": {
+        "firstError": false,
+        "echo": "[fixture.txt#C60E]\n…\n3:row-3\n4:new\n5:row-5\n6:row-6",
+        "tuiPreservesContext": true,
+        "secondError": false,
+        "unseenRejected": true,
+        "diskFourthLine": "newer",
+        "diskUnseenLine": "row-25"
+      },
+      "stderr": ""
+    }
+  ],
+  "sourcePreflight": [
+    {
+      "harness": "omp-token-baseline",
+      "firstUsage": {
+        "input": 4054,
+        "output": 24,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 4078,
+        "cost": {
+          "input": 0.008107999999999999,
+          "output": 0.00024000000000000003,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.008348
+        }
+      },
+      "bashCalls": [
+        {
+          "command": "node --test",
+          "keys": [
+            "i",
+            "command",
+            "timeout",
+            "cwd",
+            "pty",
+            "async",
+            "name",
+            "ready"
+          ],
+          "nullKeys": [
+            "cwd",
+            "name",
+            "ready"
+          ]
+        },
+        {
+          "command": "node -e \"const {evaluate}=require('./src'); for(const s of ['-2 ** 2','2 ** -1','2 ** 3 ** 2','3 < 2 < missing','  missing','1 +   @']) {try {console.log(JSON.stringify(s),evaluate(s));} catch(e) {console.log(JSON.stringify(s),e.name,e.column);}}\"",
+          "keys": [
+            "i",
+            "command",
+            "timeout",
+            "cwd",
+            "pty",
+            "async",
+            "name",
+            "ready"
+          ],
+          "nullKeys": [
+            "cwd",
+            "name",
+            "ready"
+          ]
+        },
+        {
+          "command": "node --test",
+          "keys": [
+            "i",
+            "command",
+            "timeout",
+            "cwd",
+            "pty",
+            "async",
+            "name",
+            "ready"
+          ],
+          "nullKeys": [
+            "cwd",
+            "name",
+            "ready"
+          ]
+        },
+        {
+          "command": "node .contract-check.cjs",
+          "keys": [
+            "i",
+            "command",
+            "timeout",
+            "cwd",
+            "pty",
+            "async",
+            "name",
+            "ready"
+          ],
+          "nullKeys": [
+            "cwd",
+            "name",
+            "ready"
+          ]
+        }
+      ],
+      "writeCalls": [
+        {
+          "path": ".contract-check.cjs",
+          "contentCharacters": 4307
+        },
+        {
+          "path": "xd://report_issue",
+          "contentCharacters": 132
+        }
+      ],
+      "verifiedAfterFinalEdit": false,
+      "reproducedBeforeFirstEdit": true
+    },
+    {
+      "harness": "omp-token-candidate",
+      "firstUsage": {
+        "input": 4212,
+        "output": 24,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 4236,
+        "cost": {
+          "input": 0.008424,
+          "output": 0.00024000000000000003,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.008664
+        }
+      },
+      "bashCalls": [
+        {
+          "command": "node --test",
+          "keys": [
+            "i",
+            "command"
+          ],
+          "nullKeys": []
+        },
+        {
+          "command": "node -e \"const {evaluate}=require('./src'); for(const s of ['-2 ** 2','2 ** 3 ** 2','3 < 2 < missing','1 < 2 < 3','  missing','1 +   @','1 /   0']) { try { console.log(JSON.stringify(s),evaluate(s)); } catch(e) {console.log(JSON.stringify(s),e.name,e.column);} }\"",
+          "keys": [
+            "i",
+            "command"
+          ],
+          "nullKeys": []
+        },
+        {
+          "command": "node --test",
+          "keys": [
+            "i",
+            "command"
+          ],
+          "nullKeys": []
+        }
+      ],
+      "writeCalls": [
+        {
+          "path": "evaluator.test.js",
+          "contentCharacters": 3779
+        }
+      ],
+      "verifiedAfterFinalEdit": true,
+      "reproducedBeforeFirstEdit": true
+    }
+  ],
+  "limitations": [
+    "Preflight is not confirmation.",
+    "Wire smoke uses OpenAI Responses GPT-5 Mini; Sol token counts come from actual source preflight.",
+    "Verification-after-final-edit includes cleanup edits.",
+    "Windows bash ACP suite hardcodes /bin/bash and is not executable on this host."
+  ],
+  "loadedNativePrefixContract": {
+    "exit": 0,
+    "results": [
+      {
+        "name": "replace",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "insert-before",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "insert-after",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "delete-range",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "multi-anchor",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "register-move",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "bof",
+        "error": false,
+        "firstChangedLine": 1,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "eof",
+        "error": false,
+        "firstChangedLine": 31,
+        "prefixUnchangedAtSameLines": true
+      },
+      {
+        "name": "crlf",
+        "error": false,
+        "firstChangedLine": 4,
+        "prefixUnchangedAtSameLines": true
+      }
+    ],
+    "stderr": ""
+  },
+  "staticReviews": [
+    {
+      "agent": "ReviewDescriptorContracts",
+      "findings": 0,
+      "scope": "Descriptor pruning, prefix cache, summaries and provider consumers",
+      "checksRun": false
+    },
+    {
+      "agent": "ReviewLeanPayloadContracts",
+      "findings": 0,
+      "scope": "Edit compaction and bash validation consumers",
+      "checksRun": false
+    }
+  ],
+  "confirmation": {
+    "checkedAt": "2026-10-01T18:41:37.818Z",
+    "protocol": {
+      "tasks": 10,
+      "trialsPerArmPerTask": 5,
+      "workersPerGrid": 4,
+      "concurrentWorkers": 8,
+      "elapsedSeconds": {
+        "threshold": 4103.11,
+        "integrated": 4105.01
+      },
+      "serialAndPreflightExcluded": true
+    },
+    "coverage": [
+      {
+        "grid": "threshold",
+        "attempts": 100,
+        "distinctCells": 100,
+        "tasks": 10,
+        "arms": 2,
+        "complete": true,
+        "allPass": true,
+        "allIsolated": true,
+        "distinctWorkdirs": 100,
+        "matchedInputs": true,
+        "mechanismsComplete": true,
+        "errors": []
+      },
+      {
+        "grid": "integrated",
+        "attempts": 100,
+        "distinctCells": 100,
+        "tasks": 10,
+        "arms": 2,
+        "complete": true,
+        "allPass": true,
+        "allIsolated": true,
+        "distinctWorkdirs": 100,
+        "matchedInputs": true,
+        "mechanismsComplete": true,
+        "errors": []
+      }
+    ],
+    "frozenIntegrity": [
+      {
+        "group": "candidate",
+        "file": "packages/agent/src/agent-loop.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/agent/src/append-only-context.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/agent/src/agent.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/agent/src/types.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/agent/test/normalize-tools-prune.test.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/agent/test/prompt-tools-loop.test.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/tools/settings.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/tools/read.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/tools/bash.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/tools/write.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/edit/index.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/config/inline-tool-descriptors-mode.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/session/settings.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/prompts/system/system-prompt.md",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/prompts/tools/read-summary.md",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/prompts/tools/bash-summary.md",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/prompts/tools/edit-summary.md",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/src/prompts/tools/write-summary.md",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/test/tools/bash-wire-arguments.test.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/test/edit-tool-details.test.ts",
+        "match": true
+      },
+      {
+        "group": "candidate",
+        "file": "packages/coding-agent/test/edit-acp-bridge.test.ts",
+        "match": true
+      },
+      {
+        "group": "threshold",
+        "file": "benchmark-omp-read-threshold.toml",
+        "match": true
+      },
+      {
+        "group": "threshold",
+        "file": "experiments/omp-read-threshold/baseline.yml",
+        "match": true
+      },
+      {
+        "group": "threshold",
+        "file": "experiments/omp-read-threshold/candidate.yml",
+        "match": true
+      },
+      {
+        "group": "integration",
+        "file": "benchmark-omp-token-reductions.toml",
+        "match": true
+      },
+      {
+        "group": "integration",
+        "file": "experiments/omp-token-reductions/baseline.yml",
+        "match": true
+      },
+      {
+        "group": "integration",
+        "file": "experiments/omp-token-reductions/candidate.yml",
+        "match": true
+      },
+      {
+        "group": "runtime",
+        "file": "~/.bun/bin/omp.EXE",
+        "match": true
+      },
+      {
+        "group": "runtime",
+        "file": "~/Desktop/omp-token-baseline/packages/coding-agent/src/prompts/system/system-prompt.md",
+        "match": true
+      },
+      {
+        "group": "runtime",
+        "file": "~/Desktop/oh-my-pi/packages/natives/native/pi_natives.win32-x64-baseline.node",
+        "match": true
+      },
+      {
+        "group": "runtime",
+        "file": "~/Desktop/omp-token-baseline/packages/natives/native/pi_natives.win32-x64-baseline.node",
+        "match": true
+      }
+    ],
+    "threshold": {
+      "resultsRoot": "results/omp-read-threshold-parallel",
+      "aggregates": [
+        {
+          "arm": "omp-read-100",
+          "runs": 50,
+          "passes": 50,
+          "metrics": {
+            "input_tokens": 935828,
+            "output_tokens": 187928,
+            "cache_read_tokens": 3063040,
+            "cache_write_tokens": 0,
+            "requests": 412
+          },
+          "mechanisms": {
+            "bare_reads": 57,
+            "bash_calls": 144,
+            "bash_null_fields": 543,
+            "bash_optional_fields": 864,
+            "edit_errors": 0,
+            "edit_output_characters": 48096,
+            "folded_reads": 1,
+            "followup_reads": 5,
+            "ranged_reads": 246,
+            "read_output_characters": 395920,
+            "shell_file_dump_candidates": 0,
+            "unseen_line_errors": 0,
+            "write_content_characters": 220237
+          },
+          "unseenErrors": [],
+          "shellCandidates": []
+        },
+        {
+          "arm": "omp-read-300",
+          "runs": 50,
+          "passes": 50,
+          "metrics": {
+            "input_tokens": 826490,
+            "output_tokens": 184881,
+            "cache_read_tokens": 2991232,
+            "cache_write_tokens": 0,
+            "requests": 418
+          },
+          "mechanisms": {
+            "bare_reads": 55,
+            "bash_calls": 135,
+            "bash_null_fields": 482,
+            "bash_optional_fields": 810,
+            "edit_errors": 1,
+            "edit_output_characters": 50805,
+            "folded_reads": 0,
+            "followup_reads": 5,
+            "ranged_reads": 253,
+            "read_output_characters": 398563,
+            "shell_file_dump_candidates": 0,
+            "unseen_line_errors": 1,
+            "write_content_characters": 209725
+          },
+          "unseenErrors": [
+            {
+              "run": "7361204df09d45aa99f71cfde84e8118",
+              "task": "hard-expr-eval",
+              "trial": 3
+            }
+          ],
+          "shellCandidates": []
+        }
+      ],
+      "comparatorVerdict": "better",
+      "interpretation": "Verification proxy increases by one run; no demonstrated follow-up-read reduction or definitive token savings.",
+      "unseenRejection": {
+        "runId": "7361204df09d45aa99f71cfde84e8118",
+        "cause": "A prior edit produced a new partial snapshot that did not expose tokenizer line 30; a subsequent edit attempted that line. Reread and later edit succeeded; final attempt passed."
+      }
+    },
+    "integrated": {
+      "resultsRoot": "results/omp-token-reductions-parallel",
+      "aggregates": [
+        {
+          "arm": "omp-token-baseline",
+          "runs": 50,
+          "passes": 50,
+          "metrics": {
+            "input_tokens": 858805,
+            "output_tokens": 187196,
+            "cache_read_tokens": 2935808,
+            "cache_write_tokens": 0,
+            "requests": 397
+          },
+          "mechanisms": {
+            "bare_reads": 68,
+            "bash_calls": 135,
+            "bash_null_fields": 509,
+            "bash_optional_fields": 810,
+            "edit_errors": 2,
+            "edit_output_characters": 46783,
+            "folded_reads": 1,
+            "followup_reads": 2,
+            "ranged_reads": 237,
+            "read_output_characters": 397735,
+            "shell_file_dump_candidates": 0,
+            "unseen_line_errors": 1,
+            "write_content_characters": 218173
+          },
+          "initial_input_tokens_mean": 4120.1
+        },
+        {
+          "arm": "omp-token-candidate",
+          "runs": 50,
+          "passes": 50,
+          "metrics": {
+            "input_tokens": 820486,
+            "output_tokens": 182592,
+            "cache_read_tokens": 2639872,
+            "cache_write_tokens": 0,
+            "requests": 405
+          },
+          "mechanisms": {
+            "bare_reads": 50,
+            "bash_calls": 133,
+            "bash_null_fields": 0,
+            "bash_optional_fields": 32,
+            "edit_errors": 2,
+            "edit_output_characters": 48396,
+            "folded_reads": 0,
+            "followup_reads": 8,
+            "ranged_reads": 258,
+            "read_output_characters": 407289,
+            "shell_file_dump_candidates": 0,
+            "unseen_line_errors": 2,
+            "write_content_characters": 203282
+          },
+          "initial_input_tokens_mean": 4275.1
+        }
+      ],
+      "comparison": {
+        "baseline": "omp-token-baseline",
+        "candidate": "omp-token-candidate",
+        "margin": 0.1,
+        "min_trials": 5,
+        "confidence": 0.95,
+        "resamples": 2000,
+        "intervals": {
+          "tokens_per_correct": {
+            "ratio": 0.9148982284182894,
+            "low": 0.8239154035522294,
+            "high": 1.0198026158729625
+          },
+          "uncached_tokens_per_correct": {
+            "ratio": 0.9589646663817721,
+            "low": 0.8563087564008981,
+            "high": 1.0744953438451534
+          },
+          "median_wall_time_sec": {
+            "ratio": 0.967116147308855,
+            "low": 0.8997482225637348,
+            "high": 1.0535239184803256
+          },
+          "p90_wall_time_sec": {
+            "ratio": 1.0554191836182707,
+            "low": 0.906274631497258,
+            "high": 1.225471041958068
+          }
+        },
+        "verdict": "inconclusive",
+        "dimensions": {
+          "correctness": "same",
+          "tokens": "non-inferior",
+          "time": "uncertain",
+          "safety": "better"
+        },
+        "reasons": [
+          "p90 wall time ×1.06 (95% CI 0.91–1.23) may be more than 10% worse; more trials needed"
+        ],
+        "warnings": [
+          "correctness at ceiling: every run passed, so these tasks cannot distinguish correctness"
+        ],
+        "scorecards": {
+          "omp-token-baseline": {
+            "runs": 50,
+            "passed": 50,
+            "pass_rate": 1,
+            "classification_counts": {
+              "success": 50,
+              "solution_failure": 0,
+              "infrastructure_failure": 0,
+              "unknown": 0
+            },
+            "visible_passed": 50,
+            "hidden_tests_pass": 845,
+            "hidden_tests_fail": 0,
+            "regression_runs": 0,
+            "regression_unknown_runs": 0,
+            "unfinished_runs": 0,
+            "token_unknown_runs": 0,
+            "total_tokens": 3981809,
+            "uncached_tokens": 1046001,
+            "auxiliary_calls": 0,
+            "auxiliary_tokens": 0,
+            "cost_usd": 3.8831508,
+            "tokens_per_correct": 79636.18,
+            "uncached_tokens_per_correct": 20920.02,
+            "cost_per_correct": 0.077663016,
+            "retries": 0,
+            "median_wall_time_sec": 154.4375,
+            "p90_wall_time_sec": 281.0939999999973,
+            "max_wall_time_sec": 331.8429999999935,
+            "timeouts": 0,
+            "tampered_runs": 0,
+            "verification_known_runs": 50,
+            "verified_runs": 33,
+            "verification_rate": 0.66,
+            "reproduced_runs": 33
+          },
+          "omp-token-candidate": {
+            "runs": 50,
+            "passed": 50,
+            "pass_rate": 1,
+            "classification_counts": {
+              "success": 50,
+              "solution_failure": 0,
+              "infrastructure_failure": 0,
+              "unknown": 0
+            },
+            "visible_passed": 50,
+            "hidden_tests_pass": 845,
+            "hidden_tests_fail": 0,
+            "regression_runs": 0,
+            "regression_unknown_runs": 0,
+            "unfinished_runs": 0,
+            "token_unknown_runs": 0,
+            "total_tokens": 3642950,
+            "uncached_tokens": 1003078,
+            "auxiliary_calls": 0,
+            "auxiliary_tokens": 0,
+            "cost_usd": 3.7308792000000004,
+            "tokens_per_correct": 72859,
+            "uncached_tokens_per_correct": 20061.56,
+            "cost_per_correct": 0.07461758400000001,
+            "retries": 0,
+            "median_wall_time_sec": 149.3590000000113,
+            "p90_wall_time_sec": 296.6719999999914,
+            "max_wall_time_sec": 354.625,
+            "timeouts": 0,
+            "tampered_runs": 0,
+            "verification_known_runs": 50,
+            "verified_runs": 37,
+            "verification_rate": 0.74,
+            "reproduced_runs": 31
+          }
+        },
+        "per_task": {
+          "bugfix-duration": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 20,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 160331,
+                "uncached_tokens": 53451,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.154526,
+                "tokens_per_correct": 32066.2,
+                "uncached_tokens_per_correct": 10690.2,
+                "cost_per_correct": 0.0309052,
+                "retries": 0,
+                "median_wall_time_sec": 49.70299999999406,
+                "p90_wall_time_sec": 56.75,
+                "max_wall_time_sec": 56.75,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 5
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 20,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 168911,
+                "uncached_tokens": 59855,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.1606476,
+                "tokens_per_correct": 33782.2,
+                "uncached_tokens_per_correct": 11971,
+                "cost_per_correct": 0.03212952,
+                "retries": 0,
+                "median_wall_time_sec": 47,
+                "p90_wall_time_sec": 60.82799999999406,
+                "max_wall_time_sec": 60.82799999999406,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 5
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.0535142923077883,
+              "uncached_tokens_per_correct": 1.1198106677143551,
+              "median_wall_time_sec": 0.9456169647708511,
+              "p90_wall_time_sec": 1.0718590308368998
+            },
+            "pass_rate_difference": 0
+          },
+          "bugfix-invoice": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 130,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 456962,
+                "uncached_tokens": 116226,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.41537360000000006,
+                "tokens_per_correct": 91392.4,
+                "uncached_tokens_per_correct": 23245.2,
+                "cost_per_correct": 0.08307472000000002,
+                "retries": 0,
+                "median_wall_time_sec": 147.06200000000536,
+                "p90_wall_time_sec": 164.25,
+                "max_wall_time_sec": 164.25,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 1,
+                "verification_rate": 0.2,
+                "reproduced_runs": 2
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 130,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 333071,
+                "uncached_tokens": 85391,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.301734,
+                "tokens_per_correct": 66614.2,
+                "uncached_tokens_per_correct": 17078.2,
+                "cost_per_correct": 0.0603468,
+                "retries": 0,
+                "median_wall_time_sec": 108.76600000000326,
+                "p90_wall_time_sec": 119.625,
+                "max_wall_time_sec": 119.625,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 3,
+                "verification_rate": 0.6,
+                "reproduced_runs": 2
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 0.7288811761153007,
+              "uncached_tokens_per_correct": 0.7346979161289212,
+              "median_wall_time_sec": 0.7395928247949797,
+              "p90_wall_time_sec": 0.728310502283105
+            },
+            "pass_rate_difference": 0
+          },
+          "debug-cache-race": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 140,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 337102,
+                "uncached_tokens": 88014,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.3699528,
+                "tokens_per_correct": 67420.4,
+                "uncached_tokens_per_correct": 17602.8,
+                "cost_per_correct": 0.07399056000000001,
+                "retries": 0,
+                "median_wall_time_sec": 160.06200000000536,
+                "p90_wall_time_sec": 176.92200000000594,
+                "max_wall_time_sec": 176.92200000000594,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 4
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 140,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 359019,
+                "uncached_tokens": 104299,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.41225400000000006,
+                "tokens_per_correct": 71803.8,
+                "uncached_tokens_per_correct": 20859.8,
+                "cost_per_correct": 0.08245080000000002,
+                "retries": 0,
+                "median_wall_time_sec": 166.53099999998813,
+                "p90_wall_time_sec": 213.18700000000536,
+                "max_wall_time_sec": 213.18700000000536,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 5
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.0650159298965893,
+              "uncached_tokens_per_correct": 1.185027382007408,
+              "median_wall_time_sec": 1.0404155889591693,
+              "p90_wall_time_sec": 1.2049773346446355
+            },
+            "pass_rate_difference": 0
+          },
+          "debug-limiter": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 25,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 162184,
+                "uncached_tokens": 38536,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.1391408,
+                "tokens_per_correct": 32436.8,
+                "uncached_tokens_per_correct": 7707.2,
+                "cost_per_correct": 0.02782816,
+                "retries": 0,
+                "median_wall_time_sec": 63.25,
+                "p90_wall_time_sec": 86.25,
+                "max_wall_time_sec": 86.25,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 0
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 25,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 177082,
+                "uncached_tokens": 68922,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.196644,
+                "tokens_per_correct": 35416.4,
+                "uncached_tokens_per_correct": 13784.4,
+                "cost_per_correct": 0.039328800000000004,
+                "retries": 0,
+                "median_wall_time_sec": 66.51600000000326,
+                "p90_wall_time_sec": 75.96899999998277,
+                "max_wall_time_sec": 75.96899999998277,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 1
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.0918586297045332,
+              "uncached_tokens_per_correct": 1.7885094457130994,
+              "median_wall_time_sec": 1.0516363636364152,
+              "p90_wall_time_sec": 0.8807999999998002
+            },
+            "pass_rate_difference": 0
+          },
+          "feature-csv-stream": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 115,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 420457,
+                "uncached_tokens": 107369,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.4067748,
+                "tokens_per_correct": 84091.4,
+                "uncached_tokens_per_correct": 21473.8,
+                "cost_per_correct": 0.08135496,
+                "retries": 0,
+                "median_wall_time_sec": 163.8590000000113,
+                "p90_wall_time_sec": 194.89100000000326,
+                "max_wall_time_sec": 194.89100000000326,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 0,
+                "verification_rate": 0,
+                "reproduced_runs": 4
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 115,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 352026,
+                "uncached_tokens": 105242,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.3904824,
+                "tokens_per_correct": 70405.2,
+                "uncached_tokens_per_correct": 21048.4,
+                "cost_per_correct": 0.07809648,
+                "retries": 0,
+                "median_wall_time_sec": 162.48499999998603,
+                "p90_wall_time_sec": 182.57800000000861,
+                "max_wall_time_sec": 182.57800000000861,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 0,
+                "verification_rate": 0,
+                "reproduced_runs": 1
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 0.8372461393198354,
+              "uncached_tokens_per_correct": 0.9801898127019905,
+              "median_wall_time_sec": 0.9916147419426142,
+              "p90_wall_time_sec": 0.9368210948684421
+            },
+            "pass_rate_difference": 0
+          },
+          "feature-lru": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 30,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 169332,
+                "uncached_tokens": 49780,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.1770112,
+                "tokens_per_correct": 33866.4,
+                "uncached_tokens_per_correct": 9956,
+                "cost_per_correct": 0.03540224,
+                "retries": 0,
+                "median_wall_time_sec": 73.82799999999406,
+                "p90_wall_time_sec": 77.35899999999674,
+                "max_wall_time_sec": 77.35899999999674,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 4
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 30,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 201658,
+                "uncached_tokens": 68026,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.2210792,
+                "tokens_per_correct": 40331.6,
+                "uncached_tokens_per_correct": 13605.2,
+                "cost_per_correct": 0.04421584,
+                "retries": 0,
+                "median_wall_time_sec": 76.375,
+                "p90_wall_time_sec": 112.98500000000058,
+                "max_wall_time_sec": 112.98500000000058,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 3,
+                "verification_rate": 0.6,
+                "reproduced_runs": 3
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.1909030779769918,
+              "uncached_tokens_per_correct": 1.3665327440739254,
+              "median_wall_time_sec": 1.0344991060303157,
+              "p90_wall_time_sec": 1.4605281867656683
+            },
+            "pass_rate_difference": 0
+          },
+          "hard-dep-resolver": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 120,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 839062,
+                "uncached_tokens": 230678,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.7801224,
+                "tokens_per_correct": 167812.4,
+                "uncached_tokens_per_correct": 46135.6,
+                "cost_per_correct": 0.15602448,
+                "retries": 0,
+                "median_wall_time_sec": 254.65599999998813,
+                "p90_wall_time_sec": 322.25,
+                "max_wall_time_sec": 322.25,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 4
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 120,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 541039,
+                "uncached_tokens": 148335,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.6102524,
+                "tokens_per_correct": 108207.8,
+                "uncached_tokens_per_correct": 29667,
+                "cost_per_correct": 0.12205048,
+                "retries": 0,
+                "median_wall_time_sec": 292.0469999999914,
+                "p90_wall_time_sec": 313.625,
+                "max_wall_time_sec": 313.625,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 5
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 0.6448140900195695,
+              "uncached_tokens_per_correct": 0.6430392148362652,
+              "median_wall_time_sec": 1.1468294483538775,
+              "p90_wall_time_sec": 0.9732350659425911
+            },
+            "pass_rate_difference": 0
+          },
+          "hard-expr-eval": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 110,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 512868,
+                "uncached_tokens": 112740,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.4462608,
+                "tokens_per_correct": 102573.6,
+                "uncached_tokens_per_correct": 22548,
+                "cost_per_correct": 0.08925216,
+                "retries": 0,
+                "median_wall_time_sec": 193.46899999999732,
+                "p90_wall_time_sec": 255.92200000000594,
+                "max_wall_time_sec": 255.92200000000594,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 4,
+                "verification_rate": 0.8,
+                "reproduced_runs": 3
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 110,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 553208,
+                "uncached_tokens": 135928,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.479792,
+                "tokens_per_correct": 110641.6,
+                "uncached_tokens_per_correct": 27185.6,
+                "cost_per_correct": 0.0959584,
+                "retries": 0,
+                "median_wall_time_sec": 184.26600000000326,
+                "p90_wall_time_sec": 220.875,
+                "max_wall_time_sec": 220.875,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 2
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.0786557164806538,
+              "uncached_tokens_per_correct": 1.2056767784282418,
+              "median_wall_time_sec": 0.9524316557174834,
+              "p90_wall_time_sec": 0.8630559311039883
+            },
+            "pass_rate_difference": 0
+          },
+          "hard-line-diff": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 55,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 470258,
+                "uncached_tokens": 149106,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.6252312,
+                "tokens_per_correct": 94051.6,
+                "uncached_tokens_per_correct": 29821.2,
+                "cost_per_correct": 0.12504624,
+                "retries": 0,
+                "median_wall_time_sec": 320.43799999999464,
+                "p90_wall_time_sec": 331.8429999999935,
+                "max_wall_time_sec": 331.8429999999935,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 0,
+                "verification_rate": 0,
+                "reproduced_runs": 4
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 55,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 545163,
+                "uncached_tokens": 131211,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.6059372000000001,
+                "tokens_per_correct": 109032.6,
+                "uncached_tokens_per_correct": 26242.2,
+                "cost_per_correct": 0.12118744000000001,
+                "retries": 0,
+                "median_wall_time_sec": 311.32799999999406,
+                "p90_wall_time_sec": 354.625,
+                "max_wall_time_sec": 354.625,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 1,
+                "verification_rate": 0.2,
+                "reproduced_runs": 3
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 1.159284903180807,
+              "uncached_tokens_per_correct": 0.8799847088648344,
+              "median_wall_time_sec": 0.9715701633389275,
+              "p90_wall_time_sec": 1.0686529473275224
+            },
+            "pass_rate_difference": 0
+          },
+          "hard-segment-tree": {
+            "scorecards": {
+              "omp-token-baseline": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 100,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 453253,
+                "uncached_tokens": 100101,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.3687572,
+                "tokens_per_correct": 90650.6,
+                "uncached_tokens_per_correct": 20020.2,
+                "cost_per_correct": 0.07375144,
+                "retries": 0,
+                "median_wall_time_sec": 147.07800000000861,
+                "p90_wall_time_sec": 172.28099999998813,
+                "max_wall_time_sec": 172.28099999998813,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 3,
+                "verification_rate": 0.6,
+                "reproduced_runs": 3
+              },
+              "omp-token-candidate": {
+                "runs": 5,
+                "passed": 5,
+                "pass_rate": 1,
+                "classification_counts": {
+                  "success": 5,
+                  "solution_failure": 0,
+                  "infrastructure_failure": 0,
+                  "unknown": 0
+                },
+                "visible_passed": 5,
+                "hidden_tests_pass": 100,
+                "hidden_tests_fail": 0,
+                "regression_runs": 0,
+                "regression_unknown_runs": 0,
+                "unfinished_runs": 0,
+                "token_unknown_runs": 0,
+                "total_tokens": 411773,
+                "uncached_tokens": 95869,
+                "auxiliary_calls": 0,
+                "auxiliary_tokens": 0,
+                "cost_usd": 0.35205640000000005,
+                "tokens_per_correct": 82354.6,
+                "uncached_tokens_per_correct": 19173.8,
+                "cost_per_correct": 0.07041128,
+                "retries": 0,
+                "median_wall_time_sec": 142,
+                "p90_wall_time_sec": 158.39100000000326,
+                "max_wall_time_sec": 158.39100000000326,
+                "timeouts": 0,
+                "tampered_runs": 0,
+                "verification_known_runs": 5,
+                "verified_runs": 5,
+                "verification_rate": 1,
+                "reproduced_runs": 4
+              }
+            },
+            "ratios": {
+              "tokens_per_correct": 0.9084837827879794,
+              "uncached_tokens_per_correct": 0.9577227000729263,
+              "median_wall_time_sec": 0.9654741021770196,
+              "p90_wall_time_sec": 0.9193759033208199
+            },
+            "pass_rate_difference": 0
+          }
+        }
+      },
+      "interpretation": "Token point estimates improve, but intervals include no improvement and p90 latency is uncertain. Bash null-field removal observed; initial input, follow-up reads and aggregate edit output increased. Standalone verification checkers persist."
+    },
+    "limitations": [
+      "Correctness at ceiling: 200/200 passed.",
+      "Parallel latency includes shared provider contention.",
+      "Mechanism counts describe trajectories, not causal attribution.",
+      "Shell-file-dump candidate detection is a regex proxy.",
+      "Write-path inventories include attempted tool calls; two candidate checker lifecycles were separately inspected."
+    ],
+    "inspectedCheckerTrajectories": [
+      {
+        "run": "6a7dc65df4e742c18039f35deffee8a5",
+        "task": "feature-csv-stream",
+        "events": [
+          {
+            "tool": "write",
+            "args": {
+              "i": "Creating contract smoke checks",
+              "path": ".csv-smoke.cjs",
+              "content": "'use strict';\nconst test = require('node:test');\nconst assert = require('node:assert/strict');\nconst"
+            },
+            "error": false,
+            "reply": "[.csv-smoke.cjs#709E]\nSuccessfully wrote 5471 bytes to .csv-smoke.cjs"
+          },
+          {
+            "tool": "bash",
+            "args": {
+              "i": "Running required test suite",
+              "command": "node --test"
+            },
+            "error": false,
+            "reply": "TAP version 13\n# Subtest: single push emits complete comma-separated records\nok 1 - single push emits complete comma-separated records\n  ---\n  duration_ms: 1.4258\n  type: 'test'\n  ...\n# Subtest: single push parses quoted commas and doubled quotes\nok 2 - single push parses quoted commas and doubled quotes\n  ---\n  duration_ms: 0.1221\n  type: 'test'\n  ...\n# Subtest: end flushes one unfinished record including empty fields\nok 3 - end flushes one unfinished record including empty fields\n  ---\n  duration_ms: 0.1284\n  type: 'test'\n  ...\n# Subtest: single push preserves a newline inside a quoted field"
+          },
+          {
+            "tool": "bash",
+            "args": {
+              "i": "Exercising streaming contract",
+              "command": "node --test .csv-smoke.cjs"
+            },
+            "error": false,
+            "reply": "TAP version 13\n# Subtest: grammar survives every pair of chunk boundaries and empty chunks\nok 1 - grammar survives every pair of chunk boundaries and empty chunks\n  ---\n  duration_ms: 8.9304\n  type: 'test'\n  ...\n# Subtest: records emit at CR or LF without waiting; parsers stay independent\nok 2 - records emit at CR or LF without waiting; parsers stay independent\n  ---\n  duration_ms: 0.6463\n  type: 'test'\n  ...\n# Subtest: invalid delimiters and chunks fail without coercion\nok 3 - invalid delimiters and chunks fail without coercion\n  ---\n  duration_ms: 0.401\n  type: 'test'\n  ...\n# Subtest: syntax"
+          }
+        ]
+      },
+      {
+        "run": "1aecf13308774295b010b2c5970bef51",
+        "task": "hard-line-diff",
+        "events": [
+          {
+            "tool": "bash",
+            "args": {
+              "i": "Running repository tests",
+              "command": "node --test",
+              "timeout": 120
+            },
+            "error": false,
+            "reply": "TAP version 13\n# Subtest: visible: implement the review diff for one replaced line\nok 1 - visible: implement the review diff for one replaced line\n  ---\n  duration_ms: 1.4695\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 64.9822\n\n\nWall time: 0.21 seconds"
+          },
+          {
+            "tool": "write",
+            "args": {
+              "i": "Creating focused verification",
+              "path": ".diff-smoke.cjs",
+              "content": "'use strict';\nconst assert = require('node:assert/strict');\nconst { performance } = require('node:pe"
+            },
+            "error": false,
+            "reply": "[.diff-smoke.cjs#5277]\nSuccessfully wrote 5180 bytes to .diff-smoke.cjs"
+          },
+          {
+            "tool": "bash",
+            "args": {
+              "i": "Exercising diff contract",
+              "command": "node .diff-smoke.cjs",
+              "timeout": 120
+            },
+            "error": true,
+            "reply": "Exhaustive minimality, ordering, coordinates, context merging, frozen-input roundtrips: 14641 pairs, 58564 patches\n{temp}\\hb-1aecf133-alyx49k6\\src\\diff.js:228\n  throw new Error(`hunk ${index} does not apply`);\n  ^\n\nError: hunk 1 does not apply\n    at hunkDoesNotApply ({temp}\\hb-1aecf133-alyx49k6\\src\\diff.js:228:9)\n    at applyHunks ({temp}\\hb-1aecf133-alyx49k6\\src\\diff.js:197:7)\n    at Object.<anonymous> ({temp}\\hb-1aecf133-alyx49k6\\.diff-smoke.cjs:99:18)\n    at Module._compile (node:int"
+          },
+          {
+            "tool": "write",
+            "args": {
+              "i": "Correcting smoke coordinates",
+              "path": ".diff-smoke.cjs",
+              "content": "'use strict';\nconst assert = require('node:assert/strict');\nconst { performance } = require('node:pe"
+            },
+            "error": false,
+            "reply": "[.diff-smoke.cjs#FE78]\nSuccessfully wrote 1239 bytes to .diff-smoke.cjs"
+          },
+          {
+            "tool": "bash",
+            "args": {
+              "i": "Checking offsets and performance",
+              "command": "node .diff-smoke.cjs",
+              "timeout": 120
+            },
+            "error": false,
+            "reply": "Original-coordinate offsets and copy semantics: passed\n20,000 unique lines: diff + hunks + application 9.40ms\n20,000 repeated lines: diff + hunks + application 5.49ms\n\n\nWall time: 0.15 seconds"
+          }
+        ]
+      }
+    ]
+  }
+}

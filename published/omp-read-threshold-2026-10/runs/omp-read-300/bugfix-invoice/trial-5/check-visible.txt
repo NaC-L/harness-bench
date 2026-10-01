@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: half-even rounding is exact and symmetric, including signed zero
+ok 1 - half-even rounding is exact and symmetric, including signed zero
+  ---
+  duration_ms: 2.4475
+  type: 'test'
+  ...
+# Subtest: rounding checks the exact rounded result, not an overflowing intermediate
+ok 2 - rounding checks the exact rounded result, not an overflowing intermediate
+  ---
+  duration_ms: 0.5513
+  type: 'test'
+  ...
+# Subtest: both discount levels preserve order and round each percentage reduction
+ok 3 - both discount levels preserve order and round each percentage reduction
+  ---
+  duration_ms: 2.314
+  type: 'test'
+  ...
+# Subtest: discounts reduce credits symmetrically and fixed discounts cap only positives
+ok 4 - discounts reduce credits symmetrically and fixed discounts cap only positives
+  ---
+  duration_ms: 0.4349
+  type: 'test'
+  ...
+# Subtest: invoice discount allocation excludes credits and resolves ties in input order
+ok 5 - invoice discount allocation excludes credits and resolves ties in input order
+  ---
+  duration_ms: 0.664
+  type: 'test'
+  ...
+# Subtest: tax modes round independently per line or per rate group
+ok 6 - tax modes round independently per line or per rate group
+  ---
+  duration_ms: 0.3074
+  type: 'test'
+  ...
+# Subtest: invoice tax allocation handles signed ties and zero or negative group bases
+ok 7 - invoice tax allocation handles signed ties and zero or negative group bases
+  ---
+  duration_ms: 0.3998
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 8 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 2.1747
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 9 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 1.5796
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 88.4187

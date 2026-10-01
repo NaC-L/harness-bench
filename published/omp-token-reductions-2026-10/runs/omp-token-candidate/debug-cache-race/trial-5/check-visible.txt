@@ -1,0 +1,120 @@
+TAP version 13
+# Subtest: obsolete success cannot commit or detach a newer pending flight
+ok 1 - obsolete success cannot commit or detach a newer pending flight
+  ---
+  duration_ms: 1.7204
+  type: 'test'
+  ...
+# Subtest: repeated invalidations are barriers even without a stored value
+ok 2 - repeated invalidations are barriers even without a stored value
+  ---
+  duration_ms: 1.0689
+  type: 'test'
+  ...
+# Subtest: clear removes stored values and detaches flights for all key identities
+ok 3 - clear removes stored values and detaches flights for all key identities
+  ---
+  duration_ms: 0.3723
+  type: 'test'
+  ...
+# Subtest: set wins over earlier loads without restarting its TTL
+ok 4 - set wins over earlier loads without restarting its TTL
+  ---
+  duration_ms: 0.1924
+  type: 'test'
+  ...
+# Subtest: expired set values and size cleanup cannot reattach an old load
+ok 5 - expired set values and size cleanup cannot reattach an old load
+  ---
+  duration_ms: 0.2099
+  type: 'test'
+  ...
+# Subtest: active failures reach all waiters unchanged and allow retry
+    # Subtest: synchronous throw
+    ok 1 - synchronous throw
+      ---
+      duration_ms: 0.1799
+      type: 'test'
+      ...
+    # Subtest: rejected promise
+    ok 2 - rejected promise
+      ---
+      duration_ms: 0.1021
+      type: 'test'
+      ...
+    # Subtest: rejecting thenable
+    ok 3 - rejecting thenable
+      ---
+      duration_ms: 0.1885
+      type: 'test'
+      ...
+    # Subtest: undefined rejection
+    ok 4 - undefined rejection
+      ---
+      duration_ms: 0.3751
+      type: 'test'
+      ...
+    1..4
+ok 6 - active failures reach all waiters unchanged and allow retry
+  ---
+  duration_ms: 1.3811
+  type: 'test'
+  ...
+# Subtest: obsolete rejection cannot detach a newer flight
+ok 7 - obsolete rejection cannot detach a newer flight
+  ---
+  duration_ms: 0.3014
+  type: 'test'
+  ...
+# Subtest: synchronous loader mutations preserve barriers and reentrant reads
+    # Subtest: invalidate
+    ok 1 - invalidate
+      ---
+      duration_ms: 0.1776
+      type: 'test'
+      ...
+    # Subtest: set
+    ok 2 - set
+      ---
+      duration_ms: 0.0549
+      type: 'test'
+      ...
+    # Subtest: clear
+    ok 3 - clear
+      ---
+      duration_ms: 0.7773
+      type: 'test'
+      ...
+    1..3
+ok 8 - synchronous loader mutations preserve barriers and reentrant reads
+  ---
+  duration_ms: 1.2535
+  type: 'test'
+  ...
+# Subtest: successful thenable TTL begins at commit and expires at the boundary
+ok 9 - successful thenable TTL begins at commit and expires at the boundary
+  ---
+  duration_ms: 0.1685
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates unsettled loads but never reuses settled values
+ok 10 - zero TTL deduplicates unsettled loads but never reuses settled values
+  ---
+  duration_ms: 0.1709
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 11 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.8002
+  type: 'test'
+  ...
+1..11
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 82.7906

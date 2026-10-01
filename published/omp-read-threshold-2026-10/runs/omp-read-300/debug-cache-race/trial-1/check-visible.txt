@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: invalidate: obsolete success, old-first
+ok 1 - invalidate: obsolete success, old-first
+  ---
+  duration_ms: 2.9866
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, old-first
+ok 2 - invalidate: obsolete rejection, old-first
+  ---
+  duration_ms: 0.5529
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete success, fresh-first
+ok 3 - invalidate: obsolete success, fresh-first
+  ---
+  duration_ms: 0.2101
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, fresh-first
+ok 4 - invalidate: obsolete rejection, fresh-first
+  ---
+  duration_ms: 0.112
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, old-first
+ok 5 - clear: obsolete success, old-first
+  ---
+  duration_ms: 0.1664
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, old-first
+ok 6 - clear: obsolete rejection, old-first
+  ---
+  duration_ms: 0.169
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, fresh-first
+ok 7 - clear: obsolete success, fresh-first
+  ---
+  duration_ms: 0.0821
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, fresh-first
+ok 8 - clear: obsolete rejection, fresh-first
+  ---
+  duration_ms: 0.0882
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, old-first
+ok 9 - set: obsolete success, old-first
+  ---
+  duration_ms: 0.3641
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, old-first
+ok 10 - set: obsolete rejection, old-first
+  ---
+  duration_ms: 0.5408
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, fresh-first
+ok 11 - set: obsolete success, fresh-first
+  ---
+  duration_ms: 0.2724
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, fresh-first
+ok 12 - set: obsolete rejection, fresh-first
+  ---
+  duration_ms: 0.4814
+  type: 'test'
+  ...
+# Subtest: repeated invalidations are barriers even without stored values
+ok 13 - repeated invalidations are barriers even without stored values
+  ---
+  duration_ms: 0.2372
+  type: 'test'
+  ...
+# Subtest: clear detaches every key and removes stored values without affecting another instance
+ok 14 - clear detaches every key and removes stored values without affecting another instance
+  ---
+  duration_ms: 0.2943
+  type: 'test'
+  ...
+# Subtest: throw rejection reaches all waiters and allows retry
+ok 15 - throw rejection reaches all waiters and allows retry
+  ---
+  duration_ms: 0.2128
+  type: 'test'
+  ...
+# Subtest: promise rejection reaches all waiters and allows retry
+ok 16 - promise rejection reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0842
+  type: 'test'
+  ...
+# Subtest: thenable rejection reaches all waiters and allows retry
+ok 17 - thenable rejection reaches all waiters and allows retry
+  ---
+  duration_ms: 0.0607
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate detaches its own flight
+ok 18 - synchronous load invalidate detaches its own flight
+  ---
+  duration_ms: 0.1011
+  type: 'test'
+  ...
+# Subtest: synchronous load clear detaches its own flight
+ok 19 - synchronous load clear detaches its own flight
+  ---
+  duration_ms: 0.0387
+  type: 'test'
+  ...
+# Subtest: synchronous load set detaches its own flight
+ok 20 - synchronous load set detaches its own flight
+  ---
+  duration_ms: 0.2391
+  type: 'test'
+  ...
+# Subtest: set value keeps its original expiry after an obsolete load completes
+ok 21 - set value keeps its original expiry after an obsolete load completes
+  ---
+  duration_ms: 0.1501
+  type: 'test'
+  ...
+# Subtest: successful TTL starts at commit and expires at the exact boundary
+ok 22 - successful TTL starts at commit and expires at the exact boundary
+  ---
+  duration_ms: 0.0891
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending loads but not settled values
+ok 23 - zero TTL deduplicates pending loads but not settled values
+  ---
+  duration_ms: 0.0979
+  type: 'test'
+  ...
+# Subtest: a synchronous loader can join its own flight and independently read another key
+ok 24 - a synchronous loader can join its own flight and independently read another key
+  ---
+  duration_ms: 0.1193
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 25 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.7167
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 87.9475

@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: assignment discards additions at both the overwritten node and its children
+ok 1 - assignment discards additions at both the overwritten node and its children
+  ---
+  duration_ms: 1.6268
+  type: 'test'
+  ...
+# Subtest: partial maxima preserve negative values and the empty-range identity
+ok 2 - partial maxima preserve negative values and the empty-range identity
+  ---
+  duration_ms: 0.1676
+  type: 'test'
+  ...
+# Subtest: threshold search sees pending assignments and additions before descending
+ok 3 - threshold search sees pending assignments and additions before descending
+  ---
+  duration_ms: 0.1833
+  type: 'test'
+  ...
+# Subtest: mixed updates and reads agree with an array model on uneven tree sizes
+ok 4 - mixed updates and reads agree with an array model on uneven tree sizes
+  ---
+  duration_ms: 5.5765
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 5 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.8295
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 70.921

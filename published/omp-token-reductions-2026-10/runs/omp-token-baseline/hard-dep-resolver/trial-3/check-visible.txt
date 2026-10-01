@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: numeric ordering compares major and patch components
+ok 1 - numeric ordering compares major and patch components
+  ---
+  duration_ms: 2.0627
+  type: 'test'
+  ...
+# Subtest: first-found selection follows FIFO discovery, not dependency-first traversal
+ok 2 - first-found selection follows FIFO discovery, not dependency-first traversal
+  ---
+  duration_ms: 0.3658
+  type: 'test'
+  ...
+# Subtest: root and dependency key order determine the first complete assignment
+ok 3 - root and dependency key order determine the first complete assignment
+  ---
+  duration_ms: 0.3914
+  type: 'test'
+  ...
+# Subtest: discovered constraints apply before a queued package is selected
+ok 4 - discovered constraints apply before a queued package is selected
+  ---
+  duration_ms: 0.0939
+  type: 'test'
+  ...
+# Subtest: backtracking removes rejected dependencies and constraints but retains root constraints
+ok 5 - backtracking removes rejected dependencies and constraints but retains root constraints
+  ---
+  duration_ms: 0.0796
+  type: 'test'
+  ...
+# Subtest: a partially appended conflict retries the most recent choice
+ok 6 - a partially appended conflict retries the most recent choice
+  ---
+  duration_ms: 0.1107
+  type: 'test'
+  ...
+# Subtest: exhausted descendant choices are removed when an ancestor is retried
+ok 7 - exhausted descendant choices are removed when an ancestor is retried
+  ---
+  duration_ms: 0.0872
+  type: 'test'
+  ...
+# Subtest: cycles constrain existing choices without expanding them again
+ok 8 - cycles constrain existing choices without expanding them again
+  ---
+  duration_ms: 0.0937
+  type: 'test'
+  ...
+# Subtest: long dependency chains ending in a cycle do not depend on stack depth or an iteration cap
+ok 9 - long dependency chains ending in a cycle do not depend on stack depth or an iteration cap
+  ---
+  duration_ms: 70.3245
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before a Cartesian product is enumerated
+ok 10 - discovered conflicts prune choices before a Cartesian product is enumerated
+  ---
+  duration_ms: 0.9484
+  type: 'test'
+  ...
+# Subtest: missing packages and exhausted choices are unsatisfiable; unreachable packages are not selected
+ok 11 - missing packages and exhausted choices are unsatisfiable; unreachable packages are not selected
+  ---
+  duration_ms: 0.2387
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated even when unreachable
+ok 12 - all maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.8222
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special names work without mutating frozen inputs
+ok 13 - null-prototype maps and special names work without mutating frozen inputs
+  ---
+  duration_ms: 0.15
+  type: 'test'
+  ...
+# Subtest: versions must be canonical safe integer triples, with no trailing newline
+ok 14 - versions must be canonical safe integer triples, with no trailing newline
+  ---
+  duration_ms: 0.2168
+  type: 'test'
+  ...
+# Subtest: caret ranges use the next nonzero component boundary
+ok 15 - caret ranges use the next nonzero component boundary
+  ---
+  duration_ms: 0.2529
+  type: 'test'
+  ...
+# Subtest: range helpers support AND terms, tilde, exact and all comparison operators
+ok 16 - range helpers support AND terms, tilde, exact and all comparison operators
+  ---
+  duration_ms: 0.1459
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 17 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4902
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 159.7403

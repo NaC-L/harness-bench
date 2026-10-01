@@ -1,0 +1,101 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-bc87ba23-3ffwp1sl/src/csv.js"
+index ce27ede..0f9ca31 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-bc87ba23-3ffwp1sl/src/csv.js"
+@@ -47,7 +47,95 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one UTF-16 code unit other than quote, CR, or LF');
++  }
++
++  let state = 'start'; // start, unquoted, quoted, or afterQuote
++  let field = '';
++  let row = [];
++  let unfinished = false;
++  let atStart = true;
++  let ended = false;
++  let line = 1;
++  let previousCR = false;
++  let skipLF = false;
++
++  return {
++    push(chunk) {
++      if (ended) throw new Error('cannot push after end');
++      if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++      const records = [];
++      for (let index = 0; index < chunk.length; index++) {
++        const character = chunk[index];
++        if (atStart) {
++          atStart = false;
++          if (character === '\uFEFF') continue;
++        }
++
++        // Track physical lines separately from CSV record separators.
++        if (character === '\r' || (character === '\n' && !previousCR)) line++;
++        previousCR = character === '\r';
++        if (skipLF) {
++          skipLF = false;
++          if (character === '\n') continue;
++        }
++
++        unfinished = true;
++        if (state === 'quoted') {
++          if (character === '"') state = 'afterQuote';
++          else field += character;
++          continue;
++        }
++        if (state === 'afterQuote') {
++          // A pending closing quote may instead be half of an escaped quote.
++          if (character === '"') {
++            field += '"';
++            state = 'quoted';
++            continue;
++          }
++          if (character !== delimiter && character !== '\r' && character !== '\n') {
++            throw new SyntaxError(`unexpected character after closing quote at line ${line}`);
++          }
++        }
++
++        if (character === delimiter) {
++          row.push(field);
++          field = '';
++          state = 'start';
++        } else if (character === '\r' || character === '\n') {
++          row.push(field);
++          records.push(row);
++          row = [];
++          field = '';
++          state = 'start';
++          unfinished = false;
++          skipLF = character === '\r';
++        } else if (character === '"' && state === 'start') {
++          state = 'quoted';
++        } else {
++          field += character;
++          state = 'unquoted';
++        }
++      }
++      return records;
++    },
++    end() {
++      if (ended) return [];
++      ended = true;
++      if (state === 'quoted') {
++        throw new SyntaxError(`unterminated quoted field at line ${line}`);
++      }
++      if (!unfinished) return [];
++      row.push(field);
++      const records = [row];
++      row = [];
++      field = '';
++      return records;
++    },
++  };
+ }
+ 
+ /**

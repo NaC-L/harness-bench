@@ -1,0 +1,23 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-995ba38b-74n4pqq8/src/limit.js"
+index 40953d6..57e6a7e 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-995ba38b-74n4pqq8/src/limit.js"
+@@ -17,7 +17,8 @@ function createLimiter(concurrency) {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
++      const fn = job.fn;
++      Promise.resolve().then(() => fn()).then(
+         value => {
+           job.resolve(value);
+           active -= 1;
+@@ -25,6 +26,8 @@ function createLimiter(concurrency) {
+         },
+         error => {
+           job.reject(error);
++          active -= 1;
++          drain();
+         }
+       );
+     }

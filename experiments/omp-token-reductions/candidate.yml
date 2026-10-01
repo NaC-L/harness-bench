@@ -1,0 +1,10 @@
+inlineToolDescriptors: "on"
+textVerbosity: "medium"
+tools:
+  intentTracing: true
+read:
+  summarize:
+    enabled: true
+    minTotalLines: 300
+astEdit:
+  enabled: false

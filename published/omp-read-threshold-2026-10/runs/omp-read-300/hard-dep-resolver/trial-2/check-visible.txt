@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: numeric candidate ordering covers every component
+ok 1 - numeric candidate ordering covers every component
+  ---
+  duration_ms: 2.6443
+  type: 'test'
+  ...
+# Subtest: failed choices undo dependencies, constraints, and queued names
+ok 2 - failed choices undo dependencies, constraints, and queued names
+  ---
+  duration_ms: 0.6908
+  type: 'test'
+  ...
+# Subtest: FIFO first-found selection is not global version maximization
+ok 3 - FIFO first-found selection is not global version maximization
+  ---
+  duration_ms: 0.3296
+  type: 'test'
+  ...
+# Subtest: selected-version dependency key order determines subsequent choices
+ok 4 - selected-version dependency key order determines subsequent choices
+  ---
+  duration_ms: 0.1204
+  type: 'test'
+  ...
+# Subtest: later dependencies can backtrack earlier selected packages
+ok 5 - later dependencies can backtrack earlier selected packages
+  ---
+  duration_ms: 0.1588
+  type: 'test'
+  ...
+# Subtest: cycles and repeated discovery expand each selected package once
+ok 6 - cycles and repeated discovery expand each selected package once
+  ---
+  duration_ms: 0.0854
+  type: 'test'
+  ...
+# Subtest: self conflicts restore constraints before trying a lower version
+ok 7 - self conflicts restore constraints before trying a lower version
+  ---
+  duration_ms: 0.1591
+  type: 'test'
+  ...
+# Subtest: long dependency chains do not depend on stack depth or iteration limits
+ok 8 - long dependency chains do not depend on stack depth or iteration limits
+  ---
+  duration_ms: 84.8296
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune before enumerating independent choices
+ok 9 - discovered conflicts prune before enumerating independent choices
+  ---
+  duration_ms: 0.788
+  type: 'test'
+  ...
+# Subtest: missing packages are unsatisfiable; unreachable packages are not selected
+ok 10 - missing packages are unsatisfiable; unreachable packages are not selected
+  ---
+  duration_ms: 0.3241
+  type: 'test'
+  ...
+# Subtest: all registry maps, versions, and ranges are validated eagerly
+ok 11 - all registry maps, versions, and ranges are validated eagerly
+  ---
+  duration_ms: 0.5677
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special package names preserve plain output without mutation
+ok 12 - null-prototype maps and special package names preserve plain output without mutation
+  ---
+  duration_ms: 0.1421
+  type: 'test'
+  ...
+# Subtest: canonical versions reject trailing whitespace and unsafe integers
+ok 13 - canonical versions reject trailing whitespace and unsafe integers
+  ---
+  duration_ms: 0.2438
+  type: 'test'
+  ...
+# Subtest: caret and tilde enforce inclusive bases and exclusive component boundaries
+ok 14 - caret and tilde enforce inclusive bases and exclusive component boundaries
+  ---
+  duration_ms: 0.3211
+  type: 'test'
+  ...
+# Subtest: range terms are ANDed and malformed terms fail during compilation
+ok 15 - range terms are ANDed and malformed terms fail during compilation
+  ---
+  duration_ms: 0.1937
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.6248
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 173.6081

@@ -1,0 +1,97 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-37992b3d-_bye4i4q/src/csv.js"
+index ce27ede..67ecb54 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-37992b3d-_bye4i4q/src/csv.js"
+@@ -47,7 +47,91 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one code unit other than quote, CR, or LF');
++  }
++
++  // A quote stays pending until the next character distinguishes escape from close.
++  let state = 'start';
++  let field = '';
++  let row = [];
++  let pending = false;
++  let atStart = true;
++  let previousCR = false;
++  let line = 1;
++  let ended = false;
++
++  return {
++    push(chunk) {
++      if (ended) throw new Error('Cannot push after end');
++      if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++      const records = [];
++      for (let index = 0; index < chunk.length; index++) {
++        const character = chunk[index];
++        if (atStart) {
++          atStart = false;
++          if (character === '\uFEFF') continue;
++        }
++
++        const followsCR = previousCR;
++        previousCR = character === '\r';
++        if (character === '\r' || (character === '\n' && !followsCR)) line++;
++
++        if (state === 'quoted') {
++          if (character === '"') state = 'afterQuote';
++          else field += character;
++          continue;
++        }
++        if (state === 'afterQuote' && character === '"') {
++          field += '"';
++          state = 'quoted';
++          continue;
++        }
++
++        // The CR already emitted its record, but a quoted CRLF is preserved above.
++        if (character === '\n' && followsCR) continue;
++        if (character === delimiter) {
++          row.push(field);
++          field = '';
++          state = 'start';
++          pending = true;
++        } else if (character === '\r' || character === '\n') {
++          row.push(field);
++          records.push(row);
++          row = [];
++          field = '';
++          state = 'start';
++          pending = false;
++        } else if (state === 'afterQuote') {
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        } else {
++          pending = true;
++          if (state === 'start' && character === '"') {
++            state = 'quoted';
++          } else {
++            field += character;
++            state = 'unquoted';
++          }
++        }
++      }
++      return records;
++    },
++    end() {
++      if (ended) return [];
++      ended = true;
++      if (state === 'quoted') {
++        throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++      }
++      if (!pending) return [];
++      row.push(field);
++      const records = [row];
++      row = [];
++      field = '';
++      return records;
++    },
++  };
+ }
+ 
+ /**

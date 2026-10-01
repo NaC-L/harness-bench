@@ -1,0 +1,15 @@
+{
+  "createdAt": "2026-10-01T16:13:36.550Z",
+  "threshold": {
+    "benchmark-omp-read-threshold.toml": "c67d662207f6f988c320c91fc9e5d971ebe5bc4416242b0217284d991b83eb18",
+    "experiments/omp-read-threshold/baseline.yml": "487fef3ed87d9596d46d8daa8f058a1a39b7daf419ec2526232a0400bdf9aa28",
+    "experiments/omp-read-threshold/candidate.yml": "58821b8f033a3e79acf14495f58251449eee8beee4ad6c1852fc38d925035a10"
+  },
+  "integration": {
+    "benchmark-omp-token-reductions.toml": "b4c87145a45985061ab794faf4572235eac8760225727986be47430da6d3c531",
+    "experiments/omp-token-reductions/baseline.yml": "487fef3ed87d9596d46d8daa8f058a1a39b7daf419ec2526232a0400bdf9aa28",
+    "experiments/omp-token-reductions/candidate.yml": "9c4ec3e34edf1673005c7dec5ebbb352ebef7a985c853b44c25ea203ad989179"
+  },
+  "commonThresholdPromptSha256": "a3785ac56bc6fa2bd7391bfc4483198765a6f1c027648da2cbfaff225bfbc939",
+  "installedOmpSha256": "59b379b53354da72d2c5262119fe70c44b4e473826ebbaa94d47a2d58a359b1a"
+}

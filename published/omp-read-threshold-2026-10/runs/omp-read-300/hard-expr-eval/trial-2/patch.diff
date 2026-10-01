@@ -1,0 +1,228 @@
+diff --git "{temp}\\hb-8f22bdd5-tceol_kc/evaluator.contract.test.js" "{temp}\\hb-8f22bdd5-tceol_kc/evaluator.contract.test.js"
+new file mode 100644
+index 0000000..7f64fc7
+--- /dev/null
++++ "{temp}\\hb-8f22bdd5-tceol_kc/evaluator.contract.test.js"
+@@ -0,0 +1,119 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { evaluate, ExprError } = require('./src/index');
++
++function expectError(source, column, variables) {
++  assert.throws(() => evaluate(source, variables), error => {
++    assert.ok(error instanceof ExprError);
++    assert.equal(error.column, column);
++    return true;
++  });
++}
++
++test('power is right-associative and binds above signs only on its left', () => {
++  for (const [source, expected] of [
++    ['-2 ** 2', -4],
++    ['(-2) ** 2', 4],
++    ['2 ** -1', 0.5],
++    ['2 ** 3 ** 2', 512],
++    ['2 ** -2 ** 2', 0.0625],
++    ['-2 ** -2', -0.25],
++    ['3 * -2 ** 2 + 1', -11],
++    ['--2 ** 2', 4],
++    ['8 / 2 * 3 - 2 - 1', 9],
++  ]) assert.equal(evaluate(source), expected, source);
++});
++
++test('floor division and modulo obey sign rules and normalize zero', () => {
++  for (const [source, expected] of [
++    ['7 // -2', -4],
++    ['-7 // -2', 3],
++    ['-7 % -3', -1],
++    ['-5.5 // 2', -3],
++    ['-5.5 % 2', 0.5],
++    ['5.5 % -2', -0.5],
++    ['0 // -2', 0],
++    ['1 // 2', 0],
++    ['-6 % 3', 0],
++    ['6 % -3', 0],
++  ]) assert.equal(evaluate(source), expected, source);
++
++  for (const a of [-7, 0, 7]) {
++    for (const b of [-3, 3]) {
++      assert.equal(evaluate('(a // b) * b + a % b', { a, b }), a);
++    }
++  }
++});
++
++test('comparisons chain and parenthesized booleans coerce numerically', () => {
++  for (const [source, expected] of [
++    ['3 < 2 < 1', false],
++    ['1 < 2 <= 2 != 3 > 1 >= 1 == 1', true],
++    ['1 < 2 > 3', false],
++    ['(3 < 2) < 1', true],
++    ['(1 < 2) + (2 < 1)', 1],
++    ['(1 < 2) == 1', true],
++    ['0 == (2 < 1)', true],
++    ['2 ** (1 < 2)', 2],
++    ['min(3 > 2, 4) + abs(2 < 1)', 1],
++  ]) assert.equal(evaluate(source), expected, source);
++});
++
++test('comparison operands are read once, in order, with short-circuiting', () => {
++  const reads = [];
++  const variables = {
++    get a() { reads.push('a'); return 1; },
++    get b() { reads.push('b'); return 2; },
++    get c() { reads.push('c'); return 3; },
++  };
++  assert.equal(evaluate('a < b <= c', variables), true);
++  assert.deepEqual(reads, ['a', 'b', 'c']);
++  reads.length = 0;
++  assert.equal(evaluate('a > b < c', variables), false);
++  assert.deepEqual(reads, ['a', 'b']);
++  assert.equal(evaluate('2 < 1 < missing / 0'), false);
++});
++
++test('syntax is checked even in an unevaluated comparison suffix', () => {
++  let reads = 0;
++  const variables = { get a() { reads += 1; return 0; } };
++  expectError('a > 1 < nope(2)', 9, variables);
++  expectError('a > 1 < abs(2, 3)', 9, variables);
++  expectError('a > 1 < min()', 9, variables);
++  expectError('a > 1 < (2 + )', 14, variables);
++  assert.equal(reads, 0);
++});
++
++test('errors use actual token columns and the complete source end', () => {
++  for (const [source, column] of [
++    ['1 +   missing', 7],
++    ['1   / 0', 5],
++    ['1   // -0', 5],
++    ['1   % (2 - 2)', 5],
++    ['  nope(1)', 3],
++    ['  abs()', 3],
++    ['  abs(1, 2)', 3],
++    ['1 +   @', 7],
++    ['1 +   😀', 7],
++    ['1 +   )', 7],
++    ['min(1,   )', 10],
++    ['1   2', 5],
++    ['1 +  \n', 7],
++    ['   ', 4],
++  ]) expectError(source, column);
++  expectError('  inherited', 3, Object.create({ inherited: 7 }));
++});
++
++test('100,001 flat addition operands evaluate without recursive traversal', () => {
++  assert.equal(evaluate(Array(100001).fill('1').join(' + ')), 100001);
++});
++
++test('100,001 flat product operands evaluate without recursive traversal', () => {
++  assert.equal(evaluate(Array(100001).fill('1').join(' * ')), 1);
++});
++
++test('100,001 comparison operands form a single iterative chain', () => {
++  assert.equal(evaluate(Array.from({ length: 100001 }, (_, i) => i).join(' < ')), true);
++});
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-8f22bdd5-tceol_kc/src/evaluator.js"
+index 7f2b237..a7c5e36 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-8f22bdd5-tceol_kc/src/evaluator.js"
+@@ -16,13 +16,13 @@ function apply(operator, left, right) {
+     case '/': return left / right;
+     case '**': return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
++      const quotient = Math.floor(left / right);
+       return quotient === 0 ? 0 : quotient;
+     }
+     case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
++      let remainder = left % right;
++      if (remainder !== 0 && (remainder < 0) !== (right < 0)) remainder += right;
++      return remainder === 0 ? 0 : remainder;
+     }
+     case '<': return left < right;
+     case '<=': return left <= right;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-8f22bdd5-tceol_kc/src/parser.js"
+index 4af2109..04c0a71 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-8f22bdd5-tceol_kc/src/parser.js"
+@@ -2,6 +2,8 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++const comparisonOperators = ['<', '<=', '>', '>=', '==', '!='];
++
+ /** Parse a complete token sequence into an AST. Nodes retain operator columns. */
+ function parse(tokens) {
+   let position = 0;
+@@ -15,12 +17,15 @@ function parse(tokens) {
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
+-    while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++    const left = sum();
++    if (!comparisonOperators.includes(current().value)) return left;
++    const operands = [left];
++    const operators = [];
++    while (comparisonOperators.includes(current().value)) {
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+@@ -33,10 +38,10 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
++    let left = unary();
+     while (['*', '/', '//', '%'].includes(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+@@ -45,14 +50,14 @@ function parse(tokens) {
+     if (is('+') || is('-')) {
+       return { type: 'unary', operator: take(), operand: unary() };
+     }
+-    return primary();
++    return power();
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
++    const left = primary();
++    if (is('**')) {
+       const operator = take();
+-      left = binary(operator, left, unary());
++      return binary(operator, left, unary());
+     }
+     return left;
+   }
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-8f22bdd5-tceol_kc/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-8f22bdd5-tceol_kc/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

@@ -1,0 +1,205 @@
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-f574ddf8-s5cf4omq/src/diff.js"
+index 5eeb030..48cb00a 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-f574ddf8-s5cf4omq/src/diff.js"
+@@ -14,7 +14,92 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  let prefix = 0;
++  while (prefix < a.length && prefix < b.length && a[prefix] === b[prefix]) {
++    prefix++;
++  }
++  let oldEnd = a.length;
++  let newEnd = b.length;
++  while (oldEnd > prefix && newEnd > prefix && a[oldEnd - 1] === b[newEnd - 1]) {
++    oldEnd--;
++    newEnd--;
++  }
++
++  const n = oldEnd - prefix;
++  const m = newEnd - prefix;
++  const snakes = [];
++  if (n > 0 && m > 0) {
++    // Keep only reachable diagonals at each edit distance. The trace is used
++    // to recover equal runs, rather than allocating and reordering edit entries.
++    const trace = [];
++    search: for (let d = 0; d <= n + m; d++) {
++      const min = Math.max(-d, d - 2 * m);
++      const max = Math.min(d, 2 * n - d);
++      const xs = new Int32Array((max - min) / 2 + 1);
++      xs.fill(-1);
++      const previous = trace[d - 1];
++      trace.push({ min, xs });
++      for (let k = min; k <= max; k += 2) {
++        let x = 0;
++        if (d > 0) {
++          let left = previous.xs[(k - 1 - previous.min) / 2] ?? -1;
++          let down = previous.xs[(k + 1 - previous.min) / 2] ?? -1;
++          if (left >= n) left = -1;
++          if (down >= 0 && down - (k + 1) >= m) down = -1;
++          x = left >= 0 && (down < 0 || left >= down) ? left + 1 : down;
++          if (x < 0) continue;
++        }
++        let y = x - k;
++        while (x < n && y < m && a[prefix + x] === b[prefix + y]) {
++          x++;
++          y++;
++        }
++        xs[(k - min) / 2] = x;
++        if (x === n && y === m) break search;
++      }
++    }
++
++    let x = n;
++    let y = m;
++    for (let d = trace.length - 1; d > 0; d--) {
++      const k = x - y;
++      const previous = trace[d - 1];
++      let left = previous.xs[(k - 1 - previous.min) / 2] ?? -1;
++      let down = previous.xs[(k + 1 - previous.min) / 2] ?? -1;
++      if (left >= n) left = -1;
++      if (down >= 0 && down - (k + 1) >= m) down = -1;
++      const deletion = left >= 0 && (down < 0 || left >= down);
++      const previousX = deletion ? left : down;
++      const previousY = previousX - (deletion ? k - 1 : k + 1);
++      const snakeX = previousX + (deletion ? 1 : 0);
++      const snakeY = previousY + (deletion ? 0 : 1);
++      if (x > snakeX) {
++        snakes.push({ old: prefix + snakeX, new: prefix + snakeY, length: x - snakeX });
++      }
++      x = previousX;
++      y = previousY;
++    }
++    if (x > 0) snakes.push({ old: prefix, new: prefix, length: x });
++  }
++
++  const result = [];
++  for (let i = 0; i < prefix; i++) result.push({ op: 'equal', line: a[i] });
++  let old = prefix;
++  let next = prefix;
++  for (let i = snakes.length - 1; i >= 0; i--) {
++    const snake = snakes[i];
++    // Emit each changed region in canonical deletion-before-insertion order.
++    while (old < snake.old) result.push({ op: 'delete', line: a[old++] });
++    while (next < snake.new) result.push({ op: 'insert', line: b[next++] });
++    for (let j = 0; j < snake.length; j++) {
++      result.push({ op: 'equal', line: a[old++] });
++      next++;
++    }
++  }
++  while (old < oldEnd) result.push({ op: 'delete', line: a[old++] });
++  while (next < newEnd) result.push({ op: 'insert', line: b[next++] });
++  while (old < a.length) result.push({ op: 'equal', line: a[old++] });
++  return result;
+ }
+ 
+ /**
+@@ -34,7 +119,57 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  if (!Number.isInteger(context) || context < 0) {
++    throw new RangeError('context must be a nonnegative integer');
++  }
++  const script = diffLines(a, b);
++  const hunks = [];
++  let old = 0;
++  let next = 0;
++  let i = 0;
++  while (i < script.length) {
++    if (script[i].op === 'equal') {
++      old++;
++      next++;
++      i++;
++      continue;
++    }
++    const start = Math.max(0, i - context);
++    let end = i;
++    for (;;) {
++      while (end < script.length && script[end].op !== 'equal') end++;
++      const gapStart = end;
++      while (end < script.length && script[end].op === 'equal') end++;
++      const gap = end - gapStart;
++      if (end === script.length || gap > 2 * context) {
++        end = gapStart + Math.min(context, gap);
++        break;
++      }
++    }
++    const oldIndex = old - (i - start);
++    const newIndex = next - (i - start);
++    const lines = [];
++    let oldLines = 0;
++    let newLines = 0;
++    for (let j = start; j < end; j++) {
++      const entry = script[j];
++      if (entry.op !== 'insert') oldLines++;
++      if (entry.op !== 'delete') newLines++;
++      const marker = entry.op === 'equal' ? ' ' : entry.op === 'delete' ? '-' : '+';
++      lines.push(marker + entry.line);
++    }
++    hunks.push({
++      oldStart: oldIndex + (oldLines > 0 ? 1 : 0),
++      oldLines,
++      newStart: newIndex + (newLines > 0 ? 1 : 0),
++      newLines,
++      lines,
++    });
++    old = oldIndex + oldLines;
++    next = newIndex + newLines;
++    i = end;
++  }
++  return hunks;
+ }
+ 
+ /**
+@@ -48,7 +183,46 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  if (!Array.isArray(hunks)) throw new Error('hunk 0 does not apply');
++  const result = [];
++  let cursor = 0;
++  for (let i = 0; i < hunks.length; i++) {
++    const fail = () => { throw new Error(`hunk ${i} does not apply`); };
++    const hunk = hunks[i];
++    if (!hunk || !Array.isArray(hunk.lines)) fail();
++    const { oldStart, oldLines, newStart, newLines } = hunk;
++    if (![oldStart, oldLines, newStart, newLines].every(
++      value => Number.isSafeInteger(value) && value >= 0,
++    )) fail();
++    if ((oldLines > 0 && oldStart === 0) || (newLines > 0 && newStart === 0)) fail();
++    const oldIndex = oldStart - (oldLines > 0 ? 1 : 0);
++    const newIndex = newStart - (newLines > 0 ? 1 : 0);
++    if (oldIndex < cursor || oldIndex > a.length || oldLines > a.length - oldIndex) fail();
++    if (newIndex !== result.length + oldIndex - cursor) fail();
++    while (cursor < oldIndex) result.push(a[cursor++]);
++    let consumed = 0;
++    let produced = 0;
++    for (const line of hunk.lines) {
++      if (typeof line !== 'string' || line.length === 0) fail();
++      const marker = line[0];
++      const text = line.slice(1);
++      if (marker === ' ' || marker === '-') {
++        if (consumed >= oldLines || a[cursor] !== text) fail();
++        consumed++;
++        cursor++;
++      } else if (marker !== '+') {
++        fail();
++      }
++      if (marker !== '-') {
++        result.push(text);
++        produced++;
++        if (produced > newLines) fail();
++      }
++    }
++    if (consumed !== oldLines || produced !== newLines) fail();
++  }
++  while (cursor < a.length) result.push(a[cursor++]);
++  return result;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

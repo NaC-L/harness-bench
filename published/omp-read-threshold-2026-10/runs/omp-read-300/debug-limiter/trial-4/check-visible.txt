@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 1 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 3.1536
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 2 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.5553
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 66.0056

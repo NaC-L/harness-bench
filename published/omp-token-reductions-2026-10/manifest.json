@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "invocations": [
+    {
+      "started": "2026-10-01T17:25:11.057276+00:00",
+      "trials": 5,
+      "jobs": 4,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.12",
+      "node": "v22.20.0",
+      "config": "benchmark-omp-token-reductions.toml",
+      "harnesses": {
+        "omp-token-baseline": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--system-prompt-template",
+            "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/prompts/system/system-prompt.md",
+            "--config",
+            "{benchmark_dir}/experiments/omp-token-reductions/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "9ffd206e4b5b396bc445e9460c1b5c86afb06da11abca83284711d8a1475ad0b",
+          "version": "omp/18.4.5",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-token-reductions/baseline.yml": {
+              "sha256": "487fef3ed87d9596d46d8daa8f058a1a39b7daf419ec2526232a0400bdf9aa28",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\nread:\n  summarize:\n    enabled: true\n    minTotalLines: 100\nastEdit:\n  enabled: false\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        },
+        "omp-token-candidate": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--system-prompt-template",
+            "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md",
+            "--config",
+            "{benchmark_dir}/experiments/omp-token-reductions/candidate.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "6b246e9b71238af5a1210de74cb9c9764e870415114e33c3b75bf5ba88319328",
+          "version": "omp/18.4.5",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-token-reductions/candidate.yml": {
+              "sha256": "9c4ec3e34edf1673005c7dec5ebbb352ebef7a985c853b44c25ea203ad989179",
+              "contents": "inlineToolDescriptors: \"on\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\nread:\n  summarize:\n    enabled: true\n    minTotalLines: 300\nastEdit:\n  enabled: false\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "bugfix-duration": "501745f75d4571a8e63c534fa51b60b446b05856ac246921f38cb35c781d229d",
+        "bugfix-invoice": "9adc9ee1f0fe90bb7f6ad31cfefd7e3bf10e39f9d20fc1f0f31969d0cc2a99ce",
+        "debug-cache-race": "223c66c5d3ac61373e7303e4cb4f06ea950dede6340bc394ad6c9670b681d725",
+        "debug-limiter": "1d2a7f085811408f06145273047d08385ab9bbe54898d776320720b954d497de",
+        "feature-csv-stream": "4f8c748564da63dce42204177fb5b7d2434a84800435ff7f7f79883861b9e15f",
+        "feature-lru": "7d8ff3b71568a3987cc715fde8c9eb47a70c89146e402e1ae73bf911d235e8b8",
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    }
+  ]
+}

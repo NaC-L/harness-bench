@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: candidate order compares every numeric component
+ok 1 - candidate order compares every numeric component
+  ---
+  duration_ms: 2.2863
+  type: 'test'
+  ...
+# Subtest: discovery collects all constraints before queued choices
+ok 2 - discovery collects all constraints before queued choices
+  ---
+  duration_ms: 0.4658
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first solution rather than a global version maximum
+ok 3 - dependency key order determines the first solution rather than a global version maximum
+  ---
+  duration_ms: 0.1986
+  type: 'test'
+  ...
+# Subtest: a discovered conflict retries the latest choice and removes partial dependencies
+ok 4 - a discovered conflict retries the latest choice and removes partial dependencies
+  ---
+  duration_ms: 0.1286
+  type: 'test'
+  ...
+# Subtest: rollback removes failed branch constraints, queued names and selections
+ok 5 - rollback removes failed branch constraints, queued names and selections
+  ---
+  duration_ms: 0.0965
+  type: 'test'
+  ...
+# Subtest: rollback preserves constraints from earlier choices
+ok 6 - rollback preserves constraints from earlier choices
+  ---
+  duration_ms: 0.0732
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package once and still enforce incoming constraints
+ok 7 - cycles expand each selected package once and still enforce incoming constraints
+  ---
+  duration_ms: 0.2288
+  type: 'test'
+  ...
+# Subtest: a self-dependency can reject a choice without leaking its constraint into the retry
+ok 8 - a self-dependency can reject a choice without leaking its constraint into the retry
+  ---
+  duration_ms: 0.2242
+  type: 'test'
+  ...
+# Subtest: long chains resolve and backtrack without a call-stack or iteration limit
+ok 9 - long chains resolve and backtrack without a call-stack or iteration limit
+  ---
+  duration_ms: 134.5639
+  type: 'test'
+  ...
+# Subtest: early conflicts prune choices before exploring unrelated Cartesian combinations
+ok 10 - early conflicts prune choices before exploring unrelated Cartesian combinations
+  ---
+  duration_ms: 1.3184
+  type: 'test'
+  ...
+# Subtest: only selected versions determine reachability; missing packages are unsatisfiable
+ok 11 - only selected versions determine reachability; missing packages are unsatisfiable
+  ---
+  duration_ms: 0.9123
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated even when unreachable
+ok 12 - all maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 1.0134
+  type: 'test'
+  ...
+# Subtest: own enumerable keys, null prototypes and special names preserve plain output without mutation
+ok 13 - own enumerable keys, null prototypes and special names preserve plain output without mutation
+  ---
+  duration_ms: 0.4831
+  type: 'test'
+  ...
+# Subtest: versions are canonical safe integer triples with no suffix or whitespace
+ok 14 - versions are canonical safe integer triples with no suffix or whitespace
+  ---
+  duration_ms: 0.4912
+  type: 'test'
+  ...
+# Subtest: caret and tilde enforce lower and upper bounds including zero majors
+ok 15 - caret and tilde enforce lower and upper bounds including zero majors
+  ---
+  duration_ms: 0.2082
+  type: 'test'
+  ...
+# Subtest: range terms are ANDed with strict comparator boundaries and eager validation
+ok 16 - range terms are ANDed with strict comparator boundaries and eager validation
+  ---
+  duration_ms: 0.2828
+  type: 'test'
+  ...
+# Subtest: zero-major caret constraints participate in resolver choices
+ok 17 - zero-major caret constraints participate in resolver choices
+  ---
+  duration_ms: 0.1757
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5987
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 220.3632

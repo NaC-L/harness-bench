@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: candidate order is numeric at every version component
+ok 1 - candidate order is numeric at every version component
+  ---
+  duration_ms: 2.2027
+  type: 'test'
+  ...
+# Subtest: failed choices undo constraints and queued dependencies, including partial discovery
+ok 2 - failed choices undo constraints and queued dependencies, including partial discovery
+  ---
+  duration_ms: 0.4795
+  type: 'test'
+  ...
+# Subtest: first-found assignment follows FIFO rather than recursive dependency order
+ok 3 - first-found assignment follows FIFO rather than recursive dependency order
+  ---
+  duration_ms: 0.1523
+  type: 'test'
+  ...
+# Subtest: discovery collects all dependency constraints before processing queued names
+ok 4 - discovery collects all dependency constraints before processing queued names
+  ---
+  duration_ms: 0.1458
+  type: 'test'
+  ...
+# Subtest: cycles terminate, expand once, and backtrack on conflicting selected names
+ok 5 - cycles terminate, expand once, and backtrack on conflicting selected names
+  ---
+  duration_ms: 0.103
+  type: 'test'
+  ...
+# Subtest: long chains and deep rollback do not depend on the call stack or an iteration cap
+ok 6 - long chains and deep rollback do not depend on the call stack or an iteration cap
+  ---
+  duration_ms: 101.5067
+  type: 'test'
+  ...
+# Subtest: known conflicts prune choices before unrelated Cartesian combinations
+ok 7 - known conflicts prune choices before unrelated Cartesian combinations
+  ---
+  duration_ms: 0.4798
+  type: 'test'
+  ...
+# Subtest: caret and tilde bounds include the base and exclude the next compatible boundary
+ok 8 - caret and tilde bounds include the base and exclude the next compatible boundary
+  ---
+  duration_ms: 0.7815
+  type: 'test'
+  ...
+# Subtest: range operators and whitespace-separated conjunctions retain their API
+ok 9 - range operators and whitespace-separated conjunctions retain their API
+  ---
+  duration_ms: 0.3841
+  type: 'test'
+  ...
+# Subtest: malformed maps, versions, and ranges are rejected even when unreachable
+ok 10 - malformed maps, versions, and ranges are rejected even when unreachable
+  ---
+  duration_ms: 1.1591
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate; maps and inputs remain safe
+ok 11 - only own enumerable string keys participate; maps and inputs remain safe
+  ---
+  duration_ms: 0.3181
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 12 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5163
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 192.7173

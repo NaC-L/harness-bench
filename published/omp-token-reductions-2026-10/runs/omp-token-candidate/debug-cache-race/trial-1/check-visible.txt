@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: invalidate: obsolete first, obsolete fulfills
+ok 1 - invalidate: obsolete first, obsolete fulfills
+  ---
+  duration_ms: 2.8202
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete first, obsolete rejects
+ok 2 - invalidate: obsolete first, obsolete rejects
+  ---
+  duration_ms: 0.2244
+  type: 'test'
+  ...
+# Subtest: invalidate: current first, obsolete fulfills
+ok 3 - invalidate: current first, obsolete fulfills
+  ---
+  duration_ms: 0.1802
+  type: 'test'
+  ...
+# Subtest: invalidate: current first, obsolete rejects
+ok 4 - invalidate: current first, obsolete rejects
+  ---
+  duration_ms: 0.1475
+  type: 'test'
+  ...
+# Subtest: clear: obsolete first, obsolete fulfills
+ok 5 - clear: obsolete first, obsolete fulfills
+  ---
+  duration_ms: 0.201
+  type: 'test'
+  ...
+# Subtest: clear: obsolete first, obsolete rejects
+ok 6 - clear: obsolete first, obsolete rejects
+  ---
+  duration_ms: 0.1315
+  type: 'test'
+  ...
+# Subtest: clear: current first, obsolete fulfills
+ok 7 - clear: current first, obsolete fulfills
+  ---
+  duration_ms: 0.0868
+  type: 'test'
+  ...
+# Subtest: clear: current first, obsolete rejects
+ok 8 - clear: current first, obsolete rejects
+  ---
+  duration_ms: 0.0916
+  type: 'test'
+  ...
+# Subtest: set: obsolete first, obsolete fulfills
+ok 9 - set: obsolete first, obsolete fulfills
+  ---
+  duration_ms: 0.4051
+  type: 'test'
+  ...
+# Subtest: set: obsolete first, obsolete rejects
+ok 10 - set: obsolete first, obsolete rejects
+  ---
+  duration_ms: 0.341
+  type: 'test'
+  ...
+# Subtest: set: current first, obsolete fulfills
+ok 11 - set: current first, obsolete fulfills
+  ---
+  duration_ms: 0.7239
+  type: 'test'
+  ...
+# Subtest: set: current first, obsolete rejects
+ok 12 - set: current first, obsolete rejects
+  ---
+  duration_ms: 0.0679
+  type: 'test'
+  ...
+# Subtest: repeated invalidations detach each generation even without a stored value
+ok 13 - repeated invalidations detach each generation even without a stored value
+  ---
+  duration_ms: 0.1688
+  type: 'test'
+  ...
+# Subtest: clear detaches all keys and removes stored values
+ok 14 - clear detaches all keys and removes stored values
+  ---
+  duration_ms: 0.1387
+  type: 'test'
+  ...
+# Subtest: throw rejection is shared, uncached, and retryable
+ok 15 - throw rejection is shared, uncached, and retryable
+  ---
+  duration_ms: 0.1909
+  type: 'test'
+  ...
+# Subtest: promise rejection is shared, uncached, and retryable
+ok 16 - promise rejection is shared, uncached, and retryable
+  ---
+  duration_ms: 0.0839
+  type: 'test'
+  ...
+# Subtest: thenable rejection is shared, uncached, and retryable
+ok 17 - thenable rejection is shared, uncached, and retryable
+  ---
+  duration_ms: 0.0546
+  type: 'test'
+  ...
+# Subtest: then getter rejection is shared, uncached, and retryable
+ok 18 - then getter rejection is shared, uncached, and retryable
+  ---
+  duration_ms: 0.0438
+  type: 'test'
+  ...
+# Subtest: synchronous load invalidate is a barrier before settlement
+ok 19 - synchronous load invalidate is a barrier before settlement
+  ---
+  duration_ms: 0.1057
+  type: 'test'
+  ...
+# Subtest: synchronous load clear is a barrier before settlement
+ok 20 - synchronous load clear is a barrier before settlement
+  ---
+  duration_ms: 0.0598
+  type: 'test'
+  ...
+# Subtest: synchronous load set is a barrier before settlement
+ok 21 - synchronous load set is a barrier before settlement
+  ---
+  duration_ms: 0.0351
+  type: 'test'
+  ...
+# Subtest: set wins over a pending load without its completion restarting TTL
+ok 22 - set wins over a pending load without its completion restarting TTL
+  ---
+  duration_ms: 0.1144
+  type: 'test'
+  ...
+# Subtest: TTL begins at commit and size expiration does not detach active flights
+ok 23 - TTL begins at commit and size expiration does not detach active flights
+  ---
+  duration_ms: 0.0865
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates unsettled loads but never reuses settled values
+ok 24 - zero TTL deduplicates unsettled loads but never reuses settled values
+  ---
+  duration_ms: 0.2995
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 25 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.5687
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 78.6719

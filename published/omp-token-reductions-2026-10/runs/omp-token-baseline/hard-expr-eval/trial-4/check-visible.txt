@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: powers associate right and bind asymmetrically with unary signs
+ok 1 - powers associate right and bind asymmetrically with unary signs
+  ---
+  duration_ms: 2.6788
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey signed integer identities
+ok 2 - floor division and modulo obey signed integer identities
+  ---
+  duration_ms: 0.5474
+  type: 'test'
+  ...
+# Subtest: comparison chains compare adjacent numbers, not intermediate booleans
+ok 3 - comparison chains compare adjacent numbers, not intermediate booleans
+  ---
+  duration_ms: 0.1646
+  type: 'test'
+  ...
+# Subtest: comparison operands are read once in order and short-circuit
+ok 4 - comparison operands are read once in order and short-circuit
+  ---
+  duration_ms: 0.9152
+  type: 'test'
+  ...
+# Subtest: the complete source is parsed before reading any variables
+ok 5 - the complete source is parsed before reading any variables
+  ---
+  duration_ms: 0.4092
+  type: 'test'
+  ...
+# Subtest: calls and repeated variable occurrences evaluate left to right
+ok 6 - calls and repeated variable occurrences evaluate left to right
+  ---
+  duration_ms: 0.1951
+  type: 'test'
+  ...
+# Subtest: error columns follow whitespace and count UTF-16 offsets
+ok 7 - error columns follow whitespace and count UTF-16 offsets
+  ---
+  duration_ms: 0.2933
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic chains remain iterative and left-associative
+ok 8 - 100,001-operand arithmetic chains remain iterative and left-associative
+  ---
+  duration_ms: 168.5196
+  type: 'test'
+  ...
+# Subtest: 100,001-operand comparison chains reuse operands without recursion
+ok 9 - 100,001-operand comparison chains reuse operands without recursion
+  ---
+  duration_ms: 59.6015
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.4739
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 338.4222

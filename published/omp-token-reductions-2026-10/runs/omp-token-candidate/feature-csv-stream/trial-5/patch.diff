@@ -1,0 +1,92 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-43298aea-h80gs81p/src/csv.js"
+index ce27ede..d958c68 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-43298aea-h80gs81p/src/csv.js"
+@@ -47,7 +47,86 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const { delimiter = ',' } = options;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one code unit other than quote, CR, or LF');
++  }
++
++  let state = 'start';
++  let field = '';
++  let row = [];
++  let first = true;
++  let previousCR = false;
++  let line = 1;
++  let ended = false;
++
++  function push(chunk) {
++    if (ended) throw new Error('Cannot push after end');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const records = [];
++    for (let index = 0; index < chunk.length; index++) {
++      const character = chunk[index];
++      if (first) {
++        first = false;
++        if (character === '\uFEFF') continue;
++      }
++
++      // Track physical lines independently of CSV quoting and chunk boundaries.
++      const followsCR = previousCR;
++      previousCR = character === '\r';
++      if (character === '\r' || (character === '\n' && !followsCR)) line++;
++
++      if (state === 'quoted') {
++        if (character === '"') state = 'closed';
++        else field += character;
++        continue;
++      }
++      if (state === 'closed') {
++        if (character === '"') {
++          field += '"';
++          state = 'quoted';
++          continue;
++        }
++        if (character !== delimiter && character !== '\r' && character !== '\n') {
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        }
++      }
++
++      if (character === delimiter) {
++        row.push(field);
++        field = '';
++        state = 'start';
++      } else if (character === '\r' || character === '\n') {
++        // CR already emitted the row; its paired LF must not emit another.
++        if (character === '\n' && followsCR) continue;
++        row.push(field);
++        records.push(row);
++        row = [];
++        field = '';
++        state = 'start';
++      } else if (character === '"' && state === 'start') {
++        state = 'quoted';
++      } else {
++        field += character;
++        state = 'unquoted';
++      }
++    }
++    return records;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === 'quoted') {
++      throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    }
++    if (state === 'start' && row.length === 0) return [];
++    row.push(field);
++    return [row];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

@@ -1,0 +1,33 @@
+{
+  "createdAt": "2026-10-01T15:47:44.670Z",
+  "baselineRevision": "27cdf191bab644f78f1d680eb4ef6ce8002d6afc",
+  "sourceVersion": "18.4.5",
+  "installedVersion": "18.4.8",
+  "nativeSha256": "cdd80824b5c8276be7430af57a9348e666a63c021a661ff522b738ec43b394d6",
+  "candidateFiles": {
+    "packages/agent/src/agent-loop.ts": "dcdc663c63868e7ea3e54c17d5e154046e259b8b7d2e39d1dba68f5d44fa4b07",
+    "packages/agent/src/append-only-context.ts": "ac216ba5910ec06c28b9480d9516f3aaa4a17d96dcb6802eeb297a09910a2bc0",
+    "packages/agent/src/agent.ts": "79547682d62e142a9922d93730e0372f3eb5b6148fc4f3024f45a737a22287fd",
+    "packages/agent/src/types.ts": "fa0f5e0e2f484346f13e25a72fae31a52303e0b676d52415129984c5a35da0cf",
+    "packages/agent/test/normalize-tools-prune.test.ts": "4e708af61275777bae9f8a24b307e1004e22f2d528959a1686c7b2a7384afa83",
+    "packages/agent/test/prompt-tools-loop.test.ts": "92aaa71c2af2ac89da09ae7d16a0106511e116f2c55e70a8fc86fde1c6901cf9",
+    "packages/coding-agent/src/tools/settings.ts": "81891d5886ec2c7ff233fcb92ffddb659bd7a0422922e5b553fba96d2d6847b3",
+    "packages/coding-agent/src/tools/read.ts": "e487214855800bee915d8f6e3f4dbae07371a5f660b799b270c434f4f755114c",
+    "packages/coding-agent/src/tools/bash.ts": "17926ba7f988e4a5891b418e9b8238cebb03f533c4ebe55f9317039446bc9b7e",
+    "packages/coding-agent/src/tools/write.ts": "9eae50751a315a1184d92e031c34df6262cd0922a8f6609191d58179e61e6502",
+    "packages/coding-agent/src/edit/index.ts": "f5f109f0fe330807eb1abfaaaeac25b94494ed5064603c00068364c849bdc410",
+    "packages/coding-agent/src/config/inline-tool-descriptors-mode.ts": "fd00ddf26b75f1233d9abfa8e48ca70d77edbf9ae3e4193775bc6480dcea076c",
+    "packages/coding-agent/src/session/settings.ts": "d87dc39ffce7b3135ec64975591987216cef88fca4d351aeca7bc6df1a6a6e56",
+    "packages/coding-agent/src/prompts/system/system-prompt.md": "1842548834b89acbae105bf74697959fe93b6e16efc1f693ac7268c91fa0c984",
+    "packages/coding-agent/src/prompts/tools/read-summary.md": "bc50575b8a16c710c8d70014e594dbf8d1c3fb3bcd617922466bb300af6a6363",
+    "packages/coding-agent/src/prompts/tools/bash-summary.md": "54dc5c6b3ca15d2a03988fcc59a58ea7a81602293487e4c0eacf8bea123f2ef1",
+    "packages/coding-agent/src/prompts/tools/edit-summary.md": "1d18939755d6a65dec4295d212b2730c1cb9b431760115c6c865218e27e9fcc3",
+    "packages/coding-agent/src/prompts/tools/write-summary.md": "747f1e7278484d6f6715635825fa93dd0060fc6e4489f3b70ac1cea4d0d3ee65",
+    "packages/coding-agent/test/tools/bash-wire-arguments.test.ts": "b5bf93226ac1768587a40dd2ebfb05b9e95c13765989dad2737aebabd746184d",
+    "packages/coding-agent/test/edit-tool-details.test.ts": "fab74a9d13c828513766468f29c989fec4d69e17be0c0d1418f68e3690b68489",
+    "packages/coding-agent/test/edit-acp-bridge.test.ts": "2218970994bd0c69bc38e9c41246027720852324cb8746d4d5774ebda083438f"
+  },
+  "candidateRevision": "a05f8a3bb405928feff7df20bc923050017fba1f",
+  "candidateCommitUrl": "https://github.com/NaC-L/oh-my-pi/commit/a05f8a3bb405928feff7df20bc923050017fba1f",
+  "commitRecordedAfterMeasurement": true
+}

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: arithmetic follows the documented precedence and associativity
+ok 1 - arithmetic follows the documented precedence and associativity
+  ---
+  duration_ms: 1.9681
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey divisor signs and normalize zero
+ok 2 - floor division and modulo obey divisor signs and normalize zero
+  ---
+  duration_ms: 0.8664
+  type: 'test'
+  ...
+# Subtest: comparisons chain, share operands, and short-circuit
+ok 3 - comparisons chain, share operands, and short-circuit
+  ---
+  duration_ms: 0.6357
+  type: 'test'
+  ...
+# Subtest: variables read own properties once per occurrence in evaluation order
+ok 4 - variables read own properties once per occurrence in evaluation order
+  ---
+  duration_ms: 0.133
+  type: 'test'
+  ...
+# Subtest: built-ins evaluate all arguments left to right and preserve numeric ties
+ok 5 - built-ins evaluate all arguments left to right and preserve numeric ties
+  ---
+  duration_ms: 0.2461
+  type: 'test'
+  ...
+# Subtest: syntax and call validation finish before evaluating any variable
+ok 6 - syntax and call validation finish before evaluating any variable
+  ---
+  duration_ms: 0.848
+  type: 'test'
+  ...
+# Subtest: error columns use token offsets after whitespace and UTF-16 EOF offsets
+ok 7 - error columns use token offsets after whitespace and UTF-16 EOF offsets
+  ---
+  duration_ms: 0.3838
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic, comparisons, and calls avoid operand recursion
+ok 8 - long flat arithmetic, comparisons, and calls avoid operand recursion
+  ---
+  duration_ms: 295.3706
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.7741
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 385.4633

@@ -1,0 +1,193 @@
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-7916de3d-wvfs0f7u/src/diff.js"
+index 5eeb030..e92e20b 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-7916de3d-wvfs0f7u/src/diff.js"
+@@ -14,7 +14,76 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  const trace = [];
++
++  // Layer d stores the furthest x on diagonal k = 2 * j - d.
++  // Compact layers retain only the O(d) diagonals needed for backtracking.
++  search: for (let d = 0; d <= a.length + b.length; d++) {
++    const frontier = new Int32Array(d + 1);
++    const previous = trace[d - 1];
++    for (let j = 0; j <= d; j++) {
++      const k = 2 * j - d;
++      let x;
++      if (d === 0) {
++        x = 0;
++      } else if (j === 0 || (j < d && previous[j - 1] < previous[j])) {
++        x = previous[j]; // Insert: move down from diagonal k + 1.
++      } else {
++        x = previous[j - 1] + 1; // Delete: move right from diagonal k - 1.
++      }
++      let y = x - k;
++      while (x < a.length && y < b.length && a[x] === b[y]) {
++        x++;
++        y++;
++      }
++      frontier[j] = x;
++      if (x === a.length && y === b.length) {
++        trace.push(frontier);
++        break search;
++      }
++    }
++    trace.push(frontier);
++  }
++
++  const script = [];
++  const deletes = [];
++  const inserts = [];
++  // Backtracking runs backwards: inserts must precede deletes here so that
++  // reversing the script gives deletion-first ordering within each region.
++  function flushChanges() {
++    for (const line of inserts) script.push({ op: 'insert', line });
++    for (const line of deletes) script.push({ op: 'delete', line });
++    inserts.length = 0;
++    deletes.length = 0;
++  }
++
++  let x = a.length;
++  let y = b.length;
++  for (let d = trace.length - 1; d > 0; d--) {
++    const previous = trace[d - 1];
++    const j = (x - y + d) / 2;
++    const insertion = j === 0 || (j < d && previous[j - 1] < previous[j]);
++    const previousIndex = insertion ? j : j - 1;
++    const previousX = previous[previousIndex];
++    const previousY = previousX - (2 * previousIndex - (d - 1));
++    if (x > previousX && y > previousY) {
++      flushChanges();
++      while (x > previousX && y > previousY) {
++        script.push({ op: 'equal', line: a[--x] });
++        y--;
++      }
++    }
++    if (insertion) {
++      inserts.push(b[--y]);
++    } else {
++      deletes.push(a[--x]);
++    }
++  }
++  flushChanges();
++  while (x > 0) {
++    script.push({ op: 'equal', line: a[--x] });
++  }
++  return script.reverse();
+ }
+ 
+ /**
+@@ -34,7 +103,53 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  const script = diffLines(a, b);
++  const hunks = [];
++  let index = 0;
++  let oldPosition = 0;
++  let newPosition = 0;
++
++  while (index < script.length) {
++    if (script[index].op === 'equal') {
++      index++;
++      oldPosition++;
++      newPosition++;
++      continue;
++    }
++
++    const start = Math.max(0, index - context);
++    const oldBefore = oldPosition - (index - start);
++    const newBefore = newPosition - (index - start);
++    let lastChange = index;
++    for (let scan = index + 1; scan < script.length; scan++) {
++      if (script[scan].op !== 'equal') {
++        lastChange = scan;
++      } else if (scan - lastChange > 2 * context) {
++        break;
++      }
++    }
++    const end = Math.min(script.length, lastChange + context + 1);
++    const lines = [];
++    let oldLines = 0;
++    let newLines = 0;
++    for (let i = start; i < end; i++) {
++      const { op, line } = script[i];
++      if (op !== 'insert') oldLines++;
++      if (op !== 'delete') newLines++;
++      lines.push((op === 'equal' ? ' ' : op === 'delete' ? '-' : '+') + line);
++    }
++    hunks.push({
++      oldStart: oldBefore + (oldLines === 0 ? 0 : 1),
++      oldLines,
++      newStart: newBefore + (newLines === 0 ? 0 : 1),
++      newLines,
++      lines,
++    });
++    oldPosition = oldBefore + oldLines;
++    newPosition = newBefore + newLines;
++    index = end;
++  }
++  return hunks;
+ }
+ 
+ /**
+@@ -48,7 +163,54 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  const result = [];
++  let consumed = 0;
++  for (let index = 0; index < hunks.length; index++) {
++    const hunk = hunks[index];
++    const fail = () => {
++      throw new Error(`hunk ${index} does not apply`);
++    };
++    if (hunk === null || typeof hunk !== 'object' || !Array.isArray(hunk.lines)) {
++      fail();
++    }
++    const { oldStart, oldLines, newStart, newLines, lines } = hunk;
++    if (!Number.isSafeInteger(oldStart) || oldStart < 0 ||
++        !Number.isSafeInteger(newStart) || newStart < 0 ||
++        !Number.isSafeInteger(oldLines) || oldLines < 0 ||
++        !Number.isSafeInteger(newLines) || newLines < 0) {
++      fail();
++    }
++    const oldIndex = oldStart - (oldLines === 0 ? 0 : 1);
++    const newIndex = newStart - (newLines === 0 ? 0 : 1);
++    if (oldIndex < consumed || oldIndex > a.length ||
++        oldLines > a.length - oldIndex ||
++        newIndex !== result.length + oldIndex - consumed) {
++      fail();
++    }
++
++    for (; consumed < oldIndex; consumed++) result.push(a[consumed]);
++    let oldCount = 0;
++    let newCount = 0;
++    for (const entry of lines) {
++      if (typeof entry !== 'string' || entry.length === 0) fail();
++      const prefix = entry[0];
++      const line = entry.slice(1);
++      if (prefix === ' ' || prefix === '-') {
++        if (oldCount >= oldLines || a[consumed] !== line) fail();
++        consumed++;
++        oldCount++;
++      } else if (prefix !== '+') {
++        fail();
++      }
++      if (prefix === ' ' || prefix === '+') {
++        result.push(line);
++        newCount++;
++      }
++    }
++    if (oldCount !== oldLines || newCount !== newLines) fail();
++  }
++  for (; consumed < a.length; consumed++) result.push(a[consumed]);
++  return result;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

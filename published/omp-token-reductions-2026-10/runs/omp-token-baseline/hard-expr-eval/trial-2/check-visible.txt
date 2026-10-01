@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: power binds above a left unary sign and associates right
+ok 1 - power binds above a left unary sign and associates right
+  ---
+  duration_ms: 2.1908
+  type: 'test'
+  ...
+# Subtest: floor division and modulo preserve signs, zero and integer identity
+ok 2 - floor division and modulo preserve signs, zero and integer identity
+  ---
+  duration_ms: 2.1761
+  type: 'test'
+  ...
+# Subtest: comparisons chain and booleans coerce numerically
+ok 3 - comparisons chain and booleans coerce numerically
+  ---
+  duration_ms: 0.3259
+  type: 'test'
+  ...
+# Subtest: shared operands are read once and false comparisons short-circuit
+ok 4 - shared operands are read once and false comparisons short-circuit
+  ---
+  duration_ms: 0.8355
+  type: 'test'
+  ...
+# Subtest: the whole source is parsed before any variable is evaluated
+ok 5 - the whole source is parsed before any variable is evaluated
+  ---
+  duration_ms: 0.4851
+  type: 'test'
+  ...
+# Subtest: errors identify tokens after whitespace and the actual end of source
+ok 6 - errors identify tokens after whitespace and the actual end of source
+  ---
+  duration_ms: 0.3903
+  type: 'test'
+  ...
+# Subtest: numeric literals and built-ins retain arithmetic behavior
+ok 7 - numeric literals and built-ins retain arithmetic behavior
+  ---
+  duration_ms: 0.155
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparisons avoid stack recursion
+ok 8 - 100,001-operand flat arithmetic and comparisons avoid stack recursion
+  ---
+  duration_ms: 186.4979
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3161
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 271.9212

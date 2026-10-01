@@ -1,0 +1,83 @@
+TAP version 13
+# Subtest: visible: implement the review diff for one replaced line
+ok 1 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.9945
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 2 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 1.8334
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 3 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.1998
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 4 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.1282
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 5 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 16.0463
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 6 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.2655
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 7 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.5975
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 8 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.3852
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 9 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.203
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 10 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 21.0227
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 11 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.3501
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 12 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 52.623
+  type: 'test'
+  ...
+# diff=3.523ms hunks=2.378ms total=5.901ms budget=1000ms
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 148.5313

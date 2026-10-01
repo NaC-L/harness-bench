@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions at both the parent and its children
+ok 1 - assignment discards additions at both the parent and its children
+  ---
+  duration_ms: 1.8098
+  type: 'test'
+  ...
+# Subtest: partial maxima remain negative and empty ranges have their identities
+ok 2 - partial maxima remain negative and empty ranges have their identities
+  ---
+  duration_ms: 0.2531
+  type: 'test'
+  ...
+# Subtest: threshold search sees lazy assignments and additions before materialization
+ok 3 - threshold search sees lazy assignments and additions before materialization
+  ---
+  duration_ms: 0.2602
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array model
+ok 4 - mixed updates and queries agree with an array model
+  ---
+  duration_ms: 9.923
+  type: 'test'
+  ...
+# Subtest: validation is atomic and arrays and length preserve their contracts
+ok 5 - validation is atomic and arrays and length preserve their contracts
+  ---
+  duration_ms: 3.5548
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 1.1574
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105.1284

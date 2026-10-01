@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: candidate ordering compares every numeric component
+ok 1 - candidate ordering compares every numeric component
+  ---
+  duration_ms: 2.4527
+  type: 'test'
+  ...
+# Subtest: failed choices discard dependencies, including missing packages
+ok 2 - failed choices discard dependencies, including missing packages
+  ---
+  duration_ms: 0.2138
+  type: 'test'
+  ...
+# Subtest: backtracking removes descendant selections and their constraints
+ok 3 - backtracking removes descendant selections and their constraints
+  ---
+  duration_ms: 0.3434
+  type: 'test'
+  ...
+# Subtest: partial discovery is undone when a dependency conflicts with a selected root
+ok 4 - partial discovery is undone when a dependency conflicts with a selected root
+  ---
+  duration_ms: 0.1829
+  type: 'test'
+  ...
+# Subtest: exhausting a choice retries its predecessor without stale state
+ok 5 - exhausting a choice retries its predecessor without stale state
+  ---
+  duration_ms: 0.1141
+  type: 'test'
+  ...
+# Subtest: FIFO discovery and root order determine the first complete assignment
+ok 6 - FIFO discovery and root order determine the first complete assignment
+  ---
+  duration_ms: 0.1878
+  type: 'test'
+  ...
+# Subtest: constraints are collected on discovery, before a queued name is selected
+ok 7 - constraints are collected on discovery, before a queued name is selected
+  ---
+  duration_ms: 0.085
+  type: 'test'
+  ...
+# Subtest: self cycles, mutual cycles, and contradictory cycles terminate
+ok 8 - self cycles, mutual cycles, and contradictory cycles terminate
+  ---
+  duration_ms: 0.1446
+  type: 'test'
+  ...
+# Subtest: long chains do not depend on recursion or an iteration cap
+ok 9 - long chains do not depend on recursion or an iteration cap
+  ---
+  duration_ms: 85.9401
+  type: 'test'
+  ...
+# Subtest: discovered empty domains prune choices before a Cartesian search
+ok 10 - discovered empty domains prune choices before a Cartesian search
+  ---
+  duration_ms: 49.5952
+  type: 'test'
+  ...
+# Subtest: caret and tilde boundaries include the base and exclude the correct upper bound
+ok 11 - caret and tilde boundaries include the base and exclude the correct upper bound
+  ---
+  duration_ms: 0.396
+  type: 'test'
+  ...
+# Subtest: zero-major caret constraints affect resolver selection
+ok 12 - zero-major caret constraints affect resolver selection
+  ---
+  duration_ms: 0.402
+  type: 'test'
+  ...
+# Subtest: AND ranges retain all supported operators
+ok 13 - AND ranges retain all supported operators
+  ---
+  duration_ms: 0.1809
+  type: 'test'
+  ...
+# Subtest: validation is eager even for unreachable entries and empty roots
+ok 14 - validation is eager even for unreachable entries and empty roots
+  ---
+  duration_ms: 0.6525
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special names work without mutating inputs
+ok 15 - null-prototype maps and special names work without mutating inputs
+  ---
+  duration_ms: 0.1376
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.8119
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 234.3127

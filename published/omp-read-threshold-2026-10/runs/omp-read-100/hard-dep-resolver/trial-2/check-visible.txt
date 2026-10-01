@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: orders all version components numerically
+ok 1 - orders all version components numerically
+  ---
+  duration_ms: 1.7846
+  type: 'test'
+  ...
+# Subtest: collects dependency constraints immediately and processes names in FIFO order
+ok 2 - collects dependency constraints immediately and processes names in FIFO order
+  ---
+  duration_ms: 0.6956
+  type: 'test'
+  ...
+# Subtest: backtracks the latest choice rather than maximizing later packages
+ok 3 - backtracks the latest choice rather than maximizing later packages
+  ---
+  duration_ms: 0.2159
+  type: 'test'
+  ...
+# Subtest: undoes constraints across multiple exhausted choice frames
+ok 4 - undoes constraints across multiple exhausted choice frames
+  ---
+  duration_ms: 0.0982
+  type: 'test'
+  ...
+# Subtest: removes dependencies reachable only through rejected versions
+ok 5 - removes dependencies reachable only through rejected versions
+  ---
+  duration_ms: 0.1746
+  type: 'test'
+  ...
+# Subtest: undoes partially discovered dependencies after an immediate conflict
+ok 6 - undoes partially discovered dependencies after an immediate conflict
+  ---
+  duration_ms: 0.0898
+  type: 'test'
+  ...
+# Subtest: terminates on self cycles and mutual cycles without re-expansion
+ok 7 - terminates on self cycles and mutual cycles without re-expansion
+  ---
+  duration_ms: 0.17
+  type: 'test'
+  ...
+# Subtest: handles long chains and their cycle without a call-stack or iteration limit
+ok 8 - handles long chains and their cycle without a call-stack or iteration limit
+  ---
+  duration_ms: 111.6353
+  type: 'test'
+  ...
+# Subtest: rejects discovered conflicts before expanding a Cartesian product
+ok 9 - rejects discovered conflicts before expanding a Cartesian product
+  ---
+  duration_ms: 0.8608
+  type: 'test'
+  ...
+# Subtest: returns null for missing packages, empty catalogs and incompatible constraints
+ok 10 - returns null for missing packages, empty catalogs and incompatible constraints
+  ---
+  duration_ms: 0.4896
+  type: 'test'
+  ...
+# Subtest: validates every map, version and range even when unreachable
+ok 11 - validates every map, version and range even when unreachable
+  ---
+  duration_ms: 1.0054
+  type: 'test'
+  ...
+# Subtest: accepts null-prototype maps and treats special names as own result properties
+ok 12 - accepts null-prototype maps and treats special names as own result properties
+  ---
+  duration_ms: 0.1581
+  type: 'test'
+  ...
+# Subtest: ignores non-enumerable and symbol keys and does not mutate inputs
+ok 13 - ignores non-enumerable and symbol keys and does not mutate inputs
+  ---
+  duration_ms: 0.1032
+  type: 'test'
+  ...
+# Subtest: parses canonical safe integers and compares numerically
+ok 14 - parses canonical safe integers and compares numerically
+  ---
+  duration_ms: 1.4904
+  type: 'test'
+  ...
+# Subtest: rejects noncanonical versions including trailing line terminators
+ok 15 - rejects noncanonical versions including trailing line terminators
+  ---
+  duration_ms: 0.7895
+  type: 'test'
+  ...
+# Subtest: range predicates implement exact, wildcard, comparisons and AND terms
+ok 16 - range predicates implement exact, wildcard, comparisons and AND terms
+  ---
+  duration_ms: 1.3944
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges use the specified zero-major and exclusive upper bounds
+ok 17 - caret and tilde ranges use the specified zero-major and exclusive upper bounds
+  ---
+  duration_ms: 0.3622
+  type: 'test'
+  ...
+# Subtest: validates every range term eagerly
+ok 18 - validates every range term eagerly
+  ---
+  duration_ms: 0.3099
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 19 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.8724
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 203.23

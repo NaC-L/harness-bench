@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 1.9583
+  type: 'test'
+  ...
+# Subtest: rollback removes failed dependencies and descendant constraints
+ok 2 - rollback removes failed dependencies and descendant constraints
+  ---
+  duration_ms: 0.4744
+  type: 'test'
+  ...
+# Subtest: discovery collects constraints before processing queued names
+ok 3 - discovery collects constraints before processing queued names
+  ---
+  duration_ms: 0.1382
+  type: 'test'
+  ...
+# Subtest: FIFO discovery and most-recent backtracking determine the first solution
+ok 4 - FIFO discovery and most-recent backtracking determine the first solution
+  ---
+  duration_ms: 0.1792
+  type: 'test'
+  ...
+# Subtest: selected packages are checked without re-expanding cycles
+ok 5 - selected packages are checked without re-expanding cycles
+  ---
+  duration_ms: 0.125
+  type: 'test'
+  ...
+# Subtest: long cyclic chains do not depend on stack depth or an iteration limit
+ok 6 - long cyclic chains do not depend on stack depth or an iteration limit
+  ---
+  duration_ms: 88.6783
+  type: 'test'
+  ...
+# Subtest: conflicts prune choices before exploring a Cartesian product
+ok 7 - conflicts prune choices before exploring a Cartesian product
+  ---
+  duration_ms: 0.7072
+  type: 'test'
+  ...
+# Subtest: missing packages and exhausted choices return null; empty roots return plain objects
+ok 8 - missing packages and exhausted choices return null; empty roots return plain objects
+  ---
+  duration_ms: 0.1536
+  type: 'test'
+  ...
+# Subtest: only own enumerable keys participate, special names are safe, and inputs stay unchanged
+ok 9 - only own enumerable keys participate, special names are safe, and inputs stay unchanged
+  ---
+  duration_ms: 0.5512
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated even when unreachable
+ok 10 - all maps, versions, and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.8262
+  type: 'test'
+  ...
+# Subtest: canonical versions reject unsafe integers, suffixes, and all surrounding whitespace
+ok 11 - canonical versions reject unsafe integers, suffixes, and all surrounding whitespace
+  ---
+  duration_ms: 0.3658
+  type: 'test'
+  ...
+# Subtest: caret and tilde respect zero-major bounds and inclusive lower bounds
+ok 12 - caret and tilde respect zero-major bounds and inclusive lower bounds
+  ---
+  duration_ms: 0.2479
+  type: 'test'
+  ...
+# Subtest: range operators are conjunctive and malformed terms are rejected eagerly
+ok 13 - range operators are conjunctive and malformed terms are rejected eagerly
+  ---
+  duration_ms: 0.1966
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.9728
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 176.1987

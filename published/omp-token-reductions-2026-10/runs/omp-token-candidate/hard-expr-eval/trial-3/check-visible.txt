@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: powers associate right and bind above unary signs on the left
+ok 1 - powers associate right and bind above unary signs on the left
+  ---
+  duration_ms: 4.5081
+  type: 'test'
+  ...
+# Subtest: floor division and modulo handle fractional operands and positive zero
+ok 2 - floor division and modulo handle fractional operands and positive zero
+  ---
+  duration_ms: 0.3645
+  type: 'test'
+  ...
+# Subtest: comparison chains evaluate shared operands once in left-to-right order
+ok 3 - comparison chains evaluate shared operands once in left-to-right order
+  ---
+  duration_ms: 0.7657
+  type: 'test'
+  ...
+# Subtest: parentheses isolate chains and comparison booleans become numeric operands
+ok 4 - parentheses isolate chains and comparison booleans become numeric operands
+  ---
+  duration_ms: 0.2206
+  type: 'test'
+  ...
+# Subtest: errors point at tokens after whitespace and at the complete source end
+ok 5 - errors point at tokens after whitespace and at the complete source end
+  ---
+  duration_ms: 0.7168
+  type: 'test'
+  ...
+# Subtest: the complete formula and call arities are validated before any evaluation
+ok 6 - the complete formula and call arities are validated before any evaluation
+  ---
+  duration_ms: 0.1417
+  type: 'test'
+  ...
+# Subtest: nested calls and arithmetic preserve getter order without mutating variables
+ok 7 - nested calls and arithmetic preserve getter order without mutating variables
+  ---
+  duration_ms: 0.2291
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic stays stack-safe
+ok 8 - 100,001-operand arithmetic stays stack-safe
+  ---
+  duration_ms: 107.7833
+  type: 'test'
+  ...
+# Subtest: 100,001-operand comparison chains read every shared operand exactly once
+ok 9 - 100,001-operand comparison chains read every shared operand exactly once
+  ---
+  duration_ms: 65.9807
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.7829
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 290.7861

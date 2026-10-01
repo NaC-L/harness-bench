@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: candidate ordering is numeric across all components and safe integers
+ok 1 - candidate ordering is numeric across all components and safe integers
+  ---
+  duration_ms: 2.3502
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects constraints before selecting dependencies
+ok 2 - FIFO discovery collects constraints before selecting dependencies
+  ---
+  duration_ms: 0.4418
+  type: 'test'
+  ...
+# Subtest: first-found selection prioritizes earlier choices, not globally highest versions
+ok 3 - first-found selection prioritizes earlier choices, not globally highest versions
+  ---
+  duration_ms: 0.1856
+  type: 'test'
+  ...
+# Subtest: new constraints conflicting with a selected package backtrack immediately
+ok 4 - new constraints conflicting with a selected package backtrack immediately
+  ---
+  duration_ms: 0.1068
+  type: 'test'
+  ...
+# Subtest: rollback removes constraints on unselected packages and abandoned discoveries
+ok 5 - rollback removes constraints on unselected packages and abandoned discoveries
+  ---
+  duration_ms: 0.1235
+  type: 'test'
+  ...
+# Subtest: rollback reverses a partially appended dependency list
+ok 6 - rollback reverses a partially appended dependency list
+  ---
+  duration_ms: 0.1414
+  type: 'test'
+  ...
+# Subtest: cycles select each package once and can backtrack to a compatible cycle
+ok 7 - cycles select each package once and can backtrack to a compatible cycle
+  ---
+  duration_ms: 0.1126
+  type: 'test'
+  ...
+# Subtest: long chains resolve and unwind without a call-stack or iteration limit
+ok 8 - long chains resolve and unwind without a call-stack or iteration limit
+  ---
+  duration_ms: 124.6277
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before exploring independent version combinations
+ok 9 - discovered conflicts prune choices before exploring independent version combinations
+  ---
+  duration_ms: 0.7491
+  type: 'test'
+  ...
+# Subtest: map validation is eager, including unreachable entries and empty roots
+ok 10 - map validation is eager, including unreachable entries and empty roots
+  ---
+  duration_ms: 0.9942
+  type: 'test'
+  ...
+# Subtest: null-prototype maps, special names, own enumerable keys, and immutable inputs
+ok 11 - null-prototype maps, special names, own enumerable keys, and immutable inputs
+  ---
+  duration_ms: 0.2252
+  type: 'test'
+  ...
+# Subtest: semver helpers enforce canonical safe integer versions
+ok 12 - semver helpers enforce canonical safe integer versions
+  ---
+  duration_ms: 0.2005
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges honor their lower and exclusive upper boundaries
+ok 13 - caret and tilde ranges honor their lower and exclusive upper boundaries
+  ---
+  duration_ms: 0.2374
+  type: 'test'
+  ...
+# Subtest: compiled ranges combine all terms and validate every term eagerly
+ok 14 - compiled ranges combine all terms and validate every term eagerly
+  ---
+  duration_ms: 0.1423
+  type: 'test'
+  ...
+# Subtest: resolver uses zero-major caret bounds for version selection
+ok 15 - resolver uses zero-major caret bounds for version selection
+  ---
+  duration_ms: 0.0975
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.3502
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 215.6212

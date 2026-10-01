@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards older additions at both parent and child nodes
+ok 1 - assignment discards older additions at both parent and child nodes
+  ---
+  duration_ms: 1.4215
+  type: 'test'
+  ...
+# Subtest: partial maxima remain negative rather than being clamped to zero
+ok 2 - partial maxima remain negative rather than being clamped to zero
+  ---
+  duration_ms: 0.1539
+  type: 'test'
+  ...
+# Subtest: threshold search observes pending assignment and addition before descending
+ok 3 - threshold search observes pending assignment and addition before descending
+  ---
+  duration_ms: 0.1718
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with a deterministic array model
+ok 4 - mixed updates and queries agree with a deterministic array model
+  ---
+  duration_ms: 7.9516
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and array ownership are preserved
+ok 5 - validation, empty ranges, read-only length, and array ownership are preserved
+  ---
+  duration_ms: 1.5131
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.8772
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 74.0352

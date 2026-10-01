@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: invalidate: obsolete success, old settles first
+ok 1 - invalidate: obsolete success, old settles first
+  ---
+  duration_ms: 2.1969
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, old settles first
+ok 2 - invalidate: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.218
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete success, new settles first
+ok 3 - invalidate: obsolete success, new settles first
+  ---
+  duration_ms: 0.2818
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, new settles first
+ok 4 - invalidate: obsolete rejection, new settles first
+  ---
+  duration_ms: 0.1287
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, old settles first
+ok 5 - clear: obsolete success, old settles first
+  ---
+  duration_ms: 0.1895
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, old settles first
+ok 6 - clear: obsolete rejection, old settles first
+  ---
+  duration_ms: 0.0957
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, new settles first
+ok 7 - clear: obsolete success, new settles first
+  ---
+  duration_ms: 0.3247
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, new settles first
+ok 8 - clear: obsolete rejection, new settles first
+  ---
+  duration_ms: 0.3445
+  type: 'test'
+  ...
+# Subtest: repeated barriers detach every generation, including loads not yet invoked
+ok 9 - repeated barriers detach every generation, including loads not yet invoked
+  ---
+  duration_ms: 0.5212
+  type: 'test'
+  ...
+# Subtest: set wins without extending TTL; old load settles before expiry
+ok 10 - set wins without extending TTL; old load settles before expiry
+  ---
+  duration_ms: 0.7474
+  type: 'test'
+  ...
+# Subtest: set wins without extending TTL; old load settles after expiry
+ok 11 - set wins without extending TTL; old load settles after expiry
+  ---
+  duration_ms: 1.5367
+  type: 'test'
+  ...
+# Subtest: throw failures share their reason and permit retry
+ok 12 - throw failures share their reason and permit retry
+  ---
+  duration_ms: 0.3345
+  type: 'test'
+  ...
+# Subtest: promise failures share their reason and permit retry
+ok 13 - promise failures share their reason and permit retry
+  ---
+  duration_ms: 0.0894
+  type: 'test'
+  ...
+# Subtest: thenable failures share their reason and permit retry
+ok 14 - thenable failures share their reason and permit retry
+  ---
+  duration_ms: 0.0587
+  type: 'test'
+  ...
+# Subtest: then getter failures share their reason and permit retry
+ok 15 - then getter failures share their reason and permit retry
+  ---
+  duration_ms: 0.0519
+  type: 'test'
+  ...
+# Subtest: a failed replacement permits retry while an obsolete success remains pending
+ok 16 - a failed replacement permits retry while an obsolete success remains pending
+  ---
+  duration_ms: 0.1572
+  type: 'test'
+  ...
+# Subtest: synchronous invalidate inside load preserves self-read and mutation barrier
+ok 17 - synchronous invalidate inside load preserves self-read and mutation barrier
+  ---
+  duration_ms: 0.1359
+  type: 'test'
+  ...
+# Subtest: synchronous clear inside load preserves self-read and mutation barrier
+ok 18 - synchronous clear inside load preserves self-read and mutation barrier
+  ---
+  duration_ms: 0.045
+  type: 'test'
+  ...
+# Subtest: synchronous set inside load preserves self-read and mutation barrier
+ok 19 - synchronous set inside load preserves self-read and mutation barrier
+  ---
+  duration_ms: 0.0375
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates only unsettled loads
+ok 20 - zero TTL deduplicates only unsettled loads
+  ---
+  duration_ms: 0.112
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 21 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 3.1729
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 93.1639

@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: half-even rounding is exact and symmetric, including zero and adjacent fractions
+ok 1 - half-even rounding is exact and symmetric, including zero and adjacent fractions
+  ---
+  duration_ms: 1.2141
+  type: 'test'
+  ...
+# Subtest: rounding retains exact fractions above the safe intermediate range and checks the rounded result
+ok 2 - rounding retains exact fractions above the safe intermediate range and checks the rounded result
+  ---
+  duration_ms: 0.7202
+  type: 'test'
+  ...
+# Subtest: line discounts preserve order, round each reduction, and leave fixed discounts off credits
+ok 3 - line discounts preserve order, round each reduction, and leave fixed discounts off credits
+  ---
+  duration_ms: 0.8363
+  type: 'test'
+  ...
+# Subtest: invoice discounts use supplied order on the positive basis and allocate the aggregate once
+ok 4 - invoice discounts use supplied order on the positive basis and allocate the aggregate once
+  ---
+  duration_ms: 0.3304
+  type: 'test'
+  ...
+# Subtest: both tax modes use half-even rounding while invoice mode retains rate groups and index ties
+ok 5 - both tax modes use half-even rounding while invoice mode retains rate groups and index ties
+  ---
+  duration_ms: 0.3032
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 6 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2936
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 7 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.7106
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 76.8798

@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: power is right associative and binds asymmetrically to unary signs
+ok 1 - power is right associative and binds asymmetrically to unary signs
+  ---
+  duration_ms: 1.7763
+  type: 'test'
+  ...
+# Subtest: arithmetic precedence and left associativity remain intact
+ok 2 - arithmetic precedence and left associativity remain intact
+  ---
+  duration_ms: 0.2642
+  type: 'test'
+  ...
+# Subtest: floor division and remainder follow Python for floating-point ratios
+ok 3 - floor division and remainder follow Python for floating-point ratios
+  ---
+  duration_ms: 0.1217
+  type: 'test'
+  ...
+# Subtest: floor division and remainder normalize signed zero
+ok 4 - floor division and remainder normalize signed zero
+  ---
+  duration_ms: 0.1256
+  type: 'test'
+  ...
+# Subtest: comparison chains retain shared operands and convert booleans numerically
+ok 5 - comparison chains retain shared operands and convert booleans numerically
+  ---
+  duration_ms: 0.1943
+  type: 'test'
+  ...
+# Subtest: comparison getters are read once, left to right, with short circuiting
+ok 6 - comparison getters are read once, left to right, with short circuiting
+  ---
+  duration_ms: 1.1404
+  type: 'test'
+  ...
+# Subtest: calls and arithmetic read each variable occurrence in source order
+ok 7 - calls and arithmetic read each variable occurrence in source order
+  ---
+  duration_ms: 0.3695
+  type: 'test'
+  ...
+# Subtest: variables must be own properties, including built-in names without calls
+ok 8 - variables must be own properties, including built-in names without calls
+  ---
+  duration_ms: 0.655
+  type: 'test'
+  ...
+# Subtest: errors point at tokens after whitespace and at the true end of source
+ok 9 - errors point at tokens after whitespace and at the true end of source
+  ---
+  duration_ms: 0.913
+  type: 'test'
+  ...
+# Subtest: invalid calls and syntax are rejected before evaluation or short circuiting
+ok 10 - invalid calls and syntax are rejected before evaluation or short circuiting
+  ---
+  duration_ms: 0.4655
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic evaluates without per-operand recursion
+ok 11 - long flat arithmetic evaluates without per-operand recursion
+  ---
+  duration_ms: 152.0743
+  type: 'test'
+  ...
+# Subtest: long comparison chains evaluate all shared operands exactly once
+ok 12 - long comparison chains evaluate all shared operands exactly once
+  ---
+  duration_ms: 70.3062
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 13 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3053
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 311.2275

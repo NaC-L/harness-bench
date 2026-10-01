@@ -1,0 +1,15 @@
+# Same source revision and native addon; candidate includes all four token reductions.
+
+[harnesses.omp-token-baseline]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--system-prompt-template", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/prompts/system/system-prompt.md", "--config", "{benchmark_dir}/experiments/omp-token-reductions/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../omp-token-baseline/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-token-candidate]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--system-prompt-template", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/prompts/system/system-prompt.md", "--config", "{benchmark_dir}/experiments/omp-token-reductions/candidate.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../oh-my-pi/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }

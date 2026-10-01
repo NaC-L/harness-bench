@@ -1,0 +1,268 @@
+TAP version 13
+# Subtest: orders all version components numerically
+ok 1 - orders all version components numerically
+  ---
+  duration_ms: 2.922
+  type: 'test'
+  ...
+# Subtest: collects dependency constraints immediately and processes names in FIFO order
+ok 2 - collects dependency constraints immediately and processes names in FIFO order
+  ---
+  duration_ms: 1.2446
+  type: 'test'
+  ...
+# Subtest: backtracks the latest choice rather than maximizing later packages
+ok 3 - backtracks the latest choice rather than maximizing later packages
+  ---
+  duration_ms: 0.3445
+  type: 'test'
+  ...
+# Subtest: undoes constraints across multiple exhausted choice frames
+ok 4 - undoes constraints across multiple exhausted choice frames
+  ---
+  duration_ms: 0.1651
+  type: 'test'
+  ...
+# Subtest: removes dependencies reachable only through rejected versions
+ok 5 - removes dependencies reachable only through rejected versions
+  ---
+  duration_ms: 0.2468
+  type: 'test'
+  ...
+# Subtest: undoes partially discovered dependencies after an immediate conflict
+ok 6 - undoes partially discovered dependencies after an immediate conflict
+  ---
+  duration_ms: 0.1509
+  type: 'test'
+  ...
+# Subtest: terminates on self cycles and mutual cycles without re-expansion
+ok 7 - terminates on self cycles and mutual cycles without re-expansion
+  ---
+  duration_ms: 0.2611
+  type: 'test'
+  ...
+# Subtest: handles long chains and their cycle without a call-stack or iteration limit
+ok 8 - handles long chains and their cycle without a call-stack or iteration limit
+  ---
+  duration_ms: 163.1483
+  type: 'test'
+  ...
+# Subtest: rejects discovered conflicts before expanding a Cartesian product
+ok 9 - rejects discovered conflicts before expanding a Cartesian product
+  ---
+  duration_ms: 0.882
+  type: 'test'
+  ...
+# Subtest: returns null for missing packages, empty catalogs and incompatible constraints
+ok 10 - returns null for missing packages, empty catalogs and incompatible constraints
+  ---
+  duration_ms: 0.5028
+  type: 'test'
+  ...
+# Subtest: validates every map, version and range even when unreachable
+ok 11 - validates every map, version and range even when unreachable
+  ---
+  duration_ms: 1.4691
+  type: 'test'
+  ...
+# Subtest: accepts null-prototype maps and treats special names as own result properties
+ok 12 - accepts null-prototype maps and treats special names as own result properties
+  ---
+  duration_ms: 0.1822
+  type: 'test'
+  ...
+# Subtest: ignores non-enumerable and symbol keys and does not mutate inputs
+ok 13 - ignores non-enumerable and symbol keys and does not mutate inputs
+  ---
+  duration_ms: 0.1254
+  type: 'test'
+  ...
+# Subtest: parses canonical safe integers and compares numerically
+ok 14 - parses canonical safe integers and compares numerically
+  ---
+  duration_ms: 1.7746
+  type: 'test'
+  ...
+# Subtest: rejects noncanonical versions including trailing line terminators
+ok 15 - rejects noncanonical versions including trailing line terminators
+  ---
+  duration_ms: 0.8926
+  type: 'test'
+  ...
+# Subtest: range predicates implement exact, wildcard, comparisons and AND terms
+ok 16 - range predicates implement exact, wildcard, comparisons and AND terms
+  ---
+  duration_ms: 1.518
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges use the specified zero-major and exclusive upper bounds
+ok 17 - caret and tilde ranges use the specified zero-major and exclusive upper bounds
+  ---
+  duration_ms: 0.4948
+  type: 'test'
+  ...
+# Subtest: validates every range term eagerly
+ok 18 - validates every range term eagerly
+  ---
+  duration_ms: 0.3896
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=659918
+ok 19 - seeded exhaustive registry oracle seed=659918
+  ---
+  duration_ms: 88.4273
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=12648430
+ok 20 - seeded exhaustive registry oracle seed=12648430
+  ---
+  duration_ms: 42.4109
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=99537187
+ok 21 - seeded exhaustive registry oracle seed=99537187
+  ---
+  duration_ms: 42.7832
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=4027431614
+ok 22 - seeded exhaustive registry oracle seed=4027431614
+  ---
+  duration_ms: 42.9861
+  type: 'test'
+  ...
+# Subtest: zero-major install constraints reject unrelated minor and patch versions
+ok 23 - zero-major install constraints reject unrelated minor and patch versions
+  ---
+  duration_ms: 2.8885
+  type: 'test'
+  ...
+# Subtest: numeric ordering applies to major minor and patch candidate choices
+ok 24 - numeric ordering applies to major minor and patch candidate choices
+  ---
+  duration_ms: 0.6118
+  type: 'test'
+  ...
+# Subtest: abandoned branches undo transitive constraints before trying an older parent
+ok 25 - abandoned branches undo transitive constraints before trying an older parent
+  ---
+  duration_ms: 0.2861
+  type: 'test'
+  ...
+# Subtest: abandoned branches remove queued dependencies and unreachable selections
+ok 26 - abandoned branches remove queued dependencies and unreachable selections
+  ---
+  duration_ms: 0.1525
+  type: 'test'
+  ...
+# Subtest: legal self and mutual dependency cycles terminate with a reachable assignment
+ok 27 - legal self and mutual dependency cycles terminate with a reachable assignment
+  ---
+  duration_ms: 0.2635
+  type: 'test'
+  ...
+# Subtest: cyclic conflicts can backtrack to an earlier consistent version
+ok 28 - cyclic conflicts can backtrack to an earlier consistent version
+  ---
+  duration_ms: 0.2816
+  type: 'test'
+  ...
+# Subtest: FIFO root discovery and recent-choice backtracking determine the first solution
+ok 29 - FIFO root discovery and recent-choice backtracking determine the first solution
+  ---
+  duration_ms: 0.3514
+  type: 'test'
+  ...
+# Subtest: FIFO selected-version dependency key order determines the first solution
+ok 30 - FIFO selected-version dependency key order determines the first solution
+  ---
+  duration_ms: 0.2513
+  type: 'test'
+  ...
+# Subtest: trap: missing versions and inconsistent requirements remain unsatisfiable
+ok 31 - trap: missing versions and inconsistent requirements remain unsatisfiable
+  ---
+  duration_ms: 0.5569
+  type: 'test'
+  ...
+# Subtest: trap: empty roots ignore unreachable packages without changing the input
+ok 32 - trap: empty roots ignore unreachable packages without changing the input
+  ---
+  duration_ms: 0.66
+  type: 'test'
+  ...
+# Subtest: trap: reachable noncyclic dependencies and frozen inputs retain their contract
+ok 33 - trap: reachable noncyclic dependencies and frozen inputs retain their contract
+  ---
+  duration_ms: 0.4581
+  type: 'test'
+  ...
+# Subtest: trap: own prototype-like package names are data in a plain result object
+ok 34 - trap: own prototype-like package names are data in a plain result object
+  ---
+  duration_ms: 0.2311
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 35 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.07
+  type: 'test'
+  ...
+# Subtest: long dependency chains resolve without a call-stack or iteration limit
+ok 36 - long dependency chains resolve without a call-stack or iteration limit
+  ---
+  duration_ms: 110.8543
+  type: 'test'
+  ...
+# Subtest: deep failures backtrack promptly through many rejected candidate branches
+ok 37 - deep failures backtrack promptly through many rejected candidate branches
+  ---
+  duration_ms: 2.5415
+  type: 'test'
+  ...
+# Subtest: trap: constrained installs prune discovered conflicts instead of enumerating products
+ok 38 - trap: constrained installs prune discovered conflicts instead of enumerating products
+  ---
+  duration_ms: 17.8775
+  type: 'test'
+  ...
+# Subtest: zero-major caret bounds follow the first nonzero component
+ok 39 - zero-major caret bounds follow the first nonzero component
+  ---
+  duration_ms: 1.0872
+  type: 'test'
+  ...
+# Subtest: trap: semver comparison is numeric without weakening canonical version parsing
+ok 40 - trap: semver comparison is numeric without weakening canonical version parsing
+  ---
+  duration_ms: 1.6153
+  type: 'test'
+  ...
+# Subtest: trap: positive-major ranges and comparator conjunctions preserve endpoints
+ok 41 - trap: positive-major ranges and comparator conjunctions preserve endpoints
+  ---
+  duration_ms: 1.4786
+  type: 'test'
+  ...
+# Subtest: trap: invalid versions and ranges always raise TypeError
+ok 42 - trap: invalid versions and ranges always raise TypeError
+  ---
+  duration_ms: 0.6956
+  type: 'test'
+  ...
+# Subtest: trap: resolver eagerly validates malformed maps and unreachable metadata
+ok 43 - trap: resolver eagerly validates malformed maps and unreachable metadata
+  ---
+  duration_ms: 0.382
+  type: 'test'
+  ...
+1..43
+# tests 43
+# suites 0
+# pass 43
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 318.1237

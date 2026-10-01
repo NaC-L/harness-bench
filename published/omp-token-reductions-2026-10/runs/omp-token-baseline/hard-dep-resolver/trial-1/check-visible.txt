@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 2.4475
+  type: 'test'
+  ...
+# Subtest: rejected choices undo their constraints and dependency queue
+ok 2 - rejected choices undo their constraints and dependency queue
+  ---
+  duration_ms: 0.4525
+  type: 'test'
+  ...
+# Subtest: immediate conflicts roll back partially appended dependencies
+ok 3 - immediate conflicts roll back partially appended dependencies
+  ---
+  duration_ms: 0.1203
+  type: 'test'
+  ...
+# Subtest: first-found selection follows FIFO discovery rather than dependency recursion
+ok 4 - first-found selection follows FIFO discovery rather than dependency recursion
+  ---
+  duration_ms: 0.1591
+  type: 'test'
+  ...
+# Subtest: all constraints are collected at discovery, in dependency key order
+ok 5 - all constraints are collected at discovery, in dependency key order
+  ---
+  duration_ms: 0.1774
+  type: 'test'
+  ...
+# Subtest: cycles expand once and conflicting self-dependencies backtrack
+ok 6 - cycles expand once and conflicting self-dependencies backtrack
+  ---
+  duration_ms: 0.0848
+  type: 'test'
+  ...
+# Subtest: long chains ending in a cycle do not need recursion or an iteration cutoff
+ok 7 - long chains ending in a cycle do not need recursion or an iteration cutoff
+  ---
+  duration_ms: 70.3661
+  type: 'test'
+  ...
+# Subtest: conflicts prune choices before enumerating unrelated package combinations
+ok 8 - conflicts prune choices before enumerating unrelated package combinations
+  ---
+  duration_ms: 0.728
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible constraints are unsatisfiable
+ok 9 - missing packages and incompatible constraints are unsatisfiable
+  ---
+  duration_ms: 0.3103
+  type: 'test'
+  ...
+# Subtest: plain maps, own enumerable keys, special names, and immutable inputs
+ok 10 - plain maps, own enumerable keys, special names, and immutable inputs
+  ---
+  duration_ms: 0.4996
+  type: 'test'
+  ...
+# Subtest: malformed maps and unreachable versions or ranges are validated eagerly
+ok 11 - malformed maps and unreachable versions or ranges are validated eagerly
+  ---
+  duration_ms: 0.7439
+  type: 'test'
+  ...
+# Subtest: semver range operators honor inclusive and exclusive boundaries
+ok 12 - semver range operators honor inclusive and exclusive boundaries
+  ---
+  duration_ms: 0.417
+  type: 'test'
+  ...
+# Subtest: semver rejects noncanonical versions and malformed ranges
+ok 13 - semver rejects noncanonical versions and malformed ranges
+  ---
+  duration_ms: 0.6116
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5144
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 163.4139

@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards earlier additions at the node and its descendants
+ok 1 - assignment discards earlier additions at the node and its descendants
+  ---
+  duration_ms: 1.9416
+  type: 'test'
+  ...
+# Subtest: partial maxima retain negative values
+ok 2 - partial maxima retain negative values
+  ---
+  duration_ms: 0.2667
+  type: 'test'
+  ...
+# Subtest: threshold search observes pending assignments and additions before descent
+ok 3 - threshold search observes pending assignments and additions before descent
+  ---
+  duration_ms: 0.3049
+  type: 'test'
+  ...
+# Subtest: mixed range updates match an array model for every query boundary
+ok 4 - mixed range updates match an array model for every query boundary
+  ---
+  duration_ms: 33.8021
+  type: 'test'
+  ...
+# Subtest: empty ranges and rejected updates preserve pending state and array isolation
+ok 5 - empty ranges and rejected updates preserve pending state and array isolation
+  ---
+  duration_ms: 0.9402
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.9243
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 108.8886

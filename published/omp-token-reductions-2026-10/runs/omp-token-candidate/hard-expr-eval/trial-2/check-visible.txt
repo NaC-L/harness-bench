@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: power binds above a left unary sign and associates right
+ok 1 - power binds above a left unary sign and associates right
+  ---
+  duration_ms: 2.0535
+  type: 'test'
+  ...
+# Subtest: floor division and modulo honor signs, fractions, and positive zero
+ok 2 - floor division and modulo honor signs, fractions, and positive zero
+  ---
+  duration_ms: 0.4954
+  type: 'test'
+  ...
+# Subtest: comparisons chain, coerce booleans numerically, and respect parentheses
+ok 3 - comparisons chain, coerce booleans numerically, and respect parentheses
+  ---
+  duration_ms: 0.1862
+  type: 'test'
+  ...
+# Subtest: shared comparison operands are read once and false chains short-circuit
+ok 4 - shared comparison operands are read once and false chains short-circuit
+  ---
+  duration_ms: 0.6111
+  type: 'test'
+  ...
+# Subtest: the entire formula is parsed before getters or short-circuit evaluation
+ok 5 - the entire formula is parsed before getters or short-circuit evaluation
+  ---
+  duration_ms: 0.4011
+  type: 'test'
+  ...
+# Subtest: errors identify tokens after whitespace and EOF includes trailing whitespace
+ok 6 - errors identify tokens after whitespace and EOF includes trailing whitespace
+  ---
+  duration_ms: 0.3489
+  type: 'test'
+  ...
+# Subtest: literals, built-ins, and own getter-backed variables retain evaluation order
+ok 7 - literals, built-ins, and own getter-backed variables retain evaluation order
+  ---
+  duration_ms: 0.2455
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains do not consume the call stack
+ok 8 - 100,001-operand arithmetic and comparison chains do not consume the call stack
+  ---
+  duration_ms: 137.5044
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.3439
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 218.8788

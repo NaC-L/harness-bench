@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: numeric candidate order covers every component and safe integer boundaries
+ok 1 - numeric candidate order covers every component and safe integer boundaries
+  ---
+  duration_ms: 1.7964
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies, selections, and constraints
+ok 2 - backtracking removes abandoned dependencies, selections, and constraints
+  ---
+  duration_ms: 0.4632
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects constraints before choosing later packages
+ok 3 - FIFO discovery collects constraints before choosing later packages
+  ---
+  duration_ms: 0.1939
+  type: 'test'
+  ...
+# Subtest: root constraints are collected before dependencies and survive backtracking
+ok 4 - root constraints are collected before dependencies and survive backtracking
+  ---
+  duration_ms: 0.1294
+  type: 'test'
+  ...
+# Subtest: a newly discovered conflict retries the most recent choice first
+ok 5 - a newly discovered conflict retries the most recent choice first
+  ---
+  duration_ms: 0.1565
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first complete assignment
+ok 6 - dependency key order determines the first complete assignment
+  ---
+  duration_ms: 0.1012
+  type: 'test'
+  ...
+# Subtest: cycles terminate and self-constraints can reject a candidate
+ok 7 - cycles terminate and self-constraints can reject a candidate
+  ---
+  duration_ms: 0.1638
+  type: 'test'
+  ...
+# Subtest: missing packages, empty catalogs, and contradictory ranges are unsatisfiable
+ok 8 - missing packages, empty catalogs, and contradictory ranges are unsatisfiable
+  ---
+  duration_ms: 0.0859
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated even when unreachable
+ok 9 - all maps, versions, and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.6904
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special names work without mutating inputs
+ok 10 - null-prototype maps and special names work without mutating inputs
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: long branching chains prune constraints without recursive stack depth
+ok 11 - long branching chains prune constraints without recursive stack depth
+  ---
+  duration_ms: 93.8506
+  type: 'test'
+  ...
+# Subtest: backtracking unwinds a long chain iteratively
+ok 12 - backtracking unwinds a long chain iteratively
+  ---
+  duration_ms: 39.3681
+  type: 'test'
+  ...
+# Subtest: caret and tilde bounds follow zero-major and zero-minor rules
+ok 13 - caret and tilde bounds follow zero-major and zero-minor rules
+  ---
+  duration_ms: 1.2018
+  type: 'test'
+  ...
+# Subtest: range upper bounds handle the largest safe version components
+ok 14 - range upper bounds handle the largest safe version components
+  ---
+  duration_ms: 0.1285
+  type: 'test'
+  ...
+# Subtest: compiled ranges combine whitespace-separated terms with AND
+ok 15 - compiled ranges combine whitespace-separated terms with AND
+  ---
+  duration_ms: 0.1394
+  type: 'test'
+  ...
+# Subtest: parse and compare retain numeric, canonical-version semantics
+ok 16 - parse and compare retain numeric, canonical-version semantics
+  ---
+  duration_ms: 1.6224
+  type: 'test'
+  ...
+# Subtest: malformed range terms fail during compilation
+ok 17 - malformed range terms fail during compilation
+  ---
+  duration_ms: 0.2732
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.971
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 211.274

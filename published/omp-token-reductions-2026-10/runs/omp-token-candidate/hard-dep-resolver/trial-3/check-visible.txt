@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: orders all version components numerically
+ok 1 - orders all version components numerically
+  ---
+  duration_ms: 2.6572
+  type: 'test'
+  ...
+# Subtest: collects pending root constraints before choosing a dependency
+ok 2 - collects pending root constraints before choosing a dependency
+  ---
+  duration_ms: 1.362
+  type: 'test'
+  ...
+# Subtest: removes failed dependencies and constraints before trying another version
+ok 3 - removes failed dependencies and constraints before trying another version
+  ---
+  duration_ms: 0.388
+  type: 'test'
+  ...
+# Subtest: undoes partially appended constraints after an immediate conflict
+ok 4 - undoes partially appended constraints after an immediate conflict
+  ---
+  duration_ms: 0.1581
+  type: 'test'
+  ...
+# Subtest: returns the first FIFO depth-first assignment, not a globally newest set
+ok 5 - returns the first FIFO depth-first assignment, not a globally newest set
+  ---
+  duration_ms: 0.3271
+  type: 'test'
+  ...
+# Subtest: uses dependency key order when discovering later choices
+ok 6 - uses dependency key order when discovering later choices
+  ---
+  duration_ms: 0.1447
+  type: 'test'
+  ...
+# Subtest: resolves cycles and self-dependencies without expanding selected names again
+ok 7 - resolves cycles and self-dependencies without expanding selected names again
+  ---
+  duration_ms: 0.2031
+  type: 'test'
+  ...
+# Subtest: checks discovered conflicts before enumerating independent choices
+ok 8 - checks discovered conflicts before enumerating independent choices
+  ---
+  duration_ms: 0.6531
+  type: 'test'
+  ...
+# Subtest: resolves and unwinds chains beyond the recursive call-stack depth
+ok 9 - resolves and unwinds chains beyond the recursive call-stack depth
+  ---
+  duration_ms: 119.1009
+  type: 'test'
+  ...
+# Subtest: treats missing packages as unsatisfiable and ignores unselected reachability
+ok 10 - treats missing packages as unsatisfiable and ignores unselected reachability
+  ---
+  duration_ms: 0.5123
+  type: 'test'
+  ...
+# Subtest: validates malformed maps, versions and ranges even when unreachable
+ok 11 - validates malformed maps, versions and ranges even when unreachable
+  ---
+  duration_ms: 1.0299
+  type: 'test'
+  ...
+# Subtest: supports null-prototype maps and special names without mutating inputs
+ok 12 - supports null-prototype maps and special names without mutating inputs
+  ---
+  duration_ms: 0.253
+  type: 'test'
+  ...
+# Subtest: parses canonical safe-integer triples and compares numerically
+ok 13 - parses canonical safe-integer triples and compares numerically
+  ---
+  duration_ms: 1.6313
+  type: 'test'
+  ...
+# Subtest: rejects noncanonical and unsafe versions through every version API
+ok 14 - rejects noncanonical and unsafe versions through every version API
+  ---
+  duration_ms: 1.1321
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges enforce their inclusive and exclusive boundaries
+ok 15 - caret and tilde ranges enforce their inclusive and exclusive boundaries
+  ---
+  duration_ms: 1.8495
+  type: 'test'
+  ...
+# Subtest: supports exact, wildcard and comparison terms joined by whitespace AND
+ok 16 - supports exact, wildcard and comparison terms joined by whitespace AND
+  ---
+  duration_ms: 0.4435
+  type: 'test'
+  ...
+# Subtest: validates every range term eagerly, even after an unsatisfiable term
+ok 17 - validates every range term eagerly, even after an unsatisfiable term
+  ---
+  duration_ms: 0.3887
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.9602
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 202.7886

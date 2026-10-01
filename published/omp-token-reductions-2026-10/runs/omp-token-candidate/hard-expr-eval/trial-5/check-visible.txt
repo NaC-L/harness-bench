@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: power is right associative and binds asymmetrically to unary signs
+ok 1 - power is right associative and binds asymmetrically to unary signs
+  ---
+  duration_ms: 2.0136
+  type: 'test'
+  ...
+# Subtest: comparisons chain with numeric boolean coercion and arithmetic precedence
+ok 2 - comparisons chain with numeric boolean coercion and arithmetic precedence
+  ---
+  duration_ms: 0.3136
+  type: 'test'
+  ...
+# Subtest: comparison operands are read once and stop after the first false link
+ok 3 - comparison operands are read once and stop after the first false link
+  ---
+  duration_ms: 0.5805
+  type: 'test'
+  ...
+# Subtest: the whole formula is parsed before reading variables or short circuiting
+ok 4 - the whole formula is parsed before reading variables or short circuiting
+  ---
+  duration_ms: 0.5286
+  type: 'test'
+  ...
+# Subtest: floor division and modulo handle fractional operands and normalize zero
+ok 5 - floor division and modulo handle fractional operands and normalize zero
+  ---
+  duration_ms: 0.1908
+  type: 'test'
+  ...
+# Subtest: zero divisors report the actual operator column, including whitespace
+ok 6 - zero divisors report the actual operator column, including whitespace
+  ---
+  duration_ms: 0.1675
+  type: 'test'
+  ...
+# Subtest: syntax and variable errors use UTF-16 token offsets and full-source EOF
+ok 7 - syntax and variable errors use UTF-16 token offsets and full-source EOF
+  ---
+  duration_ms: 0.3384
+  type: 'test'
+  ...
+# Subtest: literals, built-ins and variables preserve left-to-right evaluation
+ok 8 - literals, built-ins and variables preserve left-to-right evaluation
+  ---
+  duration_ms: 0.3688
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic and comparison chains do not exhaust the stack
+ok 9 - long flat arithmetic and comparison chains do not exhaust the stack
+  ---
+  duration_ms: 158.609
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.7046
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 257.5928

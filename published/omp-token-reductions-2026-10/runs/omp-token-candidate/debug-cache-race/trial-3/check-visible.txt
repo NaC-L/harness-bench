@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: invalidate: detached success, new flight settles first
+ok 1 - invalidate: detached success, new flight settles first
+  ---
+  duration_ms: 2.5466
+  type: 'test'
+  ...
+# Subtest: invalidate: detached success, old flight settles first
+ok 2 - invalidate: detached success, old flight settles first
+  ---
+  duration_ms: 0.1563
+  type: 'test'
+  ...
+# Subtest: invalidate: detached rejection, new flight settles first
+ok 3 - invalidate: detached rejection, new flight settles first
+  ---
+  duration_ms: 0.1855
+  type: 'test'
+  ...
+# Subtest: invalidate: detached rejection, old flight settles first
+ok 4 - invalidate: detached rejection, old flight settles first
+  ---
+  duration_ms: 0.1377
+  type: 'test'
+  ...
+# Subtest: clear: detached success, new flight settles first
+ok 5 - clear: detached success, new flight settles first
+  ---
+  duration_ms: 0.116
+  type: 'test'
+  ...
+# Subtest: clear: detached success, old flight settles first
+ok 6 - clear: detached success, old flight settles first
+  ---
+  duration_ms: 0.1347
+  type: 'test'
+  ...
+# Subtest: clear: detached rejection, new flight settles first
+ok 7 - clear: detached rejection, new flight settles first
+  ---
+  duration_ms: 0.0786
+  type: 'test'
+  ...
+# Subtest: clear: detached rejection, old flight settles first
+ok 8 - clear: detached rejection, old flight settles first
+  ---
+  duration_ms: 0.0802
+  type: 'test'
+  ...
+# Subtest: set: detached success, new flight settles first
+ok 9 - set: detached success, new flight settles first
+  ---
+  duration_ms: 0.2794
+  type: 'test'
+  ...
+# Subtest: set: detached success, old flight settles first
+ok 10 - set: detached success, old flight settles first
+  ---
+  duration_ms: 0.3509
+  type: 'test'
+  ...
+# Subtest: set: detached rejection, new flight settles first
+ok 11 - set: detached rejection, new flight settles first
+  ---
+  duration_ms: 0.1301
+  type: 'test'
+  ...
+# Subtest: set: detached rejection, old flight settles first
+ok 12 - set: detached rejection, old flight settles first
+  ---
+  duration_ms: 0.6044
+  type: 'test'
+  ...
+# Subtest: throw: shared rejection is not cached and the next read retries
+ok 13 - throw: shared rejection is not cached and the next read retries
+  ---
+  duration_ms: 0.1752
+  type: 'test'
+  ...
+# Subtest: reject: shared rejection is not cached and the next read retries
+ok 14 - reject: shared rejection is not cached and the next read retries
+  ---
+  duration_ms: 0.0723
+  type: 'test'
+  ...
+# Subtest: thenable: shared rejection is not cached and the next read retries
+ok 15 - thenable: shared rejection is not cached and the next read retries
+  ---
+  duration_ms: 0.0495
+  type: 'test'
+  ...
+# Subtest: invalidate inside load is a barrier before its synchronous return
+ok 16 - invalidate inside load is a barrier before its synchronous return
+  ---
+  duration_ms: 0.086
+  type: 'test'
+  ...
+# Subtest: clear inside load is a barrier before its synchronous return
+ok 17 - clear inside load is a barrier before its synchronous return
+  ---
+  duration_ms: 0.0326
+  type: 'test'
+  ...
+# Subtest: set inside load is a barrier before its synchronous return
+ok 18 - set inside load is a barrier before its synchronous return
+  ---
+  duration_ms: 0.0316
+  type: 'test'
+  ...
+# Subtest: repeated barriers detach each generation, even without stored values
+ok 19 - repeated barriers detach each generation, even without stored values
+  ---
+  duration_ms: 0.1194
+  type: 'test'
+  ...
+# Subtest: set TTL is not restarted by an older completion; size expiration preserves a new flight
+ok 20 - set TTL is not restarted by an older completion; size expiration preserves a new flight
+  ---
+  duration_ms: 0.098
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending loads but never reuses a settled value
+ok 21 - zero TTL deduplicates pending loads but never reuses a settled value
+  ---
+  duration_ms: 0.0729
+  type: 'test'
+  ...
+# Subtest: synchronous own-key reads join the registered flight; other keys load independently
+ok 22 - synchronous own-key reads join the registered flight; other keys load independently
+  ---
+  duration_ms: 0.5131
+  type: 'test'
+  ...
+# Subtest: clear detaches every key without changing original reader outcomes
+ok 23 - clear detaches every key without changing original reader outcomes
+  ---
+  duration_ms: 0.1419
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 24 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.5599
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 96.1953

@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: versions use numeric precedence at every component
+ok 1 - versions use numeric precedence at every component
+  ---
+  duration_ms: 2.4338
+  type: 'test'
+  ...
+# Subtest: semver range boundaries and conjunctions
+ok 2 - semver range boundaries and conjunctions
+  ---
+  duration_ms: 0.5088
+  type: 'test'
+  ...
+# Subtest: malformed versions and ranges throw eagerly
+ok 3 - malformed versions and ranges throw eagerly
+  ---
+  duration_ms: 0.8736
+  type: 'test'
+  ...
+# Subtest: map validation includes unreachable entries and ignores non-enumerable keys
+ok 4 - map validation includes unreachable entries and ignores non-enumerable keys
+  ---
+  duration_ms: 0.3427
+  type: 'test'
+  ...
+# Subtest: missing packages, contradictory constraints, and empty roots
+ok 5 - missing packages, contradictory constraints, and empty roots
+  ---
+  duration_ms: 0.1578
+  type: 'test'
+  ...
+# Subtest: backtracking discards failed-branch constraints and dependencies
+ok 6 - backtracking discards failed-branch constraints and dependencies
+  ---
+  duration_ms: 0.1452
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects all sibling constraints before choosing their dependency
+ok 7 - FIFO discovery collects all sibling constraints before choosing their dependency
+  ---
+  duration_ms: 0.1856
+  type: 'test'
+  ...
+# Subtest: new constraints on selected packages backtrack immediately and undo partial discovery
+ok 8 - new constraints on selected packages backtrack immediately and undo partial discovery
+  ---
+  duration_ms: 0.6688
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first solution
+ok 9 - dependency key order determines the first solution
+  ---
+  duration_ms: 0.3036
+  type: 'test'
+  ...
+# Subtest: self and mutual cycles terminate and enforce constraints
+ok 10 - self and mutual cycles terminate and enforce constraints
+  ---
+  duration_ms: 0.3018
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special package keys preserve inputs and plain output
+ok 11 - null-prototype maps and special package keys preserve inputs and plain output
+  ---
+  duration_ms: 0.2036
+  type: 'test'
+  ...
+# Subtest: long dependency chains and deep backtracking use no recursive stack
+ok 12 - long dependency chains and deep backtracking use no recursive stack
+  ---
+  duration_ms: 111.182
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices rather than enumerating a Cartesian product
+ok 13 - discovered conflicts prune choices rather than enumerating a Cartesian product
+  ---
+  duration_ms: 0.6234
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.6589
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 206.7404

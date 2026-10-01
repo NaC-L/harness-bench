@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: power associates right and binds above a left unary sign
+ok 1 - power associates right and binds above a left unary sign
+  ---
+  duration_ms: 2.1856
+  type: 'test'
+  ...
+# Subtest: floor division and modulo handle signs, fractions and positive zero
+ok 2 - floor division and modulo handle signs, fractions and positive zero
+  ---
+  duration_ms: 0.6202
+  type: 'test'
+  ...
+# Subtest: comparisons chain, with boolean-to-number arithmetic and equality
+ok 3 - comparisons chain, with boolean-to-number arithmetic and equality
+  ---
+  duration_ms: 0.1909
+  type: 'test'
+  ...
+# Subtest: operands and call arguments read own getters once, left to right
+ok 4 - operands and call arguments read own getters once, left to right
+  ---
+  duration_ms: 0.5656
+  type: 'test'
+  ...
+# Subtest: false comparisons skip later operands but never skip syntax validation
+ok 5 - false comparisons skip later operands but never skip syntax validation
+  ---
+  duration_ms: 0.357
+  type: 'test'
+  ...
+# Subtest: error columns point to tokens after whitespace and include trailing whitespace at EOF
+ok 6 - error columns point to tokens after whitespace and include trailing whitespace at EOF
+  ---
+  duration_ms: 0.2512
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic and comparison chains avoid recursive evaluation
+ok 7 - long flat arithmetic and comparison chains avoid recursive evaluation
+  ---
+  duration_ms: 216.5859
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.5958
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 301.4816

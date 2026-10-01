@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: candidate ordering compares each numeric version component
+ok 1 - candidate ordering compares each numeric version component
+  ---
+  duration_ms: 2.6516
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed dependencies, constraints, and selections
+ok 2 - backtracking removes failed dependencies, constraints, and selections
+  ---
+  duration_ms: 0.4272
+  type: 'test'
+  ...
+# Subtest: a partial discovery conflict is undone before the next candidate
+ok 3 - a partial discovery conflict is undone before the next candidate
+  ---
+  duration_ms: 0.1336
+  type: 'test'
+  ...
+# Subtest: first-found selection uses FIFO discovery and retries the most recent choice
+ok 4 - first-found selection uses FIFO discovery and retries the most recent choice
+  ---
+  duration_ms: 0.1791
+  type: 'test'
+  ...
+# Subtest: all root constraints apply and only selected versions create reachability
+ok 5 - all root constraints apply and only selected versions create reachability
+  ---
+  duration_ms: 0.2051
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package once and reject incompatible cycles
+ok 6 - cycles expand each selected package once and reject incompatible cycles
+  ---
+  duration_ms: 0.094
+  type: 'test'
+  ...
+# Subtest: long cyclic chains do not depend on call-stack depth or iteration caps
+ok 7 - long cyclic chains do not depend on call-stack depth or iteration caps
+  ---
+  duration_ms: 106.4472
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices instead of enumerating a Cartesian product
+ok 8 - discovered conflicts prune choices instead of enumerating a Cartesian product
+  ---
+  duration_ms: 0.8569
+  type: 'test'
+  ...
+# Subtest: map validation is eager, accepts null prototypes, and ignores inherited keys
+ok 9 - map validation is eager, accepts null prototypes, and ignores inherited keys
+  ---
+  duration_ms: 1.9416
+  type: 'test'
+  ...
+# Subtest: resolution does not mutate frozen inputs
+ok 10 - resolution does not mutate frozen inputs
+  ---
+  duration_ms: 0.5285
+  type: 'test'
+  ...
+# Subtest: semver parsing is canonical and comparison is numeric
+ok 11 - semver parsing is canonical and comparison is numeric
+  ---
+  duration_ms: 0.3986
+  type: 'test'
+  ...
+# Subtest: range operators enforce inclusive lower and exclusive upper bounds
+ok 12 - range operators enforce inclusive lower and exclusive upper bounds
+  ---
+  duration_ms: 0.8996
+  type: 'test'
+  ...
+# Subtest: resolver uses zero-major caret bounds for candidate filtering
+ok 13 - resolver uses zero-major caret bounds for candidate filtering
+  ---
+  duration_ms: 0.43
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.3264
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 204.5957

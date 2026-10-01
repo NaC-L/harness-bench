@@ -1,0 +1,6 @@
+id = "tb-wal-recovery"
+title = "Repair async WAL durability and recovery ordering"
+category = "debug"
+timeout_sec = 1800
+check = ["node", "--test"]
+tags = ["hard", "terminal-bench-adapted"]

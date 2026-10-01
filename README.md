@@ -125,15 +125,15 @@ The 2026-10-01 eight-worker run retained all 60 attempts: OMP passed 20/30 and P
 
 The [quota-filtered report](published/pi-vs-omp-kimi-2026-10-no-quota/REPORT.md) excludes only those 14 usage-limit rejections: OMP passed 20/24 (83.3%), Pi 18/22 (81.8%). Authentication, timeout, and task-check failures remain. Raw evidence is preserved; exclusion IDs and source hash are in the filtered manifest. Missing trials keep the overall verdict inconclusive.
 
-Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; the example uses 12 for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
+Use **at least three trials per task per arm**. `--jobs` limits concurrent runs and defaults to **16 total**, not 16 per arm. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, use `--alternate-order` (defaults to one worker) or explicitly `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
 
 ### Faster future experiments: screen, then confirm
 
-Use one runner with `--jobs 8` (eight concurrent runs total, not eight per arm). It already isolates each workspace/state and writes one manifest/index; no manual worker merge is needed. Keep model, thinking effort, task IDs and concurrency identical across arms. This is a throughput schedule, not an isolated-latency comparison; do not use `--alternate-order`.
+Use one runner with `--jobs 16` (sixteen concurrent runs total, not sixteen per arm). It already isolates each workspace/state and writes one manifest/index; no manual worker merge is needed. Keep model, thinking effort, task IDs and concurrency identical across arms. This is a throughput schedule, not an isolated-latency comparison; do not use `--alternate-order`.
 
 For four arms and four hard tasks, screen with one trial per cell (16 runs), then run a fresh confirmation grid with three trials (48 runs). Screening is exploratory: report every arm and do not lower `compare`'s three-trial minimum to announce a winner. Before confirmation, freeze the candidate set and acceptance criteria. If dropping candidates, include the baseline and disclose the screening selection; never pool screening rows with confirmation. New configurations still require a separate passing preflight with token metrics.
 
-Runnable four-arm commands are in the [settings experiment's future workflow](experiments/omp-verbosity-intent/PLAN.md#future-eight-worker-workflow). Use fresh result roots for every experiment. If rate limits make eight workers unreliable, diagnose and choose a lower fixed concurrency for a new run rather than changing an active grid or selectively retrying cells. Eight workers reduce potential elapsed time, not the model usage of the same grid; actual speedup is unmeasured.
+The [settings experiment's earlier eight-worker workflow](experiments/omp-verbosity-intent/PLAN.md#future-eight-worker-workflow) remains reproducible with explicit `--jobs 8`; for new sixteen-worker grids, use `--jobs 16` and fresh result roots. If rate limits make sixteen workers unreliable, diagnose and choose a lower fixed concurrency for a new run rather than changing an active grid or selectively retrying cells. Sixteen workers reduce potential elapsed time, not the model usage of the same grid; actual model-run speedup is unmeasured.
 
 
 Command placeholders (from the `harnesses.toml` header):
@@ -269,18 +269,22 @@ The original six tasks reached a correctness ceiling in published experiments. F
 | `hard-expr-eval` | Repair precedence, chained comparisons, floored arithmetic, and positioned errors across parser modules |
 | `hard-line-diff` | Produce minimal edits, unified hunks, and applicable patches; avoid quadratic work on sparse large diffs |
 | `hard-dep-resolver` | Resolve version constraints with deterministic backtracking, rollback, and legal dependency cycles |
+| `tb-wal-recovery` | Preserve acknowledgment and replay frontiers across out-of-order flushes, segment rotation, gaps and duplicate LSNs |
+| `tb-mvcc-compaction` | Reclaim obsolete versions without losing published reads, live snapshots or tombstones while prepared writes await publication |
 
-All four carry `tags = ["hard"]` and a 30-minute agent timeout. Select task IDs explicitly to pin a tier. `run` without `--task` includes the ten controls and two development challenges, but excludes tasks tagged `heldout`. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
+The four original tasks carry `tags = ["hard"]`; the two `tb-*` tasks additionally carry `terminal-bench-adapted`. All have a 30-minute agent timeout. Select task IDs explicitly to pin a tier. `run` without `--task` includes six controls, four original hard tasks, the two adaptations and two development challenges, but excludes tasks tagged `heldout`. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
 
 Run just the hard tier without model calls:
 
 ```sh
-python -m bench --config benchmark-reference.toml --results results/hard-reference run --harness reference-a reference-b --task hard-segment-tree hard-expr-eval hard-line-diff hard-dep-resolver --trials 3 --jobs 12
+python -m bench --config benchmark-reference.toml --results results/hard-reference run --harness reference-a reference-b --task hard-segment-tree hard-expr-eval hard-line-diff hard-dep-resolver tb-wal-recovery tb-mvcc-compaction --trials 3 --jobs 16
 ```
 
 For an actual harness comparison, use your matched-model config and arm names with the same explicit task list. Those runs spend model usage. Use serial alternating pairs for latency comparisons.
 
 Calibration established that every starting repo fails and every reference passes. Visible-only bug fixes still fail hidden checks; naive alternatives fail performance guards. Seeded solution suites passed three repeated runs, and the full ten-task reference pipeline passed 60/60 runs at `--jobs 12`. Performance limits allow substantial local reference headroom but remain machine-dependent. **Model difficulty is not yet measured**: paid trials must establish whether these tasks reduce the correctness ceiling. Original tasks do not guarantee absence from future model training.
+
+The two `tb-*` fixtures are newly authored, offline JavaScript adaptations inspired by Terminal-Bench v4.0.0's [WAL recovery](https://github.com/harbor-framework/terminal-bench/tree/v4.0.0/tasks/wal-recovery-ordering) and [MVCC compaction](https://github.com/harbor-framework/terminal-bench/tree/v4.0.0/tasks/mvcc-lsm-compaction) tasks. Attribution, the upstream canary and Apache-2.0 license accompany each fixture. They model durability/publication in memory: they do not exercise real filesystem crashes, Python/C++ implementations or the original verifier, and their results are **not Terminal-Bench scores**. Both starting repos fail visible/full checks; references pass 11 WAL and 18 MVCC checks. A two-arm, four-trial reference grid passed 16/16 runs with `--jobs 16`, with no regressions. These checks establish fixture correctness, not difficulty for a model.
 
 ## Adding a task
 
@@ -322,6 +326,8 @@ Current tasks:
 | `hard-expr-eval` | bugfix | Fix Python-compatible arithmetic in a multi-module evaluator |
 | `hard-line-diff` | feature | Implement minimal line diff with unified hunks and patching |
 | `hard-dep-resolver` | debug | Diagnose missed solutions in a dependency resolver |
+| `tb-wal-recovery` | debug | Repair asynchronous WAL durability, acknowledgment and recovery ordering (adapted) |
+| `tb-mvcc-compaction` | debug | Preserve published and snapshot visibility during MVCC compaction (adapted) |
 | `challenge-routing` | debug | Repository navigation across request routing and authorization modules (development) |
 | `challenge-journal` | debug | Interacting persistence and replay defects (development) |
 | `challenge-recovery` | recovery | Interrupted local work and resumption (held-out) |

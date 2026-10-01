@@ -38,7 +38,7 @@ def main():
     run.add_argument('--harness', nargs='+', required=True)
     run.add_argument('--task', nargs='+', default=['all'])
     run.add_argument('--trials', type=positive, default=1)
-    run.add_argument('--jobs', type=positive, default=1)
+    run.add_argument('--jobs', type=positive, help='concurrent runs (default 16; 1 with --alternate-order)')
     run.add_argument('--alternate-order', action='store_true')
     run.add_argument('--timeout', type=positive)
     run.add_argument('--keep-workdir', action='store_true')
@@ -63,8 +63,11 @@ def main():
     explore = sub.add_parser('explore', help='compile an offline HTML run and session explorer')
     explore.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
-    if args.command == 'run' and args.alternate_order and args.jobs != 1:
-        parser.error('--alternate-order requires --jobs 1')
+    if args.command == 'run':
+        if args.jobs is None:
+            args.jobs = 1 if args.alternate_order else 16
+        elif args.alternate_order and args.jobs != 1:
+            parser.error('--alternate-order requires --jobs 1')
     if args.command == 'explore':
         try:
             compile_explorer(args.results, args.out)

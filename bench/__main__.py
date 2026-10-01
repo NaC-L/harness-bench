@@ -105,6 +105,9 @@ def main():
             print(report.render_comparison(result))
         return 0
     tasks = load_tasks(args.tasks_dir, getattr(args, 'task', None))
+    # Held-out fixtures require explicit task names; routine "all" runs must not tune on them.
+    if args.command == 'run' and args.task == ['all']:
+        tasks = [task for task in tasks if 'heldout' not in task.tags]
     harnesses = load_harnesses(args.config)
     if args.command == 'list':
         for t in tasks:

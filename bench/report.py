@@ -100,10 +100,40 @@ def _count(m: dict, key: str) -> float:
     return value if isinstance(value, (int, float)) and not isinstance(value, bool) else 0
 
 
+_RUNNER_EXCEPTION = re.compile(
+    r'^(?:OSError|FileNotFoundError|PermissionError|NotADirectoryError|IsADirectoryError|'
+    r'FileExistsError|CalledProcessError|SubprocessError|TimeoutExpired|ValueError):')
+_PROVIDER_ERROR = re.compile(
+    r'^(?:(?:AuthenticationError|PermissionDeniedError|RateLimitError|APIConnectionError|'
+    r'APITimeoutError|InternalServerError|APIError):|'
+    r'(?:provider|API) (?:error|authentication failed|rate limit|unavailable)\b)', re.I)
+
+
+def _classification(row: dict) -> str:
+    """Classify recorded evidence, not exit codes or missing legacy fields as infrastructure."""
+    if row.get('passed') is True:
+        return 'success'
+    if row.get('timed_out') or row.get('check_timed_out') or row.get('tampered_files') \
+            or row.get('regressions'):
+        return 'solution_failure'
+    errors = row.get('errors') or []
+    if any(isinstance(error, str) and (_RUNNER_EXCEPTION.match(error) or _PROVIDER_ERROR.match(error))
+           for error in errors):
+        return 'infrastructure_failure'
+    if any(_count(row, key) > 0 for key in ('tests_fail', 'visible_tests_fail', 'hidden_tests_fail')) \
+            or row.get('check_exit_code') not in (None, 0) \
+            or row.get('agent_completion') in ('incomplete', 'error'):
+        return 'solution_failure'
+    return 'unknown'
+
+
 def scorecard(rows: list[dict]) -> dict:
     """Correctness, token and time/safety totals for one harness's rows."""
     runs = len(rows)
     passed = sum(bool(r.get('passed')) for r in rows)
+    classifications = dict.fromkeys(('success', 'solution_failure', 'infrastructure_failure', 'unknown'), 0)
+    for row in rows:
+        classifications[_classification(row)] += 1
     metrics = [r.get('metrics') or {} for r in rows]
 
     def total(key):
@@ -133,18 +163,19 @@ def scorecard(rows: list[dict]) -> dict:
     verified = sum(v is True for v in verification)
     return {
         'runs': runs, 'passed': passed, 'pass_rate': passed / runs if runs else None,
+        'classification_counts': classifications,
         'visible_passed': sum(r.get('visible_passed') is True for r in rows),
         'hidden_tests_pass': total('hidden_tests_pass'), 'hidden_tests_fail': total('hidden_tests_fail'),
         'regression_runs': sum(bool(r.get('regressions')) for r in rows),
         'regression_unknown_runs': sum(r.get('regressions') is None for r in rows),
-        'unfinished_runs': sum(r.get('agent_exit_code') != 0 or bool(r.get('timed_out'))
+        'unfinished_runs': sum(r.get('agent_exit_code') not in (None, 0) or bool(r.get('timed_out'))
                                or r.get('agent_completion') in ('incomplete', 'error') for r in rows),
         'token_unknown_runs': token_unknown, **tokens,
         'retries': total('agent_retries'),
         'median_wall_time_sec': statistics.median(walls) if walls else None,
         'p90_wall_time_sec': walls[math.ceil(0.9 * len(walls)) - 1] if walls else None,
         'max_wall_time_sec': walls[-1] if walls else None,
-        'timeouts': sum(bool(r.get('timed_out')) for r in rows),
+        'timeouts': sum(bool(r.get('timed_out') or r.get('check_timed_out')) for r in rows),
         'tampered_runs': sum(bool(r.get('tampered_files')) for r in rows),
         'verification_known_runs': verification_known, 'verified_runs': verified,
         'verification_rate': verified / verification_known if verification_known else None,
@@ -308,6 +339,22 @@ def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 
                   'tokens': _efficiency(intervals, _EFFICIENCY['tokens'], margin),
                   'time': _efficiency(intervals, _EFFICIENCY['time'], margin),
                   'safety': _combine(safety)}
+    per_task = {}
+    for task in sorted(b_tasks | c_tasks):
+        cards = {name: scorecard([r for r in arm_rows if r['task'] == task])
+                 for name, arm_rows in arms.items()}
+        tb, tc = cards[baseline], cards[candidate]
+        per_task[task] = {
+            'scorecards': cards,
+            'ratios': {key: _ratio(tb, tc, key) for keys in _EFFICIENCY.values() for key in keys},
+            'pass_rate_difference': (tc['pass_rate'] - tb['pass_rate']
+                                     if tb['pass_rate'] is not None and tc['pass_rate'] is not None else None),
+        }
+    infrastructure = sum(card['classification_counts']['infrastructure_failure'] for card in (b, c))
+    infrastructure_reason = (f"infrastructure contamination: {baseline} "
+                             f"{b['classification_counts']['infrastructure_failure']}/{b['runs']} runs; "
+                             f"{candidate} {c['classification_counts']['infrastructure_failure']}/{c['runs']} runs; "
+                             "all failed attempts retained")
 
     values = dimensions.values()
     efficiency = (dimensions['tokens'], dimensions['time'])
@@ -315,6 +362,9 @@ def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 
         verdict = 'inconclusive'
     elif 'worse' in (dimensions['correctness'], dimensions['safety']):
         verdict = 'worse'
+    elif infrastructure:
+        verdict = 'inconclusive'
+        reasons.append(infrastructure_reason)
     elif 'unknown' in efficiency:
         verdict = 'inconclusive'
         if dimensions['tokens'] == 'unknown':
@@ -340,10 +390,51 @@ def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 
                     for name in _EFFICIENCY if dimensions[name] == 'non-inferior']
     else:
         verdict = 'equivalent'
+    if infrastructure and infrastructure_reason not in reasons:
+        reasons.append(infrastructure_reason)
     return {'baseline': baseline, 'candidate': candidate, 'margin': margin, 'min_trials': min_trials,
             'confidence': CONFIDENCE, 'resamples': RESAMPLES, 'intervals': intervals,
             'verdict': verdict, 'dimensions': dimensions, 'reasons': reasons, 'warnings': warnings,
-            'scorecards': {baseline: b, candidate: c}}
+            'scorecards': {baseline: b, candidate: c}, 'per_task': per_task}
+
+
+def _classification_lines(result: dict) -> list[str]:
+    lines = ['| Arm | Success | Solution failure | Infrastructure failure | Unknown |',
+             '|---|---:|---:|---:|---:|']
+    for name in (result['baseline'], result['candidate']):
+        counts = result['scorecards'][name]['classification_counts']
+        lines.append(f"| {name} | {counts['success']} | {counts['solution_failure']} | "
+                     f"{counts['infrastructure_failure']} | {counts['unknown']} |")
+    return lines
+
+
+def _per_task_lines(result: dict) -> list[str]:
+    def fmt(value, spec='.0f'):
+        return 'unknown' if value is None else format(value, spec)
+
+    lines = ['Per-task scorecards (all attempts retained):', '',
+             '| Task | Arm | Passed/runs | Total tokens/correct | Uncached tokens/correct | Median wall s | '
+             'P90 wall s | Success / solution failure / infrastructure failure / unknown |',
+             '|---|---|---:|---:|---:|---:|---:|---|']
+    for task, item in result['per_task'].items():
+        for name in (result['baseline'], result['candidate']):
+            card = item['scorecards'][name]
+            counts = card['classification_counts']
+            lines.append(f"| {task} | {name} | {card['passed']}/{card['runs']} | "
+                         f"{fmt(card['tokens_per_correct'])} | {fmt(card['uncached_tokens_per_correct'])} | "
+                         f"{fmt(card['median_wall_time_sec'], '.1f')} | {fmt(card['p90_wall_time_sec'], '.1f')} | "
+                         f"{counts['success']} / {counts['solution_failure']} / "
+                         f"{counts['infrastructure_failure']} / {counts['unknown']} |")
+    lines += ['', 'Per-task point effects (descriptive only; no per-task winner or confidence claim):', '',
+              '| Task | Pass-rate difference (candidate − baseline, pp) | Total tokens/correct ratio | '
+              'Uncached tokens/correct ratio | Median wall ratio | P90 wall ratio |',
+              '|---|---:|---:|---:|---:|---:|']
+    for task, item in result['per_task'].items():
+        difference = item['pass_rate_difference']
+        ratios = [fmt(item['ratios'][key], '.2f') for keys in _EFFICIENCY.values() for key in keys]
+        lines.append(f"| {task} | {fmt(None if difference is None else difference * 100, '+.1f')} | "
+                     + ' | '.join(ratios) + ' |')
+    return lines
 
 
 def render_comparison(result: dict) -> str:
@@ -368,6 +459,8 @@ def render_comparison(result: dict) -> str:
         lines.append(f"| {name} | {result['dimensions'][name]} | {cell(b)} | {cell(c)} |")
     lines += ['', f"Candidate/baseline ratios ({result['confidence']:.0%} bootstrap CI, runs resampled within "
                   f"task):", *interval_lines(result)]
+    lines += ['', 'Run classifications:', '', *_classification_lines(result),
+              '', *_per_task_lines(result)]
     for title, items in (('Reasons', result['reasons']), ('Warnings', result['warnings'])):
         if items:
             lines += ['', f'{title}:', *(f'- {item}' for item in items)]
@@ -424,6 +517,7 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
              *comparison[3:table_end], '', '## Efficiency ratios', '',
              f"Candidate/baseline, {result['confidence']:.0%} bootstrap CI from {result['resamples']} "
              'resamples of runs within each task:', '', *interval_lines(result)]
+    lines += ['', '## Run classifications', '', *_classification_lines(result)]
     if charts:
         lines += ['', '## Charts', '']
         lines += [f'![{alt}]({path})' for alt, path in charts]
@@ -450,6 +544,7 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
                          f"{fmt(median(r.get('wall_time_sec') for r in records), '.1f')} | "
                          f"{fmt(median(tokens(r, True) for r in records))} | "
                          f"{fmt(median(tokens(r, False) for r in records))} |")
+    lines += ['', *_per_task_lines(result)]
     lines += ['', '## Setup', '']
     invocations = [inv for inv in (manifest or {}).get('invocations', [])
                    if any(name in inv.get('harnesses', {}) for name in (baseline, candidate))]
@@ -534,6 +629,10 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
               f"Tokens and time compare the {result['confidence']:.0%} bootstrap interval of the "
               f"candidate/baseline ratio with the {result['margin']:.0%} margin: worse if the whole interval "
               'is above it, better if an interval is wholly below it and no loss beyond it is possible, the '
-              'same if it lies inside the band; otherwise the verdict is inconclusive. Unknown ≠ 0; '
-              'medians use known runs only. Tokens per correct solution include failed attempts.']
+              'same if it lies inside the band; otherwise the verdict is inconclusive. Infrastructure '
+              'contamination makes a comparison inconclusive unless correctness or safety is measurably '
+              'worse. Run classifications use explicit recorded evidence; missing legacy evidence is '
+              'unknown, not infrastructure. Unknown ≠ 0; medians use known runs only. Tokens per correct '
+              'solution include failed attempts. Per-task ratios and pass-rate differences are descriptive '
+              'point effects, not per-task winners; aggregate bootstrap resampling is unchanged.']
     return '\n'.join(lines) + '\n'

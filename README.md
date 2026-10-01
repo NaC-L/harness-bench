@@ -8,6 +8,8 @@
 - Correctness and safety use exact non-inferiority gates: a measured regression makes the candidate `worse`.
 - Tokens and time compare the candidate/baseline ratio's 95% bootstrap interval (runs resampled within each task, 2,000 resamples) with a 10% margin. `worse` needs the whole interval above +10%. `better` needs an interval wholly below −10% with no possible loss beyond +10%. `same` needs the interval inside the band. An interval that could still exceed +10%, or that rules out a loss without proving a gain or equivalence (`non-inferior`), makes the verdict `inconclusive` and names the measure that needs more trials.
 - Mismatched tasks/inputs, fewer than three trials per task per arm, or unknown token/runtime data make the comparison `inconclusive`; unknown is not zero.
+- Scorecards distinguish success, solution failure, infrastructure failure and unknown evidence. Explicit infrastructure contamination blocks a positive or equivalent verdict; measured correctness/safety deterioration still reports `worse`. No failed attempts are excluded.
+- JSON, text and markdown comparisons include per-task pass-rate differences and token/time point ratios alongside the aggregate verdict. Per-task effects are descriptive, not additional winner claims.
 - See [BENCHMARK_ANALYSIS.md](BENCHMARK_ANALYSIS.md#automated-scoring) for the full rule and past findings.
 
 ## Published results
@@ -32,6 +34,14 @@ Every `REPORT.md` opens with the same kind of sentence, for example: *"Winner: o
 
 Re-score any bundle without model access: `python -m bench --results <bundle> compare --baseline <a> --candidate <b>`. Add charts to your own report with `compare --format markdown --charts-dir <dir>`; `export` includes them automatically.
 
+## Challenge tier and held-out evaluation
+
+The original ten fixtures remain efficiency controls. Four new challenge fixtures cover repository navigation (`challenge-routing`), interacting persistence bugs (`challenge-journal`), interrupted local work (`challenge-recovery`) and implementation safety boundaries (`challenge-safety`). [Development calibration](experiments/challenge-tier/CALIBRATION.md) passed **12/12**, so routing and journal did **not** qualify as harder correctness tests. Recovery/safety difficulty remains unmeasured; task names do not establish difficulty.
+
+Routing and journal are development fixtures. Recovery and safety carry the `heldout` tag: default `run` and `run --task all` exclude them; running them requires explicit task names. Listing and zero-model validation include all fixtures. Do not tune prompts or candidates on held-out model transcripts.
+
+The [fixed calibration/confirmation protocol](experiments/challenge-tier/PLAN.md) declares three development trials per arm before measurement, a separate six-trial confirmation grid, task acceptance criteria and contamination rules. Calibration and confirmation are never pooled. Program-level recovery/safety tasks do not prove harness approval enforcement or context-compaction reliability.
+
 ## Requirements
 
 - Python 3.12+; Python standard library only, no packages to install. CI covers 3.12 and 3.14 on Linux, Windows and macOS.
@@ -50,7 +60,7 @@ python -m bench --config benchmark-reference.toml --results results/reference ru
 python -m bench --results results/reference compare --baseline reference-a --candidate reference-b
 ```
 
-The reference arms copy each task's `solution/` into the workdir. Expect **60 PASS runs** (ten tasks × two arms × three trials), then `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions without model calls.
+The reference arms copy each task's `solution/` into the workdir. Expect **72 PASS runs** (ten controls plus two development challenges × two arms × three trials); the two held-out tasks require explicit names. Then expect `Verdict: inconclusive` with the reason `token usage unknown`. This is intentional: `kind = "none"` has no model token data, so the run verifies the pipeline, not harness efficiency. Task validation checks failing starting repos and passing reference solutions for all fourteen tasks without model calls.
 
 Use a fresh results directory for each experiment: runs and invocation manifests are appended, not replaced.
 
@@ -173,7 +183,7 @@ The original six tasks reached a correctness ceiling in published experiments. F
 | `hard-line-diff` | Produce minimal edits, unified hunks, and applicable patches; avoid quadratic work on sparse large diffs |
 | `hard-dep-resolver` | Resolve version constraints with deterministic backtracking, rollback, and legal dependency cycles |
 
-All four carry `tags = ["hard"]` and a 30-minute agent timeout. Tags are metadata, not a CLI filter; select task IDs explicitly. `run` without `--task` now includes all ten tasks. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
+All four carry `tags = ["hard"]` and a 30-minute agent timeout. Select task IDs explicitly to pin a tier. `run` without `--task` includes the ten controls and two development challenges, but excludes tasks tagged `heldout`. Existing task files and published bundles are unchanged; pin the original six IDs when reproducing an older experiment.
 
 Run just the hard tier without model calls:
 
@@ -225,6 +235,10 @@ Current tasks:
 | `hard-expr-eval` | bugfix | Fix Python-compatible arithmetic in a multi-module evaluator |
 | `hard-line-diff` | feature | Implement minimal line diff with unified hunks and patching |
 | `hard-dep-resolver` | debug | Diagnose missed solutions in a dependency resolver |
+| `challenge-routing` | debug | Repository navigation across request routing and authorization modules (development) |
+| `challenge-journal` | debug | Interacting persistence and replay defects (development) |
+| `challenge-recovery` | recovery | Interrupted local work and resumption (held-out) |
+| `challenge-safety` | safety | Local data preservation and denied operations (held-out) |
 
 ## Adding a harness
 

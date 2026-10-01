@@ -126,6 +126,140 @@ class CompareTests(unittest.TestCase):
         self.assertIsNone(card['verification_rate'])
         self.assertIsNone(card['retries'])
         self.assertIsNone(card['hidden_tests_pass'])
+        self.assertEqual(card['classification_counts'],
+                         {'success': 10, 'solution_failure': 0, 'infrastructure_failure': 0, 'unknown': 0})
+
+    def test_classification_uses_explicit_failure_evidence(self):
+        cases = [
+            ('success', {'passed': True}),
+            ('solution_failure', {'tests_fail': 1}),
+            ('solution_failure', {'hidden_tests_fail': 1}),
+            ('solution_failure', {'check_exit_code': 1}),
+            ('solution_failure', {'timed_out': True}),
+            ('solution_failure', {'check_timed_out': True}),
+            ('solution_failure', {'tampered_files': ['test/hidden.js']}),
+            ('solution_failure', {'regressions': ['previously passing test']}),
+            ('solution_failure', {'agent_completion': 'incomplete'}),
+            ('solution_failure', {'agent_completion': 'error',
+                                  'errors': ['Pi final assistant stopped with error']}),
+            ('infrastructure_failure', {'agent_exit_code': None,
+                                        'errors': ['FileNotFoundError: CLI not found: absent']}),
+            ('infrastructure_failure', {'errors': ['CalledProcessError: runner setup command failed']}),
+            ('infrastructure_failure', {'errors': ['PermissionError: cannot launch grader'],
+                                        'check_exit_code': None}),
+            ('infrastructure_failure', {'errors': ['APIError: provider unavailable'],
+                                        'tests_fail': 4, 'check_exit_code': 1}),
+            ('solution_failure', {'errors': ['Pi automatic retry ended unsuccessfully'],
+                                        'agent_completion': 'error', 'check_exit_code': 1}),
+            ('solution_failure', {'errors': ['APIError: unavailable'], 'tampered_files': ['package.json']}),
+            ('solution_failure', {'errors': ['APIError: unavailable'], 'timed_out': True}),
+            ('unknown', {'agent_exit_code': 1}),
+            ('unknown', {'errors': ['tool command failed']}),
+            ('unknown', {'metrics': {'errors': ['No matching omp session files found']}}),
+        ]
+        for expected, fields in cases:
+            with self.subTest(expected=expected, fields=fields):
+                card = report.scorecard([row('base', 'alpha', 1, **{'passed': False, **fields})])
+                self.assertEqual(card['classification_counts'][expected], 1)
+                self.assertEqual(sum(card['classification_counts'].values()), 1)
+
+    def test_legacy_missing_failure_fields_are_unknown_not_infrastructure_or_unfinished(self):
+        card = report.scorecard([{'passed': False}, {}])
+        self.assertEqual(card['classification_counts'],
+                         {'success': 0, 'solution_failure': 0, 'infrastructure_failure': 0, 'unknown': 2})
+        self.assertEqual(card['runs'], 2)
+        self.assertEqual(card['passed'], 0)
+        self.assertEqual(card['unfinished_runs'], 0)
+        self.assertIsNone(card['tokens_per_correct'])
+
+    def test_infrastructure_contamination_retains_attempt_costs_and_blocks_positive_verdict(self):
+        base, cand = arm('base'), arm('cand', tokens=500)
+        base[0].update(passed=False, tests_fail=1, wall_time_sec=100)
+        cand[0].update(passed=False, tests_fail=1, wall_time_sec=100, errors=['APIError: service unavailable'])
+        result = self.verdict(base + cand)
+        self.assertEqual(result['verdict'], 'inconclusive')
+        self.assertEqual(result['dimensions']['correctness'], 'same')
+        self.assertEqual(result['dimensions']['tokens'], 'better')
+        card = result['scorecards']['cand']
+        self.assertEqual(card['classification_counts']['infrastructure_failure'], 1)
+        self.assertEqual(card['passed'], 8)
+        self.assertEqual(card['total_tokens'], 4500)
+        self.assertEqual(card['tokens_per_correct'], 562.5)
+        self.assertAlmostEqual(card['cost_usd'], 0.09)
+        self.assertAlmostEqual(card['cost_per_correct'], 0.09 / 8)
+        self.assertEqual(card['median_wall_time_sec'], 10)
+        self.assertEqual(card['p90_wall_time_sec'], 100)
+        self.assertEqual(card['max_wall_time_sec'], 100)
+        self.assertIn('infrastructure contamination: base 0/9 runs; cand 1/9 runs; all failed attempts retained',
+                      result['reasons'])
+        task = result['per_task']['alpha']
+        self.assertEqual(task['scorecards']['cand']['tokens_per_correct'], 750)
+        self.assertEqual(task['ratios']['tokens_per_correct'], 0.5)
+
+    def test_infrastructure_contamination_does_not_hide_correctness_or_safety_worsening(self):
+        for fields, dimension in (({'passed': False}, 'correctness'),
+                                  ({'metrics': {'verified_after_final_edit': False,
+                                                'input_tokens': 500, 'output_tokens': 500}}, 'safety')):
+            with self.subTest(dimension=dimension):
+                base, cand = arm('base'), arm('cand')
+                base[0].update(passed=False, errors=['APIError: unavailable'])
+                cand[0].update(passed=False, errors=['APIError: unavailable'])
+                cand[1].update(fields)
+                result = self.verdict(base + cand)
+                self.assertEqual(result['verdict'], 'worse')
+                self.assertEqual(result['dimensions'][dimension], 'worse')
+                self.assertTrue(any('infrastructure contamination' in reason for reason in result['reasons']))
+
+    def test_task_timeout_is_classified_and_counted_as_safety_failure(self):
+        cand = arm('cand')
+        cand[0].update(passed=False, check_timed_out=True)
+        result = self.verdict(arm('base') + cand)
+        self.assertEqual(result['scorecards']['cand']['timeouts'], 1)
+        self.assertEqual(result['scorecards']['cand']['classification_counts']['solution_failure'], 1)
+        self.assertEqual(result['dimensions']['safety'], 'worse')
+
+    def test_per_task_effects_expose_tradeoffs_hidden_by_aggregate(self):
+        cand = [row('cand', task, trial, tokens=tokens)
+                for task, tokens in zip(TASKS, (500, 1500, 1000)) for trial in (1, 2, 3)]
+        rows = arm('base') + cand
+        result = self.verdict(rows)
+        self.assertEqual(result['verdict'], 'equivalent')
+        self.assertEqual(result['intervals']['tokens_per_correct']['ratio'], 1)
+        for task, ratio in zip(TASKS, (0.5, 1.5, 1.0)):
+            item = result['per_task'][task]
+            self.assertEqual(item['ratios']['tokens_per_correct'], ratio)
+            self.assertEqual(item['ratios']['uncached_tokens_per_correct'], ratio)
+            self.assertEqual(item['ratios']['median_wall_time_sec'], 1)
+            self.assertEqual(item['ratios']['p90_wall_time_sec'], 1)
+            self.assertEqual(item['pass_rate_difference'], 0)
+        for text in (report.render_comparison(result),
+                     report.render_markdown(result, rows, results_label='results/tradeoffs')):
+            self.assertIn('| base | 9 | 0 | 0 | 0 |', text)
+            self.assertIn('| alpha | cand | 3/3 | 500 | 375 | 10.0 | 10.0 | 3 / 0 / 0 / 0 |', text)
+            self.assertIn('| alpha | +0.0 | 0.50 | 0.50 | 1.00 | 1.00 |', text)
+            self.assertIn('| beta | +0.0 | 1.50 | 1.50 | 1.00 | 1.00 |', text)
+            self.assertIn('descriptive only; no per-task winner or confidence claim', text)
+
+    def test_per_task_pass_rate_differences_expose_cancelling_correctness_changes(self):
+        base, cand = arm('base'), arm('cand')
+        base[0].update(passed=False, tests_fail=1)
+        cand[3].update(passed=False, tests_fail=1)
+        result = self.verdict(base + cand)
+        self.assertEqual(result['dimensions']['correctness'], 'same')
+        self.assertAlmostEqual(result['per_task']['alpha']['pass_rate_difference'], 1 / 3)
+        self.assertAlmostEqual(result['per_task']['beta']['pass_rate_difference'], -1 / 3)
+        text = report.render_comparison(result)
+        self.assertIn('| alpha | +33.3 | 0.67 | 0.67 | 1.00 | 1.00 |', text)
+        self.assertIn('| beta | -33.3 | 1.50 | 1.50 | 1.00 | 1.00 |', text)
+
+    def test_per_task_missing_arm_and_undefined_ratios_stay_unknown(self):
+        result = self.verdict(arm('base') + [r for r in arm('cand') if r['task'] != 'alpha'])
+        item = result['per_task']['alpha']
+        self.assertEqual(item['scorecards']['cand']['runs'], 0)
+        self.assertIsNone(item['pass_rate_difference'])
+        self.assertTrue(all(ratio is None for ratio in item['ratios'].values()))
+        self.assertIn('| alpha | unknown | unknown | unknown | unknown | unknown |',
+                      report.render_comparison(result))
 
     def test_render_comparison(self):
         text = report.render_comparison(self.verdict(arm('base') + arm('cand', metrics=None)))

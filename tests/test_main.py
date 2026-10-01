@@ -6,13 +6,14 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from types import SimpleNamespace
 from bench.__main__ import main
 from bench.runner import Harness
 
 
 class MainTests(unittest.TestCase):
     def setUp(self):
-        self.tasks = [object()]
+        self.tasks = [SimpleNamespace(tags=[])]
         self.harnesses = {name: Harness(name, 'omp', [], [], {}, name)
                           for name in ('omp-baseline', 'omp-inline')}
 

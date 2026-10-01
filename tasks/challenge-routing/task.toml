@@ -1,0 +1,7 @@
+id = "challenge-routing"
+title = "Repair tenant-aware request routing"
+category = "debug"
+timeout_sec = 1200
+check_timeout_sec = 60
+check = ["node", "--test"]
+tags = ["challenge", "development", "repository-navigation", "routing", "authorization"]

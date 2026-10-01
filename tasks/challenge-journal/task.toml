@@ -1,0 +1,7 @@
+id = "challenge-journal"
+title = "Repair a persisted transfer journal"
+category = "debug"
+timeout_sec = 1200
+check_timeout_sec = 60
+check = ["node", "--test"]
+tags = ["challenge", "development", "interacting-bugs", "persistence", "transactions"]

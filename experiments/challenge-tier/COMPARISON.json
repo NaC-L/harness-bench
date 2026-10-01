@@ -1,0 +1,287 @@
+{
+  "baseline": "omp-baseline",
+  "candidate": "omp-inline",
+  "margin": 0.1,
+  "min_trials": 3,
+  "confidence": 0.95,
+  "resamples": 2000,
+  "intervals": {
+    "tokens_per_correct": {
+      "ratio": 0.7679537447437208,
+      "low": 0.6699148417844396,
+      "high": 0.8750269231406465
+    },
+    "uncached_tokens_per_correct": {
+      "ratio": 1.1206309318601897,
+      "low": 0.9922139370526757,
+      "high": 1.2512062359916531
+    },
+    "median_wall_time_sec": {
+      "ratio": 1.1272272267218273,
+      "low": 0.9499763325786198,
+      "high": 1.2078196254971867
+    },
+    "p90_wall_time_sec": {
+      "ratio": 0.9998869395268901,
+      "low": 0.8957488692048409,
+      "high": 1.227501564695973
+    }
+  },
+  "verdict": "inconclusive",
+  "dimensions": {
+    "correctness": "same",
+    "tokens": "uncertain",
+    "time": "uncertain",
+    "safety": "same"
+  },
+  "reasons": [
+    "uncached tokens per correct \u00d71.12 (95% CI 0.99\u20131.25) may be more than 10% worse; more trials needed",
+    "median wall time \u00d71.13 (95% CI 0.95\u20131.21) may be more than 10% worse; more trials needed",
+    "p90 wall time \u00d71.00 (95% CI 0.90\u20131.23) may be more than 10% worse; more trials needed"
+  ],
+  "warnings": [
+    "correctness at ceiling: every run passed, so these tasks cannot distinguish correctness"
+  ],
+  "scorecards": {
+    "omp-baseline": {
+      "runs": 6,
+      "passed": 6,
+      "pass_rate": 1.0,
+      "classification_counts": {
+        "success": 6,
+        "solution_failure": 0,
+        "infrastructure_failure": 0,
+        "unknown": 0
+      },
+      "visible_passed": 6,
+      "hidden_tests_pass": 129,
+      "hidden_tests_fail": 0,
+      "regression_runs": 0,
+      "regression_unknown_runs": 0,
+      "unfinished_runs": 0,
+      "token_unknown_runs": 0,
+      "total_tokens": 351960,
+      "uncached_tokens": 96302,
+      "auxiliary_calls": 0,
+      "auxiliary_tokens": 0,
+      "cost_usd": 1.2924156,
+      "tokens_per_correct": 58660.0,
+      "uncached_tokens_per_correct": 16050.333333333334,
+      "cost_per_correct": 0.2154026,
+      "retries": 0,
+      "median_wall_time_sec": 64.9801521499976,
+      "p90_wall_time_sec": 82.27632289999747,
+      "max_wall_time_sec": 82.27632289999747,
+      "timeouts": 0,
+      "tampered_runs": 0,
+      "verification_known_runs": 6,
+      "verified_runs": 5,
+      "verification_rate": 0.8333333333333334,
+      "reproduced_runs": 0
+    },
+    "omp-inline": {
+      "runs": 6,
+      "passed": 6,
+      "pass_rate": 1.0,
+      "classification_counts": {
+        "success": 6,
+        "solution_failure": 0,
+        "infrastructure_failure": 0,
+        "unknown": 0
+      },
+      "visible_passed": 6,
+      "hidden_tests_pass": 129,
+      "hidden_tests_fail": 0,
+      "regression_runs": 0,
+      "regression_unknown_runs": 0,
+      "unfinished_runs": 0,
+      "token_unknown_runs": 0,
+      "total_tokens": 270289,
+      "uncached_tokens": 107919,
+      "auxiliary_calls": 0,
+      "auxiliary_tokens": 0,
+      "cost_usd": 1.41713,
+      "tokens_per_correct": 45048.166666666664,
+      "uncached_tokens_per_correct": 17986.5,
+      "cost_per_correct": 0.23618833333333333,
+      "retries": 0,
+      "median_wall_time_sec": 73.24739670000417,
+      "p90_wall_time_sec": 82.26702070000465,
+      "max_wall_time_sec": 82.26702070000465,
+      "timeouts": 0,
+      "tampered_runs": 0,
+      "verification_known_runs": 6,
+      "verified_runs": 5,
+      "verification_rate": 0.8333333333333334,
+      "reproduced_runs": 3
+    }
+  },
+  "per_task": {
+    "challenge-journal": {
+      "scorecards": {
+        "omp-baseline": {
+          "runs": 3,
+          "passed": 3,
+          "pass_rate": 1.0,
+          "classification_counts": {
+            "success": 3,
+            "solution_failure": 0,
+            "infrastructure_failure": 0,
+            "unknown": 0
+          },
+          "visible_passed": 3,
+          "hidden_tests_pass": 66,
+          "hidden_tests_fail": 0,
+          "regression_runs": 0,
+          "regression_unknown_runs": 0,
+          "unfinished_runs": 0,
+          "token_unknown_runs": 0,
+          "total_tokens": 158219,
+          "uncached_tokens": 47836,
+          "auxiliary_calls": 0,
+          "auxiliary_tokens": 0,
+          "cost_usd": 0.6358926,
+          "tokens_per_correct": 52739.666666666664,
+          "uncached_tokens_per_correct": 15945.333333333334,
+          "cost_per_correct": 0.21196420000000002,
+          "retries": 0,
+          "median_wall_time_sec": 67.01989070000127,
+          "p90_wall_time_sec": 70.22269019999658,
+          "max_wall_time_sec": 70.22269019999658,
+          "timeouts": 0,
+          "tampered_runs": 0,
+          "verification_known_runs": 3,
+          "verified_runs": 2,
+          "verification_rate": 0.6666666666666666,
+          "reproduced_runs": 0
+        },
+        "omp-inline": {
+          "runs": 3,
+          "passed": 3,
+          "pass_rate": 1.0,
+          "classification_counts": {
+            "success": 3,
+            "solution_failure": 0,
+            "infrastructure_failure": 0,
+            "unknown": 0
+          },
+          "visible_passed": 3,
+          "hidden_tests_pass": 66,
+          "hidden_tests_fail": 0,
+          "regression_runs": 0,
+          "regression_unknown_runs": 0,
+          "unfinished_runs": 0,
+          "token_unknown_runs": 0,
+          "total_tokens": 136361,
+          "uncached_tokens": 55506,
+          "auxiliary_calls": 0,
+          "auxiliary_tokens": 0,
+          "cost_usd": 0.722859,
+          "tokens_per_correct": 45453.666666666664,
+          "uncached_tokens_per_correct": 18502.0,
+          "cost_per_correct": 0.240953,
+          "retries": 0,
+          "median_wall_time_sec": 72.79587020000326,
+          "p90_wall_time_sec": 73.69892320000508,
+          "max_wall_time_sec": 73.69892320000508,
+          "timeouts": 0,
+          "tampered_runs": 0,
+          "verification_known_runs": 3,
+          "verified_runs": 2,
+          "verification_rate": 0.6666666666666666,
+          "reproduced_runs": 2
+        }
+      },
+      "ratios": {
+        "tokens_per_correct": 0.8618497146360424,
+        "uncached_tokens_per_correct": 1.160339493268668,
+        "median_wall_time_sec": 1.0861830635602914,
+        "p90_wall_time_sec": 1.0495029881382796
+      },
+      "pass_rate_difference": 0.0
+    },
+    "challenge-routing": {
+      "scorecards": {
+        "omp-baseline": {
+          "runs": 3,
+          "passed": 3,
+          "pass_rate": 1.0,
+          "classification_counts": {
+            "success": 3,
+            "solution_failure": 0,
+            "infrastructure_failure": 0,
+            "unknown": 0
+          },
+          "visible_passed": 3,
+          "hidden_tests_pass": 63,
+          "hidden_tests_fail": 0,
+          "regression_runs": 0,
+          "regression_unknown_runs": 0,
+          "unfinished_runs": 0,
+          "token_unknown_runs": 0,
+          "total_tokens": 193741,
+          "uncached_tokens": 48466,
+          "auxiliary_calls": 0,
+          "auxiliary_tokens": 0,
+          "cost_usd": 0.656523,
+          "tokens_per_correct": 64580.333333333336,
+          "uncached_tokens_per_correct": 16155.333333333334,
+          "cost_per_correct": 0.21884099999999998,
+          "retries": 0,
+          "median_wall_time_sec": 62.94041359999392,
+          "p90_wall_time_sec": 82.27632289999747,
+          "max_wall_time_sec": 82.27632289999747,
+          "timeouts": 0,
+          "tampered_runs": 0,
+          "verification_known_runs": 3,
+          "verified_runs": 3,
+          "verification_rate": 1.0,
+          "reproduced_runs": 0
+        },
+        "omp-inline": {
+          "runs": 3,
+          "passed": 3,
+          "pass_rate": 1.0,
+          "classification_counts": {
+            "success": 3,
+            "solution_failure": 0,
+            "infrastructure_failure": 0,
+            "unknown": 0
+          },
+          "visible_passed": 3,
+          "hidden_tests_pass": 63,
+          "hidden_tests_fail": 0,
+          "regression_runs": 0,
+          "regression_unknown_runs": 0,
+          "unfinished_runs": 0,
+          "token_unknown_runs": 0,
+          "total_tokens": 133928,
+          "uncached_tokens": 52413,
+          "auxiliary_calls": 0,
+          "auxiliary_tokens": 0,
+          "cost_usd": 0.694271,
+          "tokens_per_correct": 44642.666666666664,
+          "uncached_tokens_per_correct": 17471.0,
+          "cost_per_correct": 0.23142366666666667,
+          "retries": 0,
+          "median_wall_time_sec": 77.14075979999325,
+          "p90_wall_time_sec": 82.26702070000465,
+          "max_wall_time_sec": 82.26702070000465,
+          "timeouts": 0,
+          "tampered_runs": 0,
+          "verification_known_runs": 3,
+          "verified_runs": 3,
+          "verification_rate": 1.0,
+          "reproduced_runs": 1
+        }
+      },
+      "ratios": {
+        "tokens_per_correct": 0.6912734010870182,
+        "uncached_tokens_per_correct": 1.081438534230182,
+        "median_wall_time_sec": 1.2256157115561233,
+        "p90_wall_time_sec": 0.9998869395268901
+      },
+      "pass_rate_difference": 0.0
+    }
+  }
+}

@@ -209,6 +209,10 @@ to their original GitHub bundle. The build does not re-score old reports.
 The index and explorer use an Instrument-style black/cyan theme: hairlines, mono
 labels and tabular numbers, square marks, and restrained dither accents. They share
 one stylesheet; no external scripts or fonts are needed.
+Experiments are ordered newest first by their earliest recorded run start, shown
+in UTC. Without a usable run timestamp, the index uses the bundle's labeled date
+or month. Month-only dates sort at the beginning of that month and remain labeled
+as month-only; unknown dates appear last. Filesystem modification times are not used.
 
 To preview the same site locally, choose a new output directory:
 

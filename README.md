@@ -207,6 +207,8 @@ python -m bench.site --out results/site-preview
 ```
 
 Open `results/site-preview/index.html` directly in a browser.
+Generated HTML uses UTF-8 with LF line endings, so the same inputs produce the
+same bytes on Windows and Linux for deployment checksum verification.
 
 `results/` is gitignored on purpose; `published/` is intended for reviewed bundles you choose to commit. Anyone can re-run `compare` directly on a bundle by setting the global `--results` to its exported directory; no original workdirs or model account are needed to inspect its verdict.
 

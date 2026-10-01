@@ -33,7 +33,7 @@ def build(published: Path, out: Path) -> int:
         data['title'] = label
         target = out / relative / 'EXPLORER.html'
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(render(data), encoding='utf-8')
+        target.write_text(render(data), encoding='utf-8', newline='\n')
         arms = sorted({str(run['row'].get('harness', 'unknown')) for run in data['runs']})
         source = f'{REPOSITORY}/tree/main/published/{quote(label, safe="/")}'
         cards.append(f'<article><h2><a href="{quote(label, safe="/")}/EXPLORER.html">'
@@ -49,7 +49,8 @@ def build(published: Path, out: Path) -> int:
             cards.append(f'<article><h2><a href="{source}">{escape(label)}</a></h2>'
                          '<p>Legacy report · no JSONL session explorer</p></article>')
     content = '\n'.join(cards) or '<p>No published run bundles yet.</p>'
-    (out / 'index.html').write_text(INDEX.replace('__EXPERIMENTS__', content), encoding='utf-8')
+    (out / 'index.html').write_text(INDEX.replace('__EXPERIMENTS__', content),
+                                  encoding='utf-8', newline='\n')
     (out / '.nojekyll').write_text('', encoding='utf-8')
     return len(bundles)
 

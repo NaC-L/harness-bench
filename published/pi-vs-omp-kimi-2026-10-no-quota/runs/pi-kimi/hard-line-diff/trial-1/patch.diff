@@ -1,0 +1,283 @@
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-3376bbdc-xx3huhyp/src/diff.js"
+index 5eeb030..1e1ffbe 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-3376bbdc-xx3huhyp/src/diff.js"
+@@ -14,7 +14,161 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  const ops = [];
++  // Iterative linear-space Myers divide and conquer (explicit stack, so deep
++  // recursion cannot overflow). Job kinds:
++  //   0: diff segment a[alo..ahi) vs b[blo..bhi)
++  //   1: emit a[from..to) as equals
++  //   2: emit a[from..to) as deletes
++  //   3: emit b[from..to) as inserts
++  const stack = [{ kind: 0, alo: 0, ahi: a.length, blo: 0, bhi: b.length }];
++  while (stack.length > 0) {
++    const job = stack.pop();
++    if (job.kind === 1) {
++      for (let i = job.from; i < job.to; i++) ops.push({ op: 'equal', line: a[i] });
++      continue;
++    }
++    if (job.kind === 2) {
++      for (let i = job.from; i < job.to; i++) ops.push({ op: 'delete', line: a[i] });
++      continue;
++    }
++    if (job.kind === 3) {
++      for (let i = job.from; i < job.to; i++) ops.push({ op: 'insert', line: b[i] });
++      continue;
++    }
++    let alo = job.alo;
++    let ahi = job.ahi;
++    let blo = job.blo;
++    let bhi = job.bhi;
++    // Strip common prefix/suffix: they are equal runs, emitted in order.
++    while (alo < ahi && blo < bhi && a[alo] === b[blo]) {
++      ops.push({ op: 'equal', line: a[alo] });
++      alo++;
++      blo++;
++    }
++    let suffix = 0;
++    while (ahi - suffix > alo && bhi - suffix > blo &&
++           a[ahi - 1 - suffix] === b[bhi - 1 - suffix]) {
++      suffix++;
++    }
++    const mAhi = ahi - suffix;
++    const mBhi = bhi - suffix;
++    // LIFO: suffix equals must be processed after everything in the middle.
++    if (suffix > 0) stack.push({ kind: 1, from: mAhi, to: ahi });
++    const n = mAhi - alo;
++    const m = mBhi - blo;
++    if (n === 0) {
++      if (m > 0) stack.push({ kind: 3, from: blo, to: mBhi });
++    } else if (m === 0) {
++      stack.push({ kind: 2, from: alo, to: mAhi });
++    } else {
++      const mid = middleSnake(a, alo, mAhi, b, blo, mBhi);
++      // Push in reverse processing order: right half, snake equals, left half.
++      stack.push({ kind: 0, alo: mid.u, ahi: mAhi, blo: mid.v, bhi: mBhi });
++      if (mid.u > mid.x) stack.push({ kind: 1, from: mid.x, to: mid.u });
++      stack.push({ kind: 0, alo, ahi: mid.x, blo, bhi: mid.y });
++    }
++  }
++  normalizeDeletesFirst(ops);
++  return ops;
++}
++
++/**
++ * Bidirectional Myers middle-snake search on a[alo..ahi) vs b[blo..bhi).
++ * Returns the middle snake in absolute coordinates: it starts at (x, y),
++ * ends at (u, v), and splitting the problem around it keeps the edit script
++ * minimal. Runs in O((n + m) * d) time and O(n + m) space, where d is the
++ * edit distance of this segment.
++ */
++function middleSnake(a, alo, ahi, b, blo, bhi) {
++  const n = ahi - alo;
++  const m = bhi - blo;
++  const max = n + m;
++  const delta = n - m;
++  const odd = (delta & 1) !== 0;
++  const offset = max; // shift so diagonal k in [-max, max] indexes the arrays
++  const vf = new Int32Array(2 * max + 1); // forward: furthest x per diagonal
++  const vb = new Int32Array(2 * max + 1); // reverse: furthest x-from-end
++  vf[offset + 1] = 0;
++  vb[offset + 1] = 0;
++  const dLimit = Math.ceil(max / 2);
++  for (let d = 0; d <= dLimit; d++) {
++    // Forward paths reach diagonal k in [-d, d].
++    for (let k = -d; k <= d; k += 2) {
++      let x;
++      if (k === -d || (k !== d && vf[offset + k - 1] < vf[offset + k + 1])) {
++        x = vf[offset + k + 1]; // move down: insertion from b
++      } else {
++        x = vf[offset + k - 1] + 1; // move right: deletion from a
++      }
++      let y = x - k;
++      const sx = x;
++      const sy = y;
++      while (x < n && y < m && a[alo + x] === b[blo + y]) {
++        x++;
++        y++;
++      }
++      vf[offset + k] = x;
++      // With odd delta a forward path can only meet a reverse path of the
++      // previous iteration, giving total distance 2d - 1.
++      if (odd && k >= delta - (d - 1) && k <= delta + (d - 1)) {
++        // Reverse x counts steps back from the end, so a reverse point
++        // (rx, ry) sits at forward point (n - rx, m - ry); its diagonal in
++        // forward coordinates is delta - kr for reverse diagonal kr.
++        const kr = delta - k; // same diagonal in reverse coordinates
++        if (kr >= -(d - 1) && kr <= d - 1 && x + vb[offset + kr] >= n) {
++          return { x: alo + sx, y: blo + sy, u: alo + x, v: blo + y };
++        }
++      }
++    }
++    // Reverse paths walk from the end; x counts steps back from ahi.
++    for (let k = -d; k <= d; k += 2) {
++      let x;
++      if (k === -d || (k !== d && vb[offset + k - 1] < vb[offset + k + 1])) {
++        x = vb[offset + k + 1];
++      } else {
++        x = vb[offset + k - 1] + 1;
++      }
++      let y = x - k;
++      const sx = x;
++      const sy = y;
++      while (x < n && y < m && a[ahi - 1 - x] === b[bhi - 1 - y]) {
++        x++;
++        y++;
++      }
++      vb[offset + k] = x;
++      // With even delta a reverse path can meet this iteration's forward
++      // path, giving total distance 2d.
++      if (!odd) {
++        const kf = delta - k; // same diagonal in forward coordinates
++        if (kf >= -d && kf <= d && vf[offset + kf] + x >= n) {
++          // Reverse point (rx, ry) is forward point (n - rx, m - ry).
++          return { x: ahi - x, y: bhi - y, u: ahi - sx, v: bhi - sy };
++        }
++      }
++    }
++  }
++  throw new Error('unreachable: no middle snake');
++}
++
++/** Stable reorder: within each maximal run without equals, deletes come first. */
++function normalizeDeletesFirst(ops) {
++  let i = 0;
++  while (i < ops.length) {
++    if (ops[i].op === 'equal') {
++      i++;
++      continue;
++    }
++    let j = i;
++    while (j < ops.length && ops[j].op !== 'equal') j++;
++    ops.splice(i, j - i, ...ops.slice(i, j).sort(deleteBeforeInsert));
++    i = j;
++  }
++}
++
++function deleteBeforeInsert(p, q) {
++  if (p.op === q.op) return 0;
++  return p.op === 'delete' ? -1 : 1;
+ }
+ 
+ /**
+@@ -34,7 +188,53 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  if (!Number.isInteger(context) || context < 0) {
++    throw new RangeError('context must be a nonnegative integer');
++  }
++  const ops = diffLines(a, b);
++  const count = ops.length;
++  // oldBefore[i]/newBefore[i]: lines of a/b consumed before ops[i].
++  const oldBefore = new Int32Array(count + 1);
++  const newBefore = new Int32Array(count + 1);
++  const changes = [];
++  for (let i = 0; i < count; i++) {
++    const op = ops[i].op;
++    oldBefore[i + 1] = oldBefore[i] + (op === 'insert' ? 0 : 1);
++    newBefore[i + 1] = newBefore[i] + (op === 'delete' ? 0 : 1);
++    if (op !== 'equal') changes.push(i);
++  }
++  if (changes.length === 0) return [];
++  // Cluster changes separated by an unchanged gap of at most 2 * context.
++  const clusters = [];
++  let clusterStart = 0;
++  for (let i = 1; i < changes.length; i++) {
++    if (changes[i] - changes[i - 1] - 1 > 2 * context) {
++      clusters.push([clusterStart, i]);
++      clusterStart = i;
++    }
++  }
++  clusters.push([clusterStart, changes.length]);
++  const hunks = [];
++  for (const [cs, ce] of clusters) {
++    const first = changes[cs];
++    const last = changes[ce - 1];
++    // A gap wider than 2 * context separates clusters, so the context below
++    // never runs into a neighboring hunk's lines.
++    const start = Math.max(first - context, 0);
++    const end = Math.min(last + 1 + context, count); // exclusive
++    const lines = [];
++    for (let i = start; i < end; i++) {
++      const op = ops[i];
++      const tag = op.op === 'equal' ? ' ' : op.op === 'delete' ? '-' : '+';
++      lines.push(tag + op.line);
++    }
++    const oldLines = oldBefore[end] - oldBefore[start];
++    const newLines = newBefore[end] - newBefore[start];
++    const oldStart = oldLines === 0 ? oldBefore[start] : oldBefore[start] + 1;
++    const newStart = newLines === 0 ? newBefore[start] : newBefore[start] + 1;
++    hunks.push({ oldStart, oldLines, newStart, newLines, lines });
++  }
++  return hunks;
+ }
+ 
+ /**
+@@ -48,7 +248,59 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  const result = [];
++  let oldPos = 0; // lines of a consumed so far
++  let offset = 0; // new-position minus old-position before the current hunk
++  for (let index = 0; index < hunks.length; index++) {
++    const hunk = hunks[index];
++    const fail = () => new Error(`hunk ${index} does not apply`);
++    if (hunk === null || typeof hunk !== 'object' || !Array.isArray(hunk.lines) ||
++        !Number.isInteger(hunk.oldStart) || !Number.isInteger(hunk.oldLines) ||
++        !Number.isInteger(hunk.newStart) || !Number.isInteger(hunk.newLines) ||
++        hunk.oldLines < 0 || hunk.newLines < 0) {
++      throw fail();
++    }
++    // Convert 1-based starts to counts of consumed lines, honoring the
++    // zero-line-range convention (the start names the preceding line).
++    const oldBefore = hunk.oldLines === 0 ? hunk.oldStart : hunk.oldStart - 1;
++    const newBefore = hunk.newLines === 0 ? hunk.newStart : hunk.newStart - 1;
++    if (oldBefore < oldPos || oldBefore + hunk.oldLines > a.length) throw fail();
++    if (newBefore !== oldBefore + offset) throw fail();
++    while (oldPos < oldBefore) {
++      result.push(a[oldPos]);
++      oldPos++;
++    }
++    let oldCount = 0;
++    let newCount = 0;
++    for (const entry of hunk.lines) {
++      if (typeof entry !== 'string' || entry.length === 0) throw fail();
++      const tag = entry.charCodeAt(0);
++      const text = entry.slice(1);
++      if (tag === 32) { // ' ' context: kept, must match the original exactly
++        if (oldPos >= a.length || a[oldPos] !== text) throw fail();
++        result.push(a[oldPos]);
++        oldPos++;
++        oldCount++;
++        newCount++;
++      } else if (tag === 45) { // '-' delete: consumed from a, must match
++        if (oldPos >= a.length || a[oldPos] !== text) throw fail();
++        oldPos++;
++        oldCount++;
++      } else if (tag === 43) { // '+' insert: added to the result
++        result.push(text);
++        newCount++;
++      } else {
++        throw fail();
++      }
++    }
++    if (oldCount !== hunk.oldLines || newCount !== hunk.newLines) throw fail();
++    offset += hunk.newLines - hunk.oldLines;
++  }
++  while (oldPos < a.length) {
++    result.push(a[oldPos]);
++    oldPos++;
++  }
++  return result;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

@@ -1,0 +1,150 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-3077aaa6-_8l72g1f/src/csv.js"
+index ce27ede..700073e 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-3077aaa6-_8l72g1f/src/csv.js"
+@@ -47,7 +47,144 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be one character other than a quote, CR, or LF');
++  }
++
++  // States: 'start' (first char of a field), 'unquoted', 'quoted',
++  // 'quotedQuote' (a '"' seen inside a quoted field: escape or closing quote).
++  let state = 'start';
++  let field = '';
++  let row = [];
++  let line = 1;
++  let started = false; // any character consumed yet (for BOM stripping)
++  let skipLf = false; // a CR was just seen; a following LF is not a new newline
++  let ended = false;
++
++  function endField() {
++    row.push(field);
++    field = '';
++    state = 'start';
++  }
++
++  function push(chunk) {
++    if (ended) throw new Error('cannot push after end');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const records = [];
++    for (let i = 0; i < chunk.length; i++) {
++      const ch = chunk[i];
++      if (!started) {
++        started = true;
++        if (ch === '\uFEFF') continue; // strip a leading BOM only
++      }
++      if (skipLf) {
++        skipLf = false;
++        if (ch === '\n') {
++          // The LF of a CRLF: one newline total. Inside a quoted field the LF
++          // is still field data; outside, the CR already ended the record.
++          if (state === 'quoted') field += ch;
++          continue;
++        }
++      }
++      switch (state) {
++        case 'start':
++          if (ch === '"') {
++            state = 'quoted';
++          } else if (ch === delimiter) {
++            endField();
++          } else if (ch === '\n') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++          } else if (ch === '\r') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++            skipLf = true;
++          } else {
++            field += ch;
++            state = 'unquoted';
++          }
++          break;
++        case 'unquoted':
++          if (ch === delimiter) {
++            endField();
++          } else if (ch === '\n') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++          } else if (ch === '\r') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++            skipLf = true;
++          } else {
++            field += ch; // a '"' here is an ordinary character
++          }
++          break;
++        case 'quoted':
++          if (ch === '"') {
++            state = 'quotedQuote';
++          } else {
++            field += ch;
++            if (ch === '\n') line++;
++            else if (ch === '\r') {
++              line++;
++              skipLf = true; // CRLF inside quotes counts once, even across chunks
++            }
++          }
++          break;
++        case 'quotedQuote':
++          if (ch === '"') {
++            field += '"';
++            state = 'quoted';
++          } else if (ch === delimiter) {
++            endField();
++          } else if (ch === '\n') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++          } else if (ch === '\r') {
++            endField();
++            records.push(row);
++            row = [];
++            line++;
++            skipLf = true;
++          } else {
++            throw new SyntaxError(`unexpected character after closing quote at line ${line}`);
++          }
++          break;
++      }
++    }
++    return records;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === 'quoted') {
++      throw new SyntaxError(`unterminated quoted field at line ${line}`);
++    }
++    if (state === 'start' && field === '' && row.length === 0) return [];
++    endField();
++    const last = row;
++    row = [];
++    return [last];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

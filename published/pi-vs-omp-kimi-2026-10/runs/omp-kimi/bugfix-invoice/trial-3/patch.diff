@@ -1,0 +1,38 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js" "{temp}\\hb-209d3442-0bgg4mut/src/discounts.js"
+index 5bf8d65..ddff630 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/discounts.js"
++++ "{temp}\\hb-209d3442-0bgg4mut/src/discounts.js"
+@@ -13,10 +13,8 @@ const { difference } = require('./money');
+  * Called for both line discounts and the positive invoice-discount basis.
+  */
+ function applyDiscounts(amountCents, discounts) {
+-  const priority = { fixed: 0, percent: 1 };
+-  const schedule = discounts.slice().sort((a, b) => priority[a.type] - priority[b.type]);
+   let current = amountCents;
+-  for (const discount of schedule) {
++  for (const discount of discounts) {
+     if (discount.type === 'fixed') {
+       if (current > 0) current -= Math.min(current, discount.amountCents);
+     } else {
+diff --git "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js" "{temp}\\hb-209d3442-0bgg4mut/src/rounding.js"
+index 57f5e99..1b57a72 100644
+--- "{benchmark_dir}\\tasks\\bugfix-invoice\\repo/src/rounding.js"
++++ "{temp}\\hb-209d3442-0bgg4mut/src/rounding.js"
+@@ -14,7 +14,16 @@ function roundRatio(numerator, denominator) {
+     throw new TypeError('A ratio requires BigInts');
+   }
+   if (denominator <= 0n) throw new RangeError('Denominator must be positive');
+-  return integer(Math.round(Number(numerator) / Number(denominator)), 'rounded cents');
++  const negative = numerator < 0n;
++  const magnitude = negative ? -numerator : numerator;
++  const quotient = magnitude / denominator;
++  const remainder = magnitude % denominator;
++  const doubled = remainder * 2n;
++  let rounded = quotient;
++  if (doubled > denominator || (doubled === denominator && quotient % 2n !== 0n)) {
++    rounded = quotient + 1n;
++  }
++  return integer(Number(negative ? -rounded : rounded), 'rounded cents');
+ }
+ 
+ module.exports = { roundRatio };

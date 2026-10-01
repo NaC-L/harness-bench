@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "invocations": [
+    {
+      "started": "2026-10-01T13:27:01.190039+00:00",
+      "trials": 3,
+      "jobs": 8,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-pi-omp-kimi.toml",
+      "harnesses": {
+        "omp-kimi": {
+          "kind": "omp",
+          "command": [
+            "omp",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/pi-omp-sol/omp.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "kimi-code/k3",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "5e66a398ab527a0d9291d8bcf021832941807d53fe4a74f5f5373435911d9571",
+          "version": "omp/18.4.8",
+          "state_template": "experiments/pi-omp-kimi/omp",
+          "env_commands": {
+            "KIMI_API_KEY": [
+              "omp",
+              "token",
+              "kimi-code"
+            ]
+          },
+          "files": {
+            "experiments/pi-omp-sol/omp.yml": {
+              "sha256": "8f0758882fdc929d170bad036a9cb909d3d7cf8613e931349291534af12a83d8",
+              "contents": "features:\r\n  unexpectedStopDetection: off\r\nadvisor:\r\n  enabled: false\r\n"
+            },
+            "experiments/pi-omp-kimi/omp/config.yml": {
+              "sha256": "4ff0d63a3c0a4d8a968b8e20c889edf08140e796738543b85377d76e3a29a49d",
+              "contents": "# Benchmark-owned state; all unspecified settings use OMP defaults.\nmemory:\n  backend: \"off\"\n"
+            },
+            "experiments/pi-omp-kimi/omp/models.yml": {
+              "sha256": "7ed25a3f5ceee346d1737e154962ef95079966d39a9186e911c7645b833bf5e8",
+              "contents": "# Resolve the runner-exported credential; no secret is stored in this template.\nproviders:\n  kimi-code:\n    apiKey: KIMI_API_KEY\n"
+            }
+          }
+        },
+        "pi-kimi": {
+          "kind": "pi",
+          "command": [
+            "node",
+            "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js",
+            "--print",
+            "--mode",
+            "json",
+            "--no-extensions",
+            "--no-skills",
+            "--no-prompt-templates",
+            "--no-context-files",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "kimi-coding/k3",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "--session-id",
+            "{session_id}",
+            "{prompt}"
+          ],
+          "config_hash": "70426fc7887a3b4fea16cad47f31cf8c1d4babcd86b16e4e13e8512aea5489a8",
+          "version": "0.99.1",
+          "state_template": "experiments/omp-inline-codex-pi/pi",
+          "env_commands": {
+            "KIMI_API_KEY": [
+              "omp",
+              "token",
+              "kimi-code"
+            ]
+          },
+          "files": {
+            ".tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js": {
+              "sha256": "e79626f2dd6f94aa45d30f3fa63cd84319a6eefcd150b353cfaf274366926774",
+              "contents": "#!/usr/bin/env node\nimport { createRequire, enableCompileCache } from \"node:module\";\n\nenableCompileCache();\ncreateRequire(import.meta.url)(\"./cli-runtime.js\");\n"
+            },
+            "experiments/omp-inline-codex-pi/pi/settings.json": {
+              "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+              "contents": "{}\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "bugfix-duration": "501745f75d4571a8e63c534fa51b60b446b05856ac246921f38cb35c781d229d",
+        "bugfix-invoice": "9adc9ee1f0fe90bb7f6ad31cfefd7e3bf10e39f9d20fc1f0f31969d0cc2a99ce",
+        "debug-cache-race": "223c66c5d3ac61373e7303e4cb4f06ea950dede6340bc394ad6c9670b681d725",
+        "debug-limiter": "1d2a7f085811408f06145273047d08385ab9bbe54898d776320720b954d497de",
+        "feature-csv-stream": "4f8c748564da63dce42204177fb5b7d2434a84800435ff7f7f79883861b9e15f",
+        "feature-lru": "7d8ff3b71568a3987cc715fde8c9eb47a70c89146e402e1ae73bf911d235e8b8",
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    }
+  ],
+  "filter": {
+    "kind": "quota-only-exclusion",
+    "source_results": "results/pi-omp-kimi-parallel",
+    "source_runs_sha256": "b15c5114f25c7d7009bf376855ef10ef8a39e6223a5613b338873a8f0ff1ccd5",
+    "source_runs": 60,
+    "retained_runs": 46,
+    "criterion": "Captured provider message contains: reached your 5-hour usage limit",
+    "excluded_runs": [
+      {
+        "run_id": "af90817c216442b3b73f0631ccc48151",
+        "harness": "pi-kimi",
+        "task": "feature-lru",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "2aa52edfd80c426d869782c593c9a177",
+        "harness": "pi-kimi",
+        "task": "hard-dep-resolver",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "0bc02868d9e24ababdbee956fffccee5",
+        "harness": "omp-kimi",
+        "task": "hard-dep-resolver",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "e639cb9eb75d4f5dbd44862e6fe89325",
+        "harness": "omp-kimi",
+        "task": "hard-expr-eval",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "f0282be206ee4eef9ca8c9e7382dd8e5",
+        "harness": "pi-kimi",
+        "task": "hard-expr-eval",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "56d37d5cd20e40adb0951d2b0b1c6c2d",
+        "harness": "omp-kimi",
+        "task": "hard-line-diff",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "4b8e4f3461934614bc95c56c25d2e2f6",
+        "harness": "pi-kimi",
+        "task": "hard-line-diff",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "9305b072c6d4458b9ce5782ddd13b178",
+        "harness": "omp-kimi",
+        "task": "hard-segment-tree",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "4aa2cc5017e748e9ad26c6f4718cdd74",
+        "harness": "pi-kimi",
+        "task": "hard-segment-tree",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "676c429086bc43b1bc3988df8d0c2b0a",
+        "harness": "omp-kimi",
+        "task": "hard-line-diff",
+        "trial": 2,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "cf0eb6028ea34bd191694d1142bcd357",
+        "harness": "pi-kimi",
+        "task": "debug-cache-race",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "ea1270c60b274e52bc5ae53a0beebe9d",
+        "harness": "pi-kimi",
+        "task": "feature-csv-stream",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "a347be9156064839a42835f8727d59fa",
+        "harness": "omp-kimi",
+        "task": "feature-csv-stream",
+        "trial": 3,
+        "reason": "Kimi five-hour usage-limit rejection"
+      },
+      {
+        "run_id": "fcdf41f87db14055b82e56dbec19e41f",
+        "harness": "pi-kimi",
+        "task": "hard-line-diff",
+        "trial": 2,
+        "reason": "Kimi five-hour usage-limit rejection"
+      }
+    ],
+    "retained_other_failures": true,
+    "paired_retained_task_trials": 22,
+    "note": "Post-hoc quota filtering; unequal per-arm counts and missing task trials. No reruns or removals of raw evidence."
+  }
+}

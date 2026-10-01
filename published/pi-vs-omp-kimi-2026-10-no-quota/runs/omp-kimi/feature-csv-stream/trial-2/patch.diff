@@ -1,0 +1,134 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-f8be0cf1-6fflnqkd/src/csv.js"
+index ce27ede..c784cf4 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-f8be0cf1-6fflnqkd/src/csv.js"
+@@ -47,7 +47,128 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be one character other than \'"\' or a newline');
++  }
++
++  // States: 0 = start of field, 1 = in unquoted field, 2 = in quoted field,
++  // 3 = just saw '"' inside a quoted field (escape or closing quote).
++  let state = 0;
++  let field = '';
++  let fields = [];
++  let recordStarted = false; // current record holds data not yet emitted
++  let line = 1;
++  let prevCR = false; // previous char was '\r' (CRLF counts once, even across chunks)
++  let skipLF = false; // an outside-quote CR ended a record; swallow a following LF
++  let atStart = true; // no character of input seen yet (BOM stripping)
++  let ended = false;
++
++  function push(chunk) {
++    if (ended) throw new Error('push after end');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const records = [];
++    const emit = () => {
++      records.push(fields);
++      fields = [];
++      field = '';
++      recordStarted = false;
++    };
++    for (const c of chunk) {
++      if (c === '\r') line++;
++      else if (c === '\n' && !prevCR) line++;
++      prevCR = c === '\r';
++
++      if (atStart) {
++        atStart = false;
++        if (c === '\uFEFF') continue; // strip one leading BOM
++      }
++      if (skipLF) {
++        skipLF = false;
++        if (c === '\n') continue;
++      }
++
++      if (state === 0) {
++        recordStarted = true;
++        if (c === delimiter) {
++          fields.push('');
++        } else if (c === '"') {
++          state = 2;
++        } else if (c === '\r') {
++          fields.push('');
++          emit();
++          skipLF = true;
++        } else if (c === '\n') {
++          fields.push('');
++          emit();
++        } else {
++          field = c;
++          state = 1;
++        }
++      } else if (state === 1) {
++        if (c === delimiter) {
++          fields.push(field);
++          field = '';
++          state = 0;
++        } else if (c === '\r') {
++          fields.push(field);
++          emit();
++          skipLF = true;
++          state = 0;
++        } else if (c === '\n') {
++          fields.push(field);
++          emit();
++          state = 0;
++        } else {
++          field += c; // quotes here are literal
++        }
++      } else if (state === 2) {
++        if (c === '"') {
++          state = 3;
++        } else {
++          field += c; // delimiters and newlines preserved verbatim
++        }
++      } else {
++        if (c === '"') {
++          field += '"';
++          state = 2;
++        } else if (c === delimiter) {
++          fields.push(field);
++          field = '';
++          state = 0;
++        } else if (c === '\r') {
++          fields.push(field);
++          emit();
++          skipLF = true;
++          state = 0;
++        } else if (c === '\n') {
++          fields.push(field);
++          emit();
++          state = 0;
++        } else {
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        }
++      }
++    }
++    return records;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === 2) throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    if (!recordStarted) return [];
++    fields.push(field); // state 3: the last quote closed the field at EOF
++    return [fields];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

@@ -1,0 +1,457 @@
+TAP version 13
+# Subtest: randomized floored division and modulo match Python integers
+not ok 1 - randomized floored division and modulo match Python integers
+  ---
+  duration_ms: 2.7432
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\arithmetic.hidden.test.js:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    literal // for seed 7, op 9: a=-407339504, b=955893
+    
+    -426 !== -427
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -427
+  actual: -426
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\arithmetic.hidden.test.js:38:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: floored operators return positive zero and handle decimals
+not ok 2 - floored operators return positive zero and handle decimals
+  ---
+  duration_ms: 0.2249
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\arithmetic.hidden.test.js:47:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== -1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\arithmetic.hidden.test.js:51:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: floored operators combine with power and unary precedence
+not ok 3 - floored operators combine with power and unary precedence
+  ---
+  duration_ms: 0.1745
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\arithmetic.hidden.test.js:61:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    -2 !== -3
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -3
+  actual: -2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\arithmetic.hidden.test.js:62:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: division by zero raises at the operator column
+not ok 4 - division by zero raises at the operator column
+  ---
+  duration_ms: 0.3672
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\arithmetic.hidden.test.js:69:1'
+  failureType: 'testCodeFailure'
+  error: '"1 / 0" should fail at column 3'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\arithmetic.hidden.test.js:81:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: syntax errors report the column of the offending token after whitespace
+not ok 5 - syntax errors report the column of the offending token after whitespace
+  ---
+  duration_ms: 1.4039
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\errors.hidden.test.js:15:1'
+  failureType: 'testCodeFailure'
+  error: '"1 + $" should fail at column 5'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    assertColumn ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:8:10)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:16:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: unexpected end of input reports length plus one
+ok 6 - unexpected end of input reports length plus one
+  ---
+  duration_ms: 0.4621
+  type: 'test'
+  ...
+# Subtest: call and variable errors point at the identifier
+not ok 7 - call and variable errors point at the identifier
+  ---
+  duration_ms: 0.8433
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\errors.hidden.test.js:37:1'
+  failureType: 'testCodeFailure'
+  error: '"  foo(1)" should fail at column 3'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    assertColumn ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:8:10)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:40:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: inherited properties are not variables
+not ok 8 - inherited properties are not variables
+  ---
+  duration_ms: 0.5829
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\errors.hidden.test.js:47:1'
+  failureType: 'testCodeFailure'
+  error: '"1 + toString" should fail at column 5'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    assertColumn ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:8:10)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\errors.hidden.test.js:48:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+not ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 2.507
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\evaluator.test.js:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    -3 !== -4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -4
+  actual: -3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\evaluator.test.js:8:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: power is right-associative
+not ok 10 - power is right-associative
+  ---
+  duration_ms: 1.9435
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:40:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    evaluate("2 ** 3 ** 2")
+    
+    64 !== 512
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 512
+  actual: 64
+  operator: 'strictEqual'
+  stack: |-
+    checkTable ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:20:12)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:41:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: unary minus binds looser than power on its left
+not ok 11 - unary minus binds looser than power on its left
+  ---
+  duration_ms: 1.3482
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:53:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    evaluate("-2 ** 2")
+    
+    4 !== -4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -4
+  actual: 4
+  operator: 'strictEqual'
+  stack: |-
+    checkTable ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:20:12)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:54:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: power accepts a signed right operand
+not ok 12 - power accepts a signed right operand
+  ---
+  duration_ms: 0.2479
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:69:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    evaluate("-2 ** -2")
+    
+    0.25 !== -0.25
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -0.25
+  actual: 0.25
+  operator: 'strictEqual'
+  stack: |-
+    checkTable ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:20:12)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:70:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: comparison operators chain instead of comparing booleans
+not ok 13 - comparison operators chain instead of comparing booleans
+  ---
+  duration_ms: 0.1738
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:82:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    evaluate("3 > 2 > 1")
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    checkTable ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:20:12)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:83:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: trap: parenthesized comparisons behave as 0/1 numbers
+ok 14 - trap: parenthesized comparisons behave as 0/1 numbers
+  ---
+  duration_ms: 0.2503
+  type: 'test'
+  ...
+# Subtest: trap: chained comparison reads each shared operand exactly once
+ok 15 - trap: chained comparison reads each shared operand exactly once
+  ---
+  duration_ms: 0.7552
+  type: 'test'
+  ...
+# Subtest: false chained comparison short-circuits the remaining operands
+not ok 16 - false chained comparison short-circuits the remaining operands
+  ---
+  duration_ms: 0.2809
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:123:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:125:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: chain short-circuit happens only after the whole formula parses
+not ok 17 - chain short-circuit happens only after the whole formula parses
+  ---
+  duration_ms: 0.3783
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:137:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The validation function is expected to return "true". Received false
+    
+    Caught error:
+    
+    ExprError: Unknown function
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:138:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: randomized chained comparisons match a short-circuit oracle
+not ok 18 - randomized chained comparisons match a short-circuit oracle
+  ---
+  duration_ms: 0.8987
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\grammar.hidden.test.js:152:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    reads for seed 11, op 0: r <= r * 2 - 1 > -q > -s >= r * 2 - 1 < p with {"p":0,"q":0,"r":1,"s":0}
+    + actual - expected
+    
+      [
+        'r',
+        'r',
+        'q',
+        's',
+    +   'r',
+    +   'p'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'r'
+    1: 'r'
+    2: 'q'
+    3: 's'
+  actual:
+    0: 'r'
+    1: 'r'
+    2: 'q'
+    3: 's'
+    4: 'r'
+    5: 'p'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\grammar.hidden.test.js:200:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: trap: basic precedence and left associativity
+ok 19 - trap: basic precedence and left associativity
+  ---
+  duration_ms: 1.5116
+  type: 'test'
+  ...
+# Subtest: trap: decimals and exponents
+ok 20 - trap: decimals and exponents
+  ---
+  duration_ms: 0.2244
+  type: 'test'
+  ...
+# Subtest: trap: built-in calls and variables
+ok 21 - trap: built-in calls and variables
+  ---
+  duration_ms: 0.4999
+  type: 'test'
+  ...
+# Subtest: trap: long flat arithmetic stays linear
+ok 22 - trap: long flat arithmetic stays linear
+  ---
+  duration_ms: 182.825
+  type: 'test'
+  ...
+# Subtest: long comparison chains stay linear and chain correctly
+not ok 23 - long comparison chains stay linear and chain correctly
+  ---
+  duration_ms: 8.7444
+  type: 'test'
+  location: '{temp}\\hb-f0282be2-9yotu122\\test\\traps.hidden.test.js:84:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    ascending chain of 10000
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    {temp}\hb-f0282be2-9yotu122\test\traps.hidden.test.js:89:25
+    runScaled ({temp}\hb-f0282be2-9yotu122\test\traps.hidden.test.js:19:5)
+    TestContext.<anonymous> ({temp}\hb-f0282be2-9yotu122\test\traps.hidden.test.js:85:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 7
+# fail 16
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 302.1803

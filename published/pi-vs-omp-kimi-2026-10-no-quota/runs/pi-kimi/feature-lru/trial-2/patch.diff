@@ -1,0 +1,55 @@
+diff --git "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js" "{temp}\\hb-101c94be-jc5qpjo6/src/lru.js"
+index 258677f..369a6de 100644
+--- "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js"
++++ "{temp}\\hb-101c94be-jc5qpjo6/src/lru.js"
+@@ -2,14 +2,45 @@
+ 
+ class LRUCache {
+   constructor(capacity) {
++    if (typeof capacity !== 'number' || !Number.isInteger(capacity) || capacity <= 0) {
++      throw new RangeError('capacity must be a positive integer');
++    }
+     this.capacity = capacity;
++    this._map = new Map();
+   }
+ 
+-  get(key) { throw new Error('not implemented'); }
+-  set(key, value) { throw new Error('not implemented'); }
+-  has(key) { throw new Error('not implemented'); }
+-  delete(key) { throw new Error('not implemented'); }
+-  get size() { throw new Error('not implemented'); }
++  get(key) {
++    if (!this._map.has(key)) return undefined;
++    const value = this._map.get(key);
++    // Refresh recency: move to most recently used.
++    this._map.delete(key);
++    this._map.set(key, value);
++    return value;
++  }
++
++  set(key, value) {
++    if (this._map.has(key)) {
++      this._map.delete(key);
++    } else if (this._map.size >= this.capacity) {
++      // Evict least recently used (first inserted) entry.
++      const oldest = this._map.keys().next().value;
++      this._map.delete(oldest);
++    }
++    this._map.set(key, value);
++    return this;
++  }
++
++  has(key) {
++    return this._map.has(key);
++  }
++
++  delete(key) {
++    return this._map.delete(key);
++  }
++
++  get size() {
++    return this._map.size;
++  }
+ }
+ 
+ module.exports = { LRUCache };

@@ -1,0 +1,136 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-2067c123-surm5d7d/src/resolver.js"
+index b445e71..54941b1 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-2067c123-surm5d7d/src/resolver.js"
+@@ -16,9 +16,10 @@ function requirements(record) {
+ }
+ 
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  for (let index = 0; index < 3; index += 1) {
++    if (left.tuple[index] !== right.tuple[index]) return right.tuple[index] - left.tuple[index];
++  }
++  return 0;
+ }
+ 
+ /**
+@@ -62,6 +63,7 @@ function resolve(registry, root) {
+     catalogs.set(name, candidates);
+   }
+   const initial = requirements(root);
++
+   const selected = new Map();
+   const constraints = new Map();
+   const trail = [];
+@@ -69,62 +71,80 @@ function resolve(registry, root) {
+   const choices = [];
+   let cursor = 0;
+ 
++  // Reverts constraint appends back to the given trail mark.
++  function rollback(trailMark) {
++    while (trail.length > trailMark) constraints.get(trail.pop()).pop();
++  }
++
++  // Collects constraints for newly discovered requirements. On a conflict with
++  // an already-selected version, undoes everything it added and returns false.
+   function append(items) {
++    const trailMark = trail.length;
++    const queueMark = queue.length;
+     for (const item of items) {
+       let list = constraints.get(item.name);
+       if (!list) {
+         list = [];
+         constraints.set(item.name, list);
+       }
++      const existing = selected.get(item.name);
++      if (existing && !item.accepts(existing.tuple)) {
++        rollback(trailMark);
++        queue.length = queueMark;
++        return false;
++      }
+       list.push(item.accepts);
+       trail.push(item.name);
+       queue.push(item.name);
+-      const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
+     }
+     return true;
+   }
+ 
++  // Restores the state captured when frame was created, erasing its selection
++  // plus every constraint and queue entry discovered under it.
+   function restore(frame) {
+     selected.delete(frame.name);
++    rollback(frame.trailLength);
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
+   }
+ 
+-  function retry() {
++  // Drives the top choice frame, backtracking chronologically on exhaustion.
++  function advance() {
+     while (choices.length !== 0) {
+       const frame = choices[choices.length - 1];
+-      restore(frame);
+       while (frame.next < frame.candidates.length) {
+         const version = frame.candidates[frame.next++];
+         selected.set(frame.name, version);
+         if (append(version.deps)) return true;
+-        restore(frame);
++        selected.delete(frame.name);
+       }
+       choices.pop();
++      if (choices.length === 0) return false;
++      restore(choices[choices.length - 1]);
+     }
+     return false;
+   }
+ 
+   append(initial);
+-  let iterations = 0;
+   for (;;) {
+-    if (++iterations > 4096) return null;
+     if (cursor === queue.length) {
+       const result = {};
+       for (const [name, version] of selected) {
+-        Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
++        Object.defineProperty(result, name, {
++          value: version.text, enumerable: true, writable: true, configurable: true,
++        });
+       }
+       return result;
+     }
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
++    if (selected.has(name)) continue;
+     const tests = constraints.get(name);
+     const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+-    choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+-    if (!retry()) return null;
++    choices.push({
++      name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length,
++    });
++    if (!advance()) return null;
+   }
+ }
+ 
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-2067c123-surm5d7d/src/semver.js"
+index 5b1d55d..3a186fc 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-2067c123-surm5d7d/src/semver.js"
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++        : base[1] !== 0 ? [0, base[1] + 1, 0]
++        : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

@@ -1,0 +1,261 @@
+TAP version 13
+# Subtest: visible: implement the review diff for one replaced line
+not ok 1 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 0.5582
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\diff.test.js:8:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    diffLines ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:17:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\diff.test.js:11:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+not ok 2 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 0.7263
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:16:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    unifiedHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:37:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:30:22)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+not ok 3 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 0.2056
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:35:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    unifiedHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:37:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:52:24)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+not ok 4 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.0769
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:57:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    unifiedHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:37:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:60:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+not ok 5 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 0.226
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:67:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    unifiedHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:37:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:78:21)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+not ok 6 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.0922
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:89:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    applyHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:51:9)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:96:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+not ok 7 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.6112
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:102:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /hunk 0 does not apply/. Input:
+    
+    'Error: not implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'not implemented'
+  stack: |-
+    applyHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:51:9)
+    {temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:109:25
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:109:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:109:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+not ok 8 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 1.1276
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\hunks.hidden.test.js:117:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /hunk 0 does not apply/. Input:
+    
+    'Error: not implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'not implemented'
+  stack: |-
+    applyHunks ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:51:9)
+    {temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:124:26
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:124:13)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\hunks.hidden.test.js:124:13)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 9 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.317
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+not ok 10 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 0.7117
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\minimality.hidden.test.js:52:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    diffLines ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:17:9)
+    checkScript ({temp}\hb-4b8e4f34-yj3iyk4r\test\minimality.hidden.test.js:28:18)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\minimality.hidden.test.js:62:22)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+not ok 11 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.1184
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\minimality.hidden.test.js:68:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    diffLines ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:17:9)
+    checkScript ({temp}\hb-4b8e4f34-yj3iyk4r\test\minimality.hidden.test.js:28:18)
+    TestContext.<anonymous> ({temp}\hb-4b8e4f34-yj3iyk4r\test\minimality.hidden.test.js:75:6)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+not ok 12 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 33.2046
+  type: 'test'
+  location: '{temp}\\hb-4b8e4f34-yj3iyk4r\\test\\performance.hidden.test.js:13:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    diffLines ({temp}\hb-4b8e4f34-yj3iyk4r\src\diff.js:17:9)
+    [worker eval]:16:20
+    runScriptInThisContext (node:internal/vm:209:10)
+    node:internal/process/execution:446:12
+    [worker eval]-wrapper:6:24
+    runScriptInContext (node:internal/process/execution:444:60)
+    evalFunction (node:internal/process/execution:279:30)
+    evalTypeScript (node:internal/process/execution:291:3)
+    MessagePort.<anonymous> (node:internal/main/worker_thread:194:9)
+    [nodejs.internal.kHybridDispatch] (node:internal/event_target:827:20)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 1
+# fail 11
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 115.2308

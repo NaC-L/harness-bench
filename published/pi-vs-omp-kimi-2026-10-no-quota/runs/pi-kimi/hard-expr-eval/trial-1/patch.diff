@@ -1,0 +1,100 @@
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-ff4d8f75-cydez0mm/src/evaluator.js"
+index 7f2b237..e2f0028 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-ff4d8f75-cydez0mm/src/evaluator.js"
+@@ -16,13 +16,20 @@ function apply(operator, left, right) {
+     case '/': return left / right;
+     case '**': return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
+-      return quotient === 0 ? 0 : quotient;
++      // Python floor division: exact remainder first, then correct the
++      // quotient when the remainder's sign differs from the divisor's.
++      const remainder = left % right;
++      let quotient = (left - remainder) / right;
++      if (remainder !== 0 && remainder < 0 !== right < 0) quotient -= 1;
++      const floored = Math.floor(quotient);
++      const result = quotient - floored > 0.5 ? floored + 1 : floored;
++      return result === 0 ? 0 : result;
+     }
+     case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
++      // Python remainder: take the divisor's sign unless the result is zero.
++      let remainder = left % right;
++      if (remainder !== 0 && remainder < 0 !== right < 0) remainder += right;
++      return remainder === 0 ? 0 : remainder;
+     }
+     case '<': return left < right;
+     case '<=': return left <= right;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-ff4d8f75-cydez0mm/src/parser.js"
+index 4af2109..7f9e13c 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-ff4d8f75-cydez0mm/src/parser.js"
+@@ -15,12 +15,14 @@ function parse(tokens) {
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
++    const operands = [sum()];
++    const operators = [];
+     while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    if (!operators.length) return operands[0];
++    return { type: 'comparison', operators, operands };
+   }
+ 
+   function sum() {
+@@ -33,10 +35,10 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
++    let left = unary();
+     while (['*', '/', '//', '%'].includes(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+@@ -45,14 +47,14 @@ function parse(tokens) {
+     if (is('+') || is('-')) {
+       return { type: 'unary', operator: take(), operand: unary() };
+     }
+-    return primary();
++    return power();
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
++    const left = primary();
++    if (is('**')) {
+       const operator = take();
+-      left = binary(operator, left, unary());
++      return binary(operator, left, unary());
+     }
+     return left;
+   }
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-ff4d8f75-cydez0mm/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-ff4d8f75-cydez0mm/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

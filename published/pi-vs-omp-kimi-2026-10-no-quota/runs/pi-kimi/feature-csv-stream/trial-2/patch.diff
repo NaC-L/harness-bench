@@ -1,0 +1,173 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-ea90e190-lfb32nfa/src/csv.js"
+index ce27ede..2ccac94 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-ea90e190-lfb32nfa/src/csv.js"
+@@ -47,7 +47,167 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const { delimiter = ',' } = options;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError(
++      'delimiter must be one UTF-16 code unit other than \'"\', \'\\r\', or \'\\n\''
++    );
++  }
++
++  // Parser states.
++  const AT_FIELD = 0; // at the first character of a field
++  const IN_UNQUOTED = 1; // inside an unquoted field
++  const IN_QUOTED = 2; // inside a quoted field
++  const QUOTE_IN_QUOTED = 3; // '"' seen inside quotes; escape or close undecided
++
++  let state = AT_FIELD;
++  let row = []; // cells of the record under construction
++  let field = ''; // characters of the cell under construction
++  let line = 1; // 1-based physical line of the character being read
++  let lastWasCR = false; // previous consumed character was CR (CRLF counts once)
++  let skipLF = false; // a CR just ended a record; swallow one following LF
++  let started = false; // any input character consumed yet (for BOM stripping)
++  let ended = false;
++
++  // Track physical lines: a lone CR or LF is one newline; CRLF is one,
++  // even when split across chunks. Applies inside quoted fields too.
++  function advance(ch) {
++    if (ch === '\r') {
++      line++;
++      lastWasCR = true;
++    } else if (ch === '\n') {
++      if (!lastWasCR) line++;
++      lastWasCR = false;
++    } else {
++      lastWasCR = false;
++    }
++  }
++
++  function endField() {
++    row.push(field);
++    field = '';
++    state = AT_FIELD;
++  }
++
++  function endRecord(out) {
++    endField();
++    out.push(row);
++    row = [];
++  }
++
++  // Only delimiter, record separator, or EOF may follow a closing quote.
++  function afterQuote(ch, out) {
++    if (ch === delimiter) {
++      endField();
++    } else if (ch === '\r') {
++      endRecord(out);
++      skipLF = true;
++    } else if (ch === '\n') {
++      endRecord(out);
++    } else {
++      throw new SyntaxError(
++        `unexpected character after closing quote at line ${line}`
++      );
++    }
++  }
++
++  function push(chunk) {
++    if (ended) throw new Error('cannot push() after end()');
++    if (typeof chunk !== 'string') {
++      throw new TypeError('push() accepts only strings');
++    }
++    const out = [];
++    for (let i = 0; i < chunk.length; i++) {
++      const ch = chunk[i];
++      if (!started) {
++        started = true;
++        if (ch === '\uFEFF') continue; // strip one leading BOM
++      }
++      if (skipLF) {
++        skipLF = false;
++        if (ch === '\n') {
++          advance(ch); // second half of a CRLF separator
++          continue;
++        }
++      }
++      switch (state) {
++        case AT_FIELD:
++          if (ch === '"') {
++            state = IN_QUOTED;
++          } else if (ch === delimiter) {
++            row.push('');
++          } else if (ch === '\r') {
++            row.push('');
++            out.push(row);
++            row = [];
++            skipLF = true;
++          } else if (ch === '\n') {
++            row.push('');
++            out.push(row);
++            row = [];
++          } else {
++            field += ch;
++            state = IN_UNQUOTED;
++          }
++          break;
++        case IN_UNQUOTED:
++          if (ch === delimiter) {
++            endField();
++          } else if (ch === '\r') {
++            endRecord(out);
++            skipLF = true;
++          } else if (ch === '\n') {
++            endRecord(out);
++          } else {
++            field += ch; // quotes here are literal
++          }
++          break;
++        case IN_QUOTED:
++          if (ch === '"') {
++            state = QUOTE_IN_QUOTED; // may be an escape; decide on next char
++          } else {
++            field += ch; // delimiters and newlines preserved verbatim
++          }
++          break;
++        case QUOTE_IN_QUOTED:
++          if (ch === '"') {
++            field += '"'; // doubled quote is one literal quote
++            state = IN_QUOTED;
++          } else {
++            afterQuote(ch, out); // previous quote closed the field
++          }
++          break;
++        default:
++          throw new Error('unreachable parser state');
++      }
++      advance(ch);
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === IN_QUOTED) {
++      throw new SyntaxError(`unterminated quoted field at line ${line}`);
++    }
++    // QUOTE_IN_QUOTED at EOF means a closing quote ended the field.
++    if (state !== AT_FIELD || row.length > 0) {
++      endField();
++      const out = [row];
++      row = [];
++      return out;
++    }
++    return [];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

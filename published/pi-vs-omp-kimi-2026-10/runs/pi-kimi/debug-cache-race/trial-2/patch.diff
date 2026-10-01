@@ -1,0 +1,34 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-a85a0c16-ujdjsga4/src/flight.js"
+index bc0283d..d28534f 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-a85a0c16-ujdjsga4/src/flight.js"
+@@ -8,11 +8,24 @@ function createFlights() {
+   return {
+     run(key, work, commit) {
+       if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
++      const promise = Promise.resolve().then(work).then(
++        value => {
++          // A detached (obsolete) flight still settles its own waiters but
++          // must not store its value or unregister a newer flight.
++          if (pending.get(key) === promise) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; unregister so a later get retries.
++          if (pending.get(key) === promise) {
++            pending.delete(key);
++          }
++          throw reason;
++        }
++      );
+       pending.set(key, promise);
+       return promise;
+     },

@@ -1,0 +1,20 @@
+# Harness comparison: OMP (baseline) vs Pi (candidate), both on Claude Opus 5.5 high.
+# Same model id, effort, tool set and per-run Anthropic credential (ANTHROPIC_OAUTH_TOKEN from
+# `omp token anthropic`, read natively by both CLIs). Each run gets fresh benchmark-owned state,
+# so neither operator config, instructions, memories nor stored logins are read. The OMP overlay
+# disables OMP-only advisor/stop-detection features, as in benchmark-pi-omp-sol.toml.
+
+[harnesses.omp-opus]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/pi-omp-sol/omp.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }
+
+[harnesses.pi-opus]
+kind = "pi"
+command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--print", "--mode", "json", "--no-extensions", "--no-skills", "--no-prompt-templates", "--no-context-files", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "--session-id", "{session_id}", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--version"]
+state_template = "experiments/omp-inline-codex-pi/pi"
+env = { PI_TELEMETRY = "0" }
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }

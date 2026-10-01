@@ -101,6 +101,30 @@ python -m bench --config benchmark-omp-descriptors-opus.toml --results results/o
 python -m bench --results results/omp-descriptors-opus compare --baseline omp-baseline --candidate omp-inline
 ```
 
+For **Pi vs OMP on Claude Opus 5.5 high**, use [benchmark-pi-omp-opus.toml](benchmark-pi-omp-opus.toml). Both arms use fresh isolated state, the same four tools, and Anthropic OAuth from `omp token anthropic`; the OMP overlay disables advisor and unexpected-stop detection. Require a passing separate preflight with nonzero token usage before collecting measured runs:
+
+```sh
+python -m bench --config benchmark-pi-omp-opus.toml --results results/pi-omp-opus-preflight-rerun run --harness omp-opus pi-opus --task bugfix-duration --trials 1 --jobs 1 --alternate-order
+python -m bench --config benchmark-pi-omp-opus.toml --results results/pi-omp-opus run --harness omp-opus pi-opus --task bugfix-duration bugfix-invoice debug-cache-race debug-limiter feature-csv-stream feature-lru hard-dep-resolver hard-expr-eval hard-line-diff hard-segment-tree --trials 3 --jobs 1 --alternate-order
+python -m bench --results results/pi-omp-opus compare --baseline omp-opus --candidate pi-opus
+```
+
+The initial 2026-10-01 preflight in `results/pi-omp-opus-preflight` was blocked: OMP passed, but Pi's first request returned Anthropic HTTP 400, “You're out of extra usage,” with zero generated tokens. This was not subscription quota exhaustion: the account usage endpoint showed 0% five-hour and 43% weekly utilization, with extra usage disabled. Differential request probes using the same token showed HTTP 400 with Pi's native system instruction and HTTP 200 after changing only that instruction's text to a short neutral instruction. The provider's internal routing reason is unknown; evidence is recorded in `results/pi-omp-opus-diagnosis.json`. No measured comparison was launched, and no native system prompt was replaced. Resolve the native-request rejection or explicitly choose a shared-system-prompt experiment before rerunning; this is not evidence of a harness winner.
+
+For **Pi vs OMP on Kimi K3 high**, use [benchmark-pi-omp-kimi.toml](benchmark-pi-omp-kimi.toml). OMP calls the provider `kimi-code`; Pi calls it `kimi-coding`. Both use model `k3`, native system prompts, the same four tools, isolated state, and a Kimi credential exported per run by `omp token kimi-code`. OMP's benchmark-owned `models.yml` explicitly maps that provider to `KIMI_API_KEY`; Pi reads the variable natively. No secret is checked into the state template.
+
+```sh
+python -m bench --config benchmark-pi-omp-kimi.toml --results results/pi-omp-kimi-preflight-rerun run --harness omp-kimi pi-kimi --task bugfix-duration --trials 1 --jobs 1 --alternate-order
+python -m bench --config benchmark-pi-omp-kimi.toml --results results/pi-omp-kimi-parallel-rerun run --harness omp-kimi pi-kimi --task bugfix-duration bugfix-invoice debug-cache-race debug-limiter feature-csv-stream feature-lru hard-dep-resolver hard-expr-eval hard-line-diff hard-segment-tree --trials 3 --jobs 8
+python -m bench --results results/pi-omp-kimi-parallel-rerun compare --baseline omp-kimi --candidate pi-kimi
+```
+
+Require a passing preflight with nonzero token usage from both arms before running the measured grid. Keep all preflight and credential-configuration failures outside the measured results. This eight-worker schedule is a throughput comparison: per-run latency includes concurrency and provider contention. For isolated latency, use a separate results directory and replace `--jobs 8` with `--jobs 1 --alternate-order`; do not mix rows from different schedules.
+
+The 2026-10-01 eight-worker run retained all 60 attempts: OMP passed 20/30 and Pi 18/30, but 14 provider usage-limit rejections, one authentication rejection, and one timeout prevent a clean winner conclusion. See the [qualified local report](published/pi-vs-omp-kimi-2026-10/REPORT.md) and [offline session explorer](published/pi-vs-omp-kimi-2026-10/EXPLORER.html); the earlier partial serial batch is separate.
+
+The [quota-filtered report](published/pi-vs-omp-kimi-2026-10-no-quota/REPORT.md) excludes only those 14 usage-limit rejections: OMP passed 20/24 (83.3%), Pi 18/22 (81.8%). Authentication, timeout, and task-check failures remain. Raw evidence is preserved; exclusion IDs and source hash are in the filtered manifest. Missing trials keep the overall verdict inconclusive.
+
 Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; the example uses 12 for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
 
 ### Faster future experiments: screen, then confirm

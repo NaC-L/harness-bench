@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "invocations": [
+    {
+      "started": "2026-10-01T13:27:01.190039+00:00",
+      "trials": 3,
+      "jobs": 8,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-pi-omp-kimi.toml",
+      "harnesses": {
+        "omp-kimi": {
+          "kind": "omp",
+          "command": [
+            "omp",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/pi-omp-sol/omp.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "kimi-code/k3",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "5e66a398ab527a0d9291d8bcf021832941807d53fe4a74f5f5373435911d9571",
+          "version": "omp/18.4.8",
+          "state_template": "experiments/pi-omp-kimi/omp",
+          "env_commands": {
+            "KIMI_API_KEY": [
+              "omp",
+              "token",
+              "kimi-code"
+            ]
+          },
+          "files": {
+            "experiments/pi-omp-sol/omp.yml": {
+              "sha256": "8f0758882fdc929d170bad036a9cb909d3d7cf8613e931349291534af12a83d8",
+              "contents": "features:\r\n  unexpectedStopDetection: off\r\nadvisor:\r\n  enabled: false\r\n"
+            },
+            "experiments/pi-omp-kimi/omp/config.yml": {
+              "sha256": "4ff0d63a3c0a4d8a968b8e20c889edf08140e796738543b85377d76e3a29a49d",
+              "contents": "# Benchmark-owned state; all unspecified settings use OMP defaults.\nmemory:\n  backend: \"off\"\n"
+            },
+            "experiments/pi-omp-kimi/omp/models.yml": {
+              "sha256": "7ed25a3f5ceee346d1737e154962ef95079966d39a9186e911c7645b833bf5e8",
+              "contents": "# Resolve the runner-exported credential; no secret is stored in this template.\nproviders:\n  kimi-code:\n    apiKey: KIMI_API_KEY\n"
+            }
+          }
+        },
+        "pi-kimi": {
+          "kind": "pi",
+          "command": [
+            "node",
+            "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js",
+            "--print",
+            "--mode",
+            "json",
+            "--no-extensions",
+            "--no-skills",
+            "--no-prompt-templates",
+            "--no-context-files",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "kimi-coding/k3",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "--session-id",
+            "{session_id}",
+            "{prompt}"
+          ],
+          "config_hash": "70426fc7887a3b4fea16cad47f31cf8c1d4babcd86b16e4e13e8512aea5489a8",
+          "version": "0.99.1",
+          "state_template": "experiments/omp-inline-codex-pi/pi",
+          "env_commands": {
+            "KIMI_API_KEY": [
+              "omp",
+              "token",
+              "kimi-code"
+            ]
+          },
+          "files": {
+            ".tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js": {
+              "sha256": "e79626f2dd6f94aa45d30f3fa63cd84319a6eefcd150b353cfaf274366926774",
+              "contents": "#!/usr/bin/env node\nimport { createRequire, enableCompileCache } from \"node:module\";\n\nenableCompileCache();\ncreateRequire(import.meta.url)(\"./cli-runtime.js\");\n"
+            },
+            "experiments/omp-inline-codex-pi/pi/settings.json": {
+              "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+              "contents": "{}\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "bugfix-duration": "501745f75d4571a8e63c534fa51b60b446b05856ac246921f38cb35c781d229d",
+        "bugfix-invoice": "9adc9ee1f0fe90bb7f6ad31cfefd7e3bf10e39f9d20fc1f0f31969d0cc2a99ce",
+        "debug-cache-race": "223c66c5d3ac61373e7303e4cb4f06ea950dede6340bc394ad6c9670b681d725",
+        "debug-limiter": "1d2a7f085811408f06145273047d08385ab9bbe54898d776320720b954d497de",
+        "feature-csv-stream": "4f8c748564da63dce42204177fb5b7d2434a84800435ff7f7f79883861b9e15f",
+        "feature-lru": "7d8ff3b71568a3987cc715fde8c9eb47a70c89146e402e1ae73bf911d235e8b8",
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    }
+  ]
+}

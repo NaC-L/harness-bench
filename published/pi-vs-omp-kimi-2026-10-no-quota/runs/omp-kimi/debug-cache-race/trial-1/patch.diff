@@ -1,0 +1,36 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-1f150e02-ctptakcm/src/flight.js"
+index bc0283d..ecddc10 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-1f150e02-ctptakcm/src/flight.js"
+@@ -8,11 +8,26 @@ function createFlights() {
+   return {
+     run(key, work, commit) {
+       if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
++      // Only the flight still registered for the key may remove itself and
++      // commit. A flight detached by forget/clear (invalidate/set/clear)
++      // still settles its own waiters, but must not store its stale value
++      // nor evict a newer flight registered after the detachment.
++      let promise;
++      promise = Promise.resolve().then(work).then(
++        value => {
++          if (pending.get(key) === promise) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; drop the flight so a later get
++          // may retry instead of replaying this settled rejection.
++          if (pending.get(key) === promise) pending.delete(key);
++          throw reason;
++        }
++      );
+       pending.set(key, promise);
+       return promise;
+     },

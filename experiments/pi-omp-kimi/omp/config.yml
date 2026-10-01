@@ -1,0 +1,3 @@
+# Benchmark-owned state; all unspecified settings use OMP defaults.
+memory:
+  backend: "off"

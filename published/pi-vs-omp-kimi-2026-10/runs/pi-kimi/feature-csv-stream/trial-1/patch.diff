@@ -1,0 +1,157 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-2de52e42-kisy6mp1/src/csv.js"
+index ce27ede..8bc0bce 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-2de52e42-kisy6mp1/src/csv.js"
+@@ -46,8 +46,150 @@ const { toObjects } = require('./rows');
+  * @param {{ delimiter?: string, header?: boolean }} [options]
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+-function createParser(options = {}) {
+-  throw new Error('not implemented');
++function createParser(options) {
++  if (options === undefined || options === null) options = {};
++  let delimiter = options.delimiter;
++  if (delimiter === undefined) delimiter = ',';
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError(
++      'delimiter must be a single character other than \'"\', \'\\r\', or \'\\n\''
++    );
++  }
++
++  const FIELD_START = 0;
++  const UNQUOTED = 1;
++  const QUOTED = 2;
++  const QUOTE_SEEN = 3; // a '"' was seen inside a quoted field
++
++  let state = FIELD_START;
++  let fields = [];
++  let field = '';
++  let records = [];
++  let started = false; // true once the first character of input was consumed
++  let ended = false;
++  let line = 1; // 1-based physical line of the character being processed
++  let prevCR = false; // previous consumed character was CR (for CRLF counting)
++  let swallowLF = false; // a CR just ended a record; swallow one following LF
++
++  function endField() {
++    fields.push(field);
++    field = '';
++  }
++
++  function endRecord() {
++    endField();
++    records.push(fields);
++    fields = [];
++    state = FIELD_START;
++  }
++
++  function push(chunk) {
++    if (typeof chunk !== 'string') {
++      throw new TypeError('chunk must be a string');
++    }
++    if (ended) {
++      throw new Error('cannot push after end');
++    }
++    if (chunk.length > 0 && !started) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) chunk = chunk.slice(1);
++    }
++    for (let i = 0; i < chunk.length; i++) {
++      const ch = chunk[i];
++      if (swallowLF) {
++        swallowLF = false;
++        if (ch === '\n') {
++          prevCR = false;
++          continue;
++        }
++      }
++      switch (state) {
++        case FIELD_START:
++          if (ch === '"') {
++            state = QUOTED;
++          } else if (ch === delimiter) {
++            endField();
++          } else if (ch === '\n') {
++            endRecord();
++          } else if (ch === '\r') {
++            endRecord();
++            swallowLF = true;
++          } else {
++            field += ch;
++            state = UNQUOTED;
++          }
++          break;
++        case UNQUOTED:
++          if (ch === delimiter) {
++            endField();
++            state = FIELD_START;
++          } else if (ch === '\n') {
++            endRecord();
++          } else if (ch === '\r') {
++            endRecord();
++            swallowLF = true;
++          } else {
++            field += ch;
++          }
++          break;
++        case QUOTED:
++          if (ch === '"') {
++            state = QUOTE_SEEN;
++          } else {
++            field += ch;
++          }
++          break;
++        case QUOTE_SEEN:
++          if (ch === '"') {
++            field += '"';
++            state = QUOTED;
++          } else if (ch === delimiter) {
++            endField();
++            state = FIELD_START;
++          } else if (ch === '\n') {
++            endRecord();
++          } else if (ch === '\r') {
++            endRecord();
++            swallowLF = true;
++          } else {
++            throw new SyntaxError(
++              `unexpected character after closing quote at line ${line}`
++            );
++          }
++          break;
++      }
++      if (ch === '\r' || (ch === '\n' && !prevCR)) line++;
++      prevCR = ch === '\r';
++    }
++    const out = records;
++    records = [];
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) {
++      throw new SyntaxError(`unterminated quoted field at line ${line}`);
++    }
++    if (state === QUOTE_SEEN || state === UNQUOTED) {
++      endRecord();
++    } else if (fields.length > 0) {
++      // fieldStart with pending fields, e.g. trailing delimiter 'a,'
++      endRecord();
++    }
++    const out = records;
++    records = [];
++    return out;
++  }
++
++  return { push, end };
+ }
+ 
+ /**

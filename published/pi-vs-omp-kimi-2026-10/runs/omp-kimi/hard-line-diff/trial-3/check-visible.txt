@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: visible: implement the review diff for one replaced line
+not ok 1 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 0.5183
+  type: 'test'
+  location: '{temp}\\hb-56d37d5c-7fwujbpj\\test\\diff.test.js:8:1'
+  failureType: 'testCodeFailure'
+  error: 'not implemented'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    diffLines ({temp}\hb-56d37d5c-7fwujbpj\src\diff.js:17:9)
+    TestContext.<anonymous> ({temp}\hb-56d37d5c-7fwujbpj\test\diff.test.js:11:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 60.8952

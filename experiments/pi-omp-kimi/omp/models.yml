@@ -1,0 +1,4 @@
+# Resolve the runner-exported credential; no secret is stored in this template.
+providers:
+  kimi-code:
+    apiKey: KIMI_API_KEY

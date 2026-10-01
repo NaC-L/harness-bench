@@ -1,0 +1,92 @@
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-326fea03-3v7ltnkf/src/evaluator.js"
+index 7f2b237..2748a10 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-326fea03-3v7ltnkf/src/evaluator.js"
+@@ -16,13 +16,12 @@ function apply(operator, left, right) {
+     case '/': return left / right;
+     case '**': return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
++      const quotient = Math.floor(left / right);
+       return quotient === 0 ? 0 : quotient;
+     }
+     case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
++      const remainder = left - Math.floor(left / right) * right;
++      return remainder === 0 ? 0 : remainder;
+     }
+     case '<': return left < right;
+     case '<=': return left <= right;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-326fea03-3v7ltnkf/src/parser.js"
+index 4af2109..dd29c83 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-326fea03-3v7ltnkf/src/parser.js"
+@@ -15,12 +15,15 @@ function parse(tokens) {
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
++    const first = sum();
++    if (!['<', '<=', '>', '>=', '==', '!='].includes(current().value)) return first;
++    const operators = [];
++    const operands = [first];
+     while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operators, operands };
+   }
+ 
+   function sum() {
+@@ -33,10 +36,10 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
++    let left = unary();
+     while (['*', '/', '//', '%'].includes(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+@@ -45,14 +48,14 @@ function parse(tokens) {
+     if (is('+') || is('-')) {
+       return { type: 'unary', operator: take(), operand: unary() };
+     }
+-    return primary();
++    return power();
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
++    const left = primary();
++    if (is('**')) {
+       const operator = take();
+-      left = binary(operator, left, unary());
++      return binary(operator, left, unary());
+     }
+     return left;
+   }
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-326fea03-3v7ltnkf/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-326fea03-3v7ltnkf/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

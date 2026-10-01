@@ -1,0 +1,35 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-d9826016-8e6t69va/src/flight.js"
+index bc0283d..258e0ca 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-d9826016-8e6t69va/src/flight.js"
+@@ -7,12 +7,24 @@ function createFlights() {
+ 
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
++      const existing = pending.get(key);
++      if (existing !== undefined) return existing;
++      // Only the flight currently registered for the key may remove itself
++      // and commit. A detached (obsolete) flight still settles its original
++      // waiters but must neither store a value nor detach a newer flight.
++      const promise = Promise.resolve().then(work).then(
++        value => {
++          if (pending.get(key) === promise) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          if (pending.get(key) === promise) pending.delete(key);
++          throw reason;
++        }
++      );
+       pending.set(key, promise);
+       return promise;
+     },

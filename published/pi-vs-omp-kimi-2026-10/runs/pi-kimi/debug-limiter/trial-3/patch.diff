@@ -1,0 +1,13 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-39d1ccca-n_2h91uo/src/limit.js"
+index 40953d6..3023384 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-39d1ccca-n_2h91uo/src/limit.js"
+@@ -25,6 +25,8 @@ function createLimiter(concurrency) {
+         },
+         error => {
+           job.reject(error);
++          active -= 1;
++          drain();
+         }
+       );
+     }

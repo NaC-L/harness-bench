@@ -1,0 +1,496 @@
+TAP version 13
+# Subtest: hidden: large mixed workload retains logarithmic updates and queries
+not ok 1 - hidden: large mixed workload retains logarithmic updates and queries
+  ---
+  duration_ms: 12.4777
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree-performance.hidden.test.js:19:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=1584021015 op=5
+    
+    0 !== -5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -5
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree-performance.hidden.test.js:73:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: hidden: assignments discard older deltas at nested lazy nodes
+not ok 2 - hidden: assignments discard older deltas at nested lazy nodes
+  ---
+  duration_ms: 3.6287
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:37:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    +   7,
+    +   7,
+    +   7,
+    +   7,
+    +   13,
+    +   13,
+    +   14,
+    +   14,
+        -4,
+        -4,
+        -4,
+        -4,
+    +   -10,
+    +   -10,
+    +   -11,
+    +   -11
+    -   2,
+    -   2,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -3,
+    -   -4,
+    -   -4
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: -4
+    1: -4
+    2: -4
+    3: -4
+    4: 2
+    5: 2
+    6: -3
+    7: -3
+    8: -3
+    9: -3
+    10: -3
+    11: -3
+    12: -3
+    13: -3
+    14: -4
+    15: -4
+  actual:
+    0: 7
+    1: 7
+    2: 7
+    3: 7
+    4: 13
+    5: 13
+    6: 14
+    7: 14
+    8: -4
+    9: -4
+    10: -4
+    11: -4
+    12: -10
+    13: -10
+    14: -11
+    15: -11
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:44:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: hidden: threshold descent observes unpushed assignments and additions
+not ok 3 - hidden: threshold descent observes unpushed assignments and additions
+  ---
+  duration_ms: 0.3907
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:48:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    -1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: -1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:51:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: hidden: partial maxima preserve negative values instead of zero
+not ok 4 - hidden: partial maxima preserve negative values instead of zero
+  ---
+  duration_ms: 0.1864
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:65:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== -7
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -7
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:67:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: right-edge and empty suffix semantics survive pending updates
+ok 5 - hidden: right-edge and empty suffix semantics survive pending updates
+  ---
+  duration_ms: 0.3925
+  type: 'test'
+  ...
+# Subtest: trap: constructors reject nonarrays empty arrays holes and nonfinite values
+ok 6 - trap: constructors reject nonarrays empty arrays holes and nonfinite values
+  ---
+  duration_ms: 0.5798
+  type: 'test'
+  ...
+# Subtest: trap: invalid ranges and operands fail atomically with RangeError
+ok 7 - trap: invalid ranges and operands fail atomically with RangeError
+  ---
+  duration_ms: 0.6348
+  type: 'test'
+  ...
+# Subtest: trap: invalid indices and search arguments retain stored values
+ok 8 - trap: invalid indices and search arguments retain stored values
+  ---
+  duration_ms: 0.2639
+  type: 'test'
+  ...
+# Subtest: trap: constructor and materialized arrays are independent copies
+ok 9 - trap: constructor and materialized arrays are independent copies
+  ---
+  duration_ms: 0.1385
+  type: 'test'
+  ...
+# Subtest: trap: singleton updates and empty boundaries preserve the API
+ok 10 - trap: singleton updates and empty boundaries preserve the API
+  ---
+  duration_ms: 0.2433
+  type: 'test'
+  ...
+# Subtest: trap: overlapping additions retain positive range aggregates
+ok 11 - trap: overlapping additions retain positive range aggregates
+  ---
+  duration_ms: 0.3142
+  type: 'test'
+  ...
+# Subtest: trap: threshold search returns the earliest qualifying suffix index
+ok 12 - trap: threshold search returns the earliest qualifying suffix index
+  ---
+  duration_ms: 0.1273
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=270544960 n=1
+ok 13 - hidden: seeded differential operations seed=270544960 n=1
+  ---
+  duration_ms: 3.8754
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=826366246 n=2
+not ok 14 - hidden: seeded differential operations seed=826366246 n=2
+  ---
+  duration_ms: 0.2145
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=826366246 op=40 n=2 range=[1,2)
+    
+    0 !== -35
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -35
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:225:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=168939093 n=3
+not ok 15 - hidden: seeded differential operations seed=168939093 n=3
+  ---
+  duration_ms: 0.1749
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=168939093 op=24 n=3 range=[1,2)
+    + actual - expected
+    
+      [
+        -18,
+    +   -23,
+    +   -23
+    -   -22,
+    -   -22
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: -18
+    1: -22
+    2: -22
+  actual:
+    0: -18
+    1: -23
+    2: -23
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:239:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=3735928559 n=7
+not ok 16 - hidden: seeded differential operations seed=3735928559 n=7
+  ---
+  duration_ms: 0.1171
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=3735928559 op=11 n=7 range=[0,7)
+    
+    -108 !== -114
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -114
+  actual: -108
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:242:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=3221342974 n=16
+not ok 17 - hidden: seeded differential operations seed=3221342974 n=16
+  ---
+  duration_ms: 0.3987
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=3221342974 op=16 n=16 range=[6,12)
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        -24,
+        28,
+        -13,
+        4,
+    ...
+        17,
+    +   24,
+    +   24,
+    +   24,
+    +   24,
+    -   17,
+    -   17,
+    -   17,
+    -   17,
+        3,
+        12
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: -24
+    1: 28
+    2: -13
+    3: 4
+    4: 17
+    5: 17
+    6: 17
+    7: 17
+    8: 17
+    9: 17
+    10: 17
+    11: 17
+    12: 17
+    13: 17
+    14: 3
+    15: 12
+  actual:
+    0: -24
+    1: 28
+    2: -13
+    3: 4
+    4: 17
+    5: 17
+    6: 17
+    7: 17
+    8: 17
+    9: 17
+    10: 24
+    11: 24
+    12: 24
+    13: 24
+    14: 3
+    15: 12
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:239:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=195936478 n=31
+not ok 18 - hidden: seeded differential operations seed=195936478 n=31
+  ---
+  duration_ms: 0.236
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=195936478 op=15 n=31 range=[5,26)
+    
+    0 !== -27
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -27
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:225:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=2557891634 n=63
+not ok 19 - hidden: seeded differential operations seed=2557891634 n=63
+  ---
+  duration_ms: 0.3688
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=2557891634 op=12 n=63 range=[8,58)
+    
+    -480 !== -450
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -450
+  actual: -480
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:222:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: hidden: seeded differential operations seed=4027431614 n=64
+not ok 20 - hidden: seeded differential operations seed=4027431614 n=64
+  ---
+  duration_ms: 0.3457
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.hidden.test.js:197:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    seed=4027431614 op=13 n=64 range=[4,21)
+    
+    0 !== -2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -2
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.hidden.test.js:225:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+not ok 21 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 1.4164
+  type: 'test'
+  location: '{temp}\\hb-4aa2cc50-c7r_6vdg\\test\\range-tree.test.js:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    60 !== 48
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 48
+  actual: 60
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> ({temp}\hb-4aa2cc50-c7r_6vdg\test\range-tree.test.js:13:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 9
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 96.4012

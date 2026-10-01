@@ -159,7 +159,7 @@ To compare sessions, open the same task/trial under each harness, e.g. `runs/pi-
 - **Correctness ceiling:** if both arms pass every run, the warning says the tasks cannot distinguish correctness. Equal passing checks do not establish general reliability or comprehensive safety.
 - **Inherited context:** use `state_template` (above) for every stateful arm. Otherwise `compare` warns `operator state not isolated`, and the result partly reflects the operator's personal instructions, settings and MCP servers. Isolation still leaves provider-side state (account, rate limits, server-side caching) and anything the harness reads outside its state root.
 - **Cache and provider load are not controlled.** Concurrency, account limits, warm prefixes, and remote load can change token/time observations. Report conditions and repeat experiments rather than treating a small sample as universal superiority.
-- Unknown regression/verification fields are reported as warnings, not filled with zero. Verification detection is a tool-sequence signal, not proof of all safety properties.
+- Unknown regression/verification fields are reported as warnings, not filled with zero. Verification detection is a tool-sequence signal, not proof of all safety properties. Edits are `edit`/`write` calls plus repository writes made through `bash`: redirects, `tee`, `cp`/`mv`, `sed -i`, `patch`/`git apply`, and heredoc or inline scripts that call file-writing APIs. Writes outside the workdir and scratch files the same command deletes are ignored; shell writes to absolute paths inside the workdir are missed. Metrics stored in `runs.jsonl` keep the signal recorded at run time; bundles published before this change show `bash`-only runs as unknown.
 
 ## Hard task tier
 

@@ -144,12 +144,66 @@ def _tool_calls(calls) -> list[tuple]:
             for b in calls]
 
 
+# Shell writes that edit the repository. Heredoc bodies and long quoted scripts are blanked
+# first so code such as `a > b` inside them is not read as a redirect; a blanked script that
+# calls a file-writing API counts as one edit. Scratch output is not an edit: targets outside
+# the workdir (`..`, absolute paths, /dev/null) and files the same command later removes.
+_HEREDOC = r"<<-?\s*(['\"]?)(\w+)\1([^\n]*)\n.*?\n\s*\2\b"
+# One left-to-right pass so quotes pair in order; short quoted strings (paths) are kept.
+_OPAQUE = re.compile(_HEREDOC + r"|'[^']*'|\"(?:[^\"\\]|\\.)*\"", re.S)
+_WRITE_API = re.compile(r"writeFile|appendFile|createWriteStream|write_text|write_bytes|open\([^)]*['\"][wa]")
+_EDIT_TOKEN = "\x00EDIT\x00"
+_SHELL_WRITE = re.compile(r"(?<![\d&=<>-])>>?\s*(['\"]?)(?P<redirect>[^\s'\"|;&)<>]+)"
+                          r"|\btee\s+(?:-a\s+)?(?P<tee>[^\s|;&]+)"
+                          r"|\b(?:mv|cp)\s+(?:-\w+\s+)*(?:[^\s;&|]+\s+)+?(?P<copy>[^\s;&|]+)(?=\s*(?:$|[;&|\n]))"
+                          r"|\b(?:sed|perl)\s+-\w*i|\bpatch\s|\bgit\s+apply\b|" + _EDIT_TOKEN)
+_REMOVE = re.compile(r"\brm\s+((?:[^;&|\n])+)")
+
+
+def _path_key(path: str) -> str:
+    return path.strip("'\"").removeprefix("./")
+
+
+def _repo_target(path: str) -> bool:
+    return not (path.startswith(("..", "/", "~", "$", "&")) or re.match(r"[A-Za-z]:[\\/]", path))
+
+
+def _bash_events(command: str, needle: str) -> list[str]:
+    """Ordered 'edit'/'check' events in one shell command."""
+    def blank(m):
+        if m.group(2):  # heredoc: keep its header line, which may redirect
+            return "<<" + m.group(3) + (_EDIT_TOKEN if _WRITE_API.search(m.group()) else "")
+        if len(m.group()) < 60 and "\n" not in m.group():
+            return m.group()
+        return _EDIT_TOKEN if _WRITE_API.search(m.group()) else " "
+    text = _OPAQUE.sub(blank, command)
+    removals = [(m.start(), {_path_key(p) for p in m.group(1).split() if not p.startswith("-")})
+                for m in _REMOVE.finditer(text)]
+    events = []
+    for m in _SHELL_WRITE.finditer(text):
+        target = m.group("redirect") or m.group("tee") or m.group("copy")
+        if target is not None and (not _repo_target(target) or any(
+                at > m.start() and _path_key(target) in paths for at, paths in removals)):
+            continue
+        events.append((m.start(), "edit"))
+    if needle:
+        events += [(m.start(), "check") for m in re.finditer(re.escape(needle), text)]
+    return [kind for _, kind in sorted(events)]
+
+
 def _verification(out, calls, check_command) -> None:
-    """Did the agent run the task's check command before its first and after its last edit?"""
+    """Did the agent run the task's check command before its first and after its last edit?
+
+    Edits are edit/write tool calls plus repository writes made through bash."""
     needle = " ".join(check_command or [])
-    edits = [i for i, (name, _) in enumerate(calls) if name in ("edit", "write")]
-    checks = [i for i, (name, command) in enumerate(calls)
-              if name == "bash" and isinstance(command, str) and needle in command]
+    events = []
+    for name, command in calls:
+        if name in ("edit", "write"):
+            events.append("edit")
+        elif name == "bash" and isinstance(command, str):
+            events += _bash_events(command, needle)
+    edits = [i for i, kind in enumerate(events) if kind == "edit"]
+    checks = [i for i, kind in enumerate(events) if kind == "check"]
     out["edit_calls"] = len(edits)
     if not check_command or not edits:
         return

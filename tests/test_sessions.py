@@ -101,6 +101,25 @@ class SessionTests(unittest.TestCase):
                 self.assertEqual(result["verified_after_final_edit"], verified)
                 self.assertEqual(result["reproduced_before_first_edit"], reproduced)
 
+    def test_bash_repository_writes_count_as_edits_and_scratch_files_do_not(self):
+        check = ["node", "--test"]
+        heredoc = "cat > src/duration.js <<'EOF'\nconst a = b > c ? 1 : 2;\nEOF\nnode --test"
+        node_script = 'cd "C:/tmp/hb-1"; node - <<\'EOF\'\nfs.writeFileSync("src/a.js", s);\nEOF\nnode -e "' + "x" * 80 + '"'
+        scratch = "node --test && cat > chk.js <<'EOF'\nrun();\nEOF\nnode chk.js; rm chk.js"
+        outside = "node --test 2>&1 | tail -8 && cat > ../check.js <<'EOF'\nrun();\nEOF\ncp -r src /tmp/orig"
+        cases = [([("bash", heredoc)], True, False, 1),
+                 ([("bash", node_script)], False, False, 1),
+                 ([("bash", node_script), ("bash", "node --test")], True, False, 1),
+                 ([("edit",), ("bash", scratch)], True, False, 1),
+                 ([("edit",), ("bash", outside)], True, False, 1),
+                 ([("bash", "node --test"), ("bash", "sed -i s/a/b/ src/a.js")], False, True, 1)]
+        for calls, verified, reproduced, edits in cases:
+            with self.subTest(calls=calls):
+                result = self.collect("omp", session_dir=self.omp_session(calls), check_command=check)
+                self.assertEqual(result["edit_calls"], edits)
+                self.assertEqual(result["verified_after_final_edit"], verified)
+                self.assertEqual(result["reproduced_before_first_edit"], reproduced)
+
     def write_stream(self, records):
         path = self.root / "stdout.jsonl"
         path.write_text("".join(json.dumps(r) + "\n" for r in records), encoding="utf-8")

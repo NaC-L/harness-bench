@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards pending additions at parents and descendants
+ok 1 - assignment discards pending additions at parents and descendants
+  ---
+  duration_ms: 1.2971
+  type: 'test'
+  ...
+# Subtest: partial maxima preserve negative values and empty-range identity
+ok 2 - partial maxima preserve negative values and empty-range identity
+  ---
+  duration_ms: 0.1111
+  type: 'test'
+  ...
+# Subtest: threshold search propagates updates before inspecting children
+ok 3 - threshold search propagates updates before inspecting children
+  ---
+  duration_ms: 0.1802
+  type: 'test'
+  ...
+# Subtest: validation is atomic, including empty updates, and arrays do not alias
+ok 4 - validation is atomic, including empty updates, and arrays do not alias
+  ---
+  duration_ms: 1.296
+  type: 'test'
+  ...
+# Subtest: mixed lazy operations match a plain-array oracle across tree shapes
+ok 5 - mixed lazy operations match a plain-array oracle across tree shapes
+  ---
+  duration_ms: 63.3305
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6591
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 119.9291

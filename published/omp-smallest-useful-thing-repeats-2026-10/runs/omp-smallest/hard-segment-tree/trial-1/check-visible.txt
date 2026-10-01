@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards earlier additions at parent and child nodes
+ok 1 - assignment discards earlier additions at parent and child nodes
+  ---
+  duration_ms: 2.2496
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as the identity
+ok 2 - partial maxima use negative infinity as the identity
+  ---
+  duration_ms: 0.23
+  type: 'test'
+  ...
+# Subtest: threshold search pushes updates before inspecting children
+ok 3 - threshold search pushes updates before inspecting children
+  ---
+  duration_ms: 0.095
+  type: 'test'
+  ...
+# Subtest: mixed lazy updates and queries agree with a plain array
+ok 4 - mixed lazy updates and queries agree with a plain array
+  ---
+  duration_ms: 16.605
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and independent arrays
+ok 5 - validation, empty ranges, read-only length, and independent arrays
+  ---
+  duration_ms: 0.9797
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.7441
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.1128

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: power is right associative with Python unary precedence
+ok 1 - power is right associative with Python unary precedence
+  ---
+  duration_ms: 1.6164
+  type: 'test'
+  ...
+# Subtest: floor division and modulo preserve the integer identity and divisor sign
+ok 2 - floor division and modulo preserve the integer identity and divisor sign
+  ---
+  duration_ms: 5.6775
+  type: 'test'
+  ...
+# Subtest: comparisons chain, return booleans, and coerce to numbers in arithmetic
+ok 3 - comparisons chain, return booleans, and coerce to numbers in arithmetic
+  ---
+  duration_ms: 0.3699
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence, left to right, without mutation
+ok 4 - getters are read once per occurrence, left to right, without mutation
+  ---
+  duration_ms: 1.683
+  type: 'test'
+  ...
+# Subtest: numbers, own variables, parentheses and built-in calls
+ok 5 - numbers, own variables, parentheses and built-in calls
+  ---
+  duration_ms: 0.4105
+  type: 'test'
+  ...
+# Subtest: error columns point to tokens after whitespace and include trailing whitespace at EOF
+ok 6 - error columns point to tokens after whitespace and include trailing whitespace at EOF
+  ---
+  duration_ms: 0.4911
+  type: 'test'
+  ...
+# Subtest: the entire formula is parsed before any getter or arithmetic is evaluated
+ok 7 - the entire formula is parsed before any getter or arithmetic is evaluated
+  ---
+  duration_ms: 0.1313
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat formulas evaluate iteratively in linear time
+ok 8 - 100,001-operand flat formulas evaluate iteratively in linear time
+  ---
+  duration_ms: 209.1732
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1189
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 286.263

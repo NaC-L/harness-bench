@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions on both the overwritten node and its descendants
+ok 1 - assignment discards additions on both the overwritten node and its descendants
+  ---
+  duration_ms: 1.8184
+  type: 'test'
+  ...
+# Subtest: partial maxima remain negative, including singleton and uneven ranges
+ok 2 - partial maxima remain negative, including singleton and uneven ranges
+  ---
+  duration_ms: 0.1679
+  type: 'test'
+  ...
+# Subtest: threshold searches propagate lazy updates before inspecting children
+ok 3 - threshold searches propagate lazy updates before inspecting children
+  ---
+  duration_ms: 0.283
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, return values, and independent arrays preserve the API
+ok 4 - validation, empty ranges, return values, and independent arrays preserve the API
+  ---
+  duration_ms: 1.7783
+  type: 'test'
+  ...
+# Subtest: seeded mixed updates and queries agree with an independent array model
+ok 5 - seeded mixed updates and queries agree with an independent array model
+  ---
+  duration_ms: 14.7298
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.7709
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.7002

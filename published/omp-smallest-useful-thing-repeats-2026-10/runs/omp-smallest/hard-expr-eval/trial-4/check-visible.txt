@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: numbers, grouping, and arithmetic follow the documented grammar
+ok 1 - numbers, grouping, and arithmetic follow the documented grammar
+  ---
+  duration_ms: 2.2091
+  type: 'test'
+  ...
+# Subtest: floor division and modulo have Python signs and normalize zero
+ok 2 - floor division and modulo have Python signs and normalize zero
+  ---
+  duration_ms: 4.635
+  type: 'test'
+  ...
+# Subtest: comparisons chain, share operands, and coerce booleans numerically
+ok 3 - comparisons chain, share operands, and coerce booleans numerically
+  ---
+  duration_ms: 1.0025
+  type: 'test'
+  ...
+# Subtest: each variable occurrence and call argument is read left to right
+ok 4 - each variable occurrence and call argument is read left to right
+  ---
+  duration_ms: 0.5158
+  type: 'test'
+  ...
+# Subtest: built-ins support nesting and numeric boolean arguments
+ok 5 - built-ins support nesting and numeric boolean arguments
+  ---
+  duration_ms: 0.5835
+  type: 'test'
+  ...
+# Subtest: syntax is fully checked before evaluation, including skipped operands
+ok 6 - syntax is fully checked before evaluation, including skipped operands
+  ---
+  duration_ms: 0.2047
+  type: 'test'
+  ...
+# Subtest: errors point to token starts and EOF using UTF-16 columns
+ok 7 - errors point to token starts and EOF using UTF-16 columns
+  ---
+  duration_ms: 0.5702
+  type: 'test'
+  ...
+# Subtest: 100,000+ operand chains and call arguments stay fast and stack safe
+ok 8 - 100,000+ operand chains and call arguments stay fast and stack safe
+  ---
+  duration_ms: 206.7162
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1641
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 284.2778

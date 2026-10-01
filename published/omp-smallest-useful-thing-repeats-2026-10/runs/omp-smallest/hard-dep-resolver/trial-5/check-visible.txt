@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: numeric ordering compares all three components
+ok 1 - numeric ordering compares all three components
+  ---
+  duration_ms: 1.8158
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed-branch constraints and unreachable dependencies
+ok 2 - backtracking removes failed-branch constraints and unreachable dependencies
+  ---
+  duration_ms: 0.4772
+  type: 'test'
+  ...
+# Subtest: partial discovery is undone after conflicting with an already selected package
+ok 3 - partial discovery is undone after conflicting with an already selected package
+  ---
+  duration_ms: 0.1101
+  type: 'test'
+  ...
+# Subtest: dependency constraints are collected before their FIFO entries are processed
+ok 4 - dependency constraints are collected before their FIFO entries are processed
+  ---
+  duration_ms: 0.0939
+  type: 'test'
+  ...
+# Subtest: FIFO discovery determines the first solution, rather than recursive dependency order
+ok 5 - FIFO discovery determines the first solution, rather than recursive dependency order
+  ---
+  duration_ms: 0.1331
+  type: 'test'
+  ...
+# Subtest: root key order controls which package keeps its highest version
+ok 6 - root key order controls which package keeps its highest version
+  ---
+  duration_ms: 0.1188
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package once and can backtrack to a satisfiable cycle
+ok 7 - cycles expand each selected package once and can backtrack to a satisfiable cycle
+  ---
+  duration_ms: 0.1078
+  type: 'test'
+  ...
+# Subtest: long cyclic chains and deep backtracking do not use the call stack or a cutoff
+ok 8 - long cyclic chains and deep backtracking do not use the call stack or a cutoff
+  ---
+  duration_ms: 88.9835
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices rather than enumerating a Cartesian product
+ok 9 - discovered conflicts prune choices rather than enumerating a Cartesian product
+  ---
+  duration_ms: 0.8968
+  type: 'test'
+  ...
+# Subtest: missing packages and empty catalogs are unsatisfiable, but unreachable ones are irrelevant
+ok 10 - missing packages and empty catalogs are unsatisfiable, but unreachable ones are irrelevant
+  ---
+  duration_ms: 0.3404
+  type: 'test'
+  ...
+# Subtest: all registry entries are validated eagerly, even with an empty root
+ok 11 - all registry entries are validated eagerly, even with an empty root
+  ---
+  duration_ms: 1.4959
+  type: 'test'
+  ...
+# Subtest: many references to a selected package do not repeatedly scan its constraints
+ok 12 - many references to a selected package do not repeatedly scan its constraints
+  ---
+  duration_ms: 46.0387
+  type: 'test'
+  ...
+# Subtest: null-prototype maps, special names, and only own enumerable string keys
+ok 13 - null-prototype maps, special names, and only own enumerable string keys
+  ---
+  duration_ms: 0.3862
+  type: 'test'
+  ...
+# Subtest: generated small cyclic registries agree with an independent first-found oracle
+ok 14 - generated small cyclic registries agree with an independent first-found oracle
+  ---
+  duration_ms: 16.9045
+  type: 'test'
+  ...
+# Subtest: parse requires canonical safe integer triples
+ok 15 - parse requires canonical safe integer triples
+  ---
+  duration_ms: 1.1825
+  type: 'test'
+  ...
+# Subtest: compare is numeric and returns only -1, 0, or 1
+ok 16 - compare is numeric and returns only -1, 0, or 1
+  ---
+  duration_ms: 0.133
+  type: 'test'
+  ...
+# Subtest: each range operator, conjunctions, whitespace, and compiled predicates
+ok 17 - each range operator, conjunctions, whitespace, and compiled predicates
+  ---
+  duration_ms: 0.8315
+  type: 'test'
+  ...
+# Subtest: caret uses next major, minor, or patch according to the first nonzero component
+ok 18 - caret uses next major, minor, or patch according to the first nonzero component
+  ---
+  duration_ms: 0.4339
+  type: 'test'
+  ...
+# Subtest: tilde always uses the next minor and ranges handle safe integer boundaries
+ok 19 - tilde always uses the next minor and ranges handle safe integer boundaries
+  ---
+  duration_ms: 0.109
+  type: 'test'
+  ...
+# Subtest: invalid ranges fail eagerly in compileRange and satisfies
+ok 20 - invalid ranges fail eagerly in compileRange and satisfies
+  ---
+  duration_ms: 0.2731
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 21 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3099
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 232.1239

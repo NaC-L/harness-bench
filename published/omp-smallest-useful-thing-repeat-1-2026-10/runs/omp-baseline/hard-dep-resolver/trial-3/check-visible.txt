@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: versions are canonical safe integers and compare numerically
+ok 1 - versions are canonical safe integers and compare numerically
+  ---
+  duration_ms: 1.7801
+  type: 'test'
+  ...
+# Subtest: range operators, whitespace, and AND terms retain their API
+ok 2 - range operators, whitespace, and AND terms retain their API
+  ---
+  duration_ms: 0.4935
+  type: 'test'
+  ...
+# Subtest: caret and tilde upper bounds respect zero majors and safe integer limits
+ok 3 - caret and tilde upper bounds respect zero majors and safe integer limits
+  ---
+  duration_ms: 0.2014
+  type: 'test'
+  ...
+# Subtest: resolver selects numeric maxima in every version component
+ok 4 - resolver selects numeric maxima in every version component
+  ---
+  duration_ms: 0.4307
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects constraints before choosing a pending dependency
+ok 5 - FIFO discovery collects constraints before choosing a pending dependency
+  ---
+  duration_ms: 0.3414
+  type: 'test'
+  ...
+# Subtest: first-found follows root and dependency key order, not global maximization
+ok 6 - first-found follows root and dependency key order, not global maximization
+  ---
+  duration_ms: 0.2056
+  type: 'test'
+  ...
+# Subtest: partial dependency batches are undone on immediate conflicts
+ok 7 - partial dependency batches are undone on immediate conflicts
+  ---
+  duration_ms: 0.0723
+  type: 'test'
+  ...
+# Subtest: backtracking removes descendant selections, queue entries, and constraints
+ok 8 - backtracking removes descendant selections, queue entries, and constraints
+  ---
+  duration_ms: 0.0917
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package only once and can backtrack
+ok 9 - cycles expand each selected package only once and can backtrack
+  ---
+  duration_ms: 0.5908
+  type: 'test'
+  ...
+# Subtest: missing packages and empty version maps are unsatisfiable, unreachable ones are ignored
+ok 10 - missing packages and empty version maps are unsatisfiable, unreachable ones are ignored
+  ---
+  duration_ms: 0.265
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated eagerly, including unreachable entries
+ok 11 - all maps, versions, and ranges are validated eagerly, including unreachable entries
+  ---
+  duration_ms: 0.3214
+  type: 'test'
+  ...
+# Subtest: own enumerable keys, null prototypes, special names, and input immutability
+ok 12 - own enumerable keys, null prototypes, special names, and input immutability
+  ---
+  duration_ms: 0.1215
+  type: 'test'
+  ...
+# Subtest: long chains and rollback are iterative and have no arbitrary search limit
+ok 13 - long chains and rollback are iterative and have no arbitrary search limit
+  ---
+  duration_ms: 95.8934
+  type: 'test'
+  ...
+# Subtest: constraints prune conflicting choices before exploring an unrelated Cartesian product
+ok 14 - constraints prune conflicting choices before exploring an unrelated Cartesian product
+  ---
+  duration_ms: 1.7194
+  type: 'test'
+  ...
+# Subtest: first-found matches an independent small-registry oracle across seeded cyclic graphs
+ok 15 - first-found matches an independent small-registry oracle across seeded cyclic graphs
+  ---
+  duration_ms: 15.5598
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5852
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 181.6245

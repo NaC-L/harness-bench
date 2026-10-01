@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: numbers, precedence, associativity, and built-in calls
+ok 1 - numbers, precedence, associativity, and built-in calls
+  ---
+  duration_ms: 2.7584
+  type: 'test'
+  ...
+# Subtest: floor division, divisor-signed modulo, and positive zeros
+ok 2 - floor division, divisor-signed modulo, and positive zeros
+  ---
+  duration_ms: 3.5741
+  type: 'test'
+  ...
+# Subtest: getters run once per occurrence in left-to-right order
+ok 3 - getters run once per occurrence in left-to-right order
+  ---
+  duration_ms: 1.2007
+  type: 'test'
+  ...
+# Subtest: syntax and runtime errors use token UTF-16 columns, including whitespace
+ok 4 - syntax and runtime errors use token UTF-16 columns, including whitespace
+  ---
+  duration_ms: 0.4486
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic, comparisons, and calls remain linear and stack-safe
+ok 5 - 100,001-operand flat arithmetic, comparisons, and calls remain linear and stack-safe
+  ---
+  duration_ms: 186.6857
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 6 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2064
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 261.2538

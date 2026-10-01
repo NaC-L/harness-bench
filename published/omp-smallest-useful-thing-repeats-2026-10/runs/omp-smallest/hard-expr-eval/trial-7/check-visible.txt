@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: numeric literals, precedence, associativity, and unary signs
+ok 1 - numeric literals, precedence, associativity, and unary signs
+  ---
+  duration_ms: 1.956
+  type: 'test'
+  ...
+# Subtest: floor division and modulo signs, identity, and positive zeros
+ok 2 - floor division and modulo signs, identity, and positive zeros
+  ---
+  duration_ms: 1.086
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short-circuit, and coerce booleans numerically
+ok 3 - comparisons chain, short-circuit, and coerce booleans numerically
+  ---
+  duration_ms: 0.2347
+  type: 'test'
+  ...
+# Subtest: variables use own properties, read once per occurrence in evaluation order
+ok 4 - variables use own properties, read once per occurrence in evaluation order
+  ---
+  duration_ms: 1.0442
+  type: 'test'
+  ...
+# Subtest: built-ins validate arity and preserve Python selection semantics
+ok 5 - built-ins validate arity and preserve Python selection semantics
+  ---
+  duration_ms: 0.242
+  type: 'test'
+  ...
+# Subtest: syntax is checked in full before any getters or runtime errors
+ok 6 - syntax is checked in full before any getters or runtime errors
+  ---
+  duration_ms: 0.3424
+  type: 'test'
+  ...
+# Subtest: syntax and lexical errors report actual UTF-16 token offsets
+ok 7 - syntax and lexical errors report actual UTF-16 token offsets
+  ---
+  duration_ms: 0.3156
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains evaluate without recursion
+ok 8 - 100,001-operand arithmetic and comparison chains evaluate without recursion
+  ---
+  duration_ms: 199.9358
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1244
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 277.8827

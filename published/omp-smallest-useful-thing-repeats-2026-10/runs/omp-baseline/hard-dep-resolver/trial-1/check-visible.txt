@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: versions are ordered numerically across every component
+ok 1 - versions are ordered numerically across every component
+  ---
+  duration_ms: 1.8694
+  type: 'test'
+  ...
+# Subtest: caret, tilde, exact and comparison terms follow their boundaries
+ok 2 - caret, tilde, exact and comparison terms follow their boundaries
+  ---
+  duration_ms: 0.4422
+  type: 'test'
+  ...
+# Subtest: version and range validation rejects noncanonical and malformed input
+ok 3 - version and range validation rejects noncanonical and malformed input
+  ---
+  duration_ms: 0.4726
+  type: 'test'
+  ...
+# Subtest: zero-major caret constrains resolution, not just helper calls
+ok 4 - zero-major caret constrains resolution, not just helper calls
+  ---
+  duration_ms: 0.1542
+  type: 'test'
+  ...
+# Subtest: discovery collects constraints before FIFO selection
+ok 5 - discovery collects constraints before FIFO selection
+  ---
+  duration_ms: 0.2258
+  type: 'test'
+  ...
+# Subtest: FIFO selects remaining roots before newly discovered dependencies
+ok 6 - FIFO selects remaining roots before newly discovered dependencies
+  ---
+  duration_ms: 0.1071
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first assignment
+ok 7 - dependency key order determines the first assignment
+  ---
+  duration_ms: 0.1285
+  type: 'test'
+  ...
+# Subtest: immediate conflict undoes even partially appended dependencies
+ok 8 - immediate conflict undoes even partially appended dependencies
+  ---
+  duration_ms: 0.0893
+  type: 'test'
+  ...
+# Subtest: deep backtracking removes abandoned selections, constraints and discoveries
+ok 9 - deep backtracking removes abandoned selections, constraints and discoveries
+  ---
+  duration_ms: 0.2064
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package only once and can backtrack
+ok 10 - cycles expand each selected package only once and can backtrack
+  ---
+  duration_ms: 0.3223
+  type: 'test'
+  ...
+# Subtest: missing packages and contradictory ranges are unsatisfiable
+ok 11 - missing packages and contradictory ranges are unsatisfiable
+  ---
+  duration_ms: 0.1939
+  type: 'test'
+  ...
+# Subtest: validation is eager even for unreachable entries and empty roots
+ok 12 - validation is eager even for unreachable entries and empty roots
+  ---
+  duration_ms: 0.3024
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and special names are safe
+ok 13 - only own enumerable string keys participate and special names are safe
+  ---
+  duration_ms: 0.1077
+  type: 'test'
+  ...
+# Subtest: resolution does not mutate frozen inputs
+ok 14 - resolution does not mutate frozen inputs
+  ---
+  duration_ms: 0.0592
+  type: 'test'
+  ...
+# Subtest: long chains and large cycles do not use recursive stack depth or a cutoff
+ok 15 - long chains and large cycles do not use recursive stack depth or a cutoff
+  ---
+  duration_ms: 128.5771
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before a Cartesian product is explored
+ok 16 - discovered conflicts prune choices before a Cartesian product is explored
+  ---
+  duration_ms: 0.523
+  type: 'test'
+  ...
+# Subtest: first-found results agree with an independent oracle on generated cyclic graphs
+ok 17 - first-found results agree with an independent oracle on generated cyclic graphs
+  ---
+  duration_ms: 24.0064
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3395
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 232.4712

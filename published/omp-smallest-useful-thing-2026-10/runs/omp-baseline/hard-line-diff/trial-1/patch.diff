@@ -1,0 +1,390 @@
+diff --git "{temp}\\hb-ea0f36a5-2abpa0a9/diff.test.js" "{temp}\\hb-ea0f36a5-2abpa0a9/diff.test.js"
+new file mode 100644
+index 0000000..a2f4666
+--- /dev/null
++++ "{temp}\\hb-ea0f36a5-2abpa0a9/diff.test.js"
+@@ -0,0 +1,155 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { performance } = require('node:perf_hooks');
++const { diffLines, unifiedHunks, applyHunks } = require('./src/diff');
++
++function lcsLength(a, b) {
++  const row = new Array(b.length + 1).fill(0);
++  for (const line of a) {
++    let diagonal = 0;
++    for (let j = 1; j <= b.length; j++) {
++      const above = row[j];
++      row[j] = line === b[j - 1] ? diagonal + 1 : Math.max(row[j], row[j - 1]);
++      diagonal = above;
++    }
++  }
++  return row[b.length];
++}
++
++function checkScript(a, b) {
++  const script = diffLines(a, b);
++  assert.deepEqual(script.filter(entry => entry.op !== 'insert').map(entry => entry.line), a);
++  assert.deepEqual(script.filter(entry => entry.op !== 'delete').map(entry => entry.line), b);
++  assert.equal(script.filter(entry => entry.op !== 'equal').length,
++    a.length + b.length - 2 * lcsLength(a, b));
++  let inserted = false;
++  for (const entry of script) {
++    assert.ok(['equal', 'delete', 'insert'].includes(entry.op));
++    if (entry.op === 'equal') inserted = false;
++    if (entry.op === 'insert') inserted = true;
++    if (entry.op === 'delete') assert.equal(inserted, false);
++  }
++  assert.deepEqual(diffLines(a, b), script);
++}
++
++test('exhaustive short repetitive inputs have minimal scripts and patch roundtrips', () => {
++  const sequences = [Object.freeze([])];
++  let level = [[]];
++  for (let length = 1; length <= 4; length++) {
++    level = level.flatMap(prefix => ['', 'x', '+x'].map(line => Object.freeze([...prefix, line])));
++    sequences.push(...level);
++  }
++  for (const a of sequences) {
++    for (const b of sequences) {
++      checkScript(a, b);
++      for (const context of [0, 1, 3]) {
++        const hunks = unifiedHunks(a, b, { context });
++        for (const hunk of hunks) {
++          Object.freeze(hunk.lines);
++          Object.freeze(hunk);
++        }
++        Object.freeze(hunks);
++        assert.deepEqual(applyHunks(a, hunks), b);
++        if (a.length === b.length && a.every((line, i) => line === b[i])) {
++          assert.deepEqual(hunks, []);
++        }
++      }
++    }
++  }
++});
++
++test('zero-length ranges use the preceding complete-file coordinate', () => {
++  assert.deepEqual(unifiedHunks(['a', 'b'], ['top', 'a', 'middle', 'b', 'end'], { context: 0 }), [
++    { oldStart: 0, oldLines: 0, newStart: 1, newLines: 1, lines: ['+top'] },
++    { oldStart: 1, oldLines: 0, newStart: 3, newLines: 1, lines: ['+middle'] },
++    { oldStart: 2, oldLines: 0, newStart: 5, newLines: 1, lines: ['+end'] },
++  ]);
++  assert.deepEqual(unifiedHunks(['top', 'a', 'middle', 'b', 'end'], ['a', 'b'], { context: 0 }), [
++    { oldStart: 1, oldLines: 1, newStart: 0, newLines: 0, lines: ['-top'] },
++    { oldStart: 3, oldLines: 1, newStart: 1, newLines: 0, lines: ['-middle'] },
++    { oldStart: 5, oldLines: 1, newStart: 2, newLines: 0, lines: ['-end'] },
++  ]);
++});
++
++test('context windows merge when they touch, not when one unchanged line separates them', () => {
++  const a = ['head', 'old1', 'gap1', 'gap2', 'old2', 'tail'];
++  const b = ['head', 'new1', 'gap1', 'gap2', 'new2', 'tail'];
++  assert.deepEqual(unifiedHunks(a, b, { context: 1 }), [{
++    oldStart: 1, oldLines: 6, newStart: 1, newLines: 6,
++    lines: [' head', '-old1', '+new1', ' gap1', ' gap2', '-old2', '+new2', ' tail'],
++  }]);
++  a.splice(4, 0, 'gap3');
++  b.splice(4, 0, 'gap3');
++  assert.deepEqual(unifiedHunks(a, b, { context: 1 }), [
++    { oldStart: 1, oldLines: 3, newStart: 1, newLines: 3, lines: [' head', '-old1', '+new1', ' gap1'] },
++    { oldStart: 5, oldLines: 3, newStart: 5, newLines: 3, lines: [' gap3', '-old2', '+new2', ' tail'] },
++  ]);
++});
++
++test('application preserves prefixes, empty strings, omitted lines, and original inputs', () => {
++  const a = Object.freeze(['keep', '-old', '', '+keep', 'tail']);
++  const b = ['keep', ' new', '', '+keep', 'tail', '-end'];
++  const hunks = unifiedHunks(a, b, { context: 0 });
++  assert.deepEqual(applyHunks(a, hunks), b);
++  const copy = applyHunks(a, []);
++  assert.deepEqual(copy, a);
++  assert.notEqual(copy, a);
++  assert.deepEqual(unifiedHunks(a, a), []);
++});
++
++test('application rejects malformed counts, coordinates, lines, and mismatches', () => {
++  const a = Object.freeze(['a', 'b', 'c']);
++  const valid = { oldStart: 2, oldLines: 1, newStart: 2, newLines: 1, lines: ['-b', '+B'] };
++  const invalid = [
++    null, {}, { ...valid, oldStart: 0 }, { ...valid, newStart: 0 },
++    { ...valid, oldStart: 1.5 }, { ...valid, oldStart: NaN },
++    { ...valid, oldStart: 5 }, { ...valid, newStart: 3 },
++    { ...valid, oldLines: -1 }, { ...valid, newLines: -1 },
++    { ...valid, oldLines: 0 }, { ...valid, newLines: 2 },
++    { ...valid, oldLines: 3 }, { ...valid, lines: null },
++    { ...valid, lines: ['-wrong', '+B'] },
++    { ...valid, lines: [' wrong'] },
++    { ...valid, lines: ['?b', '+B'] },
++    { ...valid, lines: ['', '+B'] },
++    { ...valid, lines: [1, '+B'] },
++    { ...valid, lines: ['-b', '-c', '+B'] },
++  ];
++  for (const hunk of invalid) {
++    assert.throws(() => applyHunks(a, [hunk]), /hunk 0 does not apply/);
++  }
++  assert.throws(() => applyHunks(a, [valid, valid]), /hunk 1 does not apply/);
++  assert.throws(() => applyHunks(a, [valid, {
++    oldStart: 1, oldLines: 1, newStart: 1, newLines: 1, lines: [' a'],
++  }]), /hunk 1 does not apply/);
++  assert.throws(() => applyHunks(a, [{
++    oldStart: 4, oldLines: 0, newStart: 5, newLines: 1, lines: ['+past end'],
++  }]), /hunk 0 does not apply/);
++});
++
++test('later hunk coordinates include earlier insertion and deletion offsets', () => {
++  const a = ['a', 'b', 'c', 'd', 'e', 'f'];
++  const b = ['top', 'a', 'c', 'd', 'e', 'F', 'end'];
++  const hunks = unifiedHunks(a, b, { context: 0 });
++  assert.deepEqual(applyHunks(a, hunks), b);
++  const malformed = hunks.map(hunk => ({ ...hunk }));
++  malformed[1].newStart--;
++  assert.throws(() => applyHunks(a, malformed), /hunk 1 does not apply/);
++});
++
++test('localized changes in 20,000-line unique and repetitive files stay fast', () => {
++  for (const repetitive of [false, true]) {
++    const a = Array.from({ length: 20000 }, (_, i) => repetitive ? `line ${i % 5}` : `line ${i}`);
++    const b = a.slice();
++    b.splice(100, 1, 'replacement');
++    b.splice(10000, 0, 'inserted');
++    b.splice(19000, 1);
++    const start = performance.now();
++    const script = diffLines(a, b);
++    const hunks = unifiedHunks(a, b);
++    assert.deepEqual(applyHunks(a, hunks), b);
++    assert.equal(script.filter(entry => entry.op !== 'equal').length, 4);
++    assert.ok(performance.now() - start < 1000, 'small edits should run well under a second');
++  }
++});
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-ea0f36a5-2abpa0a9/src/diff.js"
+index 5eeb030..e3134c0 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-ea0f36a5-2abpa0a9/src/diff.js"
+@@ -14,7 +14,112 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  const script = [];
++  let first = 0;
++  while (first < a.length && first < b.length && a[first] === b[first]) {
++    script.push({ op: 'equal', line: a[first++] });
++  }
++
++  // Trimming shared ends reduces the frontier and trace for localized edits.
++  let oldEnd = a.length;
++  let newEnd = b.length;
++  while (oldEnd > first && newEnd > first &&
++         a[oldEnd - 1] === b[newEnd - 1]) {
++    oldEnd--;
++    newEnd--;
++  }
++  const n = oldEnd - first;
++  const m = newEnd - first;
++
++  if (n === 0 || m === 0) {
++    for (let i = first; i < oldEnd; i++) {
++      script.push({ op: 'delete', line: a[i] });
++    }
++    for (let i = first; i < newEnd; i++) {
++      script.push({ op: 'insert', line: b[i] });
++    }
++  } else {
++    // Myers' furthest-reaching frontier. At distance d, slot i represents
++    // diagonal k = 2*i - d; only the d+1 reachable diagonals are stored.
++    // Keep these compact frontiers to reconstruct a shortest path.
++    const trace = [];
++    let distance = 0;
++    search: for (let d = 0; d <= n + m; d++) {
++      const frontier = new Int32Array(d + 1);
++      const previous = trace[d - 1];
++      for (let i = 0; i <= d; i++) {
++        const k = 2 * i - d;
++        let x;
++        if (d === 0) {
++          x = 0;
++        } else if (i === 0 || (i < d && previous[i - 1] < previous[i])) {
++          x = previous[i]; // Insert: arrive from diagonal k+1.
++        } else {
++          x = previous[i - 1] + 1; // Delete: arrive from diagonal k-1.
++        }
++        let y = x - k;
++        while (x < n && y < m && a[first + x] === b[first + y]) {
++          x++;
++          y++;
++        }
++        frontier[i] = x;
++        if (x >= n && y >= m) {
++          trace.push(frontier);
++          distance = d;
++          break search;
++        }
++      }
++      trace.push(frontier);
++    }
++
++    const reversed = [];
++    let x = n;
++    let y = m;
++    for (let d = distance; d > 0; d--) {
++      const previous = trace[d - 1];
++      const i = (x - y + d) / 2;
++      const insert = i === 0 || (i < d && previous[i - 1] < previous[i]);
++      const previousX = insert ? previous[i] : previous[i - 1];
++      const previousY = previousX - (x - y + (insert ? 1 : -1));
++      while (x > previousX && y > previousY) {
++        reversed.push({ op: 'equal', line: a[first + --x] });
++        y--;
++      }
++      if (insert) {
++        reversed.push({ op: 'insert', line: b[first + --y] });
++      } else {
++        reversed.push({ op: 'delete', line: a[first + --x] });
++      }
++    }
++    while (x > 0 && y > 0) {
++      reversed.push({ op: 'equal', line: a[first + --x] });
++      y--;
++    }
++    reversed.reverse();
++
++    // Different shortest paths can interleave inserts and deletes. Normalize
++    // each changed region without changing either reconstructed input.
++    for (let i = 0; i < reversed.length;) {
++      if (reversed[i].op === 'equal') {
++        script.push(reversed[i++]);
++        continue;
++      }
++      let end = i;
++      while (end < reversed.length && reversed[end].op !== 'equal') end++;
++      for (let j = i; j < end; j++) {
++        if (reversed[j].op === 'delete') script.push(reversed[j]);
++      }
++      for (let j = i; j < end; j++) {
++        if (reversed[j].op === 'insert') script.push(reversed[j]);
++      }
++      i = end;
++    }
++  }
++
++  for (let i = oldEnd; i < a.length; i++) {
++    script.push({ op: 'equal', line: a[i] });
++  }
++  return script;
+ }
+ 
+ /**
+@@ -34,7 +139,56 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  if (!Number.isSafeInteger(context) || context < 0) {
++    throw new Error('context must be a nonnegative integer');
++  }
++  const script = diffLines(a, b);
++  const ranges = [];
++  for (let i = 0; i < script.length; i++) {
++    if (script[i].op === 'equal') continue;
++    const start = Math.max(0, i - context);
++    const end = Math.min(script.length, i + 1 + context);
++    const previous = ranges[ranges.length - 1];
++    if (previous && start <= previous.end) {
++      previous.end = end;
++    } else {
++      ranges.push({ start, end });
++    }
++  }
++
++  const hunks = [];
++  let cursor = 0;
++  let oldPosition = 0;
++  let newPosition = 0;
++  for (const range of ranges) {
++    // All entries outside the context-expanded changed ranges are equal.
++    oldPosition += range.start - cursor;
++    newPosition += range.start - cursor;
++    cursor = range.start;
++    const hunk = {
++      oldStart: oldPosition + 1,
++      oldLines: 0,
++      newStart: newPosition + 1,
++      newLines: 0,
++      lines: [],
++    };
++    while (cursor < range.end) {
++      const { op, line } = script[cursor++];
++      hunk.lines.push((op === 'equal' ? ' ' : op === 'delete' ? '-' : '+') + line);
++      if (op !== 'insert') {
++        hunk.oldLines++;
++        oldPosition++;
++      }
++      if (op !== 'delete') {
++        hunk.newLines++;
++        newPosition++;
++      }
++    }
++    if (hunk.oldLines === 0) hunk.oldStart--;
++    if (hunk.newLines === 0) hunk.newStart--;
++    hunks.push(hunk);
++  }
++  return hunks;
+ }
+ 
+ /**
+@@ -48,7 +202,51 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  const result = [];
++  let cursor = 0;
++  for (let index = 0; index < hunks.length; index++) {
++    const fail = () => {
++      throw new Error(`hunk ${index} does not apply`);
++    };
++    const hunk = hunks[index];
++    if (!hunk || typeof hunk !== 'object') fail();
++    const { oldStart, oldLines, newStart, newLines, lines } = hunk;
++    if (![oldStart, oldLines, newStart, newLines].every(Number.isSafeInteger) ||
++        oldLines < 0 || newLines < 0 ||
++        oldStart < (oldLines === 0 ? 0 : 1) ||
++        newStart < (newLines === 0 ? 0 : 1) ||
++        !Array.isArray(lines)) fail();
++
++    const oldIndex = oldStart - (oldLines === 0 ? 0 : 1);
++    const newIndex = newStart - (newLines === 0 ? 0 : 1);
++    // Read original coordinates monotonically, rather than repeatedly splicing.
++    // result.length accounts for all offsets from earlier hunks.
++    if (oldIndex < cursor || oldIndex > a.length ||
++        oldLines > a.length - oldIndex ||
++        newIndex !== result.length + oldIndex - cursor) fail();
++    while (cursor < oldIndex) result.push(a[cursor++]);
++
++    let consumed = 0;
++    let produced = 0;
++    for (const entry of lines) {
++      if (typeof entry !== 'string' || entry.length === 0) fail();
++      const prefix = entry[0];
++      const line = entry.slice(1);
++      if (prefix !== ' ' && prefix !== '-' && prefix !== '+') fail();
++      if (prefix !== '+') {
++        if (consumed >= oldLines || a[cursor] !== line) fail();
++        consumed++;
++        cursor++;
++      }
++      if (prefix !== '-') {
++        result.push(line);
++        produced++;
++      }
++    }
++    if (consumed !== oldLines || produced !== newLines) fail();
++  }
++  while (cursor < a.length) result.push(a[cursor++]);
++  return result;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

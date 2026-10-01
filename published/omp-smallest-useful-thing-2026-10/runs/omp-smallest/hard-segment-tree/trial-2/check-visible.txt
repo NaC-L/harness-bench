@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards additions at both the assigned node and stale descendants
+ok 1 - assignment discards additions at both the assigned node and stale descendants
+  ---
+  duration_ms: 1.6495
+  type: 'test'
+  ...
+# Subtest: partial maxima use the negative-infinity identity
+ok 2 - partial maxima use the negative-infinity identity
+  ---
+  duration_ms: 0.2649
+  type: 'test'
+  ...
+# Subtest: threshold search pushes assignments and positive or negative additions
+ok 3 - threshold search pushes assignments and positive or negative additions
+  ---
+  duration_ms: 0.1927
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with a seeded plain-array model
+ok 4 - mixed updates and queries agree with a seeded plain-array model
+  ---
+  duration_ms: 19.8039
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length and independent arrays retain their contract
+ok 5 - validation, empty ranges, read-only length and independent arrays retain their contract
+  ---
+  duration_ms: 1.8465
+  type: 'test'
+  ...
+# Subtest: tree traversal stays logarithmic for operations and linear for construction and export
+ok 6 - tree traversal stays logarithmic for operations and linear for construction and export
+  ---
+  duration_ms: 3.4992
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 1.1754
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.7622

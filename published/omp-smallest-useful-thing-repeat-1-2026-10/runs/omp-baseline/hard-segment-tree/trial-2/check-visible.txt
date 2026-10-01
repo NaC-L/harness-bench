@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards pending additions at both parent and child nodes
+ok 1 - assignment discards pending additions at both parent and child nodes
+  ---
+  duration_ms: 1.2574
+  type: 'test'
+  ...
+# Subtest: partial maxima use the correct identity for negative values
+ok 2 - partial maxima use the correct identity for negative values
+  ---
+  duration_ms: 0.1195
+  type: 'test'
+  ...
+# Subtest: threshold search propagates assignment and addition before descending
+ok 3 - threshold search propagates assignment and addition before descending
+  ---
+  duration_ms: 0.1232
+  type: 'test'
+  ...
+# Subtest: deterministic mixed workloads agree with an independent array model
+ok 4 - deterministic mixed workloads agree with an independent array model
+  ---
+  duration_ms: 53.8924
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and independent arrays retain the API contract
+ok 5 - validation, empty ranges, read-only length, and independent arrays retain the API contract
+  ---
+  duration_ms: 1.4029
+  type: 'test'
+  ...
+# Subtest: updates and queries visit logarithmically many nodes; materialization is linear
+ok 6 - updates and queries visit logarithmically many nodes; materialization is linear
+  ---
+  duration_ms: 4.313
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6466
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 116.8071

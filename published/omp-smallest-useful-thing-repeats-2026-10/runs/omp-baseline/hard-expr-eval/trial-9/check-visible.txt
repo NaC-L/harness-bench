@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: numeric literals, precedence, associativity and built-ins
+ok 1 - numeric literals, precedence, associativity and built-ins
+  ---
+  duration_ms: 2.4876
+  type: 'test'
+  ...
+# Subtest: floor division and signed modulo preserve integer identities and positive zero
+ok 2 - floor division and signed modulo preserve integer identities and positive zero
+  ---
+  duration_ms: 3.7019
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once in left-to-right order
+ok 3 - variables and call arguments are read once in left-to-right order
+  ---
+  duration_ms: 1.3857
+  type: 'test'
+  ...
+# Subtest: comparison chains short-circuit operands, but not parsing
+ok 4 - comparison chains short-circuit operands, but not parsing
+  ---
+  duration_ms: 0.2285
+  type: 'test'
+  ...
+# Subtest: errors identify the offending token using 1-based UTF-16 columns
+ok 5 - errors identify the offending token using 1-based UTF-16 columns
+  ---
+  duration_ms: 1.1117
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic, comparisons and calls remain linear
+ok 6 - 100,001-operand flat arithmetic, comparisons and calls remain linear
+  ---
+  duration_ms: 269.5813
+  type: 'test'
+  ...
+# 1+1+1+1+1+1+… (100001 operands): 58.0 ms
+# 1-1-1-1-1-1-… (100001 operands): 45.0 ms
+# 1*1*1*1*1*1*… (100001 operands): 44.0 ms
+# 1==1==1==1==… (100001 operands): 37.8 ms
+# x<x<x<x<x<x<… (100001 operands): 32.4 ms
+# min(1,1,1,1,… (100001 operands): 46.2 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 7 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1605
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 342.6022

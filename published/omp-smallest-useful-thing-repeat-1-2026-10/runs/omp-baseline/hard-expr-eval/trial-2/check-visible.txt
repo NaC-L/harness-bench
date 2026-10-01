@@ -1,0 +1,69 @@
+TAP version 13
+# Subtest: literals, grouping, built-ins and left-associative arithmetic
+ok 1 - literals, grouping, built-ins and left-associative arithmetic
+  ---
+  duration_ms: 1.8186
+  type: 'test'
+  ...
+# Subtest: power is right associative and has asymmetric unary precedence
+ok 2 - power is right associative and has asymmetric unary precedence
+  ---
+  duration_ms: 0.1917
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey sign, integer identity and positive-zero rules
+ok 3 - floor division and modulo obey sign, integer identity and positive-zero rules
+  ---
+  duration_ms: 3.3972
+  type: 'test'
+  ...
+# Subtest: comparison chains share operands, short circuit and preserve grouping
+ok 4 - comparison chains share operands, short circuit and preserve grouping
+  ---
+  duration_ms: 0.8488
+  type: 'test'
+  ...
+# Subtest: variables are own properties and each occurrence is read in source order
+ok 5 - variables are own properties and each occurrence is read in source order
+  ---
+  duration_ms: 0.3027
+  type: 'test'
+  ...
+# Subtest: errors use actual token columns and include all trailing whitespace at EOF
+ok 6 - errors use actual token columns and include all trailing whitespace at EOF
+  ---
+  duration_ms: 0.3697
+  type: 'test'
+  ...
+# Subtest: the entire source is parsed before evaluating any variables or operands
+ok 7 - the entire source is parsed before evaluating any variables or operands
+  ---
+  duration_ms: 0.1822
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic, comparisons and calls are stack safe
+ok 8 - 100,001-operand flat arithmetic, comparisons and calls are stack safe
+  ---
+  duration_ms: 279.4023
+  type: 'test'
+  ...
+# addition: 76.7 ms
+# subtraction: 40.5 ms
+# product: 39.0 ms
+# comparison: 43.3 ms
+# call: 43.1 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.192
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 357.4679

@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: numeric ordering applies to every version component
+ok 1 - numeric ordering applies to every version component
+  ---
+  duration_ms: 1.9639
+  type: 'test'
+  ...
+# Subtest: backtracking removes constraints and packages from rejected branches
+ok 2 - backtracking removes constraints and packages from rejected branches
+  ---
+  duration_ms: 0.3045
+  type: 'test'
+  ...
+# Subtest: partial discovery conflicts undo constraints before retrying
+ok 3 - partial discovery conflicts undo constraints before retrying
+  ---
+  duration_ms: 0.1523
+  type: 'test'
+  ...
+# Subtest: nested backtracking preserves earlier constraints and pending root work
+ok 4 - nested backtracking preserves earlier constraints and pending root work
+  ---
+  duration_ms: 0.1629
+  type: 'test'
+  ...
+# Subtest: FIFO discovery selects the first solution, not a global maximum
+ok 5 - FIFO discovery selects the first solution, not a global maximum
+  ---
+  duration_ms: 0.1616
+  type: 'test'
+  ...
+# Subtest: all newly discovered constraints apply before pending packages are selected
+ok 6 - all newly discovered constraints apply before pending packages are selected
+  ---
+  duration_ms: 0.0724
+  type: 'test'
+  ...
+# Subtest: dependency key order determines FIFO choices
+ok 7 - dependency key order determines FIFO choices
+  ---
+  duration_ms: 0.1192
+  type: 'test'
+  ...
+# Subtest: cycles and self-dependencies expand selected packages only once
+ok 8 - cycles and self-dependencies expand selected packages only once
+  ---
+  duration_ms: 0.0677
+  type: 'test'
+  ...
+# Subtest: missing packages and contradictory constraints are unsatisfiable
+ok 9 - missing packages and contradictory constraints are unsatisfiable
+  ---
+  duration_ms: 0.1912
+  type: 'test'
+  ...
+# Subtest: validates every registry entry eagerly, even with empty or missing roots
+ok 10 - validates every registry entry eagerly, even with empty or missing roots
+  ---
+  duration_ms: 1.0362
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate in maps
+ok 11 - only own enumerable string keys participate in maps
+  ---
+  duration_ms: 0.1743
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and prototype-like package names are safe
+ok 12 - null-prototype maps and prototype-like package names are safe
+  ---
+  duration_ms: 0.1083
+  type: 'test'
+  ...
+# Subtest: inputs are not mutated and successive calls do not retain search state
+ok 13 - inputs are not mutated and successive calls do not retain search state
+  ---
+  duration_ms: 0.0898
+  type: 'test'
+  ...
+# Subtest: long cyclic chains do not depend on recursion or an iteration cutoff
+ok 14 - long cyclic chains do not depend on recursion or an iteration cutoff
+  ---
+  duration_ms: 74.299
+  type: 'test'
+  ...
+# Subtest: backtracking across long failed chains is iterative and reversible
+ok 15 - backtracking across long failed chains is iterative and reversible
+  ---
+  duration_ms: 36.4588
+  type: 'test'
+  ...
+# Subtest: checks discovered conflicts without enumerating a Cartesian product
+ok 16 - checks discovered conflicts without enumerating a Cartesian product
+  ---
+  duration_ms: 0.7904
+  type: 'test'
+  ...
+# Subtest: zero-major caret ranges obey minor and patch compatibility boundaries
+ok 17 - zero-major caret ranges obey minor and patch compatibility boundaries
+  ---
+  duration_ms: 0.4293
+  type: 'test'
+  ...
+# Subtest: all range operators, whitespace, AND terms and safe-integer boundaries work
+ok 18 - all range operators, whitespace, AND terms and safe-integer boundaries work
+  ---
+  duration_ms: 0.1791
+  type: 'test'
+  ...
+# Subtest: invalid versions and ranges consistently throw TypeError
+ok 19 - invalid versions and ranges consistently throw TypeError
+  ---
+  duration_ms: 0.7753
+  type: 'test'
+  ...
+# Subtest: first-found assignments match an independent oracle across cyclic graphs
+ok 20 - first-found assignments match an independent oracle across cyclic graphs
+  ---
+  duration_ms: 25.4553
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 21 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3191
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 211.13

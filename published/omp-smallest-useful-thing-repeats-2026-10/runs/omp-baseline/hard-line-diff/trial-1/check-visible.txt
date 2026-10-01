@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: exhaustive minimality, edit ordering and roundtrips with repeated/empty lines
+ok 1 - exhaustive minimality, edit ordering and roundtrips with repeated/empty lines
+  ---
+  duration_ms: 25.606
+  type: 'test'
+  ...
+# Subtest: seeded larger repetitive inputs match the minimal-distance oracle
+ok 2 - seeded larger repetitive inputs match the minimal-distance oracle
+  ---
+  duration_ms: 11.2081
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use the preceding line in complete-file coordinates
+ok 3 - zero-length ranges use the preceding line in complete-file coordinates
+  ---
+  duration_ms: 0.2759
+  type: 'test'
+  ...
+# Subtest: context windows merge at the boundary, without duplicated context
+ok 4 - context windows merge at the boundary, without duplicated context
+  ---
+  duration_ms: 0.1297
+  type: 'test'
+  ...
+# Subtest: application tracks earlier edits and strips exactly one prefix
+ok 5 - application tracks earlier edits and strips exactly one prefix
+  ---
+  duration_ms: 0.1176
+  type: 'test'
+  ...
+# Subtest: malformed and nonapplicable hunks identify the offending index
+ok 6 - malformed and nonapplicable hunks identify the offending index
+  ---
+  duration_ms: 0.5688
+  type: 'test'
+  ...
+# Subtest: invalid context values are rejected
+ok 7 - invalid context values are rejected
+  ---
+  duration_ms: 0.1081
+  type: 'test'
+  ...
+# Subtest: small edits in 20,000-line files, including repeated lines, are fast
+ok 8 - small edits in 20,000-line files, including repeated lines, are fast
+  ---
+  duration_ms: 11.7225
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3282
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 111.1695

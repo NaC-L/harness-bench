@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: versions are sorted numerically across all three components
+ok 1 - versions are sorted numerically across all three components
+  ---
+  duration_ms: 1.9312
+  type: 'test'
+  ...
+# Subtest: FIFO discovery selects the first solution, not a globally newest assignment
+ok 2 - FIFO discovery selects the first solution, not a globally newest assignment
+  ---
+  duration_ms: 0.4109
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints and pending dependencies
+ok 3 - backtracking removes abandoned constraints and pending dependencies
+  ---
+  duration_ms: 0.1486
+  type: 'test'
+  ...
+# Subtest: a conflict undoes even partially appended dependencies
+ok 4 - a conflict undoes even partially appended dependencies
+  ---
+  duration_ms: 0.1111
+  type: 'test'
+  ...
+# Subtest: the most recent choice is retried before earlier choices
+ok 5 - the most recent choice is retried before earlier choices
+  ---
+  duration_ms: 0.1551
+  type: 'test'
+  ...
+# Subtest: self and mutual cycles terminate and enforce every constraint
+ok 6 - self and mutual cycles terminate and enforce every constraint
+  ---
+  duration_ms: 0.1307
+  type: 'test'
+  ...
+# Subtest: long chains and long backtracking use no recursive call stack or search cap
+ok 7 - long chains and long backtracking use no recursive call stack or search cap
+  ---
+  duration_ms: 115.5755
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune branches before a Cartesian product is explored
+ok 8 - discovered conflicts prune branches before a Cartesian product is explored
+  ---
+  duration_ms: 0.7108
+  type: 'test'
+  ...
+# Subtest: maps, missing packages, unusual keys, and input immutability obey the contract
+ok 9 - maps, missing packages, unusual keys, and input immutability obey the contract
+  ---
+  duration_ms: 0.5876
+  type: 'test'
+  ...
+# Subtest: malformed maps, versions, and ranges are validated even when unreachable
+ok 10 - malformed maps, versions, and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.7832
+  type: 'test'
+  ...
+# Subtest: canonical versions and the public semver helper APIs
+ok 11 - canonical versions and the public semver helper APIs
+  ---
+  duration_ms: 0.6079
+  type: 'test'
+  ...
+# Subtest: ranges cover zero-major carets, tilde, exact, wildcard, and AND comparisons
+ok 12 - ranges cover zero-major carets, tilde, exact, wildcard, and AND comparisons
+  ---
+  duration_ms: 0.3277
+  type: 'test'
+  ...
+# Subtest: small generated cyclic registries match an independent first-found reference
+ok 13 - small generated cyclic registries match an independent first-found reference
+  ---
+  duration_ms: 15.0007
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3265
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 215.949

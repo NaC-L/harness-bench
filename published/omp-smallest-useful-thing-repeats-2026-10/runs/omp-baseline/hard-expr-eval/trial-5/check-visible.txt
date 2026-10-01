@@ -1,0 +1,85 @@
+TAP version 13
+# Subtest: literal syntax, grouping, and left-associative arithmetic
+ok 1 - literal syntax, grouping, and left-associative arithmetic
+  ---
+  duration_ms: 1.7341
+  type: 'test'
+  ...
+# Subtest: powers associate right and have Python unary precedence on both sides
+ok 2 - powers associate right and have Python unary precedence on both sides
+  ---
+  duration_ms: 0.1999
+  type: 'test'
+  ...
+# Subtest: floor division and modulo cover all integer signs and normalize zero
+ok 3 - floor division and modulo cover all integer signs and normalize zero
+  ---
+  duration_ms: 3.8413
+  type: 'test'
+  ...
+# Subtest: comparisons chain, preserve boolean results, and convert booleans in arithmetic
+ok 4 - comparisons chain, preserve boolean results, and convert booleans in arithmetic
+  ---
+  duration_ms: 0.3263
+  type: 'test'
+  ...
+# Subtest: variable getters are read once per occurrence in left-to-right order
+ok 5 - variable getters are read once per occurrence in left-to-right order
+  ---
+  duration_ms: 0.8485
+  type: 'test'
+  ...
+# Subtest: false chains skip later evaluation but never skip syntax validation
+ok 6 - false chains skip later evaluation but never skip syntax validation
+  ---
+  duration_ms: 0.6189
+  type: 'test'
+  ...
+# Subtest: built-ins accept expressions and enforce function names and arities
+ok 7 - built-ins accept expressions and enforce function names and arities
+  ---
+  duration_ms: 0.2685
+  type: 'test'
+  ...
+# Subtest: variables use own properties, including null-prototype objects
+ok 8 - variables use own properties, including null-prototype objects
+  ---
+  duration_ms: 0.1037
+  type: 'test'
+  ...
+# Subtest: errors point to token starts after whitespace and EOF includes trailing whitespace
+ok 9 - errors point to token starts after whitespace and EOF includes trailing whitespace
+  ---
+  duration_ms: 0.6668
+  type: 'test'
+  ...
+# Subtest: unsupported syntax and trailing argument commas are rejected
+ok 10 - unsupported syntax and trailing argument commas are rejected
+  ---
+  duration_ms: 0.3824
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains stay iterative
+ok 11 - 100,001-operand arithmetic and comparison chains stay iterative
+  ---
+  duration_ms: 149.3921
+  type: 'test'
+  ...
+# sum: 61.6 ms
+# product: 33.2 ms
+# comparison: 52.0 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 12 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1279
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 224.9268

@@ -1,0 +1,125 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs produce minimal, ordered roundtrips
+ok 1 - exhaustive short repetitive inputs produce minimal, ordered roundtrips
+  ---
+  duration_ms: 28.0164
+  type: 'test'
+  ...
+# Subtest: seeded repetitive and prefix-containing lines roundtrip
+ok 2 - seeded repetitive and prefix-containing lines roundtrip
+  ---
+  duration_ms: 18.5686
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates at the top, middle, and end are preceding lines
+ok 3 - zero-line coordinates at the top, middle, and end are preceding lines
+  ---
+  duration_ms: 0.2106
+  type: 'test'
+  ...
+# Subtest: context touching merges exactly once; larger gaps remain separate
+ok 4 - context touching merges exactly once; larger gaps remain separate
+  ---
+  duration_ms: 0.162
+  type: 'test'
+  ...
+# Subtest: application rejects malformed hunks, mismatches, and inconsistent coordinates
+ok 5 - application rejects malformed hunks, mismatches, and inconsistent coordinates
+  ---
+  duration_ms: 0.5696
+  type: 'test'
+  ...
+# Subtest: application tracks prior offsets without mutating frozen inputs
+ok 6 - application tracks prior offsets without mutating frozen inputs
+  ---
+  duration_ms: 0.1437
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000-line unique and repetitive files are fast
+ok 7 - small edits to 20,000-line unique and repetitive files are fast
+  ---
+  duration_ms: 14.7997
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3593
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 9 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 2.383
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 10 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.3277
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 11 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.1679
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 12 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 17.4758
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 13 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.4757
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 14 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.6444
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 15 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.2884
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 16 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.1912
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 17 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 18.553
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 18 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.1849
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 19 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 48.3879
+  type: 'test'
+  ...
+# diff=5.350ms hunks=3.366ms total=8.716ms budget=1000ms
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 129.3696

@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and roundtrips for exhaustive repetitive inputs
+ok 1 - minimal deterministic scripts and roundtrips for exhaustive repetitive inputs
+  ---
+  duration_ms: 22.579
+  type: 'test'
+  ...
+# Subtest: seeded longer scripts remain minimal and roundtrip
+ok 2 - seeded longer scripts remain minimal and roundtrip
+  ---
+  duration_ms: 17.3025
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line numbers and complete-file coordinates
+ok 3 - zero-line ranges use preceding line numbers and complete-file coordinates
+  ---
+  duration_ms: 0.4375
+  type: 'test'
+  ...
+# Subtest: context merges touching windows, splits larger gaps, and clips at boundaries
+ok 4 - context merges touching windows, splits larger gaps, and clips at boundaries
+  ---
+  duration_ms: 0.1409
+  type: 'test'
+  ...
+# Subtest: applying retains unmentioned lines and preserves inputs and prefix characters
+ok 5 - applying retains unmentioned lines and preserves inputs and prefix characters
+  ---
+  duration_ms: 0.1232
+  type: 'test'
+  ...
+# Subtest: malformed and nonapplicable hunks identify their index
+ok 6 - malformed and nonapplicable hunks identify their index
+  ---
+  duration_ms: 0.5913
+  type: 'test'
+  ...
+# Subtest: small changes in 20,000 lines run below one second
+ok 7 - small changes in 20,000 lines run below one second
+  ---
+  duration_ms: 10.2592
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.1843
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 110.6465

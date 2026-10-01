@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: numbers, arithmetic associativity, and Python power/unary precedence
+ok 1 - numbers, arithmetic associativity, and Python power/unary precedence
+  ---
+  duration_ms: 1.6807
+  type: 'test'
+  ...
+# Subtest: floor division and divisor-signed modulo, including normalized zeros
+ok 2 - floor division and divisor-signed modulo, including normalized zeros
+  ---
+  duration_ms: 3.3007
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short circuit, and coerce booleans in arithmetic
+ok 3 - comparisons chain, short circuit, and coerce booleans in arithmetic
+  ---
+  duration_ms: 0.2713
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once per occurrence, left to right
+ok 4 - variables and call arguments are read once per occurrence, left to right
+  ---
+  duration_ms: 0.7325
+  type: 'test'
+  ...
+# Subtest: the entire source is parsed before variables are read
+ok 5 - the entire source is parsed before variables are read
+  ---
+  duration_ms: 0.3508
+  type: 'test'
+  ...
+# Subtest: error columns count UTF-16 offsets after whitespace, including end of source
+ok 6 - error columns count UTF-16 offsets after whitespace, including end of source
+  ---
+  duration_ms: 0.382
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparisons do not recurse per operand
+ok 7 - 100,001-operand flat arithmetic and comparisons do not recurse per operand
+  ---
+  duration_ms: 254.4465
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1332
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 332.8667

@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: numeric ordering compares every component, including safe-integer boundaries
+ok 1 - numeric ordering compares every component, including safe-integer boundaries
+  ---
+  duration_ms: 2.0877
+  type: 'test'
+  ...
+# Subtest: ranges honor caret, tilde, exact, wildcard, and AND boundaries
+ok 2 - ranges honor caret, tilde, exact, wildcard, and AND boundaries
+  ---
+  duration_ms: 0.4552
+  type: 'test'
+  ...
+# Subtest: invalid versions and ranges throw TypeError through every public helper
+ok 3 - invalid versions and ranges throw TypeError through every public helper
+  ---
+  duration_ms: 0.6391
+  type: 'test'
+  ...
+# Subtest: first-found assignment follows root FIFO order, not global version maximization
+ok 4 - first-found assignment follows root FIFO order, not global version maximization
+  ---
+  duration_ms: 0.2967
+  type: 'test'
+  ...
+# Subtest: discovery immediately collects constraints even for names still queued
+ok 5 - discovery immediately collects constraints even for names still queued
+  ---
+  duration_ms: 0.1269
+  type: 'test'
+  ...
+# Subtest: backtracking reverses dependencies, constraints, and deeper selections
+ok 6 - backtracking reverses dependencies, constraints, and deeper selections
+  ---
+  duration_ms: 0.1283
+  type: 'test'
+  ...
+# Subtest: retrying a version retains preexisting constraints but removes rejected ones
+ok 7 - retrying a version retains preexisting constraints but removes rejected ones
+  ---
+  duration_ms: 0.498
+  type: 'test'
+  ...
+# Subtest: self-cycles and multi-package cycles terminate and enforce all constraints
+ok 8 - self-cycles and multi-package cycles terminate and enforce all constraints
+  ---
+  duration_ms: 0.1214
+  type: 'test'
+  ...
+# Subtest: missing packages, empty catalogs, and mutually inconsistent constraints are unsatisfiable
+ok 9 - missing packages, empty catalogs, and mutually inconsistent constraints are unsatisfiable
+  ---
+  duration_ms: 0.213
+  type: 'test'
+  ...
+# Subtest: all registry entries are validated eagerly, even with an empty or unsatisfiable root
+ok 10 - all registry entries are validated eagerly, even with an empty or unsatisfiable root
+  ---
+  duration_ms: 0.4455
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate, null prototypes and special names are safe
+ok 11 - only own enumerable string keys participate, null prototypes and special names are safe
+  ---
+  duration_ms: 0.1817
+  type: 'test'
+  ...
+# Subtest: resolution does not mutate inputs or retain state across calls
+ok 12 - resolution does not mutate inputs or retain state across calls
+  ---
+  duration_ms: 0.1028
+  type: 'test'
+  ...
+# Subtest: long chains and their backtracking use no recursive call stack or iteration cap
+ok 13 - long chains and their backtracking use no recursive call stack or iteration cap
+  ---
+  duration_ms: 94.576
+  type: 'test'
+  ...
+# Subtest: impossible pending domains are checked before exploring unrelated Cartesian choices
+ok 14 - impossible pending domains are checked before exploring unrelated Cartesian choices
+  ---
+  duration_ms: 0.6527
+  type: 'test'
+  ...
+# Subtest: seeded cyclic graphs match an independent first-found reference search
+ok 15 - seeded cyclic graphs match an independent first-found reference search
+  ---
+  duration_ms: 9.544
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3536
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 175.6929

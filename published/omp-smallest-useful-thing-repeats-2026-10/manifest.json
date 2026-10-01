@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "invocations": [
+    {
+      "started": "2026-09-30T21:31:48.620840+00:00",
+      "trials": 3,
+      "jobs": 8,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-omp-smallest-useful-thing.toml",
+      "harnesses": {
+        "omp-baseline": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/omp-baseline/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "b586f5dd36ebb68f720129d1cfc95e59343bd35bff881ddf763c6027ed958c17",
+          "version": "v18.4.5-0-g79808c3bf",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        },
+        "omp-smallest": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/oh-my-pi/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "c011a4c2b093a86029dce073b515f85880bdb7749a5404a248fd2410d05288ae",
+          "version": "v18.4.5-1-g27cdf191b",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    },
+    {
+      "started": "2026-09-30T21:43:35.410851+00:00",
+      "trials": 3,
+      "jobs": 8,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-omp-smallest-useful-thing.toml",
+      "harnesses": {
+        "omp-baseline": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/omp-baseline/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "b586f5dd36ebb68f720129d1cfc95e59343bd35bff881ddf763c6027ed958c17",
+          "version": "v18.4.5-0-g79808c3bf",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        },
+        "omp-smallest": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/oh-my-pi/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "c011a4c2b093a86029dce073b515f85880bdb7749a5404a248fd2410d05288ae",
+          "version": "v18.4.5-1-g27cdf191b",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    },
+    {
+      "started": "2026-09-30T21:55:37.757622+00:00",
+      "trials": 3,
+      "jobs": 8,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-omp-smallest-useful-thing.toml",
+      "harnesses": {
+        "omp-baseline": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/omp-baseline/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "b586f5dd36ebb68f720129d1cfc95e59343bd35bff881ddf763c6027ed958c17",
+          "version": "v18.4.5-0-g79808c3bf",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        },
+        "omp-smallest": {
+          "kind": "omp",
+          "command": [
+            "bun",
+            "~/Desktop/oh-my-pi/packages/coding-agent/src/cli.ts",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "openai-codex/gpt-6.1-sol",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "c011a4c2b093a86029dce073b515f85880bdb7749a5404a248fd2410d05288ae",
+          "version": "v18.4.5-1-g27cdf191b",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "OPENAI_CODEX_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "openai-codex"
+            ]
+          },
+          "files": {
+            "experiments/omp-verbosity-intent/baseline.yml": {
+              "sha256": "d56cf6629d2e00cfb7b2c99a10040bbffd8f90c831f99033d1e12b8df672c3ad",
+              "contents": "inlineToolDescriptors: \"off\"\ntextVerbosity: \"medium\"\ntools:\n  intentTracing: true\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "hard-dep-resolver": "c5041eab8ad4497f4b9d83c3c3476e72664189070c077d32a7cea3b6a65e307d",
+        "hard-expr-eval": "7e651a4872effae98e9a8db0b81d37fec6ccab389a8ca44e9e48900fe2ca3990",
+        "hard-line-diff": "d140d53f0099a295b9ec9ec9d79c55f0ffd3c81ff3c4176d5451fd078ee5060e",
+        "hard-segment-tree": "51474f0d7d5afcd404e7947de07a39f55e108c8b154d14cb08ba438d759a7df6"
+      }
+    }
+  ]
+}

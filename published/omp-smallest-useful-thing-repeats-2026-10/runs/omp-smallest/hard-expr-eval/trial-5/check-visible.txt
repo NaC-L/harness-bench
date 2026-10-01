@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: Python arithmetic precedence and associativity
+ok 1 - Python arithmetic precedence and associativity
+  ---
+  duration_ms: 1.8476
+  type: 'test'
+  ...
+# Subtest: floor division and modulo preserve Python signs and floating-point quotients
+ok 2 - floor division and modulo preserve Python signs and floating-point quotients
+  ---
+  duration_ms: 2.7203
+  type: 'test'
+  ...
+# Subtest: comparison chains reuse operands and short-circuit without hiding syntax errors
+ok 3 - comparison chains reuse operands and short-circuit without hiding syntax errors
+  ---
+  duration_ms: 0.9548
+  type: 'test'
+  ...
+# Subtest: variables and arguments are read once per occurrence, in evaluation order
+ok 4 - variables and arguments are read once per occurrence, in evaluation order
+  ---
+  duration_ms: 0.2345
+  type: 'test'
+  ...
+# Subtest: error columns locate tokens after whitespace and use UTF-16 offsets
+ok 5 - error columns locate tokens after whitespace and use UTF-16 offsets
+  ---
+  duration_ms: 0.4951
+  type: 'test'
+  ...
+# Subtest: 100,000+ operand arithmetic and comparison chains are iterative and fast
+ok 6 - 100,000+ operand arithmetic and comparison chains are iterative and fast
+  ---
+  duration_ms: 243.6123
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 7 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.1025
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 318.6919

@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: numeric ordering compares every version component
+ok 1 - numeric ordering compares every version component
+  ---
+  duration_ms: 2.4706
+  type: 'test'
+  ...
+# Subtest: semver rejects noncanonical and unsafe versions in every helper
+ok 2 - semver rejects noncanonical and unsafe versions in every helper
+  ---
+  duration_ms: 0.7938
+  type: 'test'
+  ...
+# Subtest: semver implements exact, wildcard, comparison, caret, tilde, and AND terms
+ok 3 - semver implements exact, wildcard, comparison, caret, tilde, and AND terms
+  ---
+  duration_ms: 0.6695
+  type: 'test'
+  ...
+# Subtest: failed choices undo constraints and dependency discovery
+ok 4 - failed choices undo constraints and dependency discovery
+  ---
+  duration_ms: 0.3065
+  type: 'test'
+  ...
+# Subtest: late conflicts unwind several frames without leaving old selections
+ok 5 - late conflicts unwind several frames without leaving old selections
+  ---
+  duration_ms: 0.1229
+  type: 'test'
+  ...
+# Subtest: discovery collects all constraints before processing a name
+ok 6 - discovery collects all constraints before processing a name
+  ---
+  duration_ms: 0.1426
+  type: 'test'
+  ...
+# Subtest: first-found follows FIFO root and dependency order, not global maximization
+ok 7 - first-found follows FIFO root and dependency order, not global maximization
+  ---
+  duration_ms: 0.7431
+  type: 'test'
+  ...
+# Subtest: self cycles and mutual cycles terminate and can backtrack
+ok 8 - self cycles and mutual cycles terminate and can backtrack
+  ---
+  duration_ms: 0.146
+  type: 'test'
+  ...
+# Subtest: checks discovered conflicts before exploring a Cartesian product
+ok 9 - checks discovered conflicts before exploring a Cartesian product
+  ---
+  duration_ms: 0.6867
+  type: 'test'
+  ...
+# Subtest: long chains and long cyclic chains use no recursive search or iteration cap
+ok 10 - long chains and long cyclic chains use no recursive search or iteration cap
+  ---
+  duration_ms: 179.2032
+  type: 'test'
+  ...
+# Subtest: eager validation includes unreachable entries and empty roots
+ok 11 - eager validation includes unreachable entries and empty roots
+  ---
+  duration_ms: 0.5489
+  type: 'test'
+  ...
+# Subtest: maps use own enumerable string keys and preserve inputs and special names
+ok 12 - maps use own enumerable string keys and preserve inputs and special names
+  ---
+  duration_ms: 0.2087
+  type: 'test'
+  ...
+# Subtest: first-found agrees with independent reference on generated branching cyclic graphs
+ok 13 - first-found agrees with independent reference on generated branching cyclic graphs
+  ---
+  duration_ms: 21.6643
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5477
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 282.2327

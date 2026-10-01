@@ -1,0 +1,54 @@
+TAP version 13
+# Subtest: exhaustive repetitive and empty lines: minimal scripts and patch roundtrips
+ok 1 - exhaustive repetitive and empty lines: minimal scripts and patch roundtrips
+  ---
+  duration_ms: 121.2193
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates refer to the preceding line in the complete file
+ok 2 - zero-line coordinates refer to the preceding line in the complete file
+  ---
+  duration_ms: 0.2593
+  type: 'test'
+  ...
+# Subtest: touching context merges, while wider gaps keep full-file coordinates
+ok 3 - touching context merges, while wider gaps keep full-file coordinates
+  ---
+  duration_ms: 0.1931
+  type: 'test'
+  ...
+# Subtest: application verifies content, counts, coordinates, ordering, and prefixes
+ok 4 - application verifies content, counts, coordinates, ordering, and prefixes
+  ---
+  duration_ms: 0.5822
+  type: 'test'
+  ...
+# Subtest: prefix characters are removed exactly once and input text is preserved
+ok 5 - prefix characters are removed exactly once and input text is preserved
+  ---
+  duration_ms: 0.1524
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000-line files remain fast, including repetitive inputs
+ok 6 - small changes to 20,000-line files remain fast, including repetitive inputs
+  ---
+  duration_ms: 13.9074
+  type: 'test'
+  ...
+# unique lines: 5.1 ms
+# repetitive lines: 4.1 ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3216
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 198.0637

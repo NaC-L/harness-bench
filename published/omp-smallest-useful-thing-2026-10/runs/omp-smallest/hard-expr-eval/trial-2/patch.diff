@@ -1,0 +1,230 @@
+diff --git "{temp}\\hb-d022348b-nz_r7kdv/src/contract.test.js" "{temp}\\hb-d022348b-nz_r7kdv/src/contract.test.js"
+new file mode 100644
+index 0000000..3646115
+--- /dev/null
++++ "{temp}\\hb-d022348b-nz_r7kdv/src/contract.test.js"
+@@ -0,0 +1,134 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { evaluate, ExprError } = require('./index');
++
++function expectError(source, column, variables) {
++  assert.throws(() => evaluate(source, variables), error => {
++    assert.ok(error instanceof ExprError);
++    assert.equal(error.name, 'ExprError');
++    assert.equal(error.column, column, source);
++    return true;
++  });
++}
++
++test('arithmetic follows the documented precedence and associativity', () => {
++  const cases = [
++    ['-2 ** 2', -4], ['(-2) ** 2', 4], ['2 ** -1', 0.5],
++    ['2 ** 3 ** 2', 512], ['2 ** -2 ** 2', 0.0625],
++    ['-2 ** -2', -0.25], ['2 * -3 ** 2', -18],
++    ['--2 ** 2', 4], ['2 ** +3', 8], ['2 ** 3 * 2', 16],
++    ['8 / 2 * 3', 12], ['8 - 3 - 2', 3], ['1 + 2 * 3', 7],
++    ['17 % 5 * 3 // 2', 3], ['5 / -2', -2.5], ['1 - -2', 3],
++  ];
++  for (const [source, expected] of cases) assert.equal(evaluate(source), expected, source);
++});
++
++test('floor division and modulo obey signed integer identities and normalize zero', () => {
++  for (let a = -20; a <= 20; a += 1) {
++    for (let b = -7; b <= 7; b += 1) {
++      if (b === 0) continue;
++      const quotient = evaluate('a // b', { a, b });
++      const remainder = evaluate('a % b', { a, b });
++      assert.equal(quotient, Math.floor(a / b) || 0);
++      assert.equal(quotient * b + remainder, a);
++      assert.ok(remainder === 0 || Math.sign(remainder) === Math.sign(b));
++      assert.ok(Math.abs(remainder) < Math.abs(b));
++      if (quotient === 0) assert.ok(Object.is(quotient, 0));
++      if (remainder === 0) assert.ok(Object.is(remainder, 0));
++    }
++  }
++  assert.equal(evaluate('-7.5 // 2'), -4);
++  assert.equal(evaluate('-7.5 % 2'), 0.5);
++  assert.equal(evaluate('7.5 % -2'), -0.5);
++  assert.equal(evaluate('a % b', { a: -0, b: -3 }), 0);
++});
++
++test('comparisons chain and booleans coerce numerically in arithmetic and equality', () => {
++  const cases = [
++    ['3 < 2 < 1', false], ['1 < 2 <= 2 != 3', true],
++    ['3 > 2 >= 2 == 2', true], ['1 + 2 < 2 * 2', true],
++    ['(3 < 2) < 1', true], ['(1 < 2) + (3 < 2)', 1],
++    ['(1 < 2) == 1', true], ['0 == (3 < 2)', true],
++    ['(1 < 2) != 1', false], ['-(1 < 2)', -1],
++    ['abs(3 < 2)', 0], ['min(1 < 2, 2, 3)', 1],
++  ];
++  for (const [source, expected] of cases) assert.equal(evaluate(source), expected, source);
++  assert.equal(evaluate('3 < 2 < missing'), false);
++  assert.equal(evaluate('3 < 2 < (1 / 0)'), false);
++});
++
++test('getters are read once per occurrence in left-to-right order', () => {
++  const reads = [];
++  const variables = {};
++  for (const [name, value] of [['a', 1], ['b', 2], ['c', 3], ['d', 4]]) {
++    Object.defineProperty(variables, name, { get() { reads.push(name); return value; } });
++  }
++  Object.freeze(variables);
++  assert.equal(evaluate('a < b < c', variables), true);
++  assert.deepEqual(reads.splice(0), ['a', 'b', 'c']);
++  assert.equal(evaluate('c < b < d', variables), false);
++  assert.deepEqual(reads.splice(0), ['c', 'b']);
++  assert.equal(evaluate('max(a + b, abs(-c), min(d, a))', variables), 3);
++  assert.deepEqual(reads.splice(0), ['a', 'b', 'c', 'd', 'a']);
++  assert.equal(evaluate('a + a * b ** c', variables), 9);
++  assert.deepEqual(reads, ['a', 'a', 'b', 'c']);
++  expectError('inherited', 1, Object.create({ inherited: 1 }));
++  expectError('toString', 1, {});
++  const own = Object.create(null);
++  own.__proto__ = 7;
++  assert.equal(evaluate('__proto__', own), 7);
++});
++
++test('the whole formula and call arities are checked before reading variables', () => {
++  let reads = 0;
++  const variables = { get x() { reads += 1; return 1; } };
++  for (const source of ['x + min()', 'x + max()', 'x + abs()', 'x + abs(1, 2)', 'x + other(1)']) {
++    expectError(source, 5, variables);
++  }
++  expectError('x < 0 < abs()', 9, variables);
++  expectError('x + min(1,)', 11, variables);
++  expectError('x + 1 2', 7, variables);
++  expectError('x + @', 5, variables);
++  assert.equal(reads, 0);
++});
++
++test('numbers, identifiers, grouping and built-ins follow the contract', () => {
++  assert.equal(evaluate('1.5 + .5 + 5. + 1.5e-3 + 2E+2'), 207.0015);
++  assert.equal(evaluate('\t min( 5, max(2, 3), abs(-4) ) \n'), 3);
++  assert.equal(evaluate('min(4)'), 4);
++  assert.equal(evaluate('max(-4)'), -4);
++  assert.equal(evaluate('_x2 + A9', { _x2: 2, A9: 3 }), 5);
++  assert.equal(evaluate('min + abs', { min: 2, abs: 3 }), 5);
++  assert.equal(evaluate('(1 + (2 * 3))'), 7);
++});
++
++test('errors report the offending UTF-16 token, not preceding whitespace', () => {
++  const cases = [
++    ['   missing', 4], ['1 +   missing', 7], ['1   @', 5],
++    ['1   = 2', 5], ['  min()', 3], ['  abs(1, 2)', 3],
++    ['  unknown(1)', 3], ['1   2', 5], ['1 +   )', 7],
++    ['1 +  \t', 7], ['   ', 4], ['', 1], ['(1  ', 5],
++    ['1 /   0', 3], ['1   // 0', 5], ['1\t % -0', 4],
++    ['2(3)', 2], ['1e', 2], ['min(1,)', 7], ['1 + 😀', 5],
++    ['1\u2003\u00a0 +\n missing', 8],
++  ];
++  for (const [source, column] of cases) expectError(source, column);
++});
++
++test('long flat arithmetic, comparisons and call argument lists do not use the call stack', t => {
++  const count = 100001;
++  const cases = [
++    [Array(count).fill('1').join('+'), count],
++    [Array(count).fill('1').join(' <= '), true],
++    [`max(${Array(count).fill('1').join(',')})`, 1],
++  ];
++  for (const [source, expected] of cases) {
++    const start = performance.now();
++    assert.equal(evaluate(source), expected);
++    const elapsed = performance.now() - start;
++    t.diagnostic(`${count} operands (${source.length} characters): ${elapsed.toFixed(1)} ms`);
++    assert.ok(elapsed < 1000, 'long flat formulas must evaluate in under one second');
++  }
++});
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-d022348b-nz_r7kdv/src/evaluator.js"
+index 7f2b237..1440816 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-d022348b-nz_r7kdv/src/evaluator.js"
+@@ -16,13 +16,13 @@ function apply(operator, left, right) {
+     case '/': return left / right;
+     case '**': return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
++      const quotient = Math.floor(left / right);
+       return quotient === 0 ? 0 : quotient;
+     }
+     case '%': {
+       const remainder = left % right;
+       if (remainder === 0) return 0;
+-      return remainder;
++      return (remainder < 0) !== (right < 0) ? remainder + right : remainder;
+     }
+     case '<': return left < right;
+     case '<=': return left <= right;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-d022348b-nz_r7kdv/src/parser.js"
+index 4af2109..074fb8f 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-d022348b-nz_r7kdv/src/parser.js"
+@@ -15,12 +15,14 @@ function parse(tokens) {
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
++    const left = sum();
++    const operators = [];
++    const operands = [left];
+     while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return operators.length ? { type: 'comparison', operators, operands } : left;
+   }
+ 
+   function sum() {
+@@ -33,10 +35,10 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
++    let left = unary();
+     while (['*', '/', '//', '%'].includes(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+@@ -45,14 +47,14 @@ function parse(tokens) {
+     if (is('+') || is('-')) {
+       return { type: 'unary', operator: take(), operand: unary() };
+     }
+-    return primary();
++    return power();
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
++    const left = primary();
++    if (is('**')) {
+       const operator = take();
+-      left = binary(operator, left, unary());
++      return binary(operator, left, unary());
+     }
+     return left;
+   }
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-d022348b-nz_r7kdv/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-d022348b-nz_r7kdv/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

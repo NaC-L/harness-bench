@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs produce minimal, ordered roundtrips
+ok 1 - exhaustive short repetitive inputs produce minimal, ordered roundtrips
+  ---
+  duration_ms: 22.6735
+  type: 'test'
+  ...
+# Subtest: seeded repetitive and prefix-containing lines roundtrip
+ok 2 - seeded repetitive and prefix-containing lines roundtrip
+  ---
+  duration_ms: 16.0312
+  type: 'test'
+  ...
+# Subtest: zero-line coordinates at the top, middle, and end are preceding lines
+ok 3 - zero-line coordinates at the top, middle, and end are preceding lines
+  ---
+  duration_ms: 0.2005
+  type: 'test'
+  ...
+# Subtest: context touching merges exactly once; larger gaps remain separate
+ok 4 - context touching merges exactly once; larger gaps remain separate
+  ---
+  duration_ms: 0.1471
+  type: 'test'
+  ...
+# Subtest: application rejects malformed hunks, mismatches, and inconsistent coordinates
+ok 5 - application rejects malformed hunks, mismatches, and inconsistent coordinates
+  ---
+  duration_ms: 0.8781
+  type: 'test'
+  ...
+# Subtest: application tracks prior offsets without mutating frozen inputs
+ok 6 - application tracks prior offsets without mutating frozen inputs
+  ---
+  duration_ms: 0.1778
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000-line unique and repetitive files are fast
+ok 7 - small edits to 20,000-line unique and repetitive files are fast
+  ---
+  duration_ms: 14.8638
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.2779
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 117.2969

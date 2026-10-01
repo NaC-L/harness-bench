@@ -1,0 +1,253 @@
+diff --git "{temp}\\hb-0f4d3401-uzifjfhu/contract.test.js" "{temp}\\hb-0f4d3401-uzifjfhu/contract.test.js"
+new file mode 100644
+index 0000000..f1edaea
+--- /dev/null
++++ "{temp}\\hb-0f4d3401-uzifjfhu/contract.test.js"
+@@ -0,0 +1,154 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { performance } = require('node:perf_hooks');
++const { evaluate, ExprError } = require('./src/index');
++
++function errorAt(source, column, variables) {
++  assert.throws(() => evaluate(source, variables), error => {
++    assert.ok(error instanceof ExprError);
++    assert.equal(error.name, 'ExprError');
++    assert.equal(error.column, column, source);
++    return true;
++  });
++}
++
++test('numeric literals, arithmetic precedence and associativity', () => {
++  const cases = [
++    ['1.5 + .5 + 5. + 1.5e-3 + 2E+2', 207.0015],
++    ['10 - 3 - 2', 5], ['24 / 4 / 2', 3],
++    ['2 + 3 * 4', 14], ['(2 + 3) * 4', 20],
++    ['20 // 3 * 2 % 5', 2], ['8 / 2 * 3', 12],
++    ['-2 ** 2', -4], ['(-2) ** 2', 4],
++    ['2 ** -1', 0.5], ['2 ** 3 ** 2', 512],
++    ['-2 ** -2', -0.25], ['2 ** -2 ** 2', 0.0625],
++    ['2 * -3 ** 2', -18], ['--2 ** 2', 4],
++    ['2 ** +3', 8], ['+ - + 2', -2],
++  ];
++  for (const [source, expected] of cases) assert.equal(evaluate(source), expected, source);
++});
++
++test('floor division and modulo have Python signs and positive zero results', () => {
++  for (let a = -25; a <= 25; a += 1) {
++    for (let b = -10; b <= 10; b += 1) {
++      if (b === 0) continue;
++      const variables = { a, b };
++      const quotient = evaluate('a // b', variables);
++      const remainder = evaluate('a % b', variables);
++      assert.equal(quotient, Math.floor(a / b) || 0);
++      assert.equal(quotient * b + remainder, a);
++      assert.ok(remainder === 0 || (remainder < 0) === (b < 0));
++      assert.ok(Math.abs(remainder) < Math.abs(b));
++      if (quotient === 0) assert.ok(!Object.is(quotient, -0));
++      if (remainder === 0) assert.ok(!Object.is(remainder, -0));
++    }
++  }
++  assert.equal(evaluate('-7.5 // 2'), -4);
++  assert.equal(evaluate('-7.5 % 2'), 0.5);
++  assert.equal(evaluate('7.5 % -2'), -0.5);
++  for (const source of ['0 // -2', '-0 // 2', '-4 % 2', '4 % -2']) {
++    assert.ok(Object.is(evaluate(source), 0), source);
++  }
++});
++
++test('all comparisons chain and booleans act as numbers in arithmetic', () => {
++  const cases = [
++    ['1 < 2 <= 2 == 2 != 3 >= 3 > 1', true],
++    ['3 < 2 < 1', false], ['3 > 2 > 1', true],
++    ['1 == 1 == 1', true], ['2 == 2 == 2', true],
++    ['1 != 2 != 1', true], ['1 < 2 > 3', false],
++    ['2 + 3 == 5', true], ['2 >= 3', false],
++    ['(1 < 2) + (2 < 1)', 1], ['(1 < 2) == 1', true],
++    ['(2 < 1) == 0', true], ['(3 > 2) ** 3', 1],
++    ['(3 < 2) < 1', true], ['abs(-(1 < 2))', 1],
++  ];
++  for (const [source, expected] of cases) assert.equal(evaluate(source), expected, source);
++});
++
++test('getters are read once per occurrence, left to right, without mutation', () => {
++  const reads = [];
++  const variables = Object.create(null);
++  for (const [name, value] of [['a', 1], ['b', 2], ['c', 3]]) {
++    Object.defineProperty(variables, name, {
++      get() { reads.push(name); return value; },
++      enumerable: true,
++    });
++  }
++  Object.freeze(variables);
++  assert.equal(evaluate('a < b <= c', variables), true);
++  assert.deepEqual(reads, ['a', 'b', 'c']);
++  reads.length = 0;
++  assert.equal(evaluate('max(a + b, min(c, b), abs(-a))', variables), 3);
++  assert.deepEqual(reads, ['a', 'b', 'c', 'b', 'a']);
++  reads.length = 0;
++  assert.equal(evaluate('a + a * b', variables), 3);
++  assert.deepEqual(reads, ['a', 'a', 'b']);
++});
++
++test('false comparisons skip later evaluations but not syntax validation', () => {
++  const variables = {
++    get skipped() { assert.fail('short-circuited getter was read'); },
++  };
++  assert.equal(evaluate('3 < 2 < skipped', variables), false);
++  assert.equal(evaluate('3 < 2 < missing'), false);
++  assert.equal(evaluate('3 < 2 < 1 / 0'), false);
++  errorAt('3 < 2 < abs(1, 2)', 9);
++  errorAt('3 < 2 < unknown(1)', 9);
++  errorAt('3 < 2 < (1 + )', 14);
++  errorAt('3 < 2 < 1 @', 11);
++});
++
++test('built-in calls enforce arity before evaluation', () => {
++  assert.equal(evaluate('min(4)'), 4);
++  assert.equal(evaluate('max(-3, 2, 8, -1)'), 8);
++  assert.equal(evaluate('min(4, abs(-3), max(1, 2))'), 2);
++  assert.equal(evaluate('min(1 < 2, 2 < 1)'), 0);
++  const variables = { get x() { assert.fail('syntax errors must precede evaluation'); } };
++  for (const source of ['x + abs()', 'x + abs(1, 2)', 'x + min()', 'x + max()', 'x + other(1)']) {
++    errorAt(source, 5, variables);
++  }
++  assert.equal(evaluate('min + abs', { min: 2, abs: 3 }), 5);
++});
++
++test('variables use own properties and the documented identifier grammar', () => {
++  assert.equal(evaluate('_rate2 + Amount', { _rate2: 1, Amount: 2 }), 3);
++  const variables = Object.create({ inherited: 1 });
++  variables.own = 2;
++  assert.equal(evaluate('own', variables), 2);
++  errorAt('  inherited', 3, variables);
++  errorAt('toString', 1);
++  const nullPrototype = Object.create(null);
++  nullPrototype.constructor = 4;
++  assert.equal(evaluate('constructor', nullPrototype), 4);
++});
++
++test('errors point to the actual token, using UTF-16 offsets', () => {
++  for (const operator of ['/', '//', '%']) {
++    errorAt(`  1  ${operator} -0`, 6);
++  }
++  const cases = [
++    ['', 1], [' \t\n', 4], ['1 +   ', 7], ['(1  ', 5],
++    ['1   2', 5], ['1   @', 5], [' \r\n missing', 5],
++    ['1 + \t )', 7], ['1   = 2', 5], ['1   ! 2', 5],
++    ['1   \u{1F600}', 5], ['  abs(1,)', 9], ['min(,1)', 5],
++    ['2(3)', 2], ['2 x', 3], ['. ', 1], ['1e+', 2],
++    ['1 + * 2', 5], ['(1))', 4], ['1,2', 2],
++  ];
++  for (const [source, column] of cases) errorAt(source, column);
++});
++
++test('100,001-operand flat chains evaluate without recursive stack growth', t => {
++  const count = 100001;
++  const cases = [
++    [Array(count).fill('1').join(' + '), count],
++    [Array(count).fill('1').join(' * '), 1],
++    [Array(count).fill('1').join(' == '), true],
++    [Array.from({ length: count }, (_, i) => String(i)).join(' < '), true],
++  ];
++  for (const [source, expected] of cases) {
++    const start = performance.now();
++    assert.equal(evaluate(source), expected);
++    t.diagnostic(`${count} operands: ${(performance.now() - start).toFixed(1)} ms`);
++  }
++});
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-0f4d3401-uzifjfhu/src/evaluator.js"
+index 7f2b237..a7c5e36 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-0f4d3401-uzifjfhu/src/evaluator.js"
+@@ -16,13 +16,13 @@ function apply(operator, left, right) {
+     case '/': return left / right;
+     case '**': return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
++      const quotient = Math.floor(left / right);
+       return quotient === 0 ? 0 : quotient;
+     }
+     case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
++      let remainder = left % right;
++      if (remainder !== 0 && (remainder < 0) !== (right < 0)) remainder += right;
++      return remainder === 0 ? 0 : remainder;
+     }
+     case '<': return left < right;
+     case '<=': return left <= right;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-0f4d3401-uzifjfhu/src/parser.js"
+index 4af2109..f28a95e 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-0f4d3401-uzifjfhu/src/parser.js"
+@@ -15,12 +15,15 @@ function parse(tokens) {
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
++    const first = sum();
++    if (!['<', '<=', '>', '>=', '==', '!='].includes(current().value)) return first;
++    const operands = [first];
++    const operators = [];
+     while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+@@ -33,10 +36,10 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
++    let left = unary();
+     while (['*', '/', '//', '%'].includes(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+@@ -45,14 +48,14 @@ function parse(tokens) {
+     if (is('+') || is('-')) {
+       return { type: 'unary', operator: take(), operand: unary() };
+     }
+-    return primary();
++    return power();
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
++    const left = primary();
++    if (is('**')) {
+       const operator = take();
+-      left = binary(operator, left, unary());
++      return binary(operator, left, unary());
+     }
+     return left;
+   }
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-0f4d3401-uzifjfhu/src/tokenizer.js"
+index d0b81a6..b8877f1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-0f4d3401-uzifjfhu/src/tokenizer.js"
+@@ -9,9 +9,9 @@ function tokenize(source) {
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+     while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {

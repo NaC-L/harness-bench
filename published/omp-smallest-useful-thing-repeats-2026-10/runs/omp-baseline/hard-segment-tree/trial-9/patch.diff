@@ -1,0 +1,191 @@
+diff --git "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js" "{temp}\\hb-8039dbd3-gl249zkx/src/range-tree.js"
+index c830491..39d06e3 100644
+--- "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js"
++++ "{temp}\\hb-8039dbd3-gl249zkx/src/range-tree.js"
+@@ -122,6 +122,8 @@ class RangeTree {
+     this._sums[node] = size * value;
+     this._maxima[node] = value;
+     this._assignments[node] = value;
++    // An assignment replaces every earlier update, including pending additions.
++    this._additions[node] = 0;
+     this._hasAssignment[node] = 1;
+   }
+ 
+@@ -175,7 +177,7 @@ class RangeTree {
+     if (l <= left && right <= r) return this._maxima[node];
+     this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+-    let result = 0;
++    let result = -Infinity;
+     if (l < middle) result = Math.max(result, this._max(node * 2, left, middle, l, r));
+     if (r > middle) result = Math.max(result, this._max(node * 2 + 1, middle, right, l, r));
+     return result;
+@@ -184,6 +186,7 @@ class RangeTree {
+   _first(node, left, right, lo, x) {
+     if (right <= lo || this._maxima[node] < x) return -1;
+     if (right - left === 1) return left;
++    this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+     const found = this._first(node * 2, left, middle, lo, x);
+     return found !== -1 ? found : this._first(node * 2 + 1, middle, right, lo, x);
+diff --git "{temp}\\hb-8039dbd3-gl249zkx/src/range-tree.test.js" "{temp}\\hb-8039dbd3-gl249zkx/src/range-tree.test.js"
+new file mode 100644
+index 0000000..610303a
+--- /dev/null
++++ "{temp}\\hb-8039dbd3-gl249zkx/src/range-tree.test.js"
+@@ -0,0 +1,155 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { RangeTree } = require('./range-tree');
++
++function sum(values, l, r) {
++  return values.slice(l, r).reduce((total, value) => total + value, 0);
++}
++
++function max(values, l, r) {
++  return values.slice(l, r).reduce((largest, value) => Math.max(largest, value), -Infinity);
++}
++
++function first(values, lo, threshold) {
++  for (let i = lo; i < values.length; i++) {
++    if (values[i] >= threshold) return i;
++  }
++  return -1;
++}
++
++test('assignment discards additions at both parent and child nodes', () => {
++  const tree = new RangeTree([1, 2, 3, 4, 5, 6, 7, 8]);
++  tree.add(0, 4, 9);
++  tree.add(0, 8, 3);
++  tree.assign(0, 8, -10);
++  tree.add(0, 8, 2);
++  // The parent assignment must also replace the child's older addition tag.
++  assert.equal(tree.sum(1, 3), -16);
++  assert.equal(tree.max(1, 7), -8);
++  assert.equal(tree.firstAtLeast(0, -7), -1);
++  assert.deepEqual(tree.toArray(), Array(8).fill(-8));
++  tree.assign(2, 6, 0);
++  tree.add(3, 7, -2);
++  assert.deepEqual(tree.toArray(), [-8, -8, 0, -2, -2, -2, -10, -8]);
++});
++
++test('partial maximum queries preserve negative maxima', () => {
++  const tree = new RangeTree([-9, -7, -5, -3, -1]);
++  assert.equal(tree.max(0, 3), -5);
++  assert.equal(tree.max(1, 4), -3);
++  assert.equal(tree.max(0, 1), -9);
++  tree.assign(0, 5, -20);
++  tree.add(1, 4, 2);
++  assert.equal(tree.max(2, 5), -18);
++});
++
++test('threshold search propagates updates before inspecting children', () => {
++  const tree = new RangeTree([0, 10, 0, 10, 0]);
++  tree.assign(0, 5, 7);
++  assert.equal(tree.firstAtLeast(0, 7), 0);
++  assert.equal(tree.firstAtLeast(2, 7), 2);
++  tree.add(0, 5, 5);
++  assert.equal(tree.firstAtLeast(3, 12), 3);
++  tree.assign(0, 5, -20);
++  tree.add(2, 5, 8);
++  assert.equal(tree.firstAtLeast(0, -12), 2);
++  assert.equal(tree.firstAtLeast(3, -12), 3);
++  assert.equal(tree.firstAtLeast(0, -11), -1);
++  assert.equal(tree.firstAtLeast(0, Infinity), -1);
++  assert.equal(tree.firstAtLeast(4, -Infinity), 4);
++  assert.equal(tree.firstAtLeast(5, -Infinity), -1);
++});
++
++test('API validates arguments without mutation and preserves empty ranges and copies', () => {
++  for (const values of [null, {}, [], [NaN], [Infinity], ['1'], new Array(2), new Float64Array(2)]) {
++    assert.throws(() => new RangeTree(values), RangeError);
++  }
++  const input = [1, 2, 3];
++  const tree = new RangeTree(input);
++  input[0] = 99;
++  assert.equal(tree.length, 3);
++  assert.throws(() => { tree.length = 10; }, TypeError);
++  tree.add(0, 3, 4);
++  const expected = [5, 6, 7];
++  for (const method of ['assign', 'add', 'sum', 'max']) {
++    for (const [l, r] of [[-1, 2], [0, 4], [2, 1], [0.5, 2], [0, NaN], ['0', 2], [0, Infinity]]) {
++      assert.throws(() => tree[method](l, r, 10), RangeError);
++    }
++  }
++  for (const method of ['assign', 'add']) {
++    for (const value of [NaN, Infinity, -Infinity, '3', null, undefined]) {
++      assert.throws(() => tree[method](0, 3, value), RangeError);
++      assert.throws(() => tree[method](1, 1, value), RangeError);
++    }
++    for (const i of [0, 1, 3]) assert.equal(tree[method](i, i, 42), undefined);
++  }
++  for (const i of [-1, 3, 1.5, NaN, '1']) {
++    assert.throws(() => tree.get(i), RangeError);
++  }
++  for (const lo of [-1, 4, 1.5, NaN, '1']) {
++    assert.throws(() => tree.firstAtLeast(lo, 0), RangeError);
++  }
++  for (const x of [NaN, '1', null, undefined]) {
++    assert.throws(() => tree.firstAtLeast(0, x), RangeError);
++  }
++  for (const i of [0, 1, 3]) {
++    assert.equal(tree.sum(i, i), 0);
++    assert.equal(tree.max(i, i), -Infinity);
++  }
++  assert.deepEqual(tree.toArray(), expected);
++  const output = tree.toArray();
++  output[0] = 99;
++  assert.equal(tree.get(0), 5);
++  assert.equal(tree.assign(0, 1, 2), undefined);
++  assert.equal(tree.add(0, 1, 3), undefined);
++  assert.equal(tree.get(0), 5);
++});
++
++test('mixed lazy operations agree with a deterministic array oracle', () => {
++  let state = 0x12345678;
++  function random(limit) {
++    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
++    return state % limit;
++  }
++  for (const n of [1, 2, 3, 5, 8, 17, 32, 65]) {
++    const values = Array.from({ length: n }, () => random(41) - 20);
++    const tree = new RangeTree(values);
++    for (let step = 0; step < 1200; step++) {
++      let l = random(n + 1);
++      let r = random(n + 1);
++      if (l > r) [l, r] = [r, l];
++      // Include consecutive whole-tree updates without materializing leaves.
++      if (step % 7 === 0) { l = 0; r = n; }
++      const value = random(61) - 30;
++      const operation = random(6);
++      if (operation === 0 || operation === 1) {
++        const method = operation === 0 ? 'assign' : 'add';
++        assert.equal(tree[method](l, r, value), undefined);
++        for (let i = l; i < r; i++) values[i] = operation === 0 ? value : values[i] + value;
++      } else if (operation === 2) {
++        assert.equal(tree.sum(l, r), sum(values, l, r));
++      } else if (operation === 3) {
++        assert.equal(tree.max(l, r), max(values, l, r));
++      } else if (operation === 4) {
++        assert.equal(tree.firstAtLeast(l, value), first(values, l, value));
++      } else {
++        const i = random(n);
++        assert.equal(tree.get(i), values[i]);
++      }
++      if (step % 101 === 0) assert.deepEqual(tree.toArray(), values);
++    }
++    // Exhaustively check final half-open ranges and threshold-search suffixes.
++    for (let l = 0; l <= n; l++) {
++      for (let r = l; r <= n; r++) {
++        assert.equal(tree.sum(l, r), sum(values, l, r));
++        assert.equal(tree.max(l, r), max(values, l, r));
++      }
++      for (const threshold of [-Infinity, -30, 0, 30, Infinity]) {
++        assert.equal(tree.firstAtLeast(l, threshold), first(values, l, threshold));
++      }
++    }
++    assert.deepEqual(tree.toArray(), values);
++  }
++});

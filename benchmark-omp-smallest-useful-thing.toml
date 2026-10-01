@@ -1,0 +1,18 @@
+# OMP system-prompt experiment: oh-my-pi branch prompts/smallest-useful-thing
+# (27cdf191b) against its parent v18.4.5 (79808c3bf). Protocol:
+# experiments/omp-smallest-useful-thing/PLAN.md.
+# Both arms run from source with identical flags and overlay; only the checkout differs.
+
+[harnesses.omp-baseline]
+kind = "omp"
+command = ["bun", "C:/Users/Yusuf/Desktop/omp-baseline/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["git", "-C", "C:/Users/Yusuf/Desktop/omp-baseline", "describe", "--tags", "--long", "--always", "--dirty"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-smallest]
+kind = "omp"
+command = ["bun", "C:/Users/Yusuf/Desktop/oh-my-pi/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-verbosity-intent/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["git", "-C", "C:/Users/Yusuf/Desktop/oh-my-pi", "describe", "--tags", "--long", "--always", "--dirty"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }

@@ -1,0 +1,173 @@
+TAP version 13
+# Subtest: assignment discards pending additions at both parent and child nodes
+ok 1 - assignment discards pending additions at both parent and child nodes
+  ---
+  duration_ms: 1.3108
+  type: 'test'
+  ...
+# Subtest: partial maxima use the identity for negative values
+ok 2 - partial maxima use the identity for negative values
+  ---
+  duration_ms: 0.178
+  type: 'test'
+  ...
+# Subtest: threshold search propagates lazy tags before visiting children
+ok 3 - threshold search propagates lazy tags before visiting children
+  ---
+  duration_ms: 0.1268
+  type: 'test'
+  ...
+# Subtest: mixed operations match an array oracle for uneven and singleton trees
+ok 4 - mixed operations match an array oracle for uneven and singleton trees
+  ---
+  duration_ms: 14.0616
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, read-only length, and independent arrays
+ok 5 - API validation, empty ranges, read-only length, and independent arrays
+  ---
+  duration_ms: 0.936
+  type: 'test'
+  ...
+# Subtest: updates and queries visit logarithmically many nodes; materialization is linear
+ok 6 - updates and queries visit logarithmically many nodes; materialization is linear
+  ---
+  duration_ms: 5.3739
+  type: 'test'
+  ...
+# Subtest: hidden: large mixed workload retains logarithmic updates and queries
+ok 7 - hidden: large mixed workload retains logarithmic updates and queries
+  ---
+  duration_ms: 53.1991
+  type: 'test'
+  ...
+# seed=1584021015 operations=200000 elapsed_ms=50.319 budget_ms=3000
+# Subtest: hidden: assignments discard older deltas at nested lazy nodes
+ok 8 - hidden: assignments discard older deltas at nested lazy nodes
+  ---
+  duration_ms: 1.9733
+  type: 'test'
+  ...
+# Subtest: hidden: threshold descent observes unpushed assignments and additions
+ok 9 - hidden: threshold descent observes unpushed assignments and additions
+  ---
+  duration_ms: 0.2281
+  type: 'test'
+  ...
+# Subtest: hidden: partial maxima preserve negative values instead of zero
+ok 10 - hidden: partial maxima preserve negative values instead of zero
+  ---
+  duration_ms: 0.158
+  type: 'test'
+  ...
+# Subtest: hidden: right-edge and empty suffix semantics survive pending updates
+ok 11 - hidden: right-edge and empty suffix semantics survive pending updates
+  ---
+  duration_ms: 0.3282
+  type: 'test'
+  ...
+# Subtest: trap: constructors reject nonarrays empty arrays holes and nonfinite values
+ok 12 - trap: constructors reject nonarrays empty arrays holes and nonfinite values
+  ---
+  duration_ms: 0.3999
+  type: 'test'
+  ...
+# Subtest: trap: invalid ranges and operands fail atomically with RangeError
+ok 13 - trap: invalid ranges and operands fail atomically with RangeError
+  ---
+  duration_ms: 0.4194
+  type: 'test'
+  ...
+# Subtest: trap: invalid indices and search arguments retain stored values
+ok 14 - trap: invalid indices and search arguments retain stored values
+  ---
+  duration_ms: 0.1855
+  type: 'test'
+  ...
+# Subtest: trap: constructor and materialized arrays are independent copies
+ok 15 - trap: constructor and materialized arrays are independent copies
+  ---
+  duration_ms: 0.1406
+  type: 'test'
+  ...
+# Subtest: trap: singleton updates and empty boundaries preserve the API
+ok 16 - trap: singleton updates and empty boundaries preserve the API
+  ---
+  duration_ms: 0.2274
+  type: 'test'
+  ...
+# Subtest: trap: overlapping additions retain positive range aggregates
+ok 17 - trap: overlapping additions retain positive range aggregates
+  ---
+  duration_ms: 0.3021
+  type: 'test'
+  ...
+# Subtest: trap: threshold search returns the earliest qualifying suffix index
+ok 18 - trap: threshold search returns the earliest qualifying suffix index
+  ---
+  duration_ms: 0.116
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=270544960 n=1
+ok 19 - hidden: seeded differential operations seed=270544960 n=1
+  ---
+  duration_ms: 3.7927
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=826366246 n=2
+ok 20 - hidden: seeded differential operations seed=826366246 n=2
+  ---
+  duration_ms: 2.484
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=168939093 n=3
+ok 21 - hidden: seeded differential operations seed=168939093 n=3
+  ---
+  duration_ms: 1.7471
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=3735928559 n=7
+ok 22 - hidden: seeded differential operations seed=3735928559 n=7
+  ---
+  duration_ms: 2.2295
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=3221342974 n=16
+ok 23 - hidden: seeded differential operations seed=3221342974 n=16
+  ---
+  duration_ms: 3.3008
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=195936478 n=31
+ok 24 - hidden: seeded differential operations seed=195936478 n=31
+  ---
+  duration_ms: 3.8015
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=2557891634 n=63
+ok 25 - hidden: seeded differential operations seed=2557891634 n=63
+  ---
+  duration_ms: 4.2277
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=4027431614 n=64
+ok 26 - hidden: seeded differential operations seed=4027431614 n=64
+  ---
+  duration_ms: 2.0093
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 27 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6778
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 115.3875

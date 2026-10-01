@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: literal formats and left-associative arithmetic
+ok 1 - literal formats and left-associative arithmetic
+  ---
+  duration_ms: 1.9959
+  type: 'test'
+  ...
+# Subtest: power is right associative and binds asymmetrically with unary signs
+ok 2 - power is right associative and binds asymmetrically with unary signs
+  ---
+  duration_ms: 0.2392
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey signed integer identities and normalize zero
+ok 3 - floor division and modulo obey signed integer identities and normalize zero
+  ---
+  duration_ms: 3.0491
+  type: 'test'
+  ...
+# Subtest: comparisons chain and booleans become numbers in arithmetic and equality
+ok 4 - comparisons chain and booleans become numbers in arithmetic and equality
+  ---
+  duration_ms: 0.4295
+  type: 'test'
+  ...
+# Subtest: each variable occurrence is read once, left to right, without mutation
+ok 5 - each variable occurrence is read once, left to right, without mutation
+  ---
+  duration_ms: 1.1892
+  type: 'test'
+  ...
+# Subtest: built-in calls validate before any evaluation, even in skipped operands
+ok 6 - built-in calls validate before any evaluation, even in skipped operands
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: errors use the actual token UTF-16 column, including whitespace and EOF
+ok 7 - errors use the actual token UTF-16 column, including whitespace and EOF
+  ---
+  duration_ms: 0.4322
+  type: 'test'
+  ...
+# Subtest: the complete source is parsed before evaluating or short-circuiting
+ok 8 - the complete source is parsed before evaluating or short-circuiting
+  ---
+  duration_ms: 0.3109
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains do not consume the call stack
+ok 9 - 100,001-operand arithmetic and comparison chains do not consume the call stack
+  ---
+  duration_ms: 329.1966
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.6184
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 408.3877

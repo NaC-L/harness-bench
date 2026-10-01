@@ -1,0 +1,197 @@
+diff --git "{temp}\\hb-41d0dae1-b7rg64ft/range-tree.regression.test.js" "{temp}\\hb-41d0dae1-b7rg64ft/range-tree.regression.test.js"
+new file mode 100644
+index 0000000..cd068fb
+--- /dev/null
++++ "{temp}\\hb-41d0dae1-b7rg64ft/range-tree.regression.test.js"
+@@ -0,0 +1,161 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { RangeTree } = require('./src/range-tree');
++
++test('assignment discards additions on both the assigned node and its descendants', () => {
++  const tree = new RangeTree([1, 2, 3, 4, 5, 6, 7]);
++  tree.add(0, 3, 20);
++  tree.add(3, 7, -10);
++  tree.add(0, 7, 5);
++  tree.assign(0, 7, 0);
++  tree.add(0, 7, -2);
++  tree.assign(1, 6, -8);
++  assert.equal(tree.sum(0, 7), -44);
++  assert.equal(tree.sum(2, 5), -24);
++  assert.deepEqual(tree.toArray(), [-2, -8, -8, -8, -8, -8, -2]);
++});
++
++test('partial maxima use the identity for negative values', () => {
++  const tree = new RangeTree([-9, -8, -7, -6, -5]);
++  assert.equal(tree.max(1, 4), -6);
++  assert.equal(tree.max(0, 1), -9);
++  tree.assign(0, 5, -20);
++  tree.add(2, 4, 3);
++  assert.equal(tree.max(1, 4), -17);
++  assert.equal(tree.max(4, 5), -20);
++});
++
++test('threshold search propagates assignments and additions before descending', () => {
++  const tree = new RangeTree([-10, -10, -10, -10, -10]);
++  tree.assign(0, 5, 7);
++  assert.equal(tree.firstAtLeast(0, 7), 0);
++  assert.equal(tree.firstAtLeast(3, 7), 3);
++  tree.add(0, 5, 4);
++  assert.equal(tree.firstAtLeast(1, 11), 1);
++  tree.assign(0, 3, -20);
++  tree.add(3, 5, 5);
++  assert.equal(tree.firstAtLeast(0, 16), 3);
++  assert.equal(tree.firstAtLeast(4, 16), 4);
++  assert.equal(tree.firstAtLeast(0, 17), -1);
++  assert.equal(tree.firstAtLeast(5, -Infinity), -1);
++  assert.equal(tree.firstAtLeast(2, -Infinity), 2);
++  assert.equal(tree.firstAtLeast(0, Infinity), -1);
++});
++
++test('API validation, empty ranges, return values, and independent arrays', () => {
++  for (const values of [null, {}, [], [NaN], [Infinity], [-Infinity], ['1'], new Array(2)]) {
++    assert.throws(() => new RangeTree(values), RangeError);
++  }
++  const input = [2, -3, 5];
++  const tree = new RangeTree(input);
++  input[0] = 100;
++  assert.equal(tree.length, 3);
++  assert.throws(() => { tree.length = 9; }, TypeError);
++  assert.equal(tree.assign(0, 3, 4), undefined);
++  assert.equal(tree.add(0, 3, -1), undefined);
++
++  for (const [l, r] of [[-1, 1], [0, 4], [2, 1], [0.5, 2], [0, NaN], ['0', 2], [0, Infinity]]) {
++    for (const method of ['assign', 'add', 'sum', 'max']) {
++      assert.throws(() => tree[method](l, r, 10), RangeError);
++    }
++  }
++  for (const value of [NaN, Infinity, -Infinity, '2', null, undefined]) {
++    for (const method of ['assign', 'add']) {
++      assert.throws(() => tree[method](0, 3, value), RangeError);
++      assert.throws(() => tree[method](1, 1, value), RangeError);
++    }
++  }
++  for (const i of [-1, 3, 0.5, NaN, '0', Infinity]) {
++    assert.throws(() => tree.get(i), RangeError);
++  }
++  for (const lo of [-1, 4, 0.5, NaN, '0', Infinity]) {
++    assert.throws(() => tree.firstAtLeast(lo, 0), RangeError);
++  }
++  for (const x of [NaN, '0', null, undefined]) {
++    assert.throws(() => tree.firstAtLeast(0, x), RangeError);
++  }
++  for (let i = 0; i <= tree.length; i++) {
++    assert.equal(tree.assign(i, i, 100), undefined);
++    assert.equal(tree.add(i, i, 100), undefined);
++    assert.equal(tree.sum(i, i), 0);
++    assert.equal(tree.max(i, i), -Infinity);
++  }
++  assert.deepEqual(tree.toArray(), [3, 3, 3]);
++  const output = tree.toArray();
++  output[0] = 100;
++  assert.deepEqual(tree.toArray(), [3, 3, 3]);
++});
++
++test('mixed updates and queries agree with an array oracle', () => {
++  let seed = 0x12345678;
++  const random = limit => {
++    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
++    return (seed >>> 16) % limit;
++  };
++  for (const n of [1, 2, 3, 5, 8, 13, 32, 63]) {
++    const values = Array.from({ length: n }, () => random(41) - 20);
++    const tree = new RangeTree(values);
++    for (let step = 0; step < 200; step++) {
++      const a = random(n + 1);
++      const b = random(n + 1);
++      const l = step % 7 === 0 ? 0 : Math.min(a, b);
++      const r = step % 7 === 0 ? n : Math.max(a, b);
++      const value = random(61) - 30;
++      const assigning = random(2) === 0;
++      tree[assigning ? 'assign' : 'add'](l, r, value);
++      for (let i = l; i < r; i++) values[i] = assigning ? value : values[i] + value;
++
++      // Search before materializing: toArray/get would otherwise push lazy tags.
++      for (const x of [-Infinity, Infinity, value, random(81) - 40]) {
++        const lo = random(n + 1);
++        const expected = values.findIndex((v, i) => i >= lo && v >= x);
++        assert.equal(tree.firstAtLeast(lo, x), expected, `search n=${n} step=${step}`);
++      }
++      for (let query = 0; query < 8; query++) {
++        const c = random(n + 1);
++        const d = random(n + 1);
++        const start = Math.min(c, d);
++        const end = Math.max(c, d);
++        const slice = values.slice(start, end);
++        assert.equal(tree.sum(start, end), slice.reduce((sum, v) => sum + v, 0));
++        assert.equal(tree.max(start, end), Math.max(-Infinity, ...slice));
++      }
++      assert.equal(tree.sum(0, n), values.reduce((sum, v) => sum + v, 0));
++      assert.equal(tree.max(0, n), Math.max(...values));
++      const index = random(n);
++      assert.equal(tree.get(index), values[index]);
++      if (step % 17 === 0) assert.deepEqual(tree.toArray(), values);
++    }
++    assert.deepEqual(tree.toArray(), values);
++  }
++});
++
++test('tree traversal stays logarithmic for updates and queries and linear for materialization', () => {
++  const n = 4097;
++  const tree = new RangeTree(new Array(n).fill(-5));
++  let visits = 0;
++  for (const method of ['_update', '_sum', '_max', '_first', '_write']) {
++    const original = tree[method];
++    tree[method] = function (...args) {
++      visits++;
++      return original.apply(this, args);
++    };
++  }
++  const logarithmic = operation => {
++    visits = 0;
++    operation();
++    assert.ok(visits <= 16 * Math.ceil(Math.log2(n)), `visited ${visits} nodes`);
++  };
++  logarithmic(() => tree.add(0, n, 2));
++  logarithmic(() => tree.assign(1, n - 1, -10));
++  logarithmic(() => tree.add(3, n - 3, 4));
++  logarithmic(() => assert.equal(tree.sum(2, n - 2), -6 * (n - 6) - 20));
++  logarithmic(() => assert.equal(tree.max(2, n - 2), -6));
++  logarithmic(() => assert.equal(tree.get(n - 1), -3));
++  logarithmic(() => assert.equal(tree.firstAtLeast(1, -3), n - 1));
++  visits = 0;
++  assert.equal(tree.toArray().length, n);
++  assert.equal(visits, 2 * n - 1);
++});
+diff --git "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js" "{temp}\\hb-41d0dae1-b7rg64ft/src/range-tree.js"
+index c830491..2404c8f 100644
+--- "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js"
++++ "{temp}\\hb-41d0dae1-b7rg64ft/src/range-tree.js"
+@@ -123,6 +123,8 @@ class RangeTree {
+     this._maxima[node] = value;
+     this._assignments[node] = value;
+     this._hasAssignment[node] = 1;
++    // Assignment replaces the entire previous tag, including pending addition.
++    this._additions[node] = 0;
+   }
+ 
+   _applyAddition(node, size, value) {
+@@ -175,7 +177,7 @@ class RangeTree {
+     if (l <= left && right <= r) return this._maxima[node];
+     this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+-    let result = 0;
++    let result = -Infinity;
+     if (l < middle) result = Math.max(result, this._max(node * 2, left, middle, l, r));
+     if (r > middle) result = Math.max(result, this._max(node * 2 + 1, middle, right, l, r));
+     return result;
+@@ -184,6 +186,7 @@ class RangeTree {
+   _first(node, left, right, lo, x) {
+     if (right <= lo || this._maxima[node] < x) return -1;
+     if (right - left === 1) return left;
++    this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+     const found = this._first(node * 2, left, middle, lo, x);
+     return found !== -1 ? found : this._first(node * 2 + 1, middle, right, lo, x);

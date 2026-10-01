@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: exhaustive repetitive inputs have minimal, deterministic, ordered scripts and roundtrip
+ok 1 - exhaustive repetitive inputs have minimal, deterministic, ordered scripts and roundtrip
+  ---
+  duration_ms: 39.8699
+  type: 'test'
+  ...
+# Subtest: seeded varied inputs roundtrip with different context sizes
+ok 2 - seeded varied inputs roundtrip with different context sizes
+  ---
+  duration_ms: 19.1033
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use the preceding complete-file coordinate
+ok 3 - zero-length ranges use the preceding complete-file coordinate
+  ---
+  duration_ms: 0.2668
+  type: 'test'
+  ...
+# Subtest: hunks merge exactly when their context touches, without duplicating lines
+ok 4 - hunks merge exactly when their context touches, without duplicating lines
+  ---
+  duration_ms: 0.1293
+  type: 'test'
+  ...
+# Subtest: application rejects bad contents, counts, coordinates, ordering and malformed entries
+ok 5 - application rejects bad contents, counts, coordinates, ordering and malformed entries
+  ---
+  duration_ms: 0.756
+  type: 'test'
+  ...
+# Subtest: application accepts adjacent hunks and retains unmentioned original lines
+ok 6 - application accepts adjacent hunks and retains unmentioned original lines
+  ---
+  duration_ms: 0.0818
+  type: 'test'
+  ...
+# Subtest: small edits in 20,000 repetitive lines roundtrip
+ok 7 - small edits in 20,000 repetitive lines roundtrip
+  ---
+  duration_ms: 8.3618
+  type: 'test'
+  ...
+# Subtest: large empty-sided inputs and identical inputs take the linear paths
+ok 8 - large empty-sided inputs and identical inputs take the linear paths
+  ---
+  duration_ms: 24.3319
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.1426
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 157.8044

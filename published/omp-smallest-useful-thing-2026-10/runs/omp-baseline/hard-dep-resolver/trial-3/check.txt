@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: numeric candidate order compares all three components
+ok 1 - numeric candidate order compares all three components
+  ---
+  duration_ms: 2.8499
+  type: 'test'
+  ...
+# Subtest: semver operators, conjunctions, and zero-major caret boundaries
+ok 2 - semver operators, conjunctions, and zero-major caret boundaries
+  ---
+  duration_ms: 0.5294
+  type: 'test'
+  ...
+# Subtest: malformed versions and ranges throw eagerly, including unreachable entries
+ok 3 - malformed versions and ranges throw eagerly, including unreachable entries
+  ---
+  duration_ms: 0.7691
+  type: 'test'
+  ...
+# Subtest: all map levels are validated even for empty roots
+ok 4 - all map levels are validated even for empty roots
+  ---
+  duration_ms: 0.3405
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and special names are safe
+ok 5 - only own enumerable string keys participate and special names are safe
+  ---
+  duration_ms: 0.23
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects all constraints before selecting queued names
+ok 6 - FIFO discovery collects all constraints before selecting queued names
+  ---
+  duration_ms: 0.2086
+  type: 'test'
+  ...
+# Subtest: backtracking removes rejected dependencies, queue entries, and constraints
+ok 7 - backtracking removes rejected dependencies, queue entries, and constraints
+  ---
+  duration_ms: 0.8522
+  type: 'test'
+  ...
+# Subtest: cycles terminate and conflicting cycles backtrack or return null
+ok 8 - cycles terminate and conflicting cycles backtrack or return null
+  ---
+  duration_ms: 0.1373
+  type: 'test'
+  ...
+# Subtest: long cyclic dependency chains do not use the recursive call stack or a search cutoff
+ok 9 - long cyclic dependency chains do not use the recursive call stack or a search cutoff
+  ---
+  duration_ms: 125.8304
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before enumerating a Cartesian product
+ok 10 - discovered conflicts prune choices before enumerating a Cartesian product
+  ---
+  duration_ms: 0.9422
+  type: 'test'
+  ...
+# Subtest: resolution never mutates frozen input maps
+ok 11 - resolution never mutates frozen input maps
+  ---
+  duration_ms: 0.2829
+  type: 'test'
+  ...
+# Subtest: first-found assignments match an independent reference across cyclic graphs
+ok 12 - first-found assignments match an independent reference across cyclic graphs
+  ---
+  duration_ms: 14.9068
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=659918
+ok 13 - seeded exhaustive registry oracle seed=659918
+  ---
+  duration_ms: 69.7062
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=12648430
+ok 14 - seeded exhaustive registry oracle seed=12648430
+  ---
+  duration_ms: 34.5991
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=99537187
+ok 15 - seeded exhaustive registry oracle seed=99537187
+  ---
+  duration_ms: 34.1675
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=4027431614
+ok 16 - seeded exhaustive registry oracle seed=4027431614
+  ---
+  duration_ms: 38.4522
+  type: 'test'
+  ...
+# Subtest: zero-major install constraints reject unrelated minor and patch versions
+ok 17 - zero-major install constraints reject unrelated minor and patch versions
+  ---
+  duration_ms: 1.5077
+  type: 'test'
+  ...
+# Subtest: numeric ordering applies to major minor and patch candidate choices
+ok 18 - numeric ordering applies to major minor and patch candidate choices
+  ---
+  duration_ms: 0.6681
+  type: 'test'
+  ...
+# Subtest: abandoned branches undo transitive constraints before trying an older parent
+ok 19 - abandoned branches undo transitive constraints before trying an older parent
+  ---
+  duration_ms: 0.2458
+  type: 'test'
+  ...
+# Subtest: abandoned branches remove queued dependencies and unreachable selections
+ok 20 - abandoned branches remove queued dependencies and unreachable selections
+  ---
+  duration_ms: 0.1305
+  type: 'test'
+  ...
+# Subtest: legal self and mutual dependency cycles terminate with a reachable assignment
+ok 21 - legal self and mutual dependency cycles terminate with a reachable assignment
+  ---
+  duration_ms: 0.2229
+  type: 'test'
+  ...
+# Subtest: cyclic conflicts can backtrack to an earlier consistent version
+ok 22 - cyclic conflicts can backtrack to an earlier consistent version
+  ---
+  duration_ms: 0.0875
+  type: 'test'
+  ...
+# Subtest: FIFO root discovery and recent-choice backtracking determine the first solution
+ok 23 - FIFO root discovery and recent-choice backtracking determine the first solution
+  ---
+  duration_ms: 0.1606
+  type: 'test'
+  ...
+# Subtest: FIFO selected-version dependency key order determines the first solution
+ok 24 - FIFO selected-version dependency key order determines the first solution
+  ---
+  duration_ms: 0.1211
+  type: 'test'
+  ...
+# Subtest: trap: missing versions and inconsistent requirements remain unsatisfiable
+ok 25 - trap: missing versions and inconsistent requirements remain unsatisfiable
+  ---
+  duration_ms: 0.2707
+  type: 'test'
+  ...
+# Subtest: trap: empty roots ignore unreachable packages without changing the input
+ok 26 - trap: empty roots ignore unreachable packages without changing the input
+  ---
+  duration_ms: 0.3806
+  type: 'test'
+  ...
+# Subtest: trap: reachable noncyclic dependencies and frozen inputs retain their contract
+ok 27 - trap: reachable noncyclic dependencies and frozen inputs retain their contract
+  ---
+  duration_ms: 0.2106
+  type: 'test'
+  ...
+# Subtest: trap: own prototype-like package names are data in a plain result object
+ok 28 - trap: own prototype-like package names are data in a plain result object
+  ---
+  duration_ms: 0.1246
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 29 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.85
+  type: 'test'
+  ...
+# Subtest: long dependency chains resolve without a call-stack or iteration limit
+ok 30 - long dependency chains resolve without a call-stack or iteration limit
+  ---
+  duration_ms: 77.0061
+  type: 'test'
+  ...
+# Subtest: deep failures backtrack promptly through many rejected candidate branches
+ok 31 - deep failures backtrack promptly through many rejected candidate branches
+  ---
+  duration_ms: 1.8223
+  type: 'test'
+  ...
+# Subtest: trap: constrained installs prune discovered conflicts instead of enumerating products
+ok 32 - trap: constrained installs prune discovered conflicts instead of enumerating products
+  ---
+  duration_ms: 10.7483
+  type: 'test'
+  ...
+# Subtest: zero-major caret bounds follow the first nonzero component
+ok 33 - zero-major caret bounds follow the first nonzero component
+  ---
+  duration_ms: 1.0392
+  type: 'test'
+  ...
+# Subtest: trap: semver comparison is numeric without weakening canonical version parsing
+ok 34 - trap: semver comparison is numeric without weakening canonical version parsing
+  ---
+  duration_ms: 0.4719
+  type: 'test'
+  ...
+# Subtest: trap: positive-major ranges and comparator conjunctions preserve endpoints
+ok 35 - trap: positive-major ranges and comparator conjunctions preserve endpoints
+  ---
+  duration_ms: 0.799
+  type: 'test'
+  ...
+# Subtest: trap: invalid versions and ranges always raise TypeError
+ok 36 - trap: invalid versions and ranges always raise TypeError
+  ---
+  duration_ms: 0.6829
+  type: 'test'
+  ...
+# Subtest: trap: resolver eagerly validates malformed maps and unreachable metadata
+ok 37 - trap: resolver eagerly validates malformed maps and unreachable metadata
+  ---
+  duration_ms: 0.3759
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 245.8216

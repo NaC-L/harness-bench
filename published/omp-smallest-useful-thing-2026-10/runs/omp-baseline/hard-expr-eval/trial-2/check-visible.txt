@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: numbers, precedence, associativity and built-in calls
+ok 1 - numbers, precedence, associativity and built-in calls
+  ---
+  duration_ms: 1.8207
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey divisor signs and normalize zero
+ok 2 - floor division and modulo obey divisor signs and normalize zero
+  ---
+  duration_ms: 3.2429
+  type: 'test'
+  ...
+# Subtest: comparisons chain and coerce booleans numerically in arithmetic and equality
+ok 3 - comparisons chain and coerce booleans numerically in arithmetic and equality
+  ---
+  duration_ms: 0.2723
+  type: 'test'
+  ...
+# Subtest: own variables and getter occurrences are read once in left-to-right order
+ok 4 - own variables and getter occurrences are read once in left-to-right order
+  ---
+  duration_ms: 0.8825
+  type: 'test'
+  ...
+# Subtest: the whole source is validated before any getter is evaluated
+ok 5 - the whole source is validated before any getter is evaluated
+  ---
+  duration_ms: 0.296
+  type: 'test'
+  ...
+# Subtest: errors use offending UTF-16 token offsets, including whitespace and EOF
+ok 6 - errors use offending UTF-16 token offsets, including whitespace and EOF
+  ---
+  duration_ms: 0.2542
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat chains do not overflow the stack
+ok 7 - 100,001-operand flat chains do not overflow the stack
+  ---
+  duration_ms: 212.5562
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.192
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 293.9547

@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions pending at both parent and child nodes
+ok 1 - assignment discards additions pending at both parent and child nodes
+  ---
+  duration_ms: 1.2183
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as the identity
+ok 2 - partial maxima use negative infinity as the identity
+  ---
+  duration_ms: 0.148
+  type: 'test'
+  ...
+# Subtest: threshold search propagates lazy tags before examining children
+ok 3 - threshold search propagates lazy tags before examining children
+  ---
+  duration_ms: 0.1596
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array model
+ok 4 - mixed updates and queries agree with an array model
+  ---
+  duration_ms: 15.6905
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, return values, and copy isolation preserve the API
+ok 5 - validation, empty ranges, return values, and copy isolation preserve the API
+  ---
+  duration_ms: 0.8054
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6343
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80.2752

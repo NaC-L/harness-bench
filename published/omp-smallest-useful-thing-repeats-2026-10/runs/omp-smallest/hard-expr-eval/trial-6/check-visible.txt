@@ -1,0 +1,74 @@
+TAP version 13
+# Subtest: numeric literals, arithmetic precedence and associativity
+ok 1 - numeric literals, arithmetic precedence and associativity
+  ---
+  duration_ms: 1.8216
+  type: 'test'
+  ...
+# Subtest: floor division and modulo have Python signs and positive zero results
+ok 2 - floor division and modulo have Python signs and positive zero results
+  ---
+  duration_ms: 5.1024
+  type: 'test'
+  ...
+# Subtest: all comparisons chain and booleans act as numbers in arithmetic
+ok 3 - all comparisons chain and booleans act as numbers in arithmetic
+  ---
+  duration_ms: 0.2501
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence, left to right, without mutation
+ok 4 - getters are read once per occurrence, left to right, without mutation
+  ---
+  duration_ms: 1.5883
+  type: 'test'
+  ...
+# Subtest: false comparisons skip later evaluations but not syntax validation
+ok 5 - false comparisons skip later evaluations but not syntax validation
+  ---
+  duration_ms: 1.3866
+  type: 'test'
+  ...
+# Subtest: built-in calls enforce arity before evaluation
+ok 6 - built-in calls enforce arity before evaluation
+  ---
+  duration_ms: 0.3883
+  type: 'test'
+  ...
+# Subtest: variables use own properties and the documented identifier grammar
+ok 7 - variables use own properties and the documented identifier grammar
+  ---
+  duration_ms: 0.1788
+  type: 'test'
+  ...
+# Subtest: errors point to the actual token, using UTF-16 offsets
+ok 8 - errors point to the actual token, using UTF-16 offsets
+  ---
+  duration_ms: 0.5406
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat chains evaluate without recursive stack growth
+ok 9 - 100,001-operand flat chains evaluate without recursive stack growth
+  ---
+  duration_ms: 256.7268
+  type: 'test'
+  ...
+# 100001 operands: 84.9 ms
+# 100001 operands: 66.0 ms
+# 100001 operands: 51.2 ms
+# 100001 operands: 41.3 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 10 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2791
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 343.5308

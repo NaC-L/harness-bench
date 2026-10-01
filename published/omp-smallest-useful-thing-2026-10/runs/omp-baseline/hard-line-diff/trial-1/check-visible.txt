@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs have minimal scripts and patch roundtrips
+ok 1 - exhaustive short repetitive inputs have minimal scripts and patch roundtrips
+  ---
+  duration_ms: 115.8141
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use the preceding complete-file coordinate
+ok 2 - zero-length ranges use the preceding complete-file coordinate
+  ---
+  duration_ms: 0.4083
+  type: 'test'
+  ...
+# Subtest: context windows merge when they touch, not when one unchanged line separates them
+ok 3 - context windows merge when they touch, not when one unchanged line separates them
+  ---
+  duration_ms: 0.1719
+  type: 'test'
+  ...
+# Subtest: application preserves prefixes, empty strings, omitted lines, and original inputs
+ok 4 - application preserves prefixes, empty strings, omitted lines, and original inputs
+  ---
+  duration_ms: 0.2279
+  type: 'test'
+  ...
+# Subtest: application rejects malformed counts, coordinates, lines, and mismatches
+ok 5 - application rejects malformed counts, coordinates, lines, and mismatches
+  ---
+  duration_ms: 0.7623
+  type: 'test'
+  ...
+# Subtest: later hunk coordinates include earlier insertion and deletion offsets
+ok 6 - later hunk coordinates include earlier insertion and deletion offsets
+  ---
+  duration_ms: 0.151
+  type: 'test'
+  ...
+# Subtest: localized changes in 20,000-line unique and repetitive files stay fast
+ok 7 - localized changes in 20,000-line unique and repetitive files stay fast
+  ---
+  duration_ms: 14.8422
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.4198
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 198.958

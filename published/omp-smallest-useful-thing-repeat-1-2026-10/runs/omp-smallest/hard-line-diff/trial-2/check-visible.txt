@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: exhaustive minimality, deletion ordering, coordinates, and roundtrips
+ok 1 - exhaustive minimality, deletion ordering, coordinates, and roundtrips
+  ---
+  duration_ms: 30.9575
+  type: 'test'
+  ...
+# Subtest: seeded repetitive inputs and prefix-like strings
+ok 2 - seeded repetitive inputs and prefix-like strings
+  ---
+  duration_ms: 20.1439
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line coordinates at top, middle, and end
+ok 3 - zero-length ranges use preceding line coordinates at top, middle, and end
+  ---
+  duration_ms: 0.3562
+  type: 'test'
+  ...
+# Subtest: touching context merges, longer gaps split, and default context is three
+ok 4 - touching context merges, longer gaps split, and default context is three
+  ---
+  duration_ms: 0.5287
+  type: 'test'
+  ...
+# Subtest: application retains omitted lines and respects original coordinates and offsets
+ok 5 - application retains omitted lines and respects original coordinates and offsets
+  ---
+  duration_ms: 0.1676
+  type: 'test'
+  ...
+# Subtest: malformed, overlapping, unordered, and mismatched hunks identify the failing index
+ok 6 - malformed, overlapping, unordered, and mismatched hunks identify the failing index
+  ---
+  duration_ms: 0.5588
+  type: 'test'
+  ...
+# Subtest: context rejects negative, fractional, and nonnumeric values
+ok 7 - context rejects negative, fractional, and nonnumeric values
+  ---
+  duration_ms: 0.1128
+  type: 'test'
+  ...
+# Subtest: 20,000-line small edits, including repetitive lines, run under one second
+ok 8 - 20,000-line small edits, including repetitive lines, run under one second
+  ---
+  duration_ms: 15.085
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.4606
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 129.5711

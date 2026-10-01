@@ -1,0 +1,133 @@
+TAP version 13
+# Subtest: minimal, deterministic scripts and roundtrips for exhaustive repeated/empty lines
+ok 1 - minimal, deterministic scripts and roundtrips for exhaustive repeated/empty lines
+  ---
+  duration_ms: 29.7498
+  type: 'test'
+  ...
+# Subtest: randomized minimality and patch roundtrips with repetitive prefix-like strings
+ok 2 - randomized minimality and patch roundtrips with repetitive prefix-like strings
+  ---
+  duration_ms: 18.0703
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding-line coordinates at top, middle, and end
+ok 3 - zero-length ranges use preceding-line coordinates at top, middle, and end
+  ---
+  duration_ms: 0.278
+  type: 'test'
+  ...
+# Subtest: context touching merges, separated context does not, and context is not duplicated
+ok 4 - context touching merges, separated context does not, and context is not duplicated
+  ---
+  duration_ms: 0.1925
+  type: 'test'
+  ...
+# Subtest: application tracks offsets, preserves unmentioned lines, and mutates neither input
+ok 5 - application tracks offsets, preserves unmentioned lines, and mutates neither input
+  ---
+  duration_ms: 0.2013
+  type: 'test'
+  ...
+# Subtest: malformed, mismatched, overlapping, unordered, and out-of-bounds hunks are rejected
+ok 6 - malformed, mismatched, overlapping, unordered, and out-of-bounds hunks are rejected
+  ---
+  duration_ms: 0.6789
+  type: 'test'
+  ...
+# Subtest: text helpers preserve trailing empty lines and prefixed content through patches
+ok 7 - text helpers preserve trailing empty lines and prefixed content through patches
+  ---
+  duration_ms: 0.1218
+  type: 'test'
+  ...
+# Subtest: 20,000-line small changes run well below one second
+ok 8 - 20,000-line small changes run well below one second
+  ---
+  duration_ms: 11.7575
+  type: 'test'
+  ...
+# unique lines: 4.6ms
+# repetitive lines: 3.8ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.7649
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 10 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 2.2172
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 11 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.1775
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 12 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.1527
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 13 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 17.8793
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 14 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.3043
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 15 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.4825
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 16 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.2302
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 17 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.6606
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 18 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 17.1772
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 19 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.2014
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 20 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 51.0378
+  type: 'test'
+  ...
+# diff=6.139ms hunks=4.287ms total=10.426ms budget=1000ms
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 133.1696

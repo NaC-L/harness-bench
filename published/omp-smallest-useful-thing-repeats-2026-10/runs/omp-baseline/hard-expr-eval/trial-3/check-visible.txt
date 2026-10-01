@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: literal syntax, arithmetic precedence and associativity
+ok 1 - literal syntax, arithmetic precedence and associativity
+  ---
+  duration_ms: 1.7083
+  type: 'test'
+  ...
+# Subtest: floor division and remainder have Python signs and positive zeros
+ok 2 - floor division and remainder have Python signs and positive zeros
+  ---
+  duration_ms: 2.9986
+  type: 'test'
+  ...
+# Subtest: comparison chains share operands, short circuit, and coerce booleans numerically
+ok 3 - comparison chains share operands, short circuit, and coerce booleans numerically
+  ---
+  duration_ms: 0.8962
+  type: 'test'
+  ...
+# Subtest: variables are own properties read once per occurrence, left to right
+ok 4 - variables are own properties read once per occurrence, left to right
+  ---
+  duration_ms: 0.4984
+  type: 'test'
+  ...
+# Subtest: built-ins evaluate arguments left to right and validate calls before evaluation
+ok 5 - built-ins evaluate arguments left to right and validate calls before evaluation
+  ---
+  duration_ms: 0.395
+  type: 'test'
+  ...
+# Subtest: error columns follow token starts and UTF-16 offsets, including whitespace
+ok 6 - error columns follow token starts and UTF-16 offsets, including whitespace
+  ---
+  duration_ms: 0.5658
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparison chains stay linear and stack safe
+ok 7 - 100,001-operand flat arithmetic and comparison chains stay linear and stack safe
+  ---
+  duration_ms: 223.7333
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2088
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 303.3371

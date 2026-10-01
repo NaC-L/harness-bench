@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: exhaustive minimality, deletion ordering, and repetitive-line roundtrips
+ok 1 - exhaustive minimality, deletion ordering, and repetitive-line roundtrips
+  ---
+  duration_ms: 66.293
+  type: 'test'
+  ...
+# Subtest: deterministic scripts with repeated lines and longer mixed edits
+ok 2 - deterministic scripts with repeated lines and longer mixed edits
+  ---
+  duration_ms: 4.7129
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line coordinates at top and bottom
+ok 3 - zero-length ranges use preceding line coordinates at top and bottom
+  ---
+  duration_ms: 0.3198
+  type: 'test'
+  ...
+# Subtest: context merges exactly when gaps touch and is not duplicated
+ok 4 - context merges exactly when gaps touch and is not duplicated
+  ---
+  duration_ms: 0.2863
+  type: 'test'
+  ...
+# Subtest: multiple hunks use complete-file coordinates and preserve omitted lines
+ok 5 - multiple hunks use complete-file coordinates and preserve omitted lines
+  ---
+  duration_ms: 0.1398
+  type: 'test'
+  ...
+# Subtest: prefix characters, empty lines, exact whitespace, and immutable inputs
+ok 6 - prefix characters, empty lines, exact whitespace, and immutable inputs
+  ---
+  duration_ms: 0.1957
+  type: 'test'
+  ...
+# Subtest: malformed, inconsistent, mismatching, unordered, and overlapping hunks fail
+ok 7 - malformed, inconsistent, mismatching, unordered, and overlapping hunks fail
+  ---
+  duration_ms: 0.5356
+  type: 'test'
+  ...
+# Subtest: small edits in 20,000-line unique and repetitive files remain fast
+ok 8 - small edits in 20,000-line unique and repetitive files remain fast
+  ---
+  duration_ms: 14.7497
+  type: 'test'
+  ...
+# unique 20,000-line diff and roundtrip: 7.4 ms
+# repetitive 20,000-line diff and roundtrip: 5.0 ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.1573
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 147.3769

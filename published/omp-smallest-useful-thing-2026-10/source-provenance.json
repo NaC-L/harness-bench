@@ -1,0 +1,62 @@
+{
+  "baseline_commit": "79808c3bf8f8cd9826decc63e3e18b13035f64f8",
+  "candidate_commit": "27cdf191bab644f78f1d680eb4ef6ce8002d6afc",
+  "changed_prompt_hashes": {
+    "packages/coding-agent/src/prompts/system/agent-creation-architect.md": {
+      "baseline": "494a1cff676825a7002c2f74e433274d9f39eff197b1dfa8d3862332c8cbbedc",
+      "candidate": "c29558db7e8c1806798375b438be6e064fbceee01b0348ea027f7269afd98ced"
+    },
+    "packages/coding-agent/src/prompts/system/eager-task.md": {
+      "baseline": "b891a03740c8ab9fd5394cb223401c541102084d6f6c9ec14e8431838c2ae351",
+      "candidate": "fa7628a205d1feaad9c6b00b7ce890a85a0dd66454e5b5d05e5e9fa686c51c31"
+    },
+    "packages/coding-agent/src/prompts/system/eager-todo.md": {
+      "baseline": "ec984c577a735c337518d022868d991f99be004af6d8ad4ba13b2e7310fca5d5",
+      "candidate": "86e4703143132238be970d0581be9b640786216657a17ab4d3d7ad479d1f79f7"
+    },
+    "packages/coding-agent/src/prompts/system/orchestrate-notice.md": {
+      "baseline": "72ba00a603443a94b934021f6c0f384b9c8a51f553900a8407250efabb7c2408",
+      "candidate": "5886b5f8c6c491d0b8371cdb52c772e6b0478991722fbf0caf6aedd110b607a1"
+    },
+    "packages/coding-agent/src/prompts/system/plan-mode-active.md": {
+      "baseline": "cc2f68ffbee41cbce5454fb5f48172c20430e05a958b8756da01835ec8acffe2",
+      "candidate": "39cb850e9f963a8d169c60d51c0f452f40b927576b1b93c4adf488a95e210a36"
+    },
+    "packages/coding-agent/src/prompts/system/plan-mode-approved.md": {
+      "baseline": "0e2f9204e38b84a39dc878720f387ccea0feaef4a779c17bf398668e487fff75",
+      "candidate": "0b0a7af4263390211de3e59e969a0538d1049d67ddcd1991d2577623efad702b"
+    },
+    "packages/coding-agent/src/prompts/system/plan-mode-subagent.md": {
+      "baseline": "721244c6cb48d00a8c76de98e0a1059388e2f9ded9d06106bf80d2089f9cfc50",
+      "candidate": "de3c46cc2c9fcbd0dc232d39c36dc6f126c6f3f51fa49d9212926bfe3f471508"
+    },
+    "packages/coding-agent/src/prompts/system/prewalk-plan.md": {
+      "baseline": "5daf4e727817fafa94fe4a1fcb84905da66aa28358328329a6eccc0aae8a41ee",
+      "candidate": "4581765b6249e534917d3209acdc288dea9db44440f65143890866c7e5956bd0"
+    },
+    "packages/coding-agent/src/prompts/system/subagent-system-prompt.md": {
+      "baseline": "174cebdf4d5bb6586643e132d771f89b44cd1b1f2d90e49313d941b4cf775f3e",
+      "candidate": "da33362ea2c6baf377a739e1af0bb4b4ec7fd0d3f7556def21c6c595f8248cde"
+    },
+    "packages/coding-agent/src/prompts/system/subagent-user-prompt.md": {
+      "baseline": "3e2a179deac12ccb533db20984f8483a57f969608ad9dc6ed8267c140a677129",
+      "candidate": "a213f413569807bbd1d7ab6ffb4157fc4715b96bc9acb7840546704f82a1a1bf"
+    },
+    "packages/coding-agent/src/prompts/system/system-prompt.md": {
+      "baseline": "4fe416fcb7336b6540e2a53352e8a1b1acfe63d6fa02f282895fa7df7657a297",
+      "candidate": "a3785ac56bc6fa2bd7391bfc4483198765a6f1c027648da2cbfaff225bfbc939"
+    },
+    "packages/coding-agent/src/prompts/system/vibe-mode-active.md": {
+      "baseline": "d65ab2d77a8009c54a1c6c4aa7c9907d803cd7f8574ee5087e408000d7aab1f4",
+      "candidate": "7ec754380908d0d755cd55a4cb8f7ea62bb4b2a98cf2f900a92a9b0d947ddcb7"
+    },
+    "packages/coding-agent/src/prompts/system/web-search.md": {
+      "baseline": "4415e1d4762ee4be951e4a7326baa05ff123e5e71931d085c1d7982aa2b36ac4",
+      "candidate": "1b2b8319112f177c933fe4b050a403418752dbd05bc34fb8ee243e636e94c0d2"
+    },
+    "packages/coding-agent/src/prompts/system/workflow-notice.md": {
+      "baseline": "f5c747b8d34c54b95c38119d85d714d6506a8e0b5fcca082ef32d11ec1591ef1",
+      "candidate": "8a48901173d47b33b7d57c3966cc29616382e694f19aacdc938781f44a265e83"
+    }
+  }
+}

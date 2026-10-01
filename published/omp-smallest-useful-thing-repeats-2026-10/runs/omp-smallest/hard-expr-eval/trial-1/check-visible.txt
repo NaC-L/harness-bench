@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: Python precedence and associativity
+ok 1 - Python precedence and associativity
+  ---
+  duration_ms: 1.6853
+  type: 'test'
+  ...
+# Subtest: floor division and modulo agree for all operand signs and floats
+ok 2 - floor division and modulo agree for all operand signs and floats
+  ---
+  duration_ms: 3.1457
+  type: 'test'
+  ...
+# Subtest: comparisons chain, return booleans and coerce numerically in arithmetic
+ok 3 - comparisons chain, return booleans and coerce numerically in arithmetic
+  ---
+  duration_ms: 0.7069
+  type: 'test'
+  ...
+# Subtest: variables and shared comparison operands are read once, left to right
+ok 4 - variables and shared comparison operands are read once, left to right
+  ---
+  duration_ms: 0.623
+  type: 'test'
+  ...
+# Subtest: built-ins evaluate all arguments and preserve the first equal extremum
+ok 5 - built-ins evaluate all arguments and preserve the first equal extremum
+  ---
+  duration_ms: 0.1778
+  type: 'test'
+  ...
+# Subtest: errors use exact token columns after whitespace, including EOF
+ok 6 - errors use exact token columns after whitespace, including EOF
+  ---
+  duration_ms: 0.5629
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic and comparison chains are stack-safe
+ok 7 - long flat arithmetic and comparison chains are stack-safe
+  ---
+  duration_ms: 314.076
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2303
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 388.323

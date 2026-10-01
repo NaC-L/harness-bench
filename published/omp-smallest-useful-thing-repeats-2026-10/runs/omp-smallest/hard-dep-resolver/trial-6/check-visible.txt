@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: numeric candidate ordering compares every component
+ok 1 - numeric candidate ordering compares every component
+  ---
+  duration_ms: 2.0157
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed dependencies, constraints, and descendants
+ok 2 - backtracking removes failed dependencies, constraints, and descendants
+  ---
+  duration_ms: 0.3798
+  type: 'test'
+  ...
+# Subtest: a partially appended conflict is undone before retrying a choice
+ok 3 - a partially appended conflict is undone before retrying a choice
+  ---
+  duration_ms: 0.1098
+  type: 'test'
+  ...
+# Subtest: constraints discovered for queued packages apply before selecting them
+ok 4 - constraints discovered for queued packages apply before selecting them
+  ---
+  duration_ms: 0.139
+  type: 'test'
+  ...
+# Subtest: FIFO discovery chooses the first solution, not a globally newest assignment
+ok 5 - FIFO discovery chooses the first solution, not a globally newest assignment
+  ---
+  duration_ms: 0.165
+  type: 'test'
+  ...
+# Subtest: cycles and repeated requirements expand selected dependencies only once
+ok 6 - cycles and repeated requirements expand selected dependencies only once
+  ---
+  duration_ms: 0.1112
+  type: 'test'
+  ...
+# Subtest: long chains, cycles, and exhaustive rollback do not use call-stack depth
+ok 7 - long chains, cycles, and exhaustive rollback do not use call-stack depth
+  ---
+  duration_ms: 111.7382
+  type: 'test'
+  ...
+# Subtest: incremental conflicts prune wide choice sets
+ok 8 - incremental conflicts prune wide choice sets
+  ---
+  duration_ms: 0.9384
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible ranges are unsatisfiable
+ok 9 - missing packages and incompatible ranges are unsatisfiable
+  ---
+  duration_ms: 0.3387
+  type: 'test'
+  ...
+# Subtest: all maps, versions, and ranges are validated, even when unreachable
+ok 10 - all maps, versions, and ranges are validated, even when unreachable
+  ---
+  duration_ms: 1.0189
+  type: 'test'
+  ...
+# Subtest: only own enumerable strings participate; special names and frozen inputs work
+ok 11 - only own enumerable strings participate; special names and frozen inputs work
+  ---
+  duration_ms: 0.1895
+  type: 'test'
+  ...
+# Subtest: semver helpers validate canonical safe-integer versions
+ok 12 - semver helpers validate canonical safe-integer versions
+  ---
+  duration_ms: 0.3591
+  type: 'test'
+  ...
+# Subtest: caret and tilde use the specified zero-major boundaries
+ok 13 - caret and tilde use the specified zero-major boundaries
+  ---
+  duration_ms: 0.2126
+  type: 'test'
+  ...
+# Subtest: range terms are whitespace-separated AND predicates with eager validation
+ok 14 - range terms are whitespace-separated AND predicates with eager validation
+  ---
+  duration_ms: 0.2083
+  type: 'test'
+  ...
+# Subtest: first-found assignments match an independent search on mixed cyclic graphs
+ok 15 - first-found assignments match an independent search on mixed cyclic graphs
+  ---
+  duration_ms: 16.103
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 16 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3346
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 209.5924

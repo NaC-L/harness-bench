@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: numbers, arithmetic precedence and associativity
+ok 1 - numbers, arithmetic precedence and associativity
+  ---
+  duration_ms: 2.1734
+  type: 'test'
+  ...
+# Subtest: floor division and modulo agree across signs and normalize zero
+ok 2 - floor division and modulo agree across signs and normalize zero
+  ---
+  duration_ms: 2.5072
+  type: 'test'
+  ...
+# Subtest: comparisons chain, preserve booleans and coerce them in arithmetic
+ok 3 - comparisons chain, preserve booleans and coerce them in arithmetic
+  ---
+  duration_ms: 0.2756
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once in left-to-right order
+ok 4 - variables and call arguments are read once in left-to-right order
+  ---
+  duration_ms: 1.569
+  type: 'test'
+  ...
+# Subtest: built-ins handle nested expressions, booleans and first-argument ties
+ok 5 - built-ins handle nested expressions, booleans and first-argument ties
+  ---
+  duration_ms: 0.2795
+  type: 'test'
+  ...
+# Subtest: errors point at token starts after whitespace and at the complete source end
+ok 6 - errors point at token starts after whitespace and at the complete source end
+  ---
+  duration_ms: 1.0337
+  type: 'test'
+  ...
+# Subtest: the entire source is parsed before getters or short circuiting
+ok 7 - the entire source is parsed before getters or short circuiting
+  ---
+  duration_ms: 0.2857
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains do not grow the call stack
+ok 8 - 100,001-operand arithmetic and comparison chains do not grow the call stack
+  ---
+  duration_ms: 178.8668
+  type: 'test'
+  ...
+# arithmetic: 78.3 ms
+# comparisons: 50.9 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2495
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 263.5081

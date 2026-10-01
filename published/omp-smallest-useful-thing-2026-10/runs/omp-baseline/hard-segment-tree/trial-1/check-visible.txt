@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards additions on both the assigned node and stale descendants
+ok 1 - assignment discards additions on both the assigned node and stale descendants
+  ---
+  duration_ms: 1.4348
+  type: 'test'
+  ...
+# Subtest: partial maxima remain negative and empty maxima are -Infinity
+ok 2 - partial maxima remain negative and empty maxima are -Infinity
+  ---
+  duration_ms: 0.1827
+  type: 'test'
+  ...
+# Subtest: threshold search propagates pending tags before reading descendants
+ok 3 - threshold search propagates pending tags before reading descendants
+  ---
+  duration_ms: 0.1287
+  type: 'test'
+  ...
+# Subtest: mixed updates and interleaved queries agree with an array oracle
+ok 4 - mixed updates and interleaved queries agree with an array oracle
+  ---
+  duration_ms: 66.9009
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length and copy semantics are preserved
+ok 5 - validation, empty ranges, read-only length and copy semantics are preserved
+  ---
+  duration_ms: 1.1495
+  type: 'test'
+  ...
+# Subtest: updates and queries retain logarithmic traversal; construction and export are linear
+ok 6 - updates and queries retain logarithmic traversal; construction and export are linear
+  ---
+  duration_ms: 4.5915
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6984
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 133.0021

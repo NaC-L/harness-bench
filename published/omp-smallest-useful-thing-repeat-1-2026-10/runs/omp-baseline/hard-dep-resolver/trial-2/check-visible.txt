@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: versions are canonical safe numeric triples and sort numerically
+ok 1 - versions are canonical safe numeric triples and sort numerically
+  ---
+  duration_ms: 2.7676
+  type: 'test'
+  ...
+# Subtest: ranges implement every operator, AND terms, and zero-major caret bounds
+ok 2 - ranges implement every operator, AND terms, and zero-major caret bounds
+  ---
+  duration_ms: 0.6649
+  type: 'test'
+  ...
+# Subtest: discovery collects all constraints before FIFO choices and preserves first-found order
+ok 3 - discovery collects all constraints before FIFO choices and preserves first-found order
+  ---
+  duration_ms: 0.4753
+  type: 'test'
+  ...
+# Subtest: backtracking removes failed constraints, queued dependencies, and unreachable selections
+ok 4 - backtracking removes failed constraints, queued dependencies, and unreachable selections
+  ---
+  duration_ms: 0.208
+  type: 'test'
+  ...
+# Subtest: self-cycles, mutual cycles, and contradictory cycles terminate
+ok 5 - self-cycles, mutual cycles, and contradictory cycles terminate
+  ---
+  duration_ms: 0.16
+  type: 'test'
+  ...
+# Subtest: eager validation includes unreachable entries and empty roots
+ok 6 - eager validation includes unreachable entries and empty roots
+  ---
+  duration_ms: 0.2711
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate, special names are safe, and inputs stay intact
+ok 7 - only own enumerable string keys participate, special names are safe, and inputs stay intact
+  ---
+  duration_ms: 0.1889
+  type: 'test'
+  ...
+# Subtest: long chains succeed and unwind without stack recursion or an iteration cap
+ok 8 - long chains succeed and unwind without stack recursion or an iteration cap
+  ---
+  duration_ms: 101.466
+  type: 'test'
+  ...
+# Subtest: conflicts are checked before exploring a Cartesian product of choices
+ok 9 - conflicts are checked before exploring a Cartesian product of choices
+  ---
+  duration_ms: 0.9141
+  type: 'test'
+  ...
+# Subtest: seeded cyclic graphs match an independent first-found reference search
+ok 10 - seeded cyclic graphs match an independent first-found reference search
+  ---
+  duration_ms: 8.4544
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 11 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4645
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 182.604

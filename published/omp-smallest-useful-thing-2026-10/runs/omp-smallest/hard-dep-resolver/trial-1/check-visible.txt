@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: numeric candidate ordering covers every version component
+ok 1 - numeric candidate ordering covers every version component
+  ---
+  duration_ms: 1.6107
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies and restores earlier constraints
+ok 2 - backtracking removes abandoned dependencies and restores earlier constraints
+  ---
+  duration_ms: 0.3557
+  type: 'test'
+  ...
+# Subtest: partial appends are undone after immediate selected-version conflicts
+ok 3 - partial appends are undone after immediate selected-version conflicts
+  ---
+  duration_ms: 0.1452
+  type: 'test'
+  ...
+# Subtest: first-found assignment uses FIFO discovery rather than recursive dependency order
+ok 4 - first-found assignment uses FIFO discovery rather than recursive dependency order
+  ---
+  duration_ms: 0.1461
+  type: 'test'
+  ...
+# Subtest: cycles terminate, self-conflicts backtrack, and shared packages expand only once
+ok 5 - cycles terminate, self-conflicts backtrack, and shared packages expand only once
+  ---
+  duration_ms: 0.1942
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible roots are unsatisfiable, not malformed
+ok 6 - missing packages and incompatible roots are unsatisfiable, not malformed
+  ---
+  duration_ms: 0.0824
+  type: 'test'
+  ...
+# Subtest: all registry maps, versions and ranges are validated even when unreachable
+ok 7 - all registry maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.606
+  type: 'test'
+  ...
+# Subtest: null-prototype and special-key maps work without mutating inputs
+ok 8 - null-prototype and special-key maps work without mutating inputs
+  ---
+  duration_ms: 0.1624
+  type: 'test'
+  ...
+# Subtest: long cyclic chains use iterative search and prune candidates before deeper choices
+ok 9 - long cyclic chains use iterative search and prune candidates before deeper choices
+  ---
+  duration_ms: 114.2189
+  type: 'test'
+  ...
+# Subtest: generated small cyclic registries match an independent first-found oracle
+ok 10 - generated small cyclic registries match an independent first-found oracle
+  ---
+  duration_ms: 22.4201
+  type: 'test'
+  ...
+# Subtest: versions are canonical safe numeric triples and compare numerically
+ok 11 - versions are canonical safe numeric triples and compare numerically
+  ---
+  duration_ms: 1.7108
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges honor lower and exclusive upper boundaries
+ok 12 - caret and tilde ranges honor lower and exclusive upper boundaries
+  ---
+  duration_ms: 0.5636
+  type: 'test'
+  ...
+# Subtest: range terms are ANDed and the compiled predicate matches satisfies
+ok 13 - range terms are ANDed and the compiled predicate matches satisfies
+  ---
+  duration_ms: 0.5885
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.8883
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 222.7129

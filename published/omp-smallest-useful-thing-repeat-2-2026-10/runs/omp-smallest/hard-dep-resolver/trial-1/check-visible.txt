@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: numeric candidate ordering compares all three safe-integer components
+ok 1 - numeric candidate ordering compares all three safe-integer components
+  ---
+  duration_ms: 2.0756
+  type: 'test'
+  ...
+# Subtest: caret, tilde, comparisons, and conjunctions follow their specified bounds
+ok 2 - caret, tilde, comparisons, and conjunctions follow their specified bounds
+  ---
+  duration_ms: 0.5441
+  type: 'test'
+  ...
+# Subtest: invalid versions and ranges always throw TypeError
+ok 3 - invalid versions and ranges always throw TypeError
+  ---
+  duration_ms: 0.6118
+  type: 'test'
+  ...
+# Subtest: validation includes unreachable entries and empty-root installs
+ok 4 - validation includes unreachable entries and empty-root installs
+  ---
+  duration_ms: 0.3563
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate, including special package names
+ok 5 - only own enumerable string keys participate, including special package names
+  ---
+  duration_ms: 0.1959
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies and constraints but keeps root constraints
+ok 6 - backtracking removes abandoned dependencies and constraints but keeps root constraints
+  ---
+  duration_ms: 0.2112
+  type: 'test'
+  ...
+# Subtest: all root and newly discovered constraints apply before a queued name is chosen
+ok 7 - all root and newly discovered constraints apply before a queued name is chosen
+  ---
+  duration_ms: 0.0887
+  type: 'test'
+  ...
+# Subtest: FIFO first-found search preserves earlier choices rather than globally maximizing versions
+ok 8 - FIFO first-found search preserves earlier choices rather than globally maximizing versions
+  ---
+  duration_ms: 0.4696
+  type: 'test'
+  ...
+# Subtest: self cycles and mutual cycles terminate and can backtrack
+ok 9 - self cycles and mutual cycles terminate and can backtrack
+  ---
+  duration_ms: 0.2328
+  type: 'test'
+  ...
+# Subtest: long chains and cycles do not use recursive search or an iteration cutoff
+ok 10 - long chains and cycles do not use recursive search or an iteration cutoff
+  ---
+  duration_ms: 121.9841
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before enumerating later choices
+ok 11 - discovered conflicts are checked before enumerating later choices
+  ---
+  duration_ms: 0.6227
+  type: 'test'
+  ...
+# Subtest: deterministic generated cyclic registries match an independent first-found search
+ok 12 - deterministic generated cyclic registries match an independent first-found search
+  ---
+  duration_ms: 14.7833
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 13 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3907
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 216.2474

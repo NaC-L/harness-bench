@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignments discard additions on both parent and child lazy tags
+ok 1 - assignments discard additions on both parent and child lazy tags
+  ---
+  duration_ms: 1.2957
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as their identity
+ok 2 - partial maxima use negative infinity as their identity
+  ---
+  duration_ms: 0.113
+  type: 'test'
+  ...
+# Subtest: threshold searches propagate assignment and addition before descent
+ok 3 - threshold searches propagate assignment and addition before descent
+  ---
+  duration_ms: 0.1194
+  type: 'test'
+  ...
+# Subtest: deterministic mixed workloads agree with a plain array
+ok 4 - deterministic mixed workloads agree with a plain array
+  ---
+  duration_ms: 13.3394
+  type: 'test'
+  ...
+# Subtest: API validates inputs without mutation and preserves empty ranges and copies
+ok 5 - API validates inputs without mutation and preserves empty ranges and copies
+  ---
+  duration_ms: 0.8641
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6563
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 78.2792

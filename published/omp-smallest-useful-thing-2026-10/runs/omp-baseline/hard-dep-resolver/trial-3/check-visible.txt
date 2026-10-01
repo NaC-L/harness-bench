@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: numeric candidate order compares all three components
+ok 1 - numeric candidate order compares all three components
+  ---
+  duration_ms: 2.0525
+  type: 'test'
+  ...
+# Subtest: semver operators, conjunctions, and zero-major caret boundaries
+ok 2 - semver operators, conjunctions, and zero-major caret boundaries
+  ---
+  duration_ms: 0.5058
+  type: 'test'
+  ...
+# Subtest: malformed versions and ranges throw eagerly, including unreachable entries
+ok 3 - malformed versions and ranges throw eagerly, including unreachable entries
+  ---
+  duration_ms: 0.7834
+  type: 'test'
+  ...
+# Subtest: all map levels are validated even for empty roots
+ok 4 - all map levels are validated even for empty roots
+  ---
+  duration_ms: 0.3965
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and special names are safe
+ok 5 - only own enumerable string keys participate and special names are safe
+  ---
+  duration_ms: 0.1988
+  type: 'test'
+  ...
+# Subtest: FIFO discovery collects all constraints before selecting queued names
+ok 6 - FIFO discovery collects all constraints before selecting queued names
+  ---
+  duration_ms: 0.1916
+  type: 'test'
+  ...
+# Subtest: backtracking removes rejected dependencies, queue entries, and constraints
+ok 7 - backtracking removes rejected dependencies, queue entries, and constraints
+  ---
+  duration_ms: 0.476
+  type: 'test'
+  ...
+# Subtest: cycles terminate and conflicting cycles backtrack or return null
+ok 8 - cycles terminate and conflicting cycles backtrack or return null
+  ---
+  duration_ms: 0.0831
+  type: 'test'
+  ...
+# Subtest: long cyclic dependency chains do not use the recursive call stack or a search cutoff
+ok 9 - long cyclic dependency chains do not use the recursive call stack or a search cutoff
+  ---
+  duration_ms: 94.0843
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune choices before enumerating a Cartesian product
+ok 10 - discovered conflicts prune choices before enumerating a Cartesian product
+  ---
+  duration_ms: 0.725
+  type: 'test'
+  ...
+# Subtest: resolution never mutates frozen input maps
+ok 11 - resolution never mutates frozen input maps
+  ---
+  duration_ms: 0.2075
+  type: 'test'
+  ...
+# Subtest: first-found assignments match an independent reference across cyclic graphs
+ok 12 - first-found assignments match an independent reference across cyclic graphs
+  ---
+  duration_ms: 13.6218
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 13 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3598
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 181.6456

@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+ok 1 - exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+  ---
+  duration_ms: 103.6813
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line numbers at top, middle and end
+ok 2 - zero-length ranges use preceding line numbers at top, middle and end
+  ---
+  duration_ms: 0.3076
+  type: 'test'
+  ...
+# Subtest: context merges exactly when unchanged gaps touch or overlap
+ok 3 - context merges exactly when unchanged gaps touch or overlap
+  ---
+  duration_ms: 0.2986
+  type: 'test'
+  ...
+# Subtest: multiple hunks keep global coordinates after earlier insertions and deletions
+ok 4 - multiple hunks keep global coordinates after earlier insertions and deletions
+  ---
+  duration_ms: 0.0994
+  type: 'test'
+  ...
+# Subtest: application removes exactly one prefix and retains unmentioned lines
+ok 5 - application removes exactly one prefix and retains unmentioned lines
+  ---
+  duration_ms: 0.1047
+  type: 'test'
+  ...
+# Subtest: malformed and nonapplicable hunks identify their index
+ok 6 - malformed and nonapplicable hunks identify their index
+  ---
+  duration_ms: 0.5812
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000 unique or repetitive lines stay fast
+ok 7 - small changes to 20,000 unique or repetitive lines stay fast
+  ---
+  duration_ms: 16.764
+  type: 'test'
+  ...
+# unique lines: 6.1ms
+# repetitive lines: 4.0ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.162
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 180.729

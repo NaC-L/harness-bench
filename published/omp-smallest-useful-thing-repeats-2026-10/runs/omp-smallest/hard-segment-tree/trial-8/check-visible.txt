@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: assignment discards pending additions on both parent and child segments
+ok 1 - assignment discards pending additions on both parent and child segments
+  ---
+  duration_ms: 1.6829
+  type: 'test'
+  ...
+# Subtest: partial maxima use a negative-infinity identity
+ok 2 - partial maxima use a negative-infinity identity
+  ---
+  duration_ms: 0.1238
+  type: 'test'
+  ...
+# Subtest: threshold search propagates lazy tags before inspecting children
+ok 3 - threshold search propagates lazy tags before inspecting children
+  ---
+  duration_ms: 0.1343
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array across varied tree shapes
+ok 4 - mixed updates and queries agree with an array across varied tree shapes
+  ---
+  duration_ms: 11.7785
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, read-only length and array independence
+ok 5 - API validation, empty ranges, read-only length and array independence
+  ---
+  duration_ms: 0.8755
+  type: 'test'
+  ...
+# Subtest: tree traversal stays logarithmic for updates and queries, linear for snapshots
+ok 6 - tree traversal stays logarithmic for updates and queries, linear for snapshots
+  ---
+  duration_ms: 3.4622
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 7 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6914
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 72.6809

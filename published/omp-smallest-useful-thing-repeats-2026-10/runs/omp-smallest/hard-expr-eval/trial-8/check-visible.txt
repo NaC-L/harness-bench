@@ -1,0 +1,67 @@
+TAP version 13
+# Subtest: unary signs and right-associative powers follow the documented grammar
+ok 1 - unary signs and right-associative powers follow the documented grammar
+  ---
+  duration_ms: 2.0836
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey signs, integer identity, and positive zero
+ok 2 - floor division and modulo obey signs, integer identity, and positive zero
+  ---
+  duration_ms: 2.2151
+  type: 'test'
+  ...
+# Subtest: comparisons chain and booleans participate numerically in arithmetic
+ok 3 - comparisons chain and booleans participate numerically in arithmetic
+  ---
+  duration_ms: 0.2586
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence, left to right, without mutation
+ok 4 - getters are read once per occurrence, left to right, without mutation
+  ---
+  duration_ms: 0.879
+  type: 'test'
+  ...
+# Subtest: the entire source is validated before evaluating any variables
+ok 5 - the entire source is validated before evaluating any variables
+  ---
+  duration_ms: 0.6593
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and EOF including whitespace
+ok 6 - error columns identify tokens after whitespace and EOF including whitespace
+  ---
+  duration_ms: 0.4956
+  type: 'test'
+  ...
+# Subtest: literals, built-ins, own properties and unsupported syntax
+ok 7 - literals, built-ins, own properties and unsupported syntax
+  ---
+  duration_ms: 0.3031
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat arithmetic and comparison chains stay stack-safe and fast
+ok 8 - 100,001-operand flat arithmetic and comparison chains stay stack-safe and fast
+  ---
+  duration_ms: 209.5312
+  type: 'test'
+  ...
+# + chain: 74.7 ms
+# * chain: 42.1 ms
+# == chain: 56.6 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2731
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 296.5971

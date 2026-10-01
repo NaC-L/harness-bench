@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and patch roundtrips for repeated and empty lines
+ok 1 - exhaustive minimal scripts and patch roundtrips for repeated and empty lines
+  ---
+  duration_ms: 19.6171
+  type: 'test'
+  ...
+# Subtest: seeded mixed-line scripts remain minimal and roundtrip
+ok 2 - seeded mixed-line scripts remain minimal and roundtrip
+  ---
+  duration_ms: 20.8097
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line coordinates, including file boundaries
+ok 3 - zero-length ranges use preceding line coordinates, including file boundaries
+  ---
+  duration_ms: 0.2951
+  type: 'test'
+  ...
+# Subtest: touching context merges but a larger gap stays separate
+ok 4 - touching context merges but a larger gap stays separate
+  ---
+  duration_ms: 0.1019
+  type: 'test'
+  ...
+# Subtest: application rejects malformed counts, coordinates, prefixes, and mismatches
+ok 5 - application rejects malformed counts, coordinates, prefixes, and mismatches
+  ---
+  duration_ms: 0.5667
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000 lines roundtrip, including repetitive files
+ok 6 - small edits to 20,000 lines roundtrip, including repetitive files
+  ---
+  duration_ms: 13.6438
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.1892
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 117.6088

@@ -1,0 +1,337 @@
+diff --git "{temp}\\hb-25cefc1e-8hjclzf9/src/contracts.test.js" "{temp}\\hb-25cefc1e-8hjclzf9/src/contracts.test.js"
+new file mode 100644
+index 0000000..0ef37b8
+--- /dev/null
++++ "{temp}\\hb-25cefc1e-8hjclzf9/src/contracts.test.js"
+@@ -0,0 +1,236 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { resolve } = require('./index');
++const { parse, compare, satisfies, compileRange } = require('./semver');
++
++const empty = () => Object.create(null);
++
++// Deliberately simple, copied-state reference search for small generated cases.
++// It follows FIFO discovery, but shares none of the resolver's rollback machinery.
++function referenceResolve(registry, root) {
++  function search(selected, pending, constraints) {
++    if (pending.length === 0) return Object.fromEntries(selected);
++    const [name, ...rest] = pending;
++    if (selected.has(name)) return search(selected, rest, constraints);
++    const versions = Object.keys(registry[name] || {}).sort((a, b) => compare(b, a));
++    for (const version of versions) {
++      if (!constraints.get(name).every(range => satisfies(version, range))) continue;
++      const nextSelected = new Map(selected).set(name, version);
++      const nextPending = rest.slice();
++      const nextConstraints = new Map([...constraints].map(([key, ranges]) => [key, ranges.slice()]));
++      let conflict = false;
++      for (const [dependency, range] of Object.entries(registry[name][version])) {
++        if (!nextConstraints.has(dependency)) nextConstraints.set(dependency, []);
++        nextConstraints.get(dependency).push(range);
++        nextPending.push(dependency);
++        if (nextSelected.has(dependency) && !satisfies(nextSelected.get(dependency), range)) {
++          conflict = true;
++          break;
++        }
++      }
++      if (!conflict) {
++        const result = search(nextSelected, nextPending, nextConstraints);
++        if (result !== null) return result;
++      }
++    }
++    return null;
++  }
++  return search(new Map(), Object.keys(root), new Map(Object.entries(root).map(([name, range]) => [name, [range]])));
++}
++
++test('versions are sorted numerically across all three components', () => {
++  for (const versions of [
++    ['9.0.0', '10.0.0'], ['1.9.0', '1.10.0'], ['1.0.9', '1.0.10'],
++    ['9007199254740990.0.0', '9007199254740991.0.0'],
++  ]) {
++    assert.deepEqual(resolve({ a: Object.fromEntries(versions.map(version => [version, {}])) }, { a: '*' }), { a: versions[1] });
++  }
++});
++
++test('FIFO discovery selects the first solution, not a globally newest assignment', () => {
++  const registry = {
++    a: { '2.0.0': { c: '*' } },
++    b: { '2.0.0': { c: '1.0.0' }, '1.0.0': { c: '2.0.0' } },
++    c: { '2.0.0': {}, '1.0.0': {} },
++  };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*' }), { a: '2.0.0', b: '2.0.0', c: '1.0.0' });
++  assert.deepEqual(resolve(registry, { a: '*', c: '*', b: '*' }), { a: '2.0.0', c: '2.0.0', b: '1.0.0' });
++});
++
++test('backtracking removes abandoned constraints and pending dependencies', () => {
++  const registry = {
++    a: { '2.0.0': { x: '1.0.0', abandoned: '*' }, '1.0.0': { x: '2.0.0' } },
++    b: { '1.0.0': { x: '2.0.0' } },
++    x: { '2.0.0': {}, '1.0.0': {} },
++    abandoned: { '1.0.0': { missing: '*' } },
++  };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*' }), { a: '1.0.0', b: '1.0.0', x: '2.0.0' });
++});
++
++test('a conflict undoes even partially appended dependencies', () => {
++  const registry = {
++    shared: { '2.0.0': {}, '1.0.0': {} },
++    chooser: { '2.0.0': { abandoned: '*', shared: '1.0.0' }, '1.0.0': {} },
++    abandoned: { '1.0.0': {} },
++  };
++  assert.deepEqual(resolve(registry, { shared: '*', chooser: '*' }), { shared: '2.0.0', chooser: '1.0.0' });
++});
++
++test('the most recent choice is retried before earlier choices', () => {
++  const registry = {
++    a: { '2.0.0': { x: '1.0.0' }, '1.0.0': { x: '2.0.0' } },
++    b: { '2.0.0': { x: '2.0.0' }, '1.0.0': { x: '1.0.0' } },
++    x: { '2.0.0': {}, '1.0.0': {} },
++  };
++  assert.deepEqual(resolve(registry, { a: '*', b: '*' }), { a: '2.0.0', b: '1.0.0', x: '1.0.0' });
++});
++
++test('self and mutual cycles terminate and enforce every constraint', () => {
++  assert.deepEqual(resolve({ a: { '1.0.0': { a: '*' } } }, { a: '*' }), { a: '1.0.0' });
++  assert.deepEqual(resolve({ a: { '2.0.0': { a: '1.0.0' }, '1.0.0': { a: '1.0.0' } } }, { a: '*' }), { a: '1.0.0' });
++  const registry = {
++    a: { '2.0.0': { b: '*' } },
++    b: { '2.0.0': { a: '1.0.0' }, '1.0.0': { a: '2.0.0' } },
++  };
++  assert.deepEqual(resolve(registry, { a: '*' }), { a: '2.0.0', b: '1.0.0' });
++  assert.equal(resolve({ a: { '1.0.0': { b: '*' } }, b: { '1.0.0': { a: '2.0.0' } } }, { a: '*' }), null);
++});
++
++test('long chains and long backtracking use no recursive call stack or search cap', () => {
++  const registry = empty();
++  const count = 20000;
++  for (let i = 0; i < count; i += 1) {
++    registry[`p${i}`] = { '1.0.0': { [`p${(i + 1) % count}`]: '*' } };
++  }
++  const result = resolve(registry, { p0: '*' });
++  assert.equal(Object.keys(result).length, count);
++  assert.equal(result[`p${count - 1}`], '1.0.0');
++  registry[`p${count - 1}`]['1.0.0'] = { missing: '*' };
++  registry.p0['0.0.0'] = {};
++  assert.deepEqual(resolve(registry, { p0: '*' }), { p0: '0.0.0' });
++});
++
++test('discovered conflicts prune branches before a Cartesian product is explored', () => {
++  const registry = { gate: { '1.0.0': {} } };
++  const root = {};
++  const expected = { gate: '1.0.0' };
++  for (let i = 0; i < 30; i += 1) {
++    const name = `p${i}`;
++    registry[name] = { '2.0.0': { gate: '2.0.0' }, '1.0.0': {} };
++    root[name] = '*';
++    expected[name] = '1.0.0';
++  }
++  root.gate = '1.0.0';
++  assert.deepEqual(resolve(registry, root), expected);
++});
++
++test('maps, missing packages, unusual keys, and input immutability obey the contract', () => {
++  assert.deepEqual(resolve({}, {}), {});
++  assert.equal(resolve({}, { missing: '*' }), null);
++  assert.equal(resolve({ a: {} }, { a: '*' }), null);
++  const registry = empty();
++  const root = empty();
++  for (const name of ['__proto__', 'constructor', 'toString']) {
++    registry[name] = Object.freeze({ '1.0.0': Object.freeze(empty()) });
++    root[name] = '*';
++  }
++  registry[Symbol('ignored')] = null;
++  Object.defineProperty(registry, 'ignored', { value: null });
++  Object.freeze(registry);
++  Object.freeze(root);
++  const result = resolve(registry, root);
++  assert.equal(Object.getPrototypeOf(result), Object.prototype);
++  assert.deepEqual(Object.keys(result), ['__proto__', 'constructor', 'toString']);
++  for (const name of Object.keys(root)) assert.equal(result[name], '1.0.0');
++  const frozen = Object.freeze({ a: Object.freeze({ '1.0.0': Object.freeze({ b: '*' }) }), b: Object.freeze({ '1.0.0': Object.freeze({}) }) });
++  assert.deepEqual(resolve(frozen, Object.freeze({ a: '*' })), { a: '1.0.0', b: '1.0.0' });
++});
++
++test('malformed maps, versions, and ranges are validated even when unreachable', () => {
++  for (const bad of [null, [], new Date(), Object.create({}), 'map', 1]) {
++    assert.throws(() => resolve(bad, {}), TypeError);
++    assert.throws(() => resolve({}, bad), TypeError);
++    assert.throws(() => resolve({ unused: bad }, {}), TypeError);
++    assert.throws(() => resolve({ unused: { '1.0.0': bad } }, {}), TypeError);
++  }
++  assert.throws(() => resolve({ unused: { '01.0.0': {} } }, {}), TypeError);
++  assert.throws(() => resolve({ unused: { '1.0.0': { missing: 'invalid' } } }, {}), TypeError);
++  assert.throws(() => resolve({}, { missing: '' }), TypeError);
++});
++
++test('canonical versions and the public semver helper APIs', () => {
++  assert.deepEqual(parse('9007199254740991.0.12'), [Number.MAX_SAFE_INTEGER, 0, 12]);
++  assert.equal(compare('1.10.0', '1.9.0'), 1);
++  assert.equal(compare('1.0.9', '1.0.10'), -1);
++  assert.equal(compare('1.2.3', '1.2.3'), 0);
++  for (const bad of [null, 1, [], '', '1.2', '01.2.3', '1.02.3', '1.2.03', '-1.2.3', '1.2.3-beta', '1.2.3+build', ' 1.2.3', '1.2.3 ', '1.2.3\n', '1.2.3\r', '9007199254740992.0.0']) {
++    assert.throws(() => parse(bad), TypeError);
++    assert.throws(() => compare(bad, '1.0.0'), TypeError);
++    assert.throws(() => satisfies(bad, '*'), TypeError);
++  }
++  for (const bad of [null, 1, [], '', ' ', '1', '1.x', '>= 1.0.0', '!=1.0.0', '1.0.0 || 2.0.0', '1.0.0 - 2.0.0', '* nope']) {
++    assert.throws(() => compileRange(bad), TypeError);
++    assert.throws(() => satisfies('1.0.0', bad), TypeError);
++  }
++});
++
++test('ranges cover zero-major carets, tilde, exact, wildcard, and AND comparisons', () => {
++  const cases = [
++    ['^1.2.3', ['1.2.3', '1.99.0'], ['1.2.2', '2.0.0']],
++    ['^0.2.3', ['0.2.3', '0.2.99'], ['0.2.2', '0.3.0', '1.0.0']],
++    ['^0.0.3', ['0.0.3'], ['0.0.2', '0.0.4', '0.1.0']],
++    ['^0.0.0', ['0.0.0'], ['0.0.1', '0.1.0']],
++    ['~0.0.3', ['0.0.3', '0.0.99'], ['0.0.2', '0.1.0']],
++    ['~1.2.3', ['1.2.3', '1.2.99'], ['1.2.2', '1.3.0']],
++    ['1.2.3', ['1.2.3'], ['1.2.2', '1.2.4']],
++    ['*', ['0.0.0', '9007199254740991.0.0'], []],
++    [' \n >=1.2.3\t<2.0.0  ', ['1.2.3', '1.99.0'], ['1.2.2', '2.0.0']],
++    ['>1.2.3 <=1.2.5', ['1.2.4', '1.2.5'], ['1.2.3', '1.2.6']],
++    ['^9007199254740991.0.0', ['9007199254740991.0.0'], ['9007199254740990.0.0']],
++    ['^0.0.9007199254740991', ['0.0.9007199254740991'], ['0.0.9007199254740990', '0.1.0']],
++    ['~0.9007199254740991.0', ['0.9007199254740991.1'], ['0.9007199254740990.0', '1.0.0']],
++  ];
++  for (const [range, accepted, rejected] of cases) {
++    const predicate = compileRange(range);
++    for (const version of accepted) {
++      assert.equal(satisfies(version, range), true, `${version} satisfies ${range}`);
++      assert.equal(predicate(parse(version)), true);
++    }
++    for (const version of rejected) {
++      assert.equal(satisfies(version, range), false, `${version} does not satisfy ${range}`);
++      assert.equal(predicate(parse(version)), false);
++    }
++  }
++  assert.deepEqual(resolve({ a: { '0.3.0': {}, '0.2.9': {} } }, { a: '^0.2.3' }), { a: '0.2.9' });
++});
++
++test('small generated cyclic registries match an independent first-found reference', () => {
++  let seed = 0x12345678;
++  const random = size => {
++    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
++    return Math.floor((seed / 0x100000000) * size);
++  };
++  const names = ['a', 'b', 'c', 'd'];
++  const ranges = ['*', '1.0.0', '2.0.0', '>=1.0.0 <2.0.0'];
++  for (let sample = 0; sample < 500; sample += 1) {
++    const registry = {};
++    for (const name of names) {
++      const versions = {};
++      for (const version of ['1.0.0', '2.0.0']) {
++        const deps = {};
++        for (const dependency of [...names, 'missing']) {
++          if (random(5) === 0) deps[dependency] = ranges[random(ranges.length)];
++        }
++        versions[version] = deps;
++      }
++      registry[name] = versions;
++    }
++    const root = {};
++    for (const name of names) {
++      if (random(2) === 0) root[name] = ranges[random(ranges.length)];
++    }
++    assert.deepEqual(resolve(registry, root), referenceResolve(registry, root), `sample ${sample}`);
++  }
++});
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-25cefc1e-8hjclzf9/src/resolver.js"
+index b445e71..a3e13a0 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-25cefc1e-8hjclzf9/src/resolver.js"
+@@ -16,9 +16,10 @@ function requirements(record) {
+ }
+ 
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  for (let i = 0; i < 3; i += 1) {
++    if (left.tuple[i] !== right.tuple[i]) return left.tuple[i] < right.tuple[i] ? 1 : -1;
++  }
++  return 0;
+ }
+ 
+ /**
+@@ -80,13 +81,27 @@ function resolve(registry, root) {
+       trail.push(item.name);
+       queue.push(item.name);
+       const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
++      if (existing) {
++        if (!item.accepts(existing.tuple)) return false;
++      } else {
++        // An empty domain cannot be repaired by later choices. Prune it now,
++        // without changing FIFO choice order or skipping any possible solution.
++        const candidates = catalogs.get(item.name) || [];
++        if (!candidates.some(version => list.every(test => test(version.tuple)))) return false;
++      }
+     }
+     return true;
+   }
+ 
+   function restore(frame) {
+     selected.delete(frame.name);
++    while (trail.length > frame.trailLength) {
++      const name = trail.pop();
++      const list = constraints.get(name);
++      list.pop();
++      if (list.length === 0) constraints.delete(name);
++    }
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
+   }
+ 
+@@ -105,10 +120,8 @@ function resolve(registry, root) {
+     return false;
+   }
+ 
+-  append(initial);
+-  let iterations = 0;
++  if (!append(initial)) return null;
+   for (;;) {
+-    if (++iterations > 4096) return null;
+     if (cursor === queue.length) {
+       const result = {};
+       for (const [name, version] of selected) {
+@@ -117,10 +130,7 @@ function resolve(registry, root) {
+       return result;
+     }
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
++    if (selected.has(name)) continue;
+     const tests = constraints.get(name);
+     const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+     choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-25cefc1e-8hjclzf9/src/semver.js"
+index 5b1d55d..6ab70e6 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-25cefc1e-8hjclzf9/src/semver.js"
+@@ -13,7 +13,7 @@
+  * >= the base and < the next minor. Invalid versions/ranges throw TypeError.
+  */
+ function parse(version) {
+-  if (typeof version !== 'string' || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)) {
++  if (typeof version !== 'string' || version.trim() !== version || !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)) {
+     throw new TypeError('Invalid version');
+   }
+   const parts = version.split('.').map(Number);
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

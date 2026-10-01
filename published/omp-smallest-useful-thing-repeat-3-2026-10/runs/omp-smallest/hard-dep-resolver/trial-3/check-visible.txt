@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: versions are ordered numerically at every component
+ok 1 - versions are ordered numerically at every component
+  ---
+  duration_ms: 1.9152
+  type: 'test'
+  ...
+# Subtest: first found uses FIFO discovery rather than recursive dependency order
+ok 2 - first found uses FIFO discovery rather than recursive dependency order
+  ---
+  duration_ms: 0.4072
+  type: 'test'
+  ...
+# Subtest: rollback removes constraints, missing dependencies and descendant selections
+ok 3 - rollback removes constraints, missing dependencies and descendant selections
+  ---
+  duration_ms: 0.1446
+  type: 'test'
+  ...
+# Subtest: rollback removes a partially appended dependency list after an immediate conflict
+ok 4 - rollback removes a partially appended dependency list after an immediate conflict
+  ---
+  duration_ms: 0.1178
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected version only once and can backtrack
+ok 5 - cycles expand each selected version only once and can backtrack
+  ---
+  duration_ms: 0.1751
+  type: 'test'
+  ...
+# Subtest: all discovered constraints are collected before selecting a package
+ok 6 - all discovered constraints are collected before selecting a package
+  ---
+  duration_ms: 0.0919
+  type: 'test'
+  ...
+# Subtest: zero-major caret ranges constrain resolver choices
+ok 7 - zero-major caret ranges constrain resolver choices
+  ---
+  duration_ms: 0.1306
+  type: 'test'
+  ...
+# Subtest: long cyclic chains exceed both the old iteration limit and typical call-stack depth
+ok 8 - long cyclic chains exceed both the old iteration limit and typical call-stack depth
+  ---
+  duration_ms: 118.4911
+  type: 'test'
+  ...
+# Subtest: conflicts are pruned at discovery, not after enumerating a Cartesian product
+ok 9 - conflicts are pruned at discovery, not after enumerating a Cartesian product
+  ---
+  duration_ms: 0.7524
+  type: 'test'
+  ...
+# Subtest: missing packages and empty catalogs are unsatisfiable; empty root selects nothing
+ok 10 - missing packages and empty catalogs are unsatisfiable; empty root selects nothing
+  ---
+  duration_ms: 0.2996
+  type: 'test'
+  ...
+# Subtest: validation is eager even for unreachable entries and empty roots
+ok 11 - validation is eager even for unreachable entries and empty roots
+  ---
+  duration_ms: 0.8134
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and prototype-like names are safe
+ok 12 - only own enumerable string keys participate and prototype-like names are safe
+  ---
+  duration_ms: 0.2481
+  type: 'test'
+  ...
+# Subtest: frozen inputs are never mutated
+ok 13 - frozen inputs are never mutated
+  ---
+  duration_ms: 0.0957
+  type: 'test'
+  ...
+# Subtest: seeded small dependency graphs match an independent first-found search
+ok 14 - seeded small dependency graphs match an independent first-found search
+  ---
+  duration_ms: 13.9672
+  type: 'test'
+  ...
+# Subtest: parse accepts only canonical triples of non-negative safe integers
+ok 15 - parse accepts only canonical triples of non-negative safe integers
+  ---
+  duration_ms: 1.2936
+  type: 'test'
+  ...
+# Subtest: compare returns numeric ordering and validates both operands
+ok 16 - compare returns numeric ordering and validates both operands
+  ---
+  duration_ms: 0.1863
+  type: 'test'
+  ...
+# Subtest: caret and tilde lower bounds are inclusive and upper bounds exclusive
+ok 17 - caret and tilde lower bounds are inclusive and upper bounds exclusive
+  ---
+  duration_ms: 0.8643
+  type: 'test'
+  ...
+# Subtest: all AND operators, wildcard terms and surrounding whitespace are supported
+ok 18 - all AND operators, wildcard terms and surrounding whitespace are supported
+  ---
+  duration_ms: 0.1701
+  type: 'test'
+  ...
+# Subtest: every range term is validated eagerly even after a false AND term
+ok 19 - every range term is validated eagerly even after a false AND term
+  ---
+  duration_ms: 0.2843
+  type: 'test'
+  ...
+# Subtest: caret and tilde upper bounds work at safe-integer boundaries
+ok 20 - caret and tilde upper bounds work at safe-integer boundaries
+  ---
+  duration_ms: 0.1144
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 21 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3424
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 203.4216

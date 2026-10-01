@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: numeric ordering applies to every version component
+ok 1 - numeric ordering applies to every version component
+  ---
+  duration_ms: 2.3653
+  type: 'test'
+  ...
+# Subtest: all root constraints are collected before any version is chosen
+ok 2 - all root constraints are collected before any version is chosen
+  ---
+  duration_ms: 0.338
+  type: 'test'
+  ...
+# Subtest: first-found selection uses FIFO discovery rather than recursive dependency traversal
+ok 3 - first-found selection uses FIFO discovery rather than recursive dependency traversal
+  ---
+  duration_ms: 0.1815
+  type: 'test'
+  ...
+# Subtest: dependency key order determines the first complete assignment
+ok 4 - dependency key order determines the first complete assignment
+  ---
+  duration_ms: 0.1737
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned constraints and unreachable dependencies
+ok 5 - backtracking removes abandoned constraints and unreachable dependencies
+  ---
+  duration_ms: 0.0983
+  type: 'test'
+  ...
+# Subtest: a conflict discovered partway through dependencies rolls back every appended item
+ok 6 - a conflict discovered partway through dependencies rolls back every appended item
+  ---
+  duration_ms: 0.1997
+  type: 'test'
+  ...
+# Subtest: backtracking retries the most recent choice before older choices
+ok 7 - backtracking retries the most recent choice before older choices
+  ---
+  duration_ms: 0.1329
+  type: 'test'
+  ...
+# Subtest: cycles and repeated discoveries expand each selected package only once
+ok 8 - cycles and repeated discoveries expand each selected package only once
+  ---
+  duration_ms: 0.0891
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible constraints are unsatisfiable
+ok 9 - missing packages and incompatible constraints are unsatisfiable
+  ---
+  duration_ms: 0.185
+  type: 'test'
+  ...
+# Subtest: long chains support success, failure, and full rollback without stack recursion
+ok 10 - long chains support success, failure, and full rollback without stack recursion
+  ---
+  duration_ms: 136.2907
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before enumerating unrelated choices
+ok 11 - discovered conflicts are checked before enumerating unrelated choices
+  ---
+  duration_ms: 0.683
+  type: 'test'
+  ...
+# Subtest: plain and null-prototype maps, special names, and input immutability
+ok 12 - plain and null-prototype maps, special names, and input immutability
+  ---
+  duration_ms: 0.1815
+  type: 'test'
+  ...
+# Subtest: invalid maps, versions, and ranges are rejected even in unreachable entries
+ok 13 - invalid maps, versions, and ranges are rejected even in unreachable entries
+  ---
+  duration_ms: 0.7978
+  type: 'test'
+  ...
+# Subtest: semver parsing is canonical, whitespace-free, and safe-integer bounded
+ok 14 - semver parsing is canonical, whitespace-free, and safe-integer bounded
+  ---
+  duration_ms: 0.6234
+  type: 'test'
+  ...
+# Subtest: range operators, conjunctions, and zero-major caret boundaries
+ok 15 - range operators, conjunctions, and zero-major caret boundaries
+  ---
+  duration_ms: 0.3068
+  type: 'test'
+  ...
+# Subtest: malformed ranges throw eagerly even after an always-false term
+ok 16 - malformed ranges throw eagerly even after an always-false term
+  ---
+  duration_ms: 0.1938
+  type: 'test'
+  ...
+# Subtest: first-found results match an independent oracle on generated cyclic registries
+ok 17 - first-found results match an independent oracle on generated cyclic registries
+  ---
+  duration_ms: 19.9077
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5121
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 253.2566

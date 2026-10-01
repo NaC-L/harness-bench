@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: numeric ordering applies to every version component
+ok 1 - numeric ordering applies to every version component
+  ---
+  duration_ms: 2.0086
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies, constraints, and selections
+ok 2 - backtracking removes abandoned dependencies, constraints, and selections
+  ---
+  duration_ms: 0.4132
+  type: 'test'
+  ...
+# Subtest: an immediately conflicting candidate rolls back even partially appended dependencies
+ok 3 - an immediately conflicting candidate rolls back even partially appended dependencies
+  ---
+  duration_ms: 0.0999
+  type: 'test'
+  ...
+# Subtest: FIFO first-found selection is not dependency-first or globally newest
+ok 4 - FIFO first-found selection is not dependency-first or globally newest
+  ---
+  duration_ms: 0.1306
+  type: 'test'
+  ...
+# Subtest: root key order and dependency key order decide the most recent choice
+ok 5 - root key order and dependency key order decide the most recent choice
+  ---
+  duration_ms: 0.2066
+  type: 'test'
+  ...
+# Subtest: all discovered constraints apply before a queued name is selected
+ok 6 - all discovered constraints apply before a queued name is selected
+  ---
+  duration_ms: 0.0742
+  type: 'test'
+  ...
+# Subtest: self cycles, mutual cycles, and repeated diamond discoveries terminate
+ok 7 - self cycles, mutual cycles, and repeated diamond discoveries terminate
+  ---
+  duration_ms: 0.1332
+  type: 'test'
+  ...
+# Subtest: cycle conflicts backtrack to the most recent choice
+ok 8 - cycle conflicts backtrack to the most recent choice
+  ---
+  duration_ms: 0.1095
+  type: 'test'
+  ...
+# Subtest: long chains resolve and backtrack without a stack or iteration limit
+ok 9 - long chains resolve and backtrack without a stack or iteration limit
+  ---
+  duration_ms: 96.0358
+  type: 'test'
+  ...
+# Subtest: constraints are checked before exploring a Cartesian product
+ok 10 - constraints are checked before exploring a Cartesian product
+  ---
+  duration_ms: 0.6894
+  type: 'test'
+  ...
+# Subtest: missing packages and empty version maps are unsatisfiable, empty root is valid
+ok 11 - missing packages and empty version maps are unsatisfiable, empty root is valid
+  ---
+  duration_ms: 0.1684
+  type: 'test'
+  ...
+# Subtest: validation includes every unreachable version, range, and map
+ok 12 - validation includes every unreachable version, range, and map
+  ---
+  duration_ms: 0.6595
+  type: 'test'
+  ...
+# Subtest: only own enumerable string keys participate and special package names are safe
+ok 13 - only own enumerable string keys participate and special package names are safe
+  ---
+  duration_ms: 0.2888
+  type: 'test'
+  ...
+# Subtest: first-found results match an independent reference on generated cyclic graphs
+ok 14 - first-found results match an independent reference on generated cyclic graphs
+  ---
+  duration_ms: 23.7364
+  type: 'test'
+  ...
+# Subtest: parse accepts canonical safe integer triples only
+ok 15 - parse accepts canonical safe integer triples only
+  ---
+  duration_ms: 1.2652
+  type: 'test'
+  ...
+# Subtest: compare is numeric and returns exactly -1, 0, or 1
+ok 16 - compare is numeric and returns exactly -1, 0, or 1
+  ---
+  duration_ms: 0.1542
+  type: 'test'
+  ...
+# Subtest: caret ranges use the first nonzero component for the upper bound
+ok 17 - caret ranges use the first nonzero component for the upper bound
+  ---
+  duration_ms: 0.3577
+  type: 'test'
+  ...
+# Subtest: tilde, exact, wildcard, comparisons, and whitespace-separated AND terms
+ok 18 - tilde, exact, wildcard, comparisons, and whitespace-separated AND terms
+  ---
+  duration_ms: 0.6893
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected eagerly, including after wildcard or impossible terms
+ok 19 - invalid ranges are rejected eagerly, including after wildcard or impossible terms
+  ---
+  duration_ms: 0.238
+  type: 'test'
+  ...
+# Subtest: caret and tilde remain correct at maximum safe integer boundaries
+ok 20 - caret and tilde remain correct at maximum safe integer boundaries
+  ---
+  duration_ms: 0.1202
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 21 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4156
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 203.5269

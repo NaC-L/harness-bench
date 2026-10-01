@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+ok 1 - exhaustive minimal scripts and patch roundtrips with repeated and empty lines
+  ---
+  duration_ms: 19.5295
+  type: 'test'
+  ...
+# Subtest: deterministic random inputs include prefix characters and ambiguous subsequences
+ok 2 - deterministic random inputs include prefix characters and ambiguous subsequences
+  ---
+  duration_ms: 12.8603
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use the preceding line, including beginning and end
+ok 3 - zero-line ranges use the preceding line, including beginning and end
+  ---
+  duration_ms: 0.2571
+  type: 'test'
+  ...
+# Subtest: context touching merges hunks once; larger gaps retain complete-file coordinates
+ok 4 - context touching merges hunks once; larger gaps retain complete-file coordinates
+  ---
+  duration_ms: 0.4761
+  type: 'test'
+  ...
+# Subtest: application retains unmentioned lines and tracks earlier insertions and deletions
+ok 5 - application retains unmentioned lines and tracks earlier insertions and deletions
+  ---
+  duration_ms: 0.172
+  type: 'test'
+  ...
+# Subtest: application rejects malformed, mismatched, unordered, and overlapping hunks
+ok 6 - application rejects malformed, mismatched, unordered, and overlapping hunks
+  ---
+  duration_ms: 0.4478
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000-line files run in under a second
+ok 7 - small changes to 20,000-line files run in under a second
+  ---
+  duration_ms: 12.5625
+  type: 'test'
+  ...
+# unique lines: 5.6ms
+# repetitive lines: 4.3ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 8 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.1997
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105.7454

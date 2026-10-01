@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: assignment discards older additions at both parent and child nodes
+ok 1 - assignment discards older additions at both parent and child nodes
+  ---
+  duration_ms: 1.5804
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as the identity
+ok 2 - partial maxima use negative infinity as the identity
+  ---
+  duration_ms: 0.1984
+  type: 'test'
+  ...
+# Subtest: threshold searches push lazy transforms before inspecting children
+ok 3 - threshold searches push lazy transforms before inspecting children
+  ---
+  duration_ms: 1.662
+  type: 'test'
+  ...
+# Subtest: documented validation rejects bad arguments without mutation
+ok 4 - documented validation rejects bad arguments without mutation
+  ---
+  duration_ms: 0.937
+  type: 'test'
+  ...
+# Subtest: empty ranges, singleton trees, length, and array independence retain their API
+ok 5 - empty ranges, singleton trees, length, and array independence retain their API
+  ---
+  duration_ms: 0.1823
+  type: 'test'
+  ...
+# Subtest: seeded mixed workloads agree with an array without eagerly flushing tags
+ok 6 - seeded mixed workloads agree with an array without eagerly flushing tags
+  ---
+  duration_ms: 17.0887
+  type: 'test'
+  ...
+# Subtest: tree traversal remains logarithmic for operations and linear for materialization
+ok 7 - tree traversal remains logarithmic for operations and linear for materialization
+  ---
+  duration_ms: 10.7471
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 8 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.8673
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 93.482

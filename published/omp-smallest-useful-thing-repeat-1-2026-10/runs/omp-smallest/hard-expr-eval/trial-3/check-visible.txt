@@ -1,0 +1,63 @@
+TAP version 13
+# Subtest: power is right associative and has asymmetric unary precedence
+ok 1 - power is right associative and has asymmetric unary precedence
+  ---
+  duration_ms: 1.8552
+  type: 'test'
+  ...
+# Subtest: division and modulo use the divisor sign and positive zero
+ok 2 - division and modulo use the divisor sign and positive zero
+  ---
+  duration_ms: 4.8707
+  type: 'test'
+  ...
+# Subtest: comparison chains retain shared operands and numeric boolean semantics
+ok 3 - comparison chains retain shared operands and numeric boolean semantics
+  ---
+  duration_ms: 0.3855
+  type: 'test'
+  ...
+# Subtest: getter-backed variables are read once per occurrence in evaluation order
+ok 4 - getter-backed variables are read once per occurrence in evaluation order
+  ---
+  duration_ms: 0.9729
+  type: 'test'
+  ...
+# Subtest: variables require own properties and calls are restricted to built-ins
+ok 5 - variables require own properties and calls are restricted to built-ins
+  ---
+  duration_ms: 0.1469
+  type: 'test'
+  ...
+# Subtest: error columns refer to token starts and UTF-16 source offsets
+ok 6 - error columns refer to token starts and UTF-16 source offsets
+  ---
+  duration_ms: 0.6647
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic, comparisons, and argument lists avoid recursive evaluation
+ok 7 - long flat arithmetic, comparisons, and argument lists avoid recursive evaluation
+  ---
+  duration_ms: 241.6891
+  type: 'test'
+  ...
+# sum: 68.7 ms for 100001 operands
+# product: 49.4 ms for 100001 operands
+# comparison: 45.1 ms for 100001 operands
+# short-circuit comparison: 29.4 ms for 100001 operands
+# call: 44.1 ms for 100001 operands
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2849
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 319.939

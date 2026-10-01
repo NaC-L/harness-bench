@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: versions are ordered numerically by every component
+ok 1 - versions are ordered numerically by every component
+  ---
+  duration_ms: 2.0517
+  type: 'test'
+  ...
+# Subtest: rollback removes failed choices, dependencies, and their constraints
+ok 2 - rollback removes failed choices, dependencies, and their constraints
+  ---
+  duration_ms: 0.4924
+  type: 'test'
+  ...
+# Subtest: rollback removes packages already selected on an abandoned branch
+ok 3 - rollback removes packages already selected on an abandoned branch
+  ---
+  duration_ms: 0.1349
+  type: 'test'
+  ...
+# Subtest: partial dependency discovery is undone before retrying the same frame
+ok 4 - partial dependency discovery is undone before retrying the same frame
+  ---
+  duration_ms: 0.0765
+  type: 'test'
+  ...
+# Subtest: root key order determines the first solution, not a global version maximum
+ok 5 - root key order determines the first solution, not a global version maximum
+  ---
+  duration_ms: 0.1546
+  type: 'test'
+  ...
+# Subtest: requirements are processed FIFO, not by recursively visiting dependencies
+ok 6 - requirements are processed FIFO, not by recursively visiting dependencies
+  ---
+  duration_ms: 0.0804
+  type: 'test'
+  ...
+# Subtest: dependency key order determines discovery order
+ok 7 - dependency key order determines discovery order
+  ---
+  duration_ms: 0.1523
+  type: 'test'
+  ...
+# Subtest: all discovered requirements constrain candidates, including later root keys
+ok 8 - all discovered requirements constrain candidates, including later root keys
+  ---
+  duration_ms: 0.0793
+  type: 'test'
+  ...
+# Subtest: cycles expand each selected package only once and conflicts can backtrack
+ok 9 - cycles expand each selected package only once and conflicts can backtrack
+  ---
+  duration_ms: 0.2408
+  type: 'test'
+  ...
+# Subtest: long chains, cyclic chains, and rollback do not use the recursive call stack
+ok 10 - long chains, cyclic chains, and rollback do not use the recursive call stack
+  ---
+  duration_ms: 87.5148
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before enumerating unrelated combinations
+ok 11 - discovered conflicts are checked before enumerating unrelated combinations
+  ---
+  duration_ms: 0.5313
+  type: 'test'
+  ...
+# Subtest: only selected dependencies participate in reachability
+ok 12 - only selected dependencies participate in reachability
+  ---
+  duration_ms: 0.1334
+  type: 'test'
+  ...
+# Subtest: plain and null-prototype maps and special own string keys are safe
+ok 13 - plain and null-prototype maps and special own string keys are safe
+  ---
+  duration_ms: 0.1529
+  type: 'test'
+  ...
+# Subtest: malformed maps, versions, and ranges are validated even when unreachable
+ok 14 - malformed maps, versions, and ranges are validated even when unreachable
+  ---
+  duration_ms: 0.8544
+  type: 'test'
+  ...
+# Subtest: first-found results match independent snapshot search on seeded cyclic graphs
+ok 15 - first-found results match independent snapshot search on seeded cyclic graphs
+  ---
+  duration_ms: 29.937
+  type: 'test'
+  ...
+# Subtest: parse accepts only canonical safe integer triples
+ok 16 - parse accepts only canonical safe integer triples
+  ---
+  duration_ms: 1.1868
+  type: 'test'
+  ...
+# Subtest: compare is numeric and returns only -1, 0, or 1
+ok 17 - compare is numeric and returns only -1, 0, or 1
+  ---
+  duration_ms: 0.2072
+  type: 'test'
+  ...
+# Subtest: all range operators and whitespace-separated AND terms preserve their API
+ok 18 - all range operators and whitespace-separated AND terms preserve their API
+  ---
+  duration_ms: 1.005
+  type: 'test'
+  ...
+# Subtest: invalid ranges throw eagerly, including terms after an always-false constraint
+ok 19 - invalid ranges throw eagerly, including terms after an always-false constraint
+  ---
+  duration_ms: 0.2492
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 20 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3555
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 195.5121

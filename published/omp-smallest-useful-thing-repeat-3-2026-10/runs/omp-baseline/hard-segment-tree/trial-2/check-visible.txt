@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignments discard older additions at both parent and child nodes
+ok 1 - assignments discard older additions at both parent and child nodes
+  ---
+  duration_ms: 2.0806
+  type: 'test'
+  ...
+# Subtest: partial maximum queries preserve negative values
+ok 2 - partial maximum queries preserve negative values
+  ---
+  duration_ms: 0.2407
+  type: 'test'
+  ...
+# Subtest: threshold search pushes pending assignments and additions before descending
+ok 3 - threshold search pushes pending assignments and additions before descending
+  ---
+  duration_ms: 0.1804
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, and independent arrays are preserved
+ok 4 - API validation, empty ranges, and independent arrays are preserved
+  ---
+  duration_ms: 1.3972
+  type: 'test'
+  ...
+# Subtest: mixed lazy workloads agree with an array oracle
+ok 5 - mixed lazy workloads agree with an array oracle
+  ---
+  duration_ms: 20.6361
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6812
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 86.0923

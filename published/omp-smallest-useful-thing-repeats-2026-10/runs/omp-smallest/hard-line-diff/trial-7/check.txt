@@ -1,0 +1,121 @@
+TAP version 13
+# Subtest: minimal, deterministic scripts and patch roundtrips on exhaustive repeated lines
+ok 1 - minimal, deterministic scripts and patch roundtrips on exhaustive repeated lines
+  ---
+  duration_ms: 35.5124
+  type: 'test'
+  ...
+# Subtest: larger seeded cases retain minimality, prefixes, and untouched inputs
+ok 2 - larger seeded cases retain minimality, prefixes, and untouched inputs
+  ---
+  duration_ms: 13.1313
+  type: 'test'
+  ...
+# Subtest: zero-length ranges use preceding line coordinates at every boundary
+ok 3 - zero-length ranges use preceding line coordinates at every boundary
+  ---
+  duration_ms: 0.5937
+  type: 'test'
+  ...
+# Subtest: context merges touching regions but leaves larger gaps separate
+ok 4 - context merges touching regions but leaves larger gaps separate
+  ---
+  duration_ms: 0.2796
+  type: 'test'
+  ...
+# Subtest: application checks content, counts, bounds, order, and result coordinates
+ok 5 - application checks content, counts, bounds, order, and result coordinates
+  ---
+  duration_ms: 0.5979
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000 lines, including repetitions, run below one second
+ok 6 - small edits to 20,000 lines, including repetitions, run below one second
+  ---
+  duration_ms: 19.0598
+  type: 'test'
+  ...
+# unique lines: 8.3 ms
+# repeated lines: 6.9 ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 7 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3602
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 8 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 1.7141
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 9 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.3485
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 10 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.2383
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 11 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 18.9898
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 12 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.211
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 13 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.7755
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 14 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.2621
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 15 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.9554
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 16 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 18.5405
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 17 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.2007
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 18 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 49.2419
+  type: 'test'
+  ...
+# diff=5.213ms hunks=4.539ms total=9.752ms budget=1000ms
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 137.2871

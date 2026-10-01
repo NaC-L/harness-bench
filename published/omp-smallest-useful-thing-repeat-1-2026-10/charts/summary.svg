@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="394" viewBox="0 0 760 394" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">VERDICT: EQUIVALENT — OMP-SMALLEST MATCHES OMP-BASELINE</title>
+<desc id="chart-desc">VERDICT: EQUIVALENT — OMP-SMALLEST MATCHES OMP-BASELINE. Candidate relative changes; lower is better. Ordered-dither band: ±10% margin. Undefined zero-baseline ratios and missing metrics are unknown. Tokens / correct · total: omp-baseline baseline=73974.66666666667 tokens; omp-smallest candidate=77115.25 tokens; delta=4.245484940790534%, +4.2%. Tokens / correct · uncached: omp-baseline baseline=21878.666666666668 tokens; omp-smallest candidate=24059.25 tokens; delta=9.966710341885543%, +10.0%. Cost / correct: omp-baseline baseline=0.09340826666666667 cost; omp-smallest candidate=0.09942276666666668 cost; delta=6.43893759581593%, +6.4%. Median wall: omp-baseline baseline=193.38080865000302 seconds; omp-smallest candidate=198.73415979999845 seconds; delta=2.7682949447607186%, +2.8%. P90 wall: omp-baseline baseline=257.3380335999973 seconds; omp-smallest candidate=271.8827817000056 seconds; delta=5.652000948533109%, +5.7%. omp-baseline: 12/12 correct runs; omp-smallest: 12/12 correct runs. OMP-SMALLEST IMPROVES 0/5 KNOWN EFFICIENCY METRICS · ±10% MARGIN · SPEND / CORRECT INCLUDES FAILED ATTEMPTS · WALL = MEDIAN / P90 OF KNOWN RUNS · 0 UNKNOWN METRICS</desc>
+<rect width="760" height="394" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="393" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="16" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >VERDICT: EQUIVALENT — OMP-SMALLEST MATCHES OMP-BASELINE</text>
+<rect x="379" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="392.80" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-BASELINE (BASELINE)</text>
+<rect x="564" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="577.60" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-SMALLEST (CANDIDATE)</text>
+<text x="24.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >DITHER = ±10% MARGIN</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >← LOWER IS BETTER</text>
+<text x="24.00" y="120.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >METRIC</text>
+<text x="580.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >BASE</text>
+<text x="658.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >CAND</text>
+<text x="736.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >Δ</text>
+<defs><pattern id="margin-dither" width="2" height="2" patternUnits="userSpaceOnUse" shape-rendering="crispEdges"><rect width="1" height="1" fill="#757575" fill-opacity=".25"/><rect x="1" y="1" width="1" height="1" fill="#757575" fill-opacity=".25"/></pattern></defs>
+<rect x="272.46" y="132" width="203.08" height="200" fill="url(#margin-dither)" class="margin-band" data-margin="0.1" shape-rendering="crispEdges"/>
+<line x1="242.5" y1="132.5" x2="242.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="242.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="-13.0">−13.0%</text>
+<line x1="308.5" y1="132.5" x2="308.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="308.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="-6.5">−6.5%</text>
+<line x1="374.5" y1="132.5" x2="374.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="374.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="0.0">0.0%</text>
+<line x1="440.5" y1="132.5" x2="440.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="440.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="6.5">+6.5%</text>
+<line x1="506.5" y1="132.5" x2="506.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="506.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="13.0">+13.0%</text>
+<g class="metric-row" data-metric="tokens_per_correct" data-change="4.245484940790534">
+<line x1="24.5" y1="172.5" x2="736.5" y2="172.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="156.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Tokens / correct · total</text>
+<line x1="374.5" y1="152.5" x2="410.5" y2="152.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 407.5 149.5 L 410.5 152.5 L 407.5 155.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="411" y="146" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="413" y="148" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="408.11" y="144.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+4.2%</text>
+<text x="580.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >74.0k</text>
+<text x="658.00" y="156.00" font-size="11" text-anchor="end" fill="#44cfff" >77.1k</text>
+<text x="736.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+4.2%</text>
+</g>
+<g class="metric-row" data-metric="uncached_tokens_per_correct" data-change="9.966710341885543">
+<line x1="24.5" y1="212.5" x2="736.5" y2="212.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="196.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Tokens / correct · uncached</text>
+<line x1="374.5" y1="192.5" x2="468.5" y2="192.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 465.5 189.5 L 468.5 192.5 L 465.5 195.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="469" y="186" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="471" y="188" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="466.20" y="184.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+10.0%</text>
+<text x="580.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >21.9k</text>
+<text x="658.00" y="196.00" font-size="11" text-anchor="end" fill="#44cfff" >24.1k</text>
+<text x="736.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+10.0%</text>
+</g>
+<g class="metric-row" data-metric="cost_per_correct" data-change="6.43893759581593">
+<line x1="24.5" y1="252.5" x2="736.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="236.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Cost / correct</text>
+<line x1="374.5" y1="232.5" x2="432.5" y2="232.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 429.5 229.5 L 432.5 232.5 L 429.5 235.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="433" y="226" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="435" y="228" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="430.38" y="224.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+6.4%</text>
+<text x="580.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >$0.093</text>
+<text x="658.00" y="236.00" font-size="11" text-anchor="end" fill="#44cfff" >$0.099</text>
+<text x="736.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+6.4%</text>
+</g>
+<g class="metric-row" data-metric="median_wall_time_sec" data-change="2.7682949447607186">
+<line x1="24.5" y1="292.5" x2="736.5" y2="292.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="276.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Median wall</text>
+<line x1="374.5" y1="272.5" x2="395.5" y2="272.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 392.5 269.5 L 395.5 272.5 L 392.5 275.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="396" y="266" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="398" y="268" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="393.11" y="264.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+2.8%</text>
+<text x="580.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >193.38s</text>
+<text x="658.00" y="276.00" font-size="11" text-anchor="end" fill="#44cfff" >198.73s</text>
+<text x="736.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+2.8%</text>
+</g>
+<g class="metric-row" data-metric="p90_wall_time_sec" data-change="5.652000948533109">
+<line x1="24.5" y1="332.5" x2="736.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="316.00" font-size="12" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >P90 wall</text>
+<line x1="374.5" y1="312.5" x2="424.5" y2="312.5" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges" class="delta-arrow" stroke-dasharray="2,2"/>
+<path d="M 421.5 309.5 L 424.5 312.5 L 421.5 315.5" fill="none" stroke="#a1a1a1" stroke-width="1" shape-rendering="crispEdges"/>
+<rect x="425" y="306" width="12" height="12" fill="#a1a1a1" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="427" y="308" width="8" height="8" fill="#a1a1a1" stroke="#a1a1a1" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="summary-marker"/>
+<text x="422.39" y="304.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+5.7%</text>
+<text x="580.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >257.34s</text>
+<text x="658.00" y="316.00" font-size="11" text-anchor="end" fill="#44cfff" >271.88s</text>
+<text x="736.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+5.7%</text>
+</g>
+<text x="24.00" y="358.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">OMP-SMALLEST IMPROVES 0/5 KNOWN EFFICIENCY METRICS · ±10% MARGIN · SPEND / CORRECT INCLUDES FAILED</text>
+<text x="24.00" y="372.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">ATTEMPTS · WALL = MEDIAN / P90 OF KNOWN RUNS · 0 UNKNOWN METRICS</text>
+</g>
+</svg>

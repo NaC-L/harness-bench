@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: exhaustive short repetitive inputs have minimal scripts and patch roundtrips
+ok 1 - exhaustive short repetitive inputs have minimal scripts and patch roundtrips
+  ---
+  duration_ms: 20.2768
+  type: 'test'
+  ...
+# Subtest: seeded edits preserve empty and prefix-like lines
+ok 2 - seeded edits preserve empty and prefix-like lines
+  ---
+  duration_ms: 14.1212
+  type: 'test'
+  ...
+# Subtest: zero-length coordinates name the preceding line
+ok 3 - zero-length coordinates name the preceding line
+  ---
+  duration_ms: 0.3008
+  type: 'test'
+  ...
+# Subtest: context windows merge when touching, without duplicating context
+ok 4 - context windows merge when touching, without duplicating context
+  ---
+  duration_ms: 0.4953
+  type: 'test'
+  ...
+# Subtest: application tracks original coordinates and earlier length changes
+ok 5 - application tracks original coordinates and earlier length changes
+  ---
+  duration_ms: 0.2253
+  type: 'test'
+  ...
+# Subtest: malformed and nonapplicable hunks fail with the correct index
+ok 6 - malformed and nonapplicable hunks fail with the correct index
+  ---
+  duration_ms: 0.5525
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000-line files stay fast, including repetitive lines
+ok 7 - small changes to 20,000-line files stay fast, including repetitive lines
+  ---
+  duration_ms: 19.5812
+  type: 'test'
+  ...
+# unique lines: 7.5ms
+# repetitive lines: 3.1ms
+# Subtest: large single-sided patches need neither recursion nor argument spreading
+ok 8 - large single-sided patches need neither recursion nor argument spreading
+  ---
+  duration_ms: 7.5342
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3872
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 130.6489

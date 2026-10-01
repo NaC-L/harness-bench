@@ -1,0 +1,238 @@
+TAP version 13
+# Subtest: numeric candidate ordering covers every version component
+ok 1 - numeric candidate ordering covers every version component
+  ---
+  duration_ms: 6.6745
+  type: 'test'
+  ...
+# Subtest: backtracking removes abandoned dependencies and restores earlier constraints
+ok 2 - backtracking removes abandoned dependencies and restores earlier constraints
+  ---
+  duration_ms: 0.6168
+  type: 'test'
+  ...
+# Subtest: partial appends are undone after immediate selected-version conflicts
+ok 3 - partial appends are undone after immediate selected-version conflicts
+  ---
+  duration_ms: 0.2326
+  type: 'test'
+  ...
+# Subtest: first-found assignment uses FIFO discovery rather than recursive dependency order
+ok 4 - first-found assignment uses FIFO discovery rather than recursive dependency order
+  ---
+  duration_ms: 0.2705
+  type: 'test'
+  ...
+# Subtest: cycles terminate, self-conflicts backtrack, and shared packages expand only once
+ok 5 - cycles terminate, self-conflicts backtrack, and shared packages expand only once
+  ---
+  duration_ms: 0.3487
+  type: 'test'
+  ...
+# Subtest: missing packages and incompatible roots are unsatisfiable, not malformed
+ok 6 - missing packages and incompatible roots are unsatisfiable, not malformed
+  ---
+  duration_ms: 0.1739
+  type: 'test'
+  ...
+# Subtest: all registry maps, versions and ranges are validated even when unreachable
+ok 7 - all registry maps, versions and ranges are validated even when unreachable
+  ---
+  duration_ms: 1.1204
+  type: 'test'
+  ...
+# Subtest: null-prototype and special-key maps work without mutating inputs
+ok 8 - null-prototype and special-key maps work without mutating inputs
+  ---
+  duration_ms: 0.2998
+  type: 'test'
+  ...
+# Subtest: long cyclic chains use iterative search and prune candidates before deeper choices
+ok 9 - long cyclic chains use iterative search and prune candidates before deeper choices
+  ---
+  duration_ms: 161.382
+  type: 'test'
+  ...
+# Subtest: generated small cyclic registries match an independent first-found oracle
+ok 10 - generated small cyclic registries match an independent first-found oracle
+  ---
+  duration_ms: 23.5374
+  type: 'test'
+  ...
+# Subtest: versions are canonical safe numeric triples and compare numerically
+ok 11 - versions are canonical safe numeric triples and compare numerically
+  ---
+  duration_ms: 3.7312
+  type: 'test'
+  ...
+# Subtest: caret and tilde ranges honor lower and exclusive upper boundaries
+ok 12 - caret and tilde ranges honor lower and exclusive upper boundaries
+  ---
+  duration_ms: 1.8885
+  type: 'test'
+  ...
+# Subtest: range terms are ANDed and the compiled predicate matches satisfies
+ok 13 - range terms are ANDed and the compiled predicate matches satisfies
+  ---
+  duration_ms: 0.6739
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=659918
+ok 14 - seeded exhaustive registry oracle seed=659918
+  ---
+  duration_ms: 88.1112
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=12648430
+ok 15 - seeded exhaustive registry oracle seed=12648430
+  ---
+  duration_ms: 41.6912
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=99537187
+ok 16 - seeded exhaustive registry oracle seed=99537187
+  ---
+  duration_ms: 35.9011
+  type: 'test'
+  ...
+# Subtest: seeded exhaustive registry oracle seed=4027431614
+ok 17 - seeded exhaustive registry oracle seed=4027431614
+  ---
+  duration_ms: 38.9086
+  type: 'test'
+  ...
+# Subtest: zero-major install constraints reject unrelated minor and patch versions
+ok 18 - zero-major install constraints reject unrelated minor and patch versions
+  ---
+  duration_ms: 2.9338
+  type: 'test'
+  ...
+# Subtest: numeric ordering applies to major minor and patch candidate choices
+ok 19 - numeric ordering applies to major minor and patch candidate choices
+  ---
+  duration_ms: 0.759
+  type: 'test'
+  ...
+# Subtest: abandoned branches undo transitive constraints before trying an older parent
+ok 20 - abandoned branches undo transitive constraints before trying an older parent
+  ---
+  duration_ms: 0.3956
+  type: 'test'
+  ...
+# Subtest: abandoned branches remove queued dependencies and unreachable selections
+ok 21 - abandoned branches remove queued dependencies and unreachable selections
+  ---
+  duration_ms: 0.1738
+  type: 'test'
+  ...
+# Subtest: legal self and mutual dependency cycles terminate with a reachable assignment
+ok 22 - legal self and mutual dependency cycles terminate with a reachable assignment
+  ---
+  duration_ms: 0.3078
+  type: 'test'
+  ...
+# Subtest: cyclic conflicts can backtrack to an earlier consistent version
+ok 23 - cyclic conflicts can backtrack to an earlier consistent version
+  ---
+  duration_ms: 0.106
+  type: 'test'
+  ...
+# Subtest: FIFO root discovery and recent-choice backtracking determine the first solution
+ok 24 - FIFO root discovery and recent-choice backtracking determine the first solution
+  ---
+  duration_ms: 0.1779
+  type: 'test'
+  ...
+# Subtest: FIFO selected-version dependency key order determines the first solution
+ok 25 - FIFO selected-version dependency key order determines the first solution
+  ---
+  duration_ms: 0.1415
+  type: 'test'
+  ...
+# Subtest: trap: missing versions and inconsistent requirements remain unsatisfiable
+ok 26 - trap: missing versions and inconsistent requirements remain unsatisfiable
+  ---
+  duration_ms: 0.2994
+  type: 'test'
+  ...
+# Subtest: trap: empty roots ignore unreachable packages without changing the input
+ok 27 - trap: empty roots ignore unreachable packages without changing the input
+  ---
+  duration_ms: 0.392
+  type: 'test'
+  ...
+# Subtest: trap: reachable noncyclic dependencies and frozen inputs retain their contract
+ok 28 - trap: reachable noncyclic dependencies and frozen inputs retain their contract
+  ---
+  duration_ms: 0.2396
+  type: 'test'
+  ...
+# Subtest: trap: own prototype-like package names are data in a plain result object
+ok 29 - trap: own prototype-like package names are data in a plain result object
+  ---
+  duration_ms: 0.1339
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 30 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.8969
+  type: 'test'
+  ...
+# Subtest: long dependency chains resolve without a call-stack or iteration limit
+ok 31 - long dependency chains resolve without a call-stack or iteration limit
+  ---
+  duration_ms: 103.8155
+  type: 'test'
+  ...
+# Subtest: deep failures backtrack promptly through many rejected candidate branches
+ok 32 - deep failures backtrack promptly through many rejected candidate branches
+  ---
+  duration_ms: 1.9731
+  type: 'test'
+  ...
+# Subtest: trap: constrained installs prune discovered conflicts instead of enumerating products
+ok 33 - trap: constrained installs prune discovered conflicts instead of enumerating products
+  ---
+  duration_ms: 13.9577
+  type: 'test'
+  ...
+# Subtest: zero-major caret bounds follow the first nonzero component
+ok 34 - zero-major caret bounds follow the first nonzero component
+  ---
+  duration_ms: 1.434
+  type: 'test'
+  ...
+# Subtest: trap: semver comparison is numeric without weakening canonical version parsing
+ok 35 - trap: semver comparison is numeric without weakening canonical version parsing
+  ---
+  duration_ms: 0.7963
+  type: 'test'
+  ...
+# Subtest: trap: positive-major ranges and comparator conjunctions preserve endpoints
+ok 36 - trap: positive-major ranges and comparator conjunctions preserve endpoints
+  ---
+  duration_ms: 0.8987
+  type: 'test'
+  ...
+# Subtest: trap: invalid versions and ranges always raise TypeError
+ok 37 - trap: invalid versions and ranges always raise TypeError
+  ---
+  duration_ms: 0.8327
+  type: 'test'
+  ...
+# Subtest: trap: resolver eagerly validates malformed maps and unreachable metadata
+ok 38 - trap: resolver eagerly validates malformed maps and unreachable metadata
+  ---
+  duration_ms: 0.4809
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 309.3403

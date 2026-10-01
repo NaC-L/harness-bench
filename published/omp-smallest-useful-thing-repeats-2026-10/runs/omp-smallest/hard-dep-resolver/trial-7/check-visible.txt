@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 1.6755
+  type: 'test'
+  ...
+# Subtest: failed choices undo dependencies and constraints, including partial discovery
+ok 2 - failed choices undo dependencies and constraints, including partial discovery
+  ---
+  duration_ms: 1.2168
+  type: 'test'
+  ...
+# Subtest: FIFO discovery and immediate constraints determine the first assignment
+ok 3 - FIFO discovery and immediate constraints determine the first assignment
+  ---
+  duration_ms: 0.3235
+  type: 'test'
+  ...
+# Subtest: cycles terminate and participate in backtracking without re-expansion
+ok 4 - cycles terminate and participate in backtracking without re-expansion
+  ---
+  duration_ms: 0.2244
+  type: 'test'
+  ...
+# Subtest: long chains, long cycles, and deep backtracking use no recursive stack or cutoff
+ok 5 - long chains, long cycles, and deep backtracking use no recursive stack or cutoff
+  ---
+  duration_ms: 130.5477
+  type: 'test'
+  ...
+# Subtest: discovered failures prune choices before exploring unrelated combinations
+ok 6 - discovered failures prune choices before exploring unrelated combinations
+  ---
+  duration_ms: 0.7237
+  type: 'test'
+  ...
+# Subtest: validation is eager, missing packages are unsatisfiable, and maps are not mutated
+ok 7 - validation is eager, missing packages are unsatisfiable, and maps are not mutated
+  ---
+  duration_ms: 0.7144
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special property names remain ordinary package names
+ok 8 - null-prototype maps and special property names remain ordinary package names
+  ---
+  duration_ms: 0.2319
+  type: 'test'
+  ...
+# Subtest: generated cyclic registries match an independent first-found search
+ok 9 - generated cyclic registries match an independent first-found search
+  ---
+  duration_ms: 13.8521
+  type: 'test'
+  ...
+# Subtest: parse accepts only canonical safe-integer triples
+ok 10 - parse accepts only canonical safe-integer triples
+  ---
+  duration_ms: 1.5564
+  type: 'test'
+  ...
+# Subtest: compare is numeric and returns only -1, 0, or 1
+ok 11 - compare is numeric and returns only -1, 0, or 1
+  ---
+  duration_ms: 0.1662
+  type: 'test'
+  ...
+# Subtest: caret, tilde, exact and comparison ranges enforce inclusive and exclusive bounds
+ok 12 - caret, tilde, exact and comparison ranges enforce inclusive and exclusive bounds
+  ---
+  duration_ms: 1.0898
+  type: 'test'
+  ...
+# Subtest: invalid ranges throw eagerly, even after an always-true wildcard
+ok 13 - invalid ranges throw eagerly, even after an always-true wildcard
+  ---
+  duration_ms: 0.2533
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 14 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.5015
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 222.0038

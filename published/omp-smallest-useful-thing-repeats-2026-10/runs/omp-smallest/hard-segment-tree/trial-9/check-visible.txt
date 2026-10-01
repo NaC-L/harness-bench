@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment discards additions at both the overwritten node and its descendants
+ok 1 - assignment discards additions at both the overwritten node and its descendants
+  ---
+  duration_ms: 1.5919
+  type: 'test'
+  ...
+# Subtest: partial maxima use negative infinity as the identity
+ok 2 - partial maxima use negative infinity as the identity
+  ---
+  duration_ms: 0.5629
+  type: 'test'
+  ...
+# Subtest: threshold search propagates updates before inspecting child maxima
+ok 3 - threshold search propagates updates before inspecting child maxima
+  ---
+  duration_ms: 0.1336
+  type: 'test'
+  ...
+# Subtest: deterministic mixed updates and queries agree with an array oracle
+ok 4 - deterministic mixed updates and queries agree with an array oracle
+  ---
+  duration_ms: 12.355
+  type: 'test'
+  ...
+# Subtest: validation, empty ranges, read-only length, and array independence are preserved
+ok 5 - validation, empty ranges, read-only length, and array independence are preserved
+  ---
+  duration_ms: 0.9745
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6103
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 70.9841

@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: sorts every version component numerically
+ok 1 - sorts every version component numerically
+  ---
+  duration_ms: 1.4495
+  type: 'test'
+  ...
+# Subtest: first-found selection follows root and FIFO dependency order
+ok 2 - first-found selection follows root and FIFO dependency order
+  ---
+  duration_ms: 0.9136
+  type: 'test'
+  ...
+# Subtest: collects all discovered constraints before choosing a queued dependency
+ok 3 - collects all discovered constraints before choosing a queued dependency
+  ---
+  duration_ms: 0.1062
+  type: 'test'
+  ...
+# Subtest: rolls back constraints and partially appended dependencies
+ok 4 - rolls back constraints and partially appended dependencies
+  ---
+  duration_ms: 0.1129
+  type: 'test'
+  ...
+# Subtest: backtracks through descendants and removes abandoned reachability
+ok 5 - backtracks through descendants and removes abandoned reachability
+  ---
+  duration_ms: 0.1192
+  type: 'test'
+  ...
+# Subtest: cycles terminate, including self dependencies and conflicts
+ok 6 - cycles terminate, including self dependencies and conflicts
+  ---
+  duration_ms: 0.1354
+  type: 'test'
+  ...
+# Subtest: missing packages and empty version maps are unsatisfiable
+ok 7 - missing packages and empty version maps are unsatisfiable
+  ---
+  duration_ms: 0.0654
+  type: 'test'
+  ...
+# Subtest: validates unreachable versions, ranges and maps eagerly
+ok 8 - validates unreachable versions, ranges and maps eagerly
+  ---
+  duration_ms: 0.4615
+  type: 'test'
+  ...
+# Subtest: honors own enumerable string keys, null prototypes and special names without mutation
+ok 9 - honors own enumerable string keys, null prototypes and special names without mutation
+  ---
+  duration_ms: 0.2814
+  type: 'test'
+  ...
+# Subtest: long chains and deep backtracking do not use recursive stack depth
+ok 10 - long chains and deep backtracking do not use recursive stack depth
+  ---
+  duration_ms: 78.9545
+  type: 'test'
+  ...
+# Subtest: rejects discovered conflicts before exploring unrelated Cartesian choices
+ok 11 - rejects discovered conflicts before exploring unrelated Cartesian choices
+  ---
+  duration_ms: 0.7876
+  type: 'test'
+  ...
+# Subtest: matches first-found reference search on generated cyclic registries
+ok 12 - matches first-found reference search on generated cyclic registries
+  ---
+  duration_ms: 11.7417
+  type: 'test'
+  ...
+# Subtest: parses canonical safe numeric triples and compares numerically
+ok 13 - parses canonical safe numeric triples and compares numerically
+  ---
+  duration_ms: 0.9409
+  type: 'test'
+  ...
+# Subtest: rejects noncanonical versions, including terminal line breaks
+ok 14 - rejects noncanonical versions, including terminal line breaks
+  ---
+  duration_ms: 0.5034
+  type: 'test'
+  ...
+# Subtest: supports every range operator, conjunction and whitespace
+ok 15 - supports every range operator, conjunction and whitespace
+  ---
+  duration_ms: 1.0021
+  type: 'test'
+  ...
+# Subtest: derived range bounds work at safe integer limits
+ok 16 - derived range bounds work at safe integer limits
+  ---
+  duration_ms: 0.1238
+  type: 'test'
+  ...
+# Subtest: validates every AND term eagerly even when an earlier term rejects
+ok 17 - validates every AND term eagerly even when an earlier term rejects
+  ---
+  duration_ms: 0.2647
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 18 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.4424
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 170.874

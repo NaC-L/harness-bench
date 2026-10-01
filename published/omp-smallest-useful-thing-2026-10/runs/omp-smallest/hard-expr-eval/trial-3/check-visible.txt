@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: arithmetic precedence and associativity follow the documented grammar
+ok 1 - arithmetic precedence and associativity follow the documented grammar
+  ---
+  duration_ms: 1.8402
+  type: 'test'
+  ...
+# Subtest: floor division and modulo handle signs, fractions and positive zero
+ok 2 - floor division and modulo handle signs, fractions and positive zero
+  ---
+  duration_ms: 2.4373
+  type: 'test'
+  ...
+# Subtest: comparisons chain and coerce booleans numerically in arithmetic and equality
+ok 3 - comparisons chain and coerce booleans numerically in arithmetic and equality
+  ---
+  duration_ms: 0.1967
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read once in left-to-right order
+ok 4 - variables and call arguments are read once in left-to-right order
+  ---
+  duration_ms: 0.5888
+  type: 'test'
+  ...
+# Subtest: the entire formula is parsed before evaluation, even after a false comparison
+ok 5 - the entire formula is parsed before evaluation, even after a false comparison
+  ---
+  duration_ms: 0.3038
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and use UTF-16 offsets
+ok 6 - error columns identify tokens after whitespace and use UTF-16 offsets
+  ---
+  duration_ms: 0.246
+  type: 'test'
+  ...
+# Subtest: 100,001-operand arithmetic and comparison chains remain iterative and fast
+ok 7 - 100,001-operand arithmetic and comparison chains remain iterative and fast
+  ---
+  duration_ms: 202.2649
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2864
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 287.5237

@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: floor division and modulo obey Python signs and floating-point rounding
+ok 1 - floor division and modulo obey Python signs and floating-point rounding
+  ---
+  duration_ms: 3.6722
+  type: 'test'
+  ...
+# Subtest: unary signs and right-associative powers follow the grammar
+ok 2 - unary signs and right-associative powers follow the grammar
+  ---
+  duration_ms: 0.2292
+  type: 'test'
+  ...
+# Subtest: comparisons chain and booleans coerce only in numeric operations
+ok 3 - comparisons chain and booleans coerce only in numeric operations
+  ---
+  duration_ms: 0.3667
+  type: 'test'
+  ...
+# Subtest: variables and call arguments are read exactly once in source order
+ok 4 - variables and call arguments are read exactly once in source order
+  ---
+  duration_ms: 0.9435
+  type: 'test'
+  ...
+# Subtest: syntax and call arity are validated before any evaluation
+ok 5 - syntax and call arity are validated before any evaluation
+  ---
+  duration_ms: 0.451
+  type: 'test'
+  ...
+# Subtest: error columns identify tokens after whitespace and the full-source EOF
+ok 6 - error columns identify tokens after whitespace and the full-source EOF
+  ---
+  duration_ms: 0.3924
+  type: 'test'
+  ...
+# Subtest: long flat arithmetic and comparison chains do not consume the call stack
+ok 7 - long flat arithmetic and comparison chains do not consume the call stack
+  ---
+  duration_ms: 235.0131
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2873
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 306.1226

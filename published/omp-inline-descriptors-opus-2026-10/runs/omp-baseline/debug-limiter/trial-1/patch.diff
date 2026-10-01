@@ -1,0 +1,37 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-d3db75c7-n64skyvf/src/limit.js"
+index 40953d6..b46759e 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-d3db75c7-n64skyvf/src/limit.js"
+@@ -13,20 +13,22 @@ function createLimiter(concurrency) {
+   let active = 0;
+   const queue = [];
+ 
++  function release() {
++    active -= 1;
++    drain();
++  }
++
+   function drain() {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      // Start asynchronously so sync throws become rejections of this job only;
++      // the arrow wrapper invokes fn with no arguments. The slot is released on
++      // both success and failure so the limiter stays usable.
++      Promise.resolve()
++        .then(() => job.fn())
++        .then(job.resolve, job.reject)
++        .then(release);
+     }
+   }
+ 

@@ -1,0 +1,50 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-b929c2ee-7gymzuno/src/flight.js"
+index bc0283d..49283b9 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-b929c2ee-7gymzuno/src/flight.js"
+@@ -1,20 +1,37 @@
+ 'use strict';
+ 
+ // A detached flight still settles its original callers. The registry tracks
+-// only flights available for subsequent readers of each key.
++// only flights available for subsequent readers of each key. Each flight is a
++// unique token: when it settles it may only unregister itself and commit its
++// value if it is still the registered flight for its key. A flight detached by
++// invalidate/set/clear (and possibly replaced by a newer one) must neither
++// store its value nor remove its successor from the registry.
+ function createFlights() {
+   const pending = new Map();
+ 
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
++      if (pending.has(key)) return pending.get(key).promise;
++      const flight = { promise: null };
++      // Returns true only if this flight was still current, removing it.
++      const retire = () => {
++        if (pending.get(key) !== flight) return false;
+         pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
+-      return promise;
++        return true;
++      };
++      flight.promise = Promise.resolve().then(work).then(
++        value => {
++          if (retire()) commit(value);
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; retiring lets the next get retry.
++          retire();
++          throw reason;
++        }
++      );
++      pending.set(key, flight);
++      return flight.promise;
+     },
+     forget(key) {
+       pending.delete(key);

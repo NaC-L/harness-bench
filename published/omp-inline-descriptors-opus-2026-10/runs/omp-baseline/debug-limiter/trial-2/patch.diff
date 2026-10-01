@@ -1,0 +1,39 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-58f49efe-f7r0jm52/src/limit.js"
+index 40953d6..562d7b6 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-58f49efe-f7r0jm52/src/limit.js"
+@@ -13,20 +13,24 @@ function createLimiter(concurrency) {
+   let active = 0;
+   const queue = [];
+ 
++  function settle(settleFn, outcome) {
++    active -= 1;
++    settleFn(outcome);
++    drain();
++  }
++
+   function drain() {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      // Invoke inside a then-callback so synchronous throws become rejections,
++      // and wrap so fn receives no arguments. Both outcomes must free the slot.
++      Promise.resolve()
++        .then(() => job.fn())
++        .then(
++          value => settle(job.resolve, value),
++          error => settle(job.reject, error)
++        );
+     }
+   }
+ 

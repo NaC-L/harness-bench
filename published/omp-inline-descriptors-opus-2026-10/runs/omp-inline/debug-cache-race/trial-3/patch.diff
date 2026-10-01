@@ -1,0 +1,54 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-144059cf-hi25d2gp/src/flight.js"
+index bc0283d..8c47877 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-144059cf-hi25d2gp/src/flight.js"
+@@ -1,20 +1,40 @@
+ 'use strict';
+ 
+ // A detached flight still settles its original callers. The registry tracks
+-// only flights available for subsequent readers of each key.
++// only flights available for subsequent readers of each key. A flight may only
++// commit its value or remove its registry entry while it is still the current
++// flight for its key; once detached (forget/clear, or superseded by a newer
++// flight) its settlement must not touch shared state.
+ function createFlights() {
+   const pending = new Map();
+ 
++  function isCurrent(key, flight) {
++    return pending.get(key) === flight;
++  }
++
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
+-      return promise;
++      if (pending.has(key)) return pending.get(key).promise;
++      const flight = {};
++      // work is deferred so the flight is registered before load runs; this
++      // lets load read its own key (joining this flight) or mutate the cache
++      // synchronously and have those barriers apply to this flight.
++      flight.promise = Promise.resolve().then(work).then(
++        value => {
++          if (isCurrent(key, flight)) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; free the key so a later get retries.
++          if (isCurrent(key, flight)) pending.delete(key);
++          throw reason;
++        }
++      );
++      pending.set(key, flight);
++      return flight.promise;
+     },
+     forget(key) {
+       pending.delete(key);

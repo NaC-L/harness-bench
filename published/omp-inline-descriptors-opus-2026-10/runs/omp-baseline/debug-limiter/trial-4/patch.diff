@@ -1,0 +1,30 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-4587490b-xm1a2yzl/src/limit.js"
+index 40953d6..8908e06 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-4587490b-xm1a2yzl/src/limit.js"
+@@ -17,16 +17,17 @@ function createLimiter(concurrency) {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
++      // Invoke via a wrapper so fn receives no arguments; a synchronous throw
++      // becomes a rejection of this chain rather than escaping drain().
++      Promise.resolve()
++        .then(() => job.fn())
++        .then(job.resolve, job.reject)
++        .then(() => {
++          // Release the slot on success AND failure, otherwise each rejected
++          // task leaks a slot and the queue eventually stalls forever.
+           active -= 1;
+           drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++        });
+     }
+   }
+ 

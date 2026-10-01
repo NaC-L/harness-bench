@@ -1,0 +1,36 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js" "{temp}\\hb-4170b1fe-vt21mzkv/src/duration.js"
+index e76125e..858ceb8 100644
+--- "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js"
++++ "{temp}\\hb-4170b1fe-vt21mzkv/src/duration.js"
+@@ -2,19 +2,23 @@
+ 
+ const UNIT_MS = { ms: 1, s: 1000, m: 60000, h: 3600000, d: 86400000 };
+ 
++// `ms` must precede the single-letter alternatives so "250ms" is not read as "250m" + "s".
++const PART = String.raw`(\d+(?:\.\d+)?)(ms|[smhd])`;
++const FULL_RE = new RegExp(`^(?:${PART})+$`);
++const PART_RE = new RegExp(PART, 'g');
++
+ function parseDuration(str) {
+   if (typeof str !== 'string') throw new TypeError('Duration must be a string');
+   const text = str.trim();
+-  if (!/^(?:\d+(?:\.\d+)?(?:ms|[smhd]))+$/.test(text)) {
+-    throw new TypeError('Invalid duration');
+-  }
++  // Validate the whole string first so malformed input is never partially accepted.
++  if (!FULL_RE.test(text)) throw new TypeError('Invalid duration');
+ 
+-  const parts = text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g);
+-  for (const [, amount, unit] of parts) {
+-    const milliseconds = Number(amount) * UNIT_MS[unit];
+-    if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
+-    return milliseconds;
++  let total = 0;
++  for (const [, amount, unit] of text.matchAll(PART_RE)) {
++    total += Number(amount) * UNIT_MS[unit];
+   }
++  if (!Number.isFinite(total)) throw new TypeError('Duration overflow');
++  return total;
+ }
+ 
+ module.exports = { parseDuration };

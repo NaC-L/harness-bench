@@ -82,6 +82,13 @@ This command makes model calls; check your account and pinned model first:
 python -m bench --config benchmark-omp-descriptors.toml --results results/descriptors run --harness omp-baseline omp-inline --trials 3 --jobs 12
 ```
 
+To repeat the published six-task, four-trial descriptor experiment with **Claude Opus 5.5 high**, use [benchmark-omp-descriptors-opus.toml](benchmark-omp-descriptors-opus.toml). It preserves both overlays and isolated state, obtaining `ANTHROPIC_OAUTH_TOKEN` per run from `omp token anthropic`:
+
+```sh
+python -m bench --config benchmark-omp-descriptors-opus.toml --results results/omp-descriptors-opus run --harness omp-baseline omp-inline --trials 4 --jobs 12 --task bugfix-duration bugfix-invoice debug-cache-race debug-limiter feature-csv-stream feature-lru
+python -m bench --results results/omp-descriptors-opus compare --baseline omp-baseline --candidate omp-inline
+```
+
 Use **at least three trials per task per arm**. `--jobs` limits concurrent runs; the example uses 12 for throughput studies if your provider permits it. Baseline and candidate for each task/trial are submitted adjacently to help share conditions, not guarantee identical provider load. For latency-sensitive studies, instead use `--alternate-order --jobs 1` to run serial pairs with alternating arm order; parallel execution is not compatible with `--alternate-order`.
 
 ### Faster future experiments: screen, then confirm

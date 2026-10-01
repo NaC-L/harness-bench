@@ -1,0 +1,16 @@
+# Repeat of benchmark-omp-descriptors.toml with Claude Opus 5.5 instead of GPT-6.1 Sol.
+# Same arms, overlays, flags and isolated state; only --model and the per-run credential differ.
+
+[harnesses.omp-baseline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/baseline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }
+
+[harnesses.omp-inline]
+kind = "omp"
+command = ["omp", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/omp-descriptors/inline.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["omp", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }

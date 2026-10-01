@@ -1,0 +1,44 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-5a406a1f-v88l2tu8/src/flight.js"
+index bc0283d..d0cfe89 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-5a406a1f-v88l2tu8/src/flight.js"
+@@ -2,17 +2,34 @@
+ 
+ // A detached flight still settles its original callers. The registry tracks
+ // only flights available for subsequent readers of each key.
++//
++// Every settlement path checks identity before touching shared state: a flight
++// may only remove its own registry entry and may only commit while it is still
++// the registered flight for its key. Once detached (forget/clear), it can no
++// longer store a value or evict a newer flight that replaced it.
+ function createFlights() {
+   const pending = new Map();
+ 
++  function release(key, promise) {
++    if (pending.get(key) !== promise) return false;
++    pending.delete(key);
++    return true;
++  }
++
+   return {
+     run(key, work, commit) {
+       if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
++      const promise = Promise.resolve().then(work).then(
++        value => {
++          if (release(key, promise)) commit(value);
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; free the key so a later get retries.
++          release(key, promise);
++          throw reason;
++        }
++      );
+       pending.set(key, promise);
+       return promise;
+     },

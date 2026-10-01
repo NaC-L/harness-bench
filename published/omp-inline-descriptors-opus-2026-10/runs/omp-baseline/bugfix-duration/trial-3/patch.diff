@@ -1,0 +1,36 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js" "{temp}\\hb-982334ff-rvt1alj9/src/duration.js"
+index e76125e..20b1678 100644
+--- "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js"
++++ "{temp}\\hb-982334ff-rvt1alj9/src/duration.js"
+@@ -2,19 +2,23 @@
+ 
+ const UNIT_MS = { ms: 1, s: 1000, m: 60000, h: 3600000, d: 86400000 };
+ 
++// Whole-string grammar: one or more adjacent amount-unit parts, no inner whitespace.
++const DURATION_RE = /^(?:\d+(?:\.\d+)?(?:ms|[smhd]))+$/;
++const PART_RE = /(\d+(?:\.\d+)?)(ms|[smhd])/g;
++
+ function parseDuration(str) {
+   if (typeof str !== 'string') throw new TypeError('Duration must be a string');
+   const text = str.trim();
+-  if (!/^(?:\d+(?:\.\d+)?(?:ms|[smhd]))+$/.test(text)) {
+-    throw new TypeError('Invalid duration');
+-  }
++  // Validate the entire string up front so malformed input is never partially accepted.
++  if (!DURATION_RE.test(text)) throw new TypeError('Invalid duration');
+ 
+-  const parts = text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g);
+-  for (const [, amount, unit] of parts) {
+-    const milliseconds = Number(amount) * UNIT_MS[unit];
+-    if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
+-    return milliseconds;
++  let total = 0;
++  for (const [, amount, unit] of text.matchAll(PART_RE)) {
++    total += Number(amount) * UNIT_MS[unit];
+   }
++  // Check the sum, not just each part: finite parts can still overflow when added.
++  if (!Number.isFinite(total)) throw new TypeError('Duration overflow');
++  return total;
+ }
+ 
+ module.exports = { parseDuration };

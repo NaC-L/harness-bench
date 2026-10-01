@@ -1,0 +1,139 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-5ddd139d-pzlk8cxz/src/csv.js"
+index ce27ede..aa84a75 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-5ddd139d-pzlk8cxz/src/csv.js"
+@@ -47,7 +47,123 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const opts = options == null ? {} : options;
++  const delimiter = opts.delimiter === undefined ? ',' : opts.delimiter;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be one character other than \'"\', CR, or LF');
++  }
++
++  // Parser states.
++  const FIELD_START = 0; // at the beginning of a field
++  const UNQUOTED = 1; // inside an unquoted field
++  const QUOTED = 2; // inside a quoted field
++  const QUOTE_SEEN = 3; // saw '"' inside a quoted field: escape or close
++  const AFTER_CLOSE = 4; // after a closing quote
++
++  let state = FIELD_START;
++  let row = [];
++  let field = '';
++  let rowStarted = false; // current record has consumed at least one character
++  let started = false; // any input character seen (for BOM detection)
++  let skipLF = false; // previous char was an outside-quote CR that ended a record
++  let prevCR = false; // previous char was CR (any context), for line counting
++  let line = 1;
++  let ended = false;
++
++  function syntaxError(message) {
++    return new SyntaxError(`${message} at line ${line}`);
++  }
++
++  function push(chunk) {
++    if (ended) throw new Error('cannot push after end()');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const out = [];
++    let i = 0;
++    if (!started && chunk.length > 0) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++
++    for (; i < chunk.length; i++) {
++      const c = chunk[i];
++      const isLF = c === '\n';
++      const isCR = c === '\r';
++      const wasCR = prevCR;
++      const skip = skipLF;
++      prevCR = isCR;
++      skipLF = false;
++      if (isCR || (isLF && !wasCR)) line++;
++
++      // A quote that is not the first half of '""' closes the field.
++      if (state === QUOTE_SEEN) {
++        if (c === '"') {
++          field += '"';
++          state = QUOTED;
++          continue;
++        }
++        state = AFTER_CLOSE;
++      }
++
++      if (state === QUOTED) {
++        if (c === '"') state = QUOTE_SEEN;
++        else field += c;
++        continue;
++      }
++
++      if (isLF || isCR) {
++        if (isLF && skip) continue; // second half of an outside-quote CRLF
++        row.push(field);
++        out.push(row);
++        row = [];
++        field = '';
++        rowStarted = false;
++        state = FIELD_START;
++        skipLF = isCR;
++        continue;
++      }
++
++      if (c === delimiter) {
++        row.push(field);
++        field = '';
++        rowStarted = true;
++        state = FIELD_START;
++        continue;
++      }
++
++      if (state === AFTER_CLOSE) {
++        throw syntaxError(`unexpected character ${JSON.stringify(c)} after closing quote`);
++      }
++
++      rowStarted = true;
++      if (state === FIELD_START && c === '"') {
++        state = QUOTED;
++      } else {
++        field += c;
++        state = UNQUOTED;
++      }
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) throw syntaxError('unterminated quoted field');
++    if (!rowStarted) return [];
++    const last = row;
++    last.push(field);
++    row = [];
++    field = '';
++    return [last];
++  }
++
++  return { push, end };
+ }
+ 
+ /**
+@@ -59,7 +175,8 @@ function createParser(options = {}) {
+ function parse(text, options = {}) {
+   const parser = createParser(options);
+   const records = parser.push(text).concat(parser.end());
+-  return options.header === true ? toObjects(records, { header: true }) : records;
++  const header = options != null && options.header === true;
++  return header ? toObjects(records, { header: true }) : records;
+ }
+ 
+ module.exports = { createParser, parse };

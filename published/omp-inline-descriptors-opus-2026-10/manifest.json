@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "invocations": [
+    {
+      "started": "2026-10-01T06:08:30.334027+00:00",
+      "trials": 4,
+      "jobs": 12,
+      "alternate_order": false,
+      "timeout": null,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.14.3",
+      "node": "v22.20.0",
+      "config": "benchmark-omp-descriptors-opus.toml",
+      "harnesses": {
+        "omp-baseline": {
+          "kind": "omp",
+          "command": [
+            "omp",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-descriptors/baseline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "anthropic/claude-opus-5-5",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "dc74a41ef9ffdaf69634f60dd5cbaa2338c5a2c8bcfa1f7e3186ad7538caba82",
+          "version": "omp/18.4.6",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "ANTHROPIC_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "anthropic"
+            ]
+          },
+          "files": {
+            "experiments/omp-descriptors/baseline.yml": {
+              "sha256": "f59dbc87108224ee8f4804ab9f3ed6a642d91b1053cd233095f270d7bfb541fd",
+              "contents": "inlineToolDescriptors: \"off\"\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        },
+        "omp-inline": {
+          "kind": "omp",
+          "command": [
+            "omp",
+            "--print",
+            "--mode",
+            "json",
+            "--no-title",
+            "--config",
+            "{benchmark_dir}/experiments/omp-descriptors/inline.yml",
+            "--no-prewalk",
+            "--no-extensions",
+            "--no-skills",
+            "--no-rules",
+            "--tools",
+            "read,bash,edit,write",
+            "--model",
+            "anthropic/claude-opus-5-5",
+            "--thinking",
+            "high",
+            "--session-dir",
+            "{session_dir}",
+            "{prompt}"
+          ],
+          "config_hash": "b8c262832816126f8ba71b468c39878230459cc3f4fd164820ff4d24deaa1210",
+          "version": "omp/18.4.6",
+          "state_template": "experiments/omp-isolated/agent",
+          "env_commands": {
+            "ANTHROPIC_OAUTH_TOKEN": [
+              "omp",
+              "token",
+              "anthropic"
+            ]
+          },
+          "files": {
+            "experiments/omp-descriptors/inline.yml": {
+              "sha256": "9b2826130a7d102ce1eea20d822ce0b09a3d4bd3d020c9e15b8a4197a4da8264",
+              "contents": "inlineToolDescriptors: \"on\"\n"
+            },
+            "experiments/omp-isolated/agent/config.yml": {
+              "sha256": "a26659f54eedffd6a0e07cf52a87cb7aad0576310a294013f30fd9b25ffce5de",
+              "contents": "# Benchmark-owned OMP state. Each run gets a fresh copy of this directory as its\n# agent dir (PI_CODING_AGENT_DIR), so no operator instructions (AGENTS.md, SYSTEM.md,\n# RULES.md, PERSONALITY.md), settings, models.yml, MCP servers, memories or custom\n# agents leak into results. Everything not set here is an OMP default.\nmemory:\n  backend: \"off\"\n"
+            }
+          }
+        }
+      },
+      "tasks": {
+        "bugfix-duration": "501745f75d4571a8e63c534fa51b60b446b05856ac246921f38cb35c781d229d",
+        "bugfix-invoice": "9adc9ee1f0fe90bb7f6ad31cfefd7e3bf10e39f9d20fc1f0f31969d0cc2a99ce",
+        "debug-cache-race": "223c66c5d3ac61373e7303e4cb4f06ea950dede6340bc394ad6c9670b681d725",
+        "debug-limiter": "1d2a7f085811408f06145273047d08385ab9bbe54898d776320720b954d497de",
+        "feature-csv-stream": "4f8c748564da63dce42204177fb5b7d2434a84800435ff7f7f79883861b9e15f",
+        "feature-lru": "7d8ff3b71568a3987cc715fde8c9eb47a70c89146e402e1ae73bf911d235e8b8"
+      }
+    }
+  ]
+}

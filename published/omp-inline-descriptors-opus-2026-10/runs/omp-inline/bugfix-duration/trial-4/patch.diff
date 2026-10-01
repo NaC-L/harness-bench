@@ -1,0 +1,27 @@
+diff --git "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js" "{temp}\\hb-f0f3eebb-iyqw2gam/src/duration.js"
+index e76125e..aa91dbe 100644
+--- "{benchmark_dir}\\tasks\\bugfix-duration\\repo/src/duration.js"
++++ "{temp}\\hb-f0f3eebb-iyqw2gam/src/duration.js"
+@@ -5,16 +5,17 @@ const UNIT_MS = { ms: 1, s: 1000, m: 60000, h: 3600000, d: 86400000 };
+ function parseDuration(str) {
+   if (typeof str !== 'string') throw new TypeError('Duration must be a string');
+   const text = str.trim();
++  // Validate the whole string up front so malformed input is never partially accepted.
+   if (!/^(?:\d+(?:\.\d+)?(?:ms|[smhd]))+$/.test(text)) {
+     throw new TypeError('Invalid duration');
+   }
+ 
+-  const parts = text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g);
+-  for (const [, amount, unit] of parts) {
+-    const milliseconds = Number(amount) * UNIT_MS[unit];
+-    if (!Number.isFinite(milliseconds)) throw new TypeError('Duration overflow');
+-    return milliseconds;
++  let total = 0;
++  for (const [, amount, unit] of text.matchAll(/(\d+(?:\.\d+)?)(ms|[smhd])/g)) {
++    total += Number(amount) * UNIT_MS[unit];
+   }
++  if (!Number.isFinite(total)) throw new TypeError('Duration overflow');
++  return total;
+ }
+ 
+ module.exports = { parseDuration };

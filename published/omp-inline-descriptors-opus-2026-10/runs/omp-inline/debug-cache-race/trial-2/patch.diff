@@ -1,0 +1,51 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-c7ff5842-8zreic5e/src/flight.js"
+index bc0283d..d7cf9d9 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-c7ff5842-8zreic5e/src/flight.js"
+@@ -2,19 +2,38 @@
+ 
+ // A detached flight still settles its original callers. The registry tracks
+ // only flights available for subsequent readers of each key.
++//
++// Every flight is identified by its own record. Settlement only touches the
++// registry (and only commits) if that exact record is still the active flight
++// for its key. Otherwise a detached (invalidated / overwritten / cleared)
++// flight could delete a newer flight's registration or store a stale value.
+ function createFlights() {
+   const pending = new Map();
+ 
++  function isActive(key, flight) {
++    return pending.has(key) && pending.get(key) === flight;
++  }
++
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
+-      return promise;
++      if (pending.has(key)) return pending.get(key).promise;
++      const flight = {};
++      flight.promise = Promise.resolve().then(() => work()).then(
++        value => {
++          if (isActive(key, flight)) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached: free the key so a later get retries.
++          if (isActive(key, flight)) pending.delete(key);
++          throw reason;
++        }
++      );
++      pending.set(key, flight);
++      return flight.promise;
+     },
+     forget(key) {
+       pending.delete(key);

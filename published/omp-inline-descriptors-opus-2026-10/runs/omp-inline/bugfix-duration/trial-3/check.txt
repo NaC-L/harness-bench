@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: all units, arbitrary ordering, and repeated parts
+ok 1 - all units, arbitrary ordering, and repeated parts
+  ---
+  duration_ms: 1.1736
+  type: 'test'
+  ...
+# Subtest: decimal parts, zero, and exterior whitespace
+ok 2 - decimal parts, zero, and exterior whitespace
+  ---
+  duration_ms: 0.1468
+  type: 'test'
+  ...
+# Subtest: rejects malformed strings and every non-string input
+ok 3 - rejects malformed strings and every non-string input
+  ---
+  duration_ms: 0.4925
+  type: 'test'
+  ...
+# Subtest: rejects non-finite components and accumulated overflow
+ok 4 - rejects non-finite components and accumulated overflow
+  ---
+  duration_ms: 0.1287
+  type: 'test'
+  ...
+# Subtest: single-unit durations and decimals
+ok 5 - single-unit durations and decimals
+  ---
+  duration_ms: 0.9631
+  type: 'test'
+  ...
+# Subtest: compound duration includes all parts
+ok 6 - compound duration includes all parts
+  ---
+  duration_ms: 0.1121
+  type: 'test'
+  ...
+# Subtest: invalid values are not silently accepted
+ok 7 - invalid values are not silently accepted
+  ---
+  duration_ms: 0.4846
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 72.057

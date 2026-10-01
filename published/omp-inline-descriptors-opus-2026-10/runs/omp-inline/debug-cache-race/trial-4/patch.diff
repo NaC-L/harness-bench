@@ -1,0 +1,52 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-6eb41601-ifo_z_1d/src/flight.js"
+index bc0283d..ee5fc42 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-6eb41601-ifo_z_1d/src/flight.js"
+@@ -2,18 +2,40 @@
+ 
+ // A detached flight still settles its original callers. The registry tracks
+ // only flights available for subsequent readers of each key.
++//
++// Invariant: a flight may only touch the registry (or commit its value) while
++// it is still the registered flight for its key. Once invalidate/set/clear has
++// detached it, it is obsolete: it settles its own waiters but must neither
++// commit nor remove a newer flight registered under the same key.
+ function createFlights() {
+   const pending = new Map();
+ 
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
++      if (pending.has(key)) return pending.get(key).promise;
++      // Unique per-flight identity; the promise itself can't be referenced
++      // inside its own callbacks before assignment is complete.
++      const token = {};
++      const isCurrent = () => pending.get(key) === token;
++      // Registered before work runs (work starts on a later microtask), so a
++      // load that synchronously reads its own key joins this flight, and a
++      // load that synchronously invalidates/sets/clears detaches it.
++      const promise = Promise.resolve().then(work).then(
++        value => {
++          if (isCurrent()) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; free the slot so a later get retries.
++          if (isCurrent()) pending.delete(key);
++          throw reason;
++        }
++      );
++      pending.set(key, token);
++      token.promise = promise;
+       return promise;
+     },
+     forget(key) {

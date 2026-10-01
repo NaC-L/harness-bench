@@ -1,0 +1,136 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-06211b48-grfzd3dp/src/csv.js"
+index ce27ede..0b1f579 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-06211b48-grfzd3dp/src/csv.js"
+@@ -46,8 +46,114 @@ const { toObjects } = require('./rows');
+  * @param {{ delimiter?: string, header?: boolean }} [options]
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+-function createParser(options = {}) {
+-  throw new Error('not implemented');
++// Parser states.
++const FIELD_START = 0; // at the first character of a field
++const UNQUOTED = 1; // inside an unquoted field
++const QUOTED = 2; // inside a quoted field
++const QUOTE_SEEN = 3; // saw '"' inside a quoted field: closing quote or first half of '""'
++
++function createParser(options) {
++  const opts = options == null ? {} : options;
++  const delimiter = opts.delimiter === undefined ? ',' : opts.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one UTF-16 code unit other than a quote, CR, or LF');
++  }
++
++  let state = FIELD_START;
++  let field = '';
++  let row = [];
++  let dirty = false; // any record content consumed since the last record separator
++  let started = false; // first non-empty chunk seen (BOM handling)
++  let ended = false;
++  let line = 1; // 1-based physical line of the current character
++  let prevCR = false; // previous character was CR (CRLF counts as one newline)
++  let skipLF = false; // previous character was an outside-quote CR separator
++
++  function push(chunk) {
++    if (ended) throw new Error('push() called after end()');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    if (chunk.length === 0) return [];
++    let i = 0;
++    if (!started) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++    const out = [];
++    for (; i < chunk.length; i++) {
++      const ch = chunk[i];
++      // Physical line counting, independent of quoting.
++      if (ch === '\n') {
++        if (!prevCR) line++;
++      } else if (ch === '\r') {
++        line++;
++      }
++      const wasCR = prevCR;
++      prevCR = ch === '\r';
++      if (skipLF) {
++        skipLF = false;
++        if (ch === '\n' && wasCR) continue; // LF of a CRLF whose CR already ended the record
++      }
++
++      if (state === QUOTED) {
++        if (ch === '"') state = QUOTE_SEEN;
++        else field += ch;
++        continue;
++      }
++      if (state === QUOTE_SEEN) {
++        if (ch === '"') {
++          field += '"';
++          state = QUOTED;
++          continue;
++        }
++        if (ch !== delimiter && ch !== '\n' && ch !== '\r') {
++          // Report the line of the offending character; a newline cannot be offending.
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        }
++        state = UNQUOTED; // field closed; fall through to separator handling
++      }
++
++      if (ch === delimiter) {
++        row.push(field);
++        field = '';
++        state = FIELD_START;
++        dirty = true;
++      } else if (ch === '\n' || ch === '\r') {
++        row.push(field);
++        out.push(row);
++        row = [];
++        field = '';
++        state = FIELD_START;
++        dirty = false;
++        skipLF = ch === '\r';
++      } else if (ch === '"' && state === FIELD_START) {
++        state = QUOTED;
++        dirty = true;
++      } else {
++        field += ch;
++        state = UNQUOTED;
++        dirty = true;
++      }
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) {
++      throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    }
++    if (!dirty) return [];
++    row.push(field);
++    const last = row;
++    row = [];
++    field = '';
++    dirty = false;
++    return [last];
++  }
++
++  return { push, end };
+ }
+ 
+ /**
+@@ -56,10 +162,11 @@ function createParser(options = {}) {
+  * toObjects(records, { header: true }) helper; otherwise return string[][].
+  * Empty input yields [] in either mode. Do not change the helper's contract.
+  */
+-function parse(text, options = {}) {
+-  const parser = createParser(options);
++function parse(text, options) {
++  const opts = options == null ? {} : options;
++  const parser = createParser(opts);
+   const records = parser.push(text).concat(parser.end());
+-  return options.header === true ? toObjects(records, { header: true }) : records;
++  return opts.header === true ? toObjects(records, { header: true }) : records;
+ }
+ 
+ module.exports = { createParser, parse };

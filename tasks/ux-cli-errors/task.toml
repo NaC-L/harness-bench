@@ -1,7 +1,0 @@
-id = "ux-cli-errors"
-title = "Make a unit conversion CLI forgiving and predictable"
-category = "ux"
-tags = ["ux", "cli", "development"]
-timeout_sec = 1200
-check = ["node", "--test"]
-check_timeout_sec = 60

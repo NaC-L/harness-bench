@@ -156,11 +156,36 @@ Text is the default; `compare --format json` is also available (`--json` is a de
 - `runs.jsonl`: only the selected arms; workdirs cleared and artifact paths made bundle-relative.
 - `manifest.json`: recorded provenance, when available.
 - `SESSIONS.md`: task/trial-ordered links to captured sessions, with `--include-transcripts`.
+- `EXPLORER.html`: offline, clickable run/session explorer, generated automatically for every export.
 - `runs/<harness>/<task>/trial-<n>/`: available `patch.diff`, `check.txt`, and `check-visible.txt` files.
 
 Repository, home, and temporary paths are replaced with placeholders. **Transcripts are excluded by default**: they can contain your private system prompt/config. Add `--include-transcripts` after reviewing them to include `session.jsonl` alongside each trial's patch/check files, plus `stdout.jsonl` and `stderr.txt`. A session's companion files live in `session/`; multiple native session logs retain their names under `sessions/`. Path sanitization does not remove arbitrary secrets. Review patches and overlay contents for secrets too.
 
 To compare sessions, open the same task/trial under each harness, e.g. `runs/pi-sol/debug-limiter/trial-1/session.jsonl` and `runs/omp-sol/debug-limiter/trial-1/session.jsonl`. These are the original harness session records, not a lossy reconstruction from stdout. The bundles under `published/` include them; no manual `/dump` or lookup by run UUID is needed.
+
+### Offline HTML session explorer
+
+```sh
+python -m bench --results published/opus-vs-sol-2026-10 explore --out opus-vs-sol.html
+```
+
+For future published runs, use `export --include-transcripts` after secret review:
+it generates `EXPLORER.html` automatically from the sanitized bundle. Open that file
+as the primary session-review view; the JSONL remains the machine-readable source.
+
+Open the generated file directly in a browser; no server, dependencies, or network access needed.
+Filter by harness, task, result, or run ID, then click a run to inspect its metrics,
+chronological session records, tool arguments/results, captured reasoning (optional),
+checks, patch, and complete metadata. Session search and browser back/forward are supported.
+OMP/Pi messages are rendered as conversation cards; other native event formats remain
+inspectable as expandable raw records. Missing artifacts and measurements are labeled,
+not reconstructed. A saved `REPORT.md` is included as a snapshot, not re-scored.
+
+`explore` refuses to overwrite an existing file and only reads artifacts inside the
+supplied results directory. It embeds available transcripts and stderr **without further
+sanitization**: use a reviewed exported bundle for sharing, and review the HTML for secrets.
+The generated [Opus vs Sol explorer](published/opus-vs-sol-2026-10/EXPLORER.html)
+contains all 60 runs; download it and open locally (GitHub's file view does not execute HTML).
 
 `results/` is gitignored on purpose; `published/` is intended for reviewed bundles you choose to commit. Anyone can re-run `compare` directly on a bundle by setting the global `--results` to its exported directory; no original workdirs or model account are needed to inspect its verdict.
 

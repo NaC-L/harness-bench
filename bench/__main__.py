@@ -8,6 +8,7 @@ from . import report
 from .manifest import load_manifest
 from .export import export
 from .charts import render_charts
+from .explorer import compile_explorer
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -59,9 +60,18 @@ def main():
     exp.add_argument('--margin', type=fraction, default=0.10)
     exp.add_argument('--min-trials', type=positive, default=3)
     exp.add_argument('--include-transcripts', action='store_true')
+    explore = sub.add_parser('explore', help='compile an offline HTML run and session explorer')
+    explore.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
     if args.command == 'run' and args.alternate_order and args.jobs != 1:
         parser.error('--alternate-order requires --jobs 1')
+    if args.command == 'explore':
+        try:
+            compile_explorer(args.results, args.out)
+        except (ValueError, OSError) as exc:
+            parser.error(str(exc))
+        print(f'Wrote {args.out}')
+        return 0
     if args.command == 'report':
         rows = report.load(args.results / 'runs.jsonl')
         print(json.dumps(report.summarize(rows, args.k), indent=2) if args.json else report.render(rows, args.k))

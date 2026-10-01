@@ -9,6 +9,7 @@ from . import report
 from .charts import render_charts
 from .manifest import load_manifest
 from .runner import runtime_values
+from .explorer import compile_explorer
 
 
 def _spellings(root) -> list[str]:
@@ -124,3 +125,4 @@ def export(rows, results, out, baseline, candidate, *, margin=0.10, min_trials=3
                     copy(source, destination)
                 elif source.is_dir():
                     destination.mkdir(parents=True, exist_ok=True)
+    compile_explorer(out, out / 'EXPLORER.html')

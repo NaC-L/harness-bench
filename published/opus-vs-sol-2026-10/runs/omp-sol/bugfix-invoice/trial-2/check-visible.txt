@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: half-even rounding is symmetric, exact, and normalizes zero
+ok 1 - half-even rounding is symmetric, exact, and normalizes zero
+  ---
+  duration_ms: 4.3414
+  type: 'test'
+  ...
+# Subtest: discounts round each reduction and retain their supplied order
+ok 2 - discounts round each reduction and retain their supplied order
+  ---
+  duration_ms: 1.1855
+  type: 'test'
+  ...
+# Subtest: invoice discounts use the positive basis and allocate the aggregate once
+ok 3 - invoice discounts use the positive basis and allocate the aggregate once
+  ---
+  duration_ms: 0.4786
+  type: 'test'
+  ...
+# Subtest: tax modes handle signed remainders, index ties, and separate rate groups
+ok 4 - tax modes handle signed remainders, index ties, and separate rate groups
+  ---
+  duration_ms: 0.4081
+  type: 'test'
+  ...
+# Subtest: safe checks follow exact arithmetic, including cancellation
+ok 5 - safe checks follow exact arithmetic, including cancellation
+  ---
+  duration_ms: 0.3335
+  type: 'test'
+  ...
+# Subtest: validation still covers zero lines, nulls, numeric ranges, and currencies
+ok 6 - validation still covers zero lines, nulls, numeric ranges, and currencies
+  ---
+  duration_ms: 0.4474
+  type: 'test'
+  ...
+# Subtest: output totals reconcile, inputs are untouched, and empty invoices return positive zero
+ok 7 - output totals reconcile, inputs are untouched, and empty invoices return positive zero
+  ---
+  duration_ms: 0.3265
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 8 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2153
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 9 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.7079
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 70.4892

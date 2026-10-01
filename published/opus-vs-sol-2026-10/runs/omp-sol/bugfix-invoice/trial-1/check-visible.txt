@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: half-even rounding is symmetric, exact, and returns positive zero
+ok 1 - half-even rounding is symmetric, exact, and returns positive zero
+  ---
+  duration_ms: 3.1542
+  type: 'test'
+  ...
+# Subtest: rounding retains exact remainders beyond floating-point precision
+ok 2 - rounding retains exact remainders beyond floating-point precision
+  ---
+  duration_ms: 0.4016
+  type: 'test'
+  ...
+# Subtest: line discounts keep supplied order and round each reduction, not the balance
+ok 3 - line discounts keep supplied order and round each reduction, not the balance
+  ---
+  duration_ms: 1.1331
+  type: 'test'
+  ...
+# Subtest: fixed discounts cap positives without changing credits; percent discounts are signed
+ok 4 - fixed discounts cap positives without changing credits; percent discounts are signed
+  ---
+  duration_ms: 0.2418
+  type: 'test'
+  ...
+# Subtest: invoice discounts are ordered, use positive post-line balances, and exclude credits
+ok 5 - invoice discounts are ordered, use positive post-line balances, and exclude credits
+  ---
+  duration_ms: 0.3886
+  type: 'test'
+  ...
+# Subtest: aggregate invoice reductions are allocated once with stable largest-remainder ties
+ok 6 - aggregate invoice reductions are allocated once with stable largest-remainder ties
+  ---
+  duration_ms: 0.1808
+  type: 'test'
+  ...
+# Subtest: tax modes independently round lines or rate groups after all discounts
+ok 7 - tax modes independently round lines or rate groups after all discounts
+  ---
+  duration_ms: 0.2279
+  type: 'test'
+  ...
+# Subtest: invoice tax allocation handles signed ideals and zero or negative group bases
+ok 8 - invoice tax allocation handles signed ideals and zero or negative group bases
+  ---
+  duration_ms: 0.5126
+  type: 'test'
+  ...
+# Subtest: tax groups keep rates separate and tie-break by original line order
+ok 9 - tax groups keep rates separate and tie-break by original line order
+  ---
+  duration_ms: 0.3957
+  type: 'test'
+  ...
+# Subtest: safe stored amounts allow exact large intermediate products and cancelling sums
+ok 10 - safe stored amounts allow exact large intermediate products and cancelling sums
+  ---
+  duration_ms: 0.5702
+  type: 'test'
+  ...
+# Subtest: unsafe stored products, bases, fields, and totals still throw RangeError
+ok 11 - unsafe stored products, bases, fields, and totals still throw RangeError
+  ---
+  duration_ms: 0.4249
+  type: 'test'
+  ...
+# Subtest: defaults, empty invoices, positive zero, and nonmutation remain intact
+ok 12 - defaults, empty invoices, positive zero, and nonmutation remain intact
+  ---
+  duration_ms: 0.2486
+  type: 'test'
+  ...
+# Subtest: invalid structures and numbers are still rejected, including on zero balances
+ok 13 - invalid structures and numbers are still rejected, including on zero balances
+  ---
+  duration_ms: 0.3579
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 14 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.1799
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 15 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.6394
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.1083

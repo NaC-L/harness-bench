@@ -1,0 +1,159 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-bb8486b5-xkhc_krr/src/csv.js"
+index ce27ede..fbf98fa 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-bb8486b5-xkhc_krr/src/csv.js"
+@@ -1,6 +1,32 @@
+ 'use strict';
+ const { toObjects } = require('./rows');
+ 
++// Parser states. FIELD_START: nothing consumed for the current field yet.
++// UNQUOTED: inside a field that did not start with '"'. QUOTED: inside a quoted
++// field. QUOTE_PENDING: saw '"' inside a quoted field; the next character
++// decides whether it was an escaped '""' or the closing quote.
++const FIELD_START = 0;
++const UNQUOTED = 1;
++const QUOTED = 2;
++const QUOTE_PENDING = 3;
++
++const BOM = '\uFEFF';
++
++function resolveDelimiter(options) {
++  const delimiter = options == null ? undefined : options.delimiter;
++  if (delimiter === undefined) return ',';
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be a single character other than \'"\', CR, or LF');
++  }
++  return delimiter;
++}
++
+ /**
+  * Create an incremental CSV parser; options is an optional object.
+  *
+@@ -47,7 +73,110 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = resolveDelimiter(options);
++
++  let state = FIELD_START;
++  let field = '';
++  let row = [];
++  // True once any character of the current record has been consumed, so end()
++  // can tell "no unfinished record" apart from a record of one empty field.
++  let rowStarted = false;
++  // True when the previous character consumed was CR, in any context. Used to
++  // treat CRLF as one separator / one newline even across chunk boundaries.
++  let prevCR = false;
++  let line = 1;
++  let sawInput = false;
++  let ended = false;
++
++  function syntaxError(message) {
++    return new SyntaxError(`${message} at line ${line}`);
++  }
++
++  function endField() {
++    row.push(field);
++    field = '';
++    state = FIELD_START;
++  }
++
++  function endRecord(out) {
++    endField();
++    out.push(row);
++    row = [];
++    rowStarted = false;
++  }
++
++  function push(chunk) {
++    if (ended) throw new Error('cannot push after end()');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const out = [];
++    if (chunk.length === 0) return out;
++
++    let i = 0;
++    if (!sawInput) {
++      sawInput = true;
++      if (chunk[0] === BOM) i = 1;
++    }
++
++    for (; i < chunk.length; i++) {
++      const ch = chunk[i];
++      const isCR = ch === '\r';
++      const isLF = ch === '\n';
++      const lfAfterCR = isLF && prevCR;
++      if (isCR || (isLF && !prevCR)) line++;
++      prevCR = isCR;
++
++      switch (state) {
++        case QUOTED:
++          if (ch === '"') state = QUOTE_PENDING;
++          else field += ch;
++          break;
++
++        case QUOTE_PENDING:
++          if (ch === '"') {
++            field += '"';
++            state = QUOTED;
++          } else if (ch === delimiter) {
++            endField();
++          } else if (isCR || isLF) {
++            endRecord(out);
++          } else {
++            throw syntaxError(`unexpected character ${JSON.stringify(ch)} after closing quote`);
++          }
++          break;
++
++        case FIELD_START:
++          // The LF of a CRLF whose CR already completed the record.
++          if (lfAfterCR) break;
++          rowStarted = true;
++          if (ch === '"') state = QUOTED;
++          else if (ch === delimiter) endField();
++          else if (isCR || isLF) endRecord(out);
++          else {
++            field = ch;
++            state = UNQUOTED;
++          }
++          break;
++
++        default: // UNQUOTED
++          if (ch === delimiter) endField();
++          else if (isCR || isLF) endRecord(out);
++          else field += ch;
++          break;
++      }
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) throw syntaxError('unterminated quoted field');
++    const out = [];
++    if (rowStarted) endRecord(out);
++    return out;
++  }
++
++  return { push, end };
+ }
+ 
+ /**
+@@ -59,7 +188,8 @@ function createParser(options = {}) {
+ function parse(text, options = {}) {
+   const parser = createParser(options);
+   const records = parser.push(text).concat(parser.end());
+-  return options.header === true ? toObjects(records, { header: true }) : records;
++  const header = options != null && options.header === true;
++  return header ? toObjects(records, { header: true }) : records;
+ }
+ 
+ module.exports = { createParser, parse };

@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 2.6511
+  type: 'test'
+  ...
+# Subtest: first found is FIFO depth-first, not the globally newest assignment
+ok 2 - first found is FIFO depth-first, not the globally newest assignment
+  ---
+  duration_ms: 0.4272
+  type: 'test'
+  ...
+# Subtest: discovery collects constraints before queued names are selected
+ok 3 - discovery collects constraints before queued names are selected
+  ---
+  duration_ms: 0.1635
+  type: 'test'
+  ...
+# Subtest: backtracking removes conflicting constraints on unselected packages
+ok 4 - backtracking removes conflicting constraints on unselected packages
+  ---
+  duration_ms: 0.124
+  type: 'test'
+  ...
+# Subtest: immediate conflicts undo partial discovery and retain older constraints
+ok 5 - immediate conflicts undo partial discovery and retain older constraints
+  ---
+  duration_ms: 0.1405
+  type: 'test'
+  ...
+# Subtest: exhausted choices roll back selected descendants and orphaned dependencies
+ok 6 - exhausted choices roll back selected descendants and orphaned dependencies
+  ---
+  duration_ms: 0.1012
+  type: 'test'
+  ...
+# Subtest: cycles and repeated requirements expand each selected version only once
+ok 7 - cycles and repeated requirements expand each selected version only once
+  ---
+  duration_ms: 0.1541
+  type: 'test'
+  ...
+# Subtest: long chains are stack independent and have no arbitrary iteration limit
+ok 8 - long chains are stack independent and have no arbitrary iteration limit
+  ---
+  duration_ms: 134.5763
+  type: 'test'
+  ...
+# Subtest: discovered conflicts are checked before exploring combinations
+ok 9 - discovered conflicts are checked before exploring combinations
+  ---
+  duration_ms: 0.9261
+  type: 'test'
+  ...
+# Subtest: all maps, versions and ranges are validated, even when unreachable
+ok 10 - all maps, versions and ranges are validated, even when unreachable
+  ---
+  duration_ms: 0.8851
+  type: 'test'
+  ...
+# Subtest: own enumerable string keys, null prototypes, special names and immutable inputs
+ok 11 - own enumerable string keys, null prototypes, special names and immutable inputs
+  ---
+  duration_ms: 0.2381
+  type: 'test'
+  ...
+# Subtest: first-found assignments match a copy-on-branch oracle on cyclic graphs
+ok 12 - first-found assignments match a copy-on-branch oracle on cyclic graphs
+  ---
+  duration_ms: 16.3503
+  type: 'test'
+  ...
+# Subtest: versions are canonical triples of nonnegative safe integers
+ok 13 - versions are canonical triples of nonnegative safe integers
+  ---
+  duration_ms: 1.4151
+  type: 'test'
+  ...
+# Subtest: range operators use the specified inclusive and exclusive boundaries
+ok 14 - range operators use the specified inclusive and exclusive boundaries
+  ---
+  duration_ms: 1.0031
+  type: 'test'
+  ...
+# Subtest: caret and tilde upper bounds work at safe-integer limits
+ok 15 - caret and tilde upper bounds work at safe-integer limits
+  ---
+  duration_ms: 0.1608
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected eagerly, even after an unsatisfiable term
+ok 16 - invalid ranges are rejected eagerly, even after an unsatisfiable term
+  ---
+  duration_ms: 0.2746
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 17 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.3839
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 226.5669

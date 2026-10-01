@@ -1,0 +1,19 @@
+src\csv.js:2:const { toObjects } = require('./rows');
+src\csv.js:49:function createParser(options = {}) {
+src\csv.js:54: * Parse all text using the same grammar and validation as createParser.
+src\csv.js:56: * toObjects(records, { header: true }) helper; otherwise return string[][].
+src\csv.js:59:function parse(text, options = {}) {
+src\csv.js:60:  const parser = createParser(options);
+src\csv.js:62:  return options.header === true ? toObjects(records, { header: true }) : records;
+src\csv.js:65:module.exports = { createParser, parse };
+src\rows.js:21:function toObjects(records, options = {}) {
+src\rows.js:51:module.exports = { toObjects };
+test\csv.test.js:4:const { createParser, parse } = require('../src/csv');
+test\csv.test.js:7:  const parser = createParser();
+test\csv.test.js:13:  assert.deepEqual(parse('"a,b","say ""hi"""\n'), [['a,b', 'say "hi"']]);
+test\csv.test.js:17:  const parser = createParser();
+test\csv.test.js:23:  assert.deepEqual(parse('"first\nsecond",tail\n'), [['first\nsecond', 'tail']]);
+test\csv.test.js:27:  assert.deepEqual(parse('name,age\nAda,37\n', { header: true }), [{ name: 'Ada', age: '37' }]);
+test\rows.test.js:4:const { toObjects } = require('../src/rows');
+test\rows.test.js:7:  assert.deepEqual(toObjects([['name', 'name'], ['Ada', 'Lovelace']]), [
+test\rows.test.js:13:  assert.deepEqual(toObjects([['a', 'b'], ['one'], ['two', 'three', 'extra']]), [

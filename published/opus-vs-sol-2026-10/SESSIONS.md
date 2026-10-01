@@ -1,0 +1,67 @@
+# Sessions
+
+Native harness records; local paths are sanitized.
+Compare the same task/trial across harnesses.
+
+| Task | Trial | Harness | Session |
+| --- | --- | --- | --- |
+| bugfix-duration | 1 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-duration/trial-1/session.jsonl) |
+| bugfix-duration | 1 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-duration/trial-1/session.jsonl) |
+| bugfix-duration | 2 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-duration/trial-2/session.jsonl) |
+| bugfix-duration | 2 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-duration/trial-2/session.jsonl) |
+| bugfix-duration | 3 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-duration/trial-3/session.jsonl) |
+| bugfix-duration | 3 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-duration/trial-3/session.jsonl) |
+| bugfix-invoice | 1 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-invoice/trial-1/session.jsonl) |
+| bugfix-invoice | 1 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-invoice/trial-1/session.jsonl) |
+| bugfix-invoice | 2 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-invoice/trial-2/session.jsonl) |
+| bugfix-invoice | 2 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-invoice/trial-2/session.jsonl) |
+| bugfix-invoice | 3 | omp-opus | [session.jsonl](runs/omp-opus/bugfix-invoice/trial-3/session.jsonl) |
+| bugfix-invoice | 3 | omp-sol | [session.jsonl](runs/omp-sol/bugfix-invoice/trial-3/session.jsonl) |
+| debug-cache-race | 1 | omp-opus | [session.jsonl](runs/omp-opus/debug-cache-race/trial-1/session.jsonl) |
+| debug-cache-race | 1 | omp-sol | [session.jsonl](runs/omp-sol/debug-cache-race/trial-1/session.jsonl) |
+| debug-cache-race | 2 | omp-opus | [session.jsonl](runs/omp-opus/debug-cache-race/trial-2/session.jsonl) |
+| debug-cache-race | 2 | omp-sol | [session.jsonl](runs/omp-sol/debug-cache-race/trial-2/session.jsonl) |
+| debug-cache-race | 3 | omp-opus | [session.jsonl](runs/omp-opus/debug-cache-race/trial-3/session.jsonl) |
+| debug-cache-race | 3 | omp-sol | [session.jsonl](runs/omp-sol/debug-cache-race/trial-3/session.jsonl) |
+| debug-limiter | 1 | omp-opus | [session.jsonl](runs/omp-opus/debug-limiter/trial-1/session.jsonl) |
+| debug-limiter | 1 | omp-sol | [session.jsonl](runs/omp-sol/debug-limiter/trial-1/session.jsonl) |
+| debug-limiter | 2 | omp-opus | [session.jsonl](runs/omp-opus/debug-limiter/trial-2/session.jsonl) |
+| debug-limiter | 2 | omp-sol | [session.jsonl](runs/omp-sol/debug-limiter/trial-2/session.jsonl) |
+| debug-limiter | 3 | omp-opus | [session.jsonl](runs/omp-opus/debug-limiter/trial-3/session.jsonl) |
+| debug-limiter | 3 | omp-sol | [session.jsonl](runs/omp-sol/debug-limiter/trial-3/session.jsonl) |
+| feature-csv-stream | 1 | omp-opus | [session.jsonl](runs/omp-opus/feature-csv-stream/trial-1/session.jsonl) |
+| feature-csv-stream | 1 | omp-sol | [session.jsonl](runs/omp-sol/feature-csv-stream/trial-1/session.jsonl) |
+| feature-csv-stream | 2 | omp-opus | [session.jsonl](runs/omp-opus/feature-csv-stream/trial-2/session.jsonl) |
+| feature-csv-stream | 2 | omp-sol | [session.jsonl](runs/omp-sol/feature-csv-stream/trial-2/session.jsonl) |
+| feature-csv-stream | 3 | omp-opus | [session.jsonl](runs/omp-opus/feature-csv-stream/trial-3/session.jsonl) |
+| feature-csv-stream | 3 | omp-sol | [session.jsonl](runs/omp-sol/feature-csv-stream/trial-3/session.jsonl) |
+| feature-lru | 1 | omp-opus | [session.jsonl](runs/omp-opus/feature-lru/trial-1/session.jsonl) |
+| feature-lru | 1 | omp-sol | [session.jsonl](runs/omp-sol/feature-lru/trial-1/session.jsonl) |
+| feature-lru | 2 | omp-opus | [session.jsonl](runs/omp-opus/feature-lru/trial-2/session.jsonl) |
+| feature-lru | 2 | omp-sol | [session.jsonl](runs/omp-sol/feature-lru/trial-2/session.jsonl) |
+| feature-lru | 3 | omp-opus | [session.jsonl](runs/omp-opus/feature-lru/trial-3/session.jsonl) |
+| feature-lru | 3 | omp-sol | [session.jsonl](runs/omp-sol/feature-lru/trial-3/session.jsonl) |
+| hard-dep-resolver | 1 | omp-opus | [session.jsonl](runs/omp-opus/hard-dep-resolver/trial-1/session.jsonl) |
+| hard-dep-resolver | 1 | omp-sol | [session.jsonl](runs/omp-sol/hard-dep-resolver/trial-1/session.jsonl) |
+| hard-dep-resolver | 2 | omp-opus | [session.jsonl](runs/omp-opus/hard-dep-resolver/trial-2/session.jsonl) |
+| hard-dep-resolver | 2 | omp-sol | [session.jsonl](runs/omp-sol/hard-dep-resolver/trial-2/session.jsonl) |
+| hard-dep-resolver | 3 | omp-opus | [session.jsonl](runs/omp-opus/hard-dep-resolver/trial-3/session.jsonl) |
+| hard-dep-resolver | 3 | omp-sol | [session.jsonl](runs/omp-sol/hard-dep-resolver/trial-3/session.jsonl) |
+| hard-expr-eval | 1 | omp-opus | [session.jsonl](runs/omp-opus/hard-expr-eval/trial-1/session.jsonl) |
+| hard-expr-eval | 1 | omp-sol | [session.jsonl](runs/omp-sol/hard-expr-eval/trial-1/session.jsonl) |
+| hard-expr-eval | 2 | omp-opus | [session.jsonl](runs/omp-opus/hard-expr-eval/trial-2/session.jsonl) |
+| hard-expr-eval | 2 | omp-sol | [session.jsonl](runs/omp-sol/hard-expr-eval/trial-2/session.jsonl) |
+| hard-expr-eval | 3 | omp-opus | [session.jsonl](runs/omp-opus/hard-expr-eval/trial-3/session.jsonl) |
+| hard-expr-eval | 3 | omp-sol | [session.jsonl](runs/omp-sol/hard-expr-eval/trial-3/session.jsonl) |
+| hard-line-diff | 1 | omp-opus | [session.jsonl](runs/omp-opus/hard-line-diff/trial-1/session.jsonl) |
+| hard-line-diff | 1 | omp-sol | [session.jsonl](runs/omp-sol/hard-line-diff/trial-1/session.jsonl) |
+| hard-line-diff | 2 | omp-opus | [session.jsonl](runs/omp-opus/hard-line-diff/trial-2/session.jsonl) |
+| hard-line-diff | 2 | omp-sol | [session.jsonl](runs/omp-sol/hard-line-diff/trial-2/session.jsonl) |
+| hard-line-diff | 3 | omp-opus | [session.jsonl](runs/omp-opus/hard-line-diff/trial-3/session.jsonl) |
+| hard-line-diff | 3 | omp-sol | [session.jsonl](runs/omp-sol/hard-line-diff/trial-3/session.jsonl) |
+| hard-segment-tree | 1 | omp-opus | [session.jsonl](runs/omp-opus/hard-segment-tree/trial-1/session.jsonl) |
+| hard-segment-tree | 1 | omp-sol | [session.jsonl](runs/omp-sol/hard-segment-tree/trial-1/session.jsonl) |
+| hard-segment-tree | 2 | omp-opus | [session.jsonl](runs/omp-opus/hard-segment-tree/trial-2/session.jsonl) |
+| hard-segment-tree | 2 | omp-sol | [session.jsonl](runs/omp-sol/hard-segment-tree/trial-2/session.jsonl) |
+| hard-segment-tree | 3 | omp-opus | [session.jsonl](runs/omp-opus/hard-segment-tree/trial-3/session.jsonl) |
+| hard-segment-tree | 3 | omp-sol | [session.jsonl](runs/omp-sol/hard-segment-tree/trial-3/session.jsonl) |

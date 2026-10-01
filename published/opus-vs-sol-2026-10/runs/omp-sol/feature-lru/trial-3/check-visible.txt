@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: capacity accepts only positive integer Numbers
+ok 1 - capacity accepts only positive integer Numbers
+  ---
+  duration_ms: 1.0068
+  type: 'test'
+  ...
+# Subtest: getting an undefined value refreshes recency
+ok 2 - getting an undefined value refreshes recency
+  ---
+  duration_ms: 0.1958
+  type: 'test'
+  ...
+# Subtest: updating a full cache refreshes recency without evicting another key
+ok 3 - updating a full cache refreshes recency without evicting another key
+  ---
+  duration_ms: 0.1259
+  type: 'test'
+  ...
+# Subtest: has, missed gets, and deletion preserve surviving recency
+ok 4 - has, missed gets, and deletion preserve surviving recency
+  ---
+  duration_ms: 0.0882
+  type: 'test'
+  ...
+# Subtest: arbitrary keys and values follow Map semantics
+ok 5 - arbitrary keys and values follow Map semantics
+  ---
+  duration_ms: 0.1973
+  type: 'test'
+  ...
+# Subtest: capacity one evicts undefined keys and caches are independent
+ok 6 - capacity one evicts undefined keys and caches are independent
+  ---
+  duration_ms: 0.6214
+  type: 'test'
+  ...
+# Subtest: stores entries, chains sets, and reports size
+ok 7 - stores entries, chains sets, and reports size
+  ---
+  duration_ms: 0.6134
+  type: 'test'
+  ...
+# Subtest: get refreshes recency before eviction
+ok 8 - get refreshes recency before eviction
+  ---
+  duration_ms: 0.1423
+  type: 'test'
+  ...
+# Subtest: delete reports whether a key existed
+ok 9 - delete reports whether a key existed
+  ---
+  duration_ms: 0.0742
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 72.7344

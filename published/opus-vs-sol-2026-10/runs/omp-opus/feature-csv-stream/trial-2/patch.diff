@@ -1,0 +1,167 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-6b878122-oe0m_wic/src/csv.js"
+index ce27ede..958aa61 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-6b878122-oe0m_wic/src/csv.js"
+@@ -1,6 +1,11 @@
+ 'use strict';
+ const { toObjects } = require('./rows');
+ 
++const FIELD_START = 0; // at the first character of a field
++const UNQUOTED = 1; // inside an unquoted field
++const QUOTED = 2; // inside a quoted field
++const AFTER_QUOTE = 3; // saw '"' inside a quoted field: closing quote or first half of '""'
++
+ /**
+  * Create an incremental CSV parser; options is an optional object.
+  *
+@@ -46,8 +51,133 @@ const { toObjects } = require('./rows');
+  * @param {{ delimiter?: string, header?: boolean }} [options]
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+-function createParser(options = {}) {
+-  throw new Error('not implemented');
++function createParser(options) {
++  const opts = normalizeOptions(options);
++  const delimiter = opts.delimiter === undefined ? ',' : opts.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be a single character other than \'"\', CR, or LF');
++  }
++
++  let state = FIELD_START;
++  let field = '';
++  let row = [];
++  let rowStarted = false; // current record has consumed at least one character
++  let skipLF = false; // previous outside-quote CR ended a record; swallow a following LF
++  let prevCR = false; // previous character (any context) was CR, for CRLF line counting
++  let line = 1;
++  let seenInput = false; // a non-empty chunk has arrived (BOM is only stripped before this)
++  let ended = false;
++
++  function push(chunk) {
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    if (ended) throw new Error('cannot push after end()');
++    const records = [];
++    if (chunk.length === 0) return records;
++
++    let i = 0;
++    if (!seenInput) {
++      seenInput = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++
++    const endRecord = () => {
++      row.push(field);
++      records.push(row);
++      row = [];
++      field = '';
++      state = FIELD_START;
++      rowStarted = false;
++    };
++
++    for (; i < chunk.length; i++) {
++      const c = chunk[i];
++
++      // Physical line counting covers quoted content too; CRLF counts once.
++      if (c === '\r') line++;
++      else if (c === '\n' && !prevCR) line++;
++      prevCR = c === '\r';
++
++      if (skipLF) {
++        skipLF = false;
++        if (c === '\n') continue;
++      }
++
++      switch (state) {
++        case FIELD_START:
++          if (c === '"') {
++            state = QUOTED;
++            rowStarted = true;
++          } else if (c === delimiter) {
++            row.push(field);
++            rowStarted = true;
++          } else if (c === '\r' || c === '\n') {
++            endRecord();
++            skipLF = c === '\r';
++          } else {
++            field += c;
++            state = UNQUOTED;
++            rowStarted = true;
++          }
++          break;
++        case UNQUOTED:
++          if (c === delimiter) {
++            row.push(field);
++            field = '';
++            state = FIELD_START;
++          } else if (c === '\r' || c === '\n') {
++            endRecord();
++            skipLF = c === '\r';
++          } else {
++            field += c;
++          }
++          break;
++        case QUOTED:
++          if (c === '"') state = AFTER_QUOTE;
++          else field += c;
++          break;
++        case AFTER_QUOTE:
++          if (c === '"') {
++            field += '"';
++            state = QUOTED;
++          } else if (c === delimiter) {
++            row.push(field);
++            field = '';
++            state = FIELD_START;
++          } else if (c === '\r' || c === '\n') {
++            endRecord();
++            skipLF = c === '\r';
++          } else {
++            throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++          }
++          break;
++      }
++    }
++    return records;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) {
++      throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    }
++    if (!rowStarted) return [];
++    row.push(field);
++    const last = row;
++    row = [];
++    field = '';
++    rowStarted = false;
++    return [last];
++  }
++
++  return { push, end };
++}
++
++function normalizeOptions(options) {
++  if (options === undefined || options === null) return {};
++  if (typeof options !== 'object') throw new TypeError('options must be an object');
++  return options;
+ }
+ 
+ /**
+@@ -56,10 +186,11 @@ function createParser(options = {}) {
+  * toObjects(records, { header: true }) helper; otherwise return string[][].
+  * Empty input yields [] in either mode. Do not change the helper's contract.
+  */
+-function parse(text, options = {}) {
+-  const parser = createParser(options);
++function parse(text, options) {
++  const opts = normalizeOptions(options);
++  const parser = createParser(opts);
+   const records = parser.push(text).concat(parser.end());
+-  return options.header === true ? toObjects(records, { header: true }) : records;
++  return opts.header === true ? toObjects(records, { header: true }) : records;
+ }
+ 
+ module.exports = { createParser, parse };

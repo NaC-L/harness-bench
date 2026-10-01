@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: random inputs: minimal, ordered, reconstructing, roundtripping
+ok 1 - random inputs: minimal, ordered, reconstructing, roundtripping
+  ---
+  duration_ms: 73.261
+  type: 'test'
+  ...
+# Subtest: edge cases
+ok 2 - edge cases
+  ---
+  duration_ms: 0.4482
+  type: 'test'
+  ...
+# Subtest: applyHunks rejects bad hunks with indexed messages
+ok 3 - applyHunks rejects bad hunks with indexed messages
+  ---
+  duration_ms: 0.4631
+  type: 'test'
+  ...
+# Subtest: large inputs with small changes are fast
+ok 4 - large inputs with small changes are fast
+  ---
+  duration_ms: 9.5964
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 5 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3023
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140.8635

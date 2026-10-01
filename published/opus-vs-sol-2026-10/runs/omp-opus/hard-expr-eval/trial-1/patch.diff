@@ -1,0 +1,337 @@
+diff --git "{temp}\\hb-745740fd-k1muh4kg/spec/contract.test.js" "{temp}\\hb-745740fd-k1muh4kg/spec/contract.test.js"
+new file mode 100644
+index 0000000..5169fc3
+--- /dev/null
++++ "{temp}\\hb-745740fd-k1muh4kg/spec/contract.test.js"
+@@ -0,0 +1,71 @@
++'use strict';
++
++// Regression tests for the language contract documented in src/index.js.
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { evaluate, ExprError } = require('../src/index');
++
++const columnOf = (source, variables) => {
++  try {
++    evaluate(source, variables);
++  } catch (error) {
++    assert.ok(error instanceof ExprError);
++    return error.column;
++  }
++  assert.fail(`expected ExprError for ${source}`);
++};
++
++test('** binds tighter than a left unary sign and associates right', () => {
++  assert.equal(evaluate('-2 ** 2'), -4);
++  assert.equal(evaluate('2 ** -1'), 0.5);
++  assert.equal(evaluate('2 ** 3 ** 2'), 512);
++  assert.equal(evaluate('2 ** -1 ** 2'), 0.5);
++  assert.equal(evaluate('- - 3'), 3);
++});
++
++test('// and % use Python float divmod semantics', () => {
++  assert.equal(evaluate('7 // -2'), -4);
++  assert.equal(evaluate('1 // 0.1'), 9);
++  assert.equal(evaluate('-5 % 3.5'), 2);
++  assert.equal(evaluate('-0.5 // 1'), -1);
++  assert.ok(Object.is(evaluate('0 // -5'), 0));
++  assert.ok(Object.is(evaluate('6 % -3'), 0));
++});
++
++test('comparisons chain, short-circuit and act as 0/1 in arithmetic', () => {
++  assert.equal(evaluate('1 < 2 < 3'), true);
++  assert.equal(evaluate('1 < 2 == 1'), false);
++  assert.equal(evaluate('(1 < 2) + 1'), 2);
++  assert.equal(evaluate('1 < 0 < y'), false);
++  let reads = 0;
++  const vars = { get a() { reads += 1; return 2; } };
++  assert.equal(evaluate('a < a * a < 10', vars), true);
++  assert.equal(reads, 3);
++});
++
++test('min/max return the first extreme argument like Python', () => {
++  assert.equal(evaluate('min(3, 1, 2)'), 1);
++  assert.equal(evaluate('max(1 < 2, 0)'), true);
++  assert.equal(evaluate('abs(1 < 2)'), 1);
++});
++
++test('error columns point at the offending token', () => {
++  assert.equal(columnOf('1 +  $'), 6);
++  assert.equal(columnOf('  1 2'), 5);
++  assert.equal(columnOf('(1 + 2  '), 9);
++  assert.equal(columnOf('1 / 0'), 3);
++  assert.equal(columnOf('1 + foo(1)'), 5);
++  assert.equal(columnOf('1 < 0 < abs(1, 2)'), 9);
++  assert.equal(columnOf('min()'), 1);
++  assert.equal(columnOf('x + 1'), 1);
++});
++
++test('long flat chains evaluate quickly without deep recursion', () => {
++  const n = 200000;
++  const start = Date.now();
++  assert.equal(evaluate(Array(n).fill('1').join(' + ')), n);
++  assert.equal(evaluate(Array(n).fill('1').join(' <= ')), true);
++  assert.equal(evaluate('-'.repeat(n + 1) + '1'), -1);
++  assert.equal(evaluate(Array(n).fill('1').join(' ** ')), 1);
++  assert.ok(Date.now() - start < 2000);
++});
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-745740fd-k1muh4kg/src/evaluator.js"
+index 7f2b237..822d4f2 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-745740fd-k1muh4kg/src/evaluator.js"
+@@ -2,6 +2,38 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++/** Python's float divmod (CPython float_divmod); zero results are +0. */
++function floorDivMod(left, right) {
++  let mod = left % right;
++  let div = (left - mod) / right;
++  if (mod) {
++    if ((right < 0) !== (mod < 0)) {
++      mod += right;
++      div -= 1;
++    }
++  } else {
++    mod = 0;
++  }
++  let floordiv;
++  if (div) {
++    floordiv = Math.floor(div);
++    if (div - floordiv > 0.5) floordiv += 1;
++  } else {
++    floordiv = 0;
++  }
++  return [floordiv === 0 ? 0 : floordiv, mod === 0 ? 0 : mod];
++}
++
++/** Python's float pow special cases that differ from JavaScript's **. */
++function power(operator, left, right) {
++  if (right === 0 || left === 1) return 1;
++  if (Math.abs(left) === 1 && Math.abs(right) === Infinity) return 1;
++  if (left === 0 && right < 0 && right !== -Infinity) {
++    throw new ExprError('Zero raised to a negative power', operator.column);
++  }
++  return left ** right;
++}
++
+ function apply(operator, left, right) {
+   left = Number(left);
+   right = Number(right);
+@@ -14,16 +46,9 @@ function apply(operator, left, right) {
+     case '-': return left - right;
+     case '*': return left * right;
+     case '/': return left / right;
+-    case '**': return left ** right;
+-    case '//': {
+-      const quotient = Math.trunc(left / right);
+-      return quotient === 0 ? 0 : quotient;
+-    }
+-    case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
+-    }
++    case '**': return power(operator, left, right);
++    case '//': return floorDivMod(left, right)[0];
++    case '%': return floorDivMod(left, right)[1];
+     case '<': return left < right;
+     case '<=': return left <= right;
+     case '>': return left > right;
+@@ -99,13 +124,15 @@ function evaluateAst(root, variables) {
+         frame.index = 0;
+         frames.push({ node: node.args[0], phase: 0 });
+       } else {
+-        const value = Number(result);
++        // Like Python, min/max keep the first extreme argument as-is (a
++        // boolean stays a boolean) and only replace it on a strict improvement.
++        const value = result;
+         if (frame.index === 0) frame.value = value;
+-        else if (node.name === 'min') frame.value = Math.min(frame.value, value);
+-        else frame.value = Math.max(frame.value, value);
++        else if (node.name === 'min' ? Number(value) < Number(frame.value)
++          : Number(value) > Number(frame.value)) frame.value = value;
+         frame.index += 1;
+         if (frame.index === node.args.length) {
+-          result = node.name === 'abs' ? Math.abs(frame.value) : frame.value;
++          result = node.name === 'abs' ? Math.abs(Number(frame.value)) : frame.value;
+           frames.pop();
+         } else {
+           frames.push({ node: node.args[frame.index], phase: 0 });
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-745740fd-k1muh4kg/src/parser.js"
+index 4af2109..33d266a 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-745740fd-k1muh4kg/src/parser.js"
+@@ -2,25 +2,41 @@
+ 
+ const { ExprError } = require('./errors');
+ 
+-/** Parse a complete token sequence into an AST. Nodes retain operator columns. */
++const COMPARISONS = new Set(['<', '<=', '>', '>=', '==', '!=']);
++const PRODUCTS = new Set(['*', '/', '//', '%']);
++const FUNCTIONS = new Set(['min', 'max', 'abs']);
++
++/**
++ * Parse a complete token sequence into an AST. Nodes retain operator columns.
++ * Flat chains (sums, products, comparisons, unary signs, ** chains) are parsed
++ * with loops; only parentheses and call arguments recurse.
++ */
+ function parse(tokens) {
+   let position = 0;
+   const current = () => tokens[position];
+-  const take = () => tokens[position++];
+-  const is = value => current().value === value;
++  const take = () => {
++    const token = tokens[position];
++    if (token.type !== 'eof') position += 1;
++    return token;
++  };
++  const is = value => current().type === 'operator' && current().value === value;
+   const expect = value => {
+     if (!is(value)) throw new ExprError(`Expected ${value}`, current().column);
+     return take();
+   };
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
++  // comparison := sum (op sum)*, kept as one chained node for Python semantics.
+   function comparison() {
+-    let left = sum();
+-    while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++    const first = sum();
++    if (!(current().type === 'operator' && COMPARISONS.has(current().value))) return first;
++    const operands = [first];
++    const operators = [];
++    while (current().type === 'operator' && COMPARISONS.has(current().value)) {
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+@@ -33,28 +49,41 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
+-    while (['*', '/', '//', '%'].includes(current().value)) {
++    let left = unary();
++    while (current().type === 'operator' && PRODUCTS.has(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+ 
++  /**
++   * unary := ('+' | '-') unary | power;  power := primary ('**' unary)?
++   * Collects segments "signs primary **" left to right, then folds from the
++   * right, so ** is right-associative and binds tighter than its left sign.
++   */
+   function unary() {
+-    if (is('+') || is('-')) {
+-      return { type: 'unary', operator: take(), operand: unary() };
++    const segments = [];
++    for (;;) {
++      const signs = [];
++      while (is('+') || is('-')) signs.push(take());
++      const base = primary();
++      if (is('**')) {
++        segments.push({ signs, base, operator: take() });
++      } else {
++        segments.push({ signs, base, operator: null });
++        break;
++      }
+     }
+-    return primary();
+-  }
+-
+-  function power() {
+-    let left = unary();
+-    while (is('**')) {
+-      const operator = take();
+-      left = binary(operator, left, unary());
++    let node = null;
++    for (let i = segments.length - 1; i >= 0; i -= 1) {
++      const { signs, base, operator } = segments[i];
++      node = operator ? binary(operator, base, node) : base;
++      for (let j = signs.length - 1; j >= 0; j -= 1) {
++        node = { type: 'unary', operator: signs[j], operand: node };
++      }
+     }
+-    return left;
++    return node;
+   }
+ 
+   function primary() {
+@@ -62,6 +91,7 @@ function parse(tokens) {
+     if (token.type === 'number') return { type: 'number', value: token.value };
+     if (token.type === 'identifier') {
+       if (!is('(')) return { type: 'variable', name: token.value, column: token.column };
++      if (!FUNCTIONS.has(token.value)) throw new ExprError('Unknown function', token.column);
+       take();
+       const args = [];
+       if (!is(')')) {
+@@ -72,15 +102,12 @@ function parse(tokens) {
+         }
+       }
+       expect(')');
+-      if (!['min', 'max', 'abs'].includes(token.value)) {
+-        throw new ExprError('Unknown function', token.column);
+-      }
+       if (!args.length || (token.value === 'abs' && args.length !== 1)) {
+         throw new ExprError('Wrong argument count', token.column);
+       }
+       return { type: 'call', name: token.value, args };
+     }
+-    if (token.value === '(') {
++    if (token.type === 'operator' && token.value === '(') {
+       const expression = comparison();
+       expect(')');
+       return expression;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-745740fd-k1muh4kg/src/tokenizer.js"
+index d0b81a6..cb133b1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-745740fd-k1muh4kg/src/tokenizer.js"
+@@ -2,16 +2,22 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++const PAIRS = new Set(['**', '//', '<=', '>=', '==', '!=']);
++const SINGLES = new Set(['+', '-', '*', '/', '%', '<', '>', '(', ')', ',']);
++
+ /** Convert source to positioned tokens without repeatedly slicing its suffix. */
+ function tokenize(source) {
+   const tokens = [];
+   const number = /(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?/y;
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
++  const whitespace = /\s+/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+-    while (offset < source.length && /\s/.test(source[offset])) offset += 1;
++    whitespace.lastIndex = offset;
++    if (whitespace.test(source)) offset = whitespace.lastIndex;
+     if (offset === source.length) break;
++    // Columns are taken after skipping whitespace so errors point at the token.
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {
+@@ -27,10 +33,10 @@ function tokenize(source) {
+       continue;
+     }
+     const pair = source.slice(offset, offset + 2);
+-    if (['**', '//', '<=', '>=', '==', '!='].includes(pair)) {
++    if (PAIRS.has(pair)) {
+       tokens.push({ type: 'operator', value: pair, column });
+       offset += 2;
+-    } else if ('+-*/%<>() ,'.includes(source[offset]) && source[offset] !== ' ') {
++    } else if (SINGLES.has(source[offset])) {
+       tokens.push({ type: 'operator', value: source[offset], column });
+       offset += 1;
+     } else {

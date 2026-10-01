@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: validates concurrency and rejects non-functions without consuming a slot
+ok 1 - validates concurrency and rejects non-functions without consuming a slot
+  ---
+  duration_ms: 1.2586
+  type: 'test'
+  ...
+# Subtest: invokes each task once with no arguments and adopts returned values
+ok 2 - invokes each task once with no arguments and adopts returned values
+  ---
+  duration_ms: 0.8133
+  type: 'test'
+  ...
+# Subtest: releases slots after synchronous throws, rejections, and failed thenable adoption
+ok 3 - releases slots after synchronous throws, rejections, and failed thenable adoption
+  ---
+  duration_ms: 0.8649
+  type: 'test'
+  ...
+# Subtest: enforces the concurrency limit and starts queued work in order
+ok 4 - enforces the concurrency limit and starts queued work in order
+  ---
+  duration_ms: 2.9251
+  type: 'test'
+  ...
+# Subtest: queued work still completes when a task rejects
+ok 5 - queued work still completes when a task rejects
+  ---
+  duration_ms: 0.4517
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 60.3425

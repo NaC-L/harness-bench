@@ -1,0 +1,53 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-eda6ad64-dsozxjdx/src/flight.js"
+index bc0283d..4684c51 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-eda6ad64-dsozxjdx/src/flight.js"
+@@ -2,19 +2,40 @@
+ 
+ // A detached flight still settles its original callers. The registry tracks
+ // only flights available for subsequent readers of each key.
++//
++// Every flight is identified by its own record. When it settles it may only
++// touch the registry (or commit its value) if it is still the registered flight
++// for its key; once forget/clear (or a newer flight) has replaced it, it is
++// obsolete and must neither store a value nor detach its successor.
+ function createFlights() {
+   const pending = new Map();
+ 
++  function isCurrent(key, flight) {
++    return pending.get(key) === flight;
++  }
++
+   return {
+     run(key, work, commit) {
+-      if (pending.has(key)) return pending.get(key);
+-      const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
+-        return value;
+-      });
+-      pending.set(key, promise);
+-      return promise;
++      if (pending.has(key)) return pending.get(key).promise;
++      const flight = {};
++      // Register before work runs so a load that synchronously reads its own
++      // key joins this flight, and synchronous mutations inside load detach it.
++      flight.promise = Promise.resolve().then(work).then(
++        value => {
++          if (isCurrent(key, flight)) {
++            pending.delete(key);
++            commit(value);
++          }
++          return value;
++        },
++        reason => {
++          // Rejections are never cached; allow the next reader to retry.
++          if (isCurrent(key, flight)) pending.delete(key);
++          throw reason;
++        }
++      );
++      pending.set(key, flight);
++      return flight.promise;
+     },
+     forget(key) {
+       pending.delete(key);

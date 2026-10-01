@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+ok 1 - minimal deterministic scripts and patch roundtrips for exhaustive repeated lines
+  ---
+  duration_ms: 19.6581
+  type: 'test'
+  ...
+# Subtest: seeded varied-length scripts are minimal and their hunks roundtrip
+ok 2 - seeded varied-length scripts are minimal and their hunks roundtrip
+  ---
+  duration_ms: 12.9064
+  type: 'test'
+  ...
+# Subtest: zero-line ranges name the preceding line at the top, middle and end
+ok 3 - zero-line ranges name the preceding line at the top, middle and end
+  ---
+  duration_ms: 0.2641
+  type: 'test'
+  ...
+# Subtest: touching context merges, larger gaps stay separate, and coordinates stay global
+ok 4 - touching context merges, larger gaps stay separate, and coordinates stay global
+  ---
+  duration_ms: 0.1789
+  type: 'test'
+  ...
+# Subtest: application preserves prefixes, unmentioned lines, and input arrays
+ok 5 - application preserves prefixes, unmentioned lines, and input arrays
+  ---
+  duration_ms: 0.1511
+  type: 'test'
+  ...
+# Subtest: malformed, mismatched, unordered and overlapping hunks report their index
+ok 6 - malformed, mismatched, unordered and overlapping hunks report their index
+  ---
+  duration_ms: 0.6379
+  type: 'test'
+  ...
+# Subtest: invalid context is rejected
+ok 7 - invalid context is rejected
+  ---
+  duration_ms: 0.1074
+  type: 'test'
+  ...
+# Subtest: small changes to 20,000-line files run in well under a second
+ok 8 - small changes to 20,000-line files run in well under a second
+  ---
+  duration_ms: 10.7158
+  type: 'test'
+  ...
+# unique lines: 4.4 ms
+# repetitive lines: 2.8 ms
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.3294
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 106.2377

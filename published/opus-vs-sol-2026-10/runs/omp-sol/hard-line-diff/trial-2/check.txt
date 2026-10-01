@@ -1,0 +1,131 @@
+TAP version 13
+# Subtest: minimal deterministic scripts and roundtrips for exhaustive repetitive inputs
+ok 1 - minimal deterministic scripts and roundtrips for exhaustive repetitive inputs
+  ---
+  duration_ms: 31.9055
+  type: 'test'
+  ...
+# Subtest: seeded mixed-line scripts preserve prefixes, whitespace, and repeated lines
+ok 2 - seeded mixed-line scripts preserve prefixes, whitespace, and repeated lines
+  ---
+  duration_ms: 22.2418
+  type: 'test'
+  ...
+# Subtest: zero-line ranges use preceding line coordinates at every boundary
+ok 3 - zero-line ranges use preceding line coordinates at every boundary
+  ---
+  duration_ms: 0.933
+  type: 'test'
+  ...
+# Subtest: context merges exactly at touching boundaries without duplication
+ok 4 - context merges exactly at touching boundaries without duplication
+  ---
+  duration_ms: 0.1784
+  type: 'test'
+  ...
+# Subtest: application retains unmentioned lines and tracks original coordinates
+ok 5 - application retains unmentioned lines and tracks original coordinates
+  ---
+  duration_ms: 0.0913
+  type: 'test'
+  ...
+# Subtest: malformed and nonapplicable hunks identify their index
+ok 6 - malformed and nonapplicable hunks identify their index
+  ---
+  duration_ms: 0.5558
+  type: 'test'
+  ...
+# Subtest: invalid context is rejected
+ok 7 - invalid context is rejected
+  ---
+  duration_ms: 0.161
+  type: 'test'
+  ...
+# Subtest: small edits to 20,000 lines run in under a second
+ok 8 - small edits to 20,000 lines run in under a second
+  ---
+  duration_ms: 24.2629
+  type: 'test'
+  ...
+# Subtest: visible: implement the review diff for one replaced line
+ok 9 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 2.0366
+  type: 'test'
+  ...
+# Subtest: hidden: GNU zero-length headers at top end and empty inputs
+ok 10 - hidden: GNU zero-length headers at top end and empty inputs
+  ---
+  duration_ms: 2.5819
+  type: 'test'
+  ...
+# Subtest: hidden: touching contexts merge but one extra unchanged line splits
+ok 11 - hidden: touching contexts merge but one extra unchanged line splits
+  ---
+  duration_ms: 1.8044
+  type: 'test'
+  ...
+# Subtest: hidden: default context clips to file boundaries without losing blank prefixes
+ok 12 - hidden: default context clips to file boundaries without losing blank prefixes
+  ---
+  duration_ms: 0.1968
+  type: 'test'
+  ...
+# Subtest: hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+ok 13 - hidden: seeded hunk roundtrips preserve originals for contexts zero through three
+  ---
+  duration_ms: 19.1731
+  type: 'test'
+  ...
+# Subtest: hidden: apply original-coordinate hunks after positive and negative offsets
+ok 14 - hidden: apply original-coordinate hunks after positive and negative offsets
+  ---
+  duration_ms: 0.4901
+  type: 'test'
+  ...
+# Subtest: hidden: context deletion and later-hunk mismatches identify their hunk index
+ok 15 - hidden: context deletion and later-hunk mismatches identify their hunk index
+  ---
+  duration_ms: 0.4523
+  type: 'test'
+  ...
+# Subtest: hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+ok 16 - hidden: invalid ranges counts prefixes and hunk ordering reject applicability
+  ---
+  duration_ms: 0.2636
+  type: 'test'
+  ...
+# Subtest: trap: preserve literal LF splitting trailing blanks and CR characters
+ok 17 - trap: preserve literal LF splitting trailing blanks and CR characters
+  ---
+  duration_ms: 1.3871
+  type: 'test'
+  ...
+# Subtest: hidden: minimal scripts match seeded repetitive-line LCS oracle
+ok 18 - hidden: minimal scripts match seeded repetitive-line LCS oracle
+  ---
+  duration_ms: 20.5891
+  type: 'test'
+  ...
+# Subtest: hidden: empty and tied scripts retain deletion-first order
+ok 19 - hidden: empty and tied scripts retain deletion-first order
+  ---
+  duration_ms: 0.5813
+  type: 'test'
+  ...
+# Subtest: hidden: sparse twenty-thousand-line reviews avoid quadratic work
+ok 20 - hidden: sparse twenty-thousand-line reviews avoid quadratic work
+  ---
+  duration_ms: 57.0141
+  type: 'test'
+  ...
+# diff=6.515ms hunks=5.733ms total=12.248ms budget=1000ms
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 156.1172

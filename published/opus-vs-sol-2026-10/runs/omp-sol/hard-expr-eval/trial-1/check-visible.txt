@@ -1,0 +1,63 @@
+TAP version 13
+# Subtest: numeric literals, arithmetic precedence and associativity
+ok 1 - numeric literals, arithmetic precedence and associativity
+  ---
+  duration_ms: 1.8037
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey signs, integer identity and positive zero
+ok 2 - floor division and modulo obey signs, integer identity and positive zero
+  ---
+  duration_ms: 4.7665
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short-circuit, and respect grouping
+ok 3 - comparisons chain, short-circuit, and respect grouping
+  ---
+  duration_ms: 0.3055
+  type: 'test'
+  ...
+# Subtest: variable occurrences and shared comparison operands are read once in order
+ok 4 - variable occurrences and shared comparison operands are read once in order
+  ---
+  duration_ms: 0.8962
+  type: 'test'
+  ...
+# Subtest: built-ins evaluate numeric arguments and validate calls during parsing
+ok 5 - built-ins evaluate numeric arguments and validate calls during parsing
+  ---
+  duration_ms: 0.2778
+  type: 'test'
+  ...
+# Subtest: errors point at tokens after whitespace and at the actual source end
+ok 6 - errors point at tokens after whitespace and at the actual source end
+  ---
+  duration_ms: 0.3153
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat formulas remain linear and stack-safe
+ok 7 - 100,001-operand flat formulas remain linear and stack-safe
+  ---
+  duration_ms: 279.3479
+  type: 'test'
+  ...
+# 200001 characters evaluated in 76.7 ms
+# 200001 characters evaluated in 55.5 ms
+# 200001 characters evaluated in 36.0 ms
+# 300001 characters evaluated in 52.7 ms
+# 200006 characters evaluated in 52.8 ms
+# Subtest: floor division and modulo follow Python for negative operands
+ok 8 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 2.5325
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 365.1469

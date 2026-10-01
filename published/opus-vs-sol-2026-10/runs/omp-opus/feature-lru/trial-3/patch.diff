@@ -1,0 +1,69 @@
+diff --git "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js" "{temp}\\hb-0c0de63e-nnrt40ol/src/lru.js"
+index 258677f..a4790ca 100644
+--- "{benchmark_dir}\\tasks\\feature-lru\\repo/src/lru.js"
++++ "{temp}\\hb-0c0de63e-nnrt40ol/src/lru.js"
+@@ -1,15 +1,58 @@
+ 'use strict';
+ 
++/**
++ * Least-recently-used cache backed by a Map.
++ *
++ * A Map iterates in insertion order, so we keep the least recently used entry
++ * first and the most recently used entry last: refreshing an entry is a
++ * delete + re-insert, and eviction removes the first key. All operations are
++ * O(1) and keys follow Map (SameValueZero) semantics.
++ */
+ class LRUCache {
++  #map = new Map();
++
+   constructor(capacity) {
+-    this.capacity = capacity;
++    if (typeof capacity !== 'number' || !Number.isInteger(capacity) || capacity <= 0) {
++      // Don't stringify `capacity`: arbitrary objects could throw a non-RangeError.
++      throw new RangeError('LRUCache capacity must be a positive integer');
++    }
++    // Read-only so the size <= capacity invariant can't be broken after construction.
++    Object.defineProperty(this, 'capacity', { value: capacity, enumerable: true });
++  }
++
++  get(key) {
++    const map = this.#map;
++    // Check has() rather than the value so stored `undefined` values still refresh.
++    if (!map.has(key)) return undefined;
++    const value = map.get(key);
++    map.delete(key);
++    map.set(key, value);
++    return value;
++  }
++
++  set(key, value) {
++    const map = this.#map;
++    if (map.has(key)) {
++      // Update in place: move to most recent without touching other entries.
++      map.delete(key);
++    } else if (map.size >= this.capacity) {
++      map.delete(map.keys().next().value);
++    }
++    map.set(key, value);
++    return this;
+   }
+ 
+-  get(key) { throw new Error('not implemented'); }
+-  set(key, value) { throw new Error('not implemented'); }
+-  has(key) { throw new Error('not implemented'); }
+-  delete(key) { throw new Error('not implemented'); }
+-  get size() { throw new Error('not implemented'); }
++  has(key) {
++    return this.#map.has(key);
++  }
++
++  delete(key) {
++    return this.#map.delete(key);
++  }
++
++  get size() {
++    return this.#map.size;
++  }
+ }
+ 
+ module.exports = { LRUCache };

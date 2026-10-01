@@ -1,0 +1,83 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-5f513abc-rucv3c_l/src/limit.js"
+index 40953d6..ba11bf9 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-5f513abc-rucv3c_l/src/limit.js"
+@@ -17,16 +17,13 @@ function createLimiter(concurrency) {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      Promise.resolve().then(() => job.fn()).then(
++        job.resolve,
++        job.reject
++      ).then(() => {
++        active -= 1;
++        drain();
++      });
+     }
+   }
+ 
+diff --git "{temp}\\hb-5f513abc-rucv3c_l/src/limit.test.js" "{temp}\\hb-5f513abc-rucv3c_l/src/limit.test.js"
+new file mode 100644
+index 0000000..1dc514d
+--- /dev/null
++++ "{temp}\\hb-5f513abc-rucv3c_l/src/limit.test.js"
+@@ -0,0 +1,49 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createLimiter } = require('./limit');
++
++test('validates concurrency and rejects non-functions without consuming a slot', async () => {
++  for (const concurrency of [undefined, null, 0, -1, 1.5, NaN, Infinity, '1', 1n, Symbol('1'), {}]) {
++    assert.throws(() => createLimiter(concurrency), RangeError);
++  }
++  const run = createLimiter(1);
++  for (const fn of [undefined, null, 42, 'task', {}, Promise.resolve()]) {
++    const result = run(fn);
++    assert.ok(result instanceof Promise);
++    await assert.rejects(result, TypeError);
++  }
++  assert.equal(await run(() => 42), 42);
++});
++
++test('invokes each task once with no arguments and adopts returned values', async () => {
++  const run = createLimiter(2);
++  let calls = 0;
++  const results = [42, Promise.resolve('value'), { then: resolve => resolve('thenable') }].map(value =>
++    run(function () {
++      calls += 1;
++      assert.equal(arguments.length, 0);
++      return value;
++    })
++  );
++  assert.ok(results.every(result => result instanceof Promise));
++  assert.deepEqual(await Promise.all(results), [42, 'value', 'thenable']);
++  assert.equal(calls, 3);
++});
++
++test('releases slots after synchronous throws, rejections, and failed thenable adoption', { timeout: 2000 }, async () => {
++  const run = createLimiter(1);
++  const error = new Error('task failed');
++  const failures = [
++    () => { throw error; },
++    () => Promise.reject(error),
++    () => ({ get then() { throw error; } })
++  ];
++  for (const fail of failures) {
++    const rejection = assert.rejects(run(fail), actual => actual === error);
++    const next = run(() => 'next');
++    await rejection;
++    assert.equal(await next, 'next');
++  }
++  assert.equal(await run(() => 'still usable'), 'still usable');
++});

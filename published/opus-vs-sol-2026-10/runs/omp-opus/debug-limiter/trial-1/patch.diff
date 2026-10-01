@@ -1,0 +1,38 @@
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-732c138c-0tyause0/src/limit.js"
+index 40953d6..17d9669 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-732c138c-0tyause0/src/limit.js"
+@@ -17,19 +17,23 @@ function createLimiter(concurrency) {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      // Start on a microtask (never synchronously inside run) and invoke fn
++      // with no arguments; a synchronous throw becomes a rejection that
++      // settles only this job.
++      Promise.resolve()
++        .then(() => job.fn())
++        .then(job.resolve, job.reject)
++        .then(release);
+     }
+   }
+ 
++  // Runs after every job settles, success or failure, so a failing task can
++  // never permanently consume a concurrency slot.
++  function release() {
++    active -= 1;
++    drain();
++  }
++
+   return function run(fn) {
+     if (typeof fn !== 'function') return Promise.reject(new TypeError('Task must be a function'));
+     return new Promise((resolve, reject) => {

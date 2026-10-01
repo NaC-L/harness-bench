@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: ** binds tighter than a left unary sign and associates right
+ok 1 - ** binds tighter than a left unary sign and associates right
+  ---
+  duration_ms: 1.152
+  type: 'test'
+  ...
+# Subtest: // and % use Python float divmod semantics
+ok 2 - // and % use Python float divmod semantics
+  ---
+  duration_ms: 0.837
+  type: 'test'
+  ...
+# Subtest: comparisons chain, short-circuit and act as 0/1 in arithmetic
+ok 3 - comparisons chain, short-circuit and act as 0/1 in arithmetic
+  ---
+  duration_ms: 0.2811
+  type: 'test'
+  ...
+# Subtest: min/max return the first extreme argument like Python
+ok 4 - min/max return the first extreme argument like Python
+  ---
+  duration_ms: 0.1198
+  type: 'test'
+  ...
+# Subtest: error columns point at the offending token
+ok 5 - error columns point at the offending token
+  ---
+  duration_ms: 0.1696
+  type: 'test'
+  ...
+# Subtest: long flat chains evaluate quickly without deep recursion
+ok 6 - long flat chains evaluate quickly without deep recursion
+  ---
+  duration_ms: 469.2967
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 7 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.2196
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 550.8113

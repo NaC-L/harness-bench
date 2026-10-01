@@ -1,0 +1,173 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-fc4ca551-auncmtpf/src/resolver.js"
+index b445e71..75ec07c 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-fc4ca551-auncmtpf/src/resolver.js"
+@@ -1,6 +1,8 @@
+ 'use strict';
+ 
+-const { parse, compileRange } = require('./semver');
++const { parse, compare, compileRange } = require('./semver');
++
++const NO_CANDIDATES = Object.freeze([]);
+ 
+ function requireRecord(value) {
+   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+@@ -15,10 +17,9 @@ function requirements(record) {
+   return Object.keys(record).map(name => ({ name, accepts: compileRange(record[name]) }));
+ }
+ 
+-function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++// Numerically highest version first.
++function newestFirst(left, right) {
++  return compare(right.text, left.text);
+ }
+ 
+ /**
+@@ -58,74 +59,90 @@ function resolve(registry, root) {
+     const candidates = Object.keys(versions).map(text => ({
+       text, tuple: parse(text), deps: requirements(versions[text]),
+     }));
+-    candidates.sort(candidateOrder);
++    candidates.sort(newestFirst);
+     catalogs.set(name, candidates);
+   }
+   const initial = requirements(root);
++
++  // name -> selected candidate.
+   const selected = new Map();
+-  const constraints = new Map();
++  // name -> candidates (newest first) satisfying every constraint collected so
++  // far. Arrays are never mutated, only replaced, so frames may hold them.
++  const live = new Map();
++  // Reversible log of `live` replacements: { name, previous } (undefined = unset).
+   const trail = [];
++  // FIFO of discovered requirement names; `cursor` is the next one to process.
+   const queue = [];
++  // Explicit choice frames replace recursion.
+   const choices = [];
+   let cursor = 0;
+ 
+-  function append(items) {
+-    for (const item of items) {
+-      let list = constraints.get(item.name);
+-      if (!list) {
+-        list = [];
+-        constraints.set(item.name, list);
+-      }
+-      list.push(item.accepts);
+-      trail.push(item.name);
+-      queue.push(item.name);
+-      const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
++  // Records one constraint. Returns false on a conflict: the name is selected
++  // with a version the constraint rejects, or no version can satisfy it anymore.
++  // Pruning on an empty candidate set is sound because constraints only grow
++  // along a branch and every discovered name must eventually be selected.
++  function constrain(name, accepts) {
++    const previous = live.get(name);
++    const pool = previous || catalogs.get(name) || NO_CANDIDATES;
++    const narrowed = pool.filter(version => accepts(version.tuple));
++    trail.push({ name, previous });
++    live.set(name, narrowed);
++    queue.push(name);
++    const chosen = selected.get(name);
++    return chosen ? accepts(chosen.tuple) : narrowed.length !== 0;
++  }
++
++  function discover(deps) {
++    for (const dep of deps) {
++      if (!constrain(dep.name, dep.accepts)) return false;
+     }
+     return true;
+   }
+ 
+-  function restore(frame) {
+-    selected.delete(frame.name);
++  // Restores the state that existed just before the frame selected a version.
++  function undo(frame) {
++    while (trail.length > frame.trailLength) {
++      const entry = trail.pop();
++      if (entry.previous === undefined) live.delete(entry.name);
++      else live.set(entry.name, entry.previous);
++    }
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
++    selected.delete(frame.name);
+   }
+ 
+-  function retry() {
++  // Advances the most recent choice to its next viable version, popping
++  // exhausted frames. Returns false when the search space is exhausted.
++  function advance() {
+     while (choices.length !== 0) {
+       const frame = choices[choices.length - 1];
+-      restore(frame);
++      undo(frame);
+       while (frame.next < frame.candidates.length) {
+         const version = frame.candidates[frame.next++];
+         selected.set(frame.name, version);
+-        if (append(version.deps)) return true;
+-        restore(frame);
++        if (discover(version.deps)) return true;
++        undo(frame);
+       }
+       choices.pop();
+     }
+     return false;
+   }
+ 
+-  append(initial);
+-  let iterations = 0;
+-  for (;;) {
+-    if (++iterations > 4096) return null;
+-    if (cursor === queue.length) {
+-      const result = {};
+-      for (const [name, version] of selected) {
+-        Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
+-      }
+-      return result;
+-    }
++  if (!discover(initial)) return null;
++  while (cursor < queue.length) {
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
+-    const tests = constraints.get(name);
+-    const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+-    choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+-    if (!retry()) return null;
++    if (selected.has(name)) continue;
++    choices.push({
++      name, candidates: live.get(name), next: 0, cursor, queueLength: queue.length, trailLength: trail.length,
++    });
++    if (!advance()) return null;
++  }
++
++  const result = {};
++  for (const [name, version] of selected) {
++    Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
+   }
++  return result;
+ }
+ 
+ module.exports = { resolve };
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-fc4ca551-auncmtpf/src/semver.js"
+index 5b1d55d..54f9d6a 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-fc4ca551-auncmtpf/src/semver.js"
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: arithmetic follows the documented precedence and associativity
+ok 1 - arithmetic follows the documented precedence and associativity
+  ---
+  duration_ms: 2.0456
+  type: 'test'
+  ...
+# Subtest: floor division and modulo obey signed integer identities and normalize zero
+ok 2 - floor division and modulo obey signed integer identities and normalize zero
+  ---
+  duration_ms: 3.3364
+  type: 'test'
+  ...
+# Subtest: comparisons chain, return booleans, and coerce booleans in numeric contexts
+ok 3 - comparisons chain, return booleans, and coerce booleans in numeric contexts
+  ---
+  duration_ms: 0.4236
+  type: 'test'
+  ...
+# Subtest: getters are read once per occurrence in left-to-right evaluation order
+ok 4 - getters are read once per occurrence in left-to-right evaluation order
+  ---
+  duration_ms: 0.6892
+  type: 'test'
+  ...
+# Subtest: variables use own properties without changing the variable object
+ok 5 - variables use own properties without changing the variable object
+  ---
+  duration_ms: 0.3722
+  type: 'test'
+  ...
+# Subtest: error columns point to tokens after whitespace and to the true end of input
+ok 6 - error columns point to tokens after whitespace and to the true end of input
+  ---
+  duration_ms: 0.4678
+  type: 'test'
+  ...
+# Subtest: the entire formula is validated before evaluation, including skipped operands
+ok 7 - the entire formula is validated before evaluation, including skipped operands
+  ---
+  duration_ms: 0.146
+  type: 'test'
+  ...
+# Subtest: 100,001-operand flat chains are linear and stack-safe
+ok 8 - 100,001-operand flat chains are linear and stack-safe
+  ---
+  duration_ms: 248.8723
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.227
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 324.1018

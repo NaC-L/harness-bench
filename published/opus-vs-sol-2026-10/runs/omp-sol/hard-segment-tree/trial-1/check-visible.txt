@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: assignment discards pending additions at both parent and child nodes
+ok 1 - assignment discards pending additions at both parent and child nodes
+  ---
+  duration_ms: 1.2749
+  type: 'test'
+  ...
+# Subtest: partial maxima retain negative values
+ok 2 - partial maxima retain negative values
+  ---
+  duration_ms: 0.1725
+  type: 'test'
+  ...
+# Subtest: threshold search propagates assignments and additions before descending
+ok 3 - threshold search propagates assignments and additions before descending
+  ---
+  duration_ms: 0.1776
+  type: 'test'
+  ...
+# Subtest: empty ranges, return values, read-only length, and array ownership
+ok 4 - empty ranges, return values, read-only length, and array ownership
+  ---
+  duration_ms: 0.3128
+  type: 'test'
+  ...
+# Subtest: invalid arguments throw RangeError without mutation, including empty updates
+ok 5 - invalid arguments throw RangeError without mutation, including empty updates
+  ---
+  duration_ms: 1.1703
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array oracle across tree shapes
+ok 6 - mixed updates and queries agree with an array oracle across tree shapes
+  ---
+  duration_ms: 8.5673
+  type: 'test'
+  ...
+# Subtest: large range operations visit logarithmically many nodes; materialization is linear
+ok 7 - large range operations visit logarithmically many nodes; materialization is linear
+  ---
+  duration_ms: 2.7005
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 8 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6696
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.8671

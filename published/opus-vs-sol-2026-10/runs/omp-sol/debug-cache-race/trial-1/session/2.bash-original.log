@@ -1,0 +1,18 @@
+src\cache.js:2:const { createFlights } = require('./flight');
+src\cache.js:3:const { createClock } = require('./clock');
+src\cache.js:6: * createCache({ load, ttlMs = 1000, now = Date.now }) returns a read-through
+src\cache.js:40: * discards expired values without detaching flights. Cache instances are isolated.
+src\cache.js:44:function createCache({ load, ttlMs = 1000, now = Date.now } = {}) {
+src\cache.js:52:  const flights = createFlights();
+src\cache.js:53:  const clock = createClock(ttlMs, now);
+src\cache.js:61:    return flights.run(key, () => load(key), value => {
+src\cache.js:70:      flights.forget(key);
+src\cache.js:73:      flights.forget(key);
+src\cache.js:78:      flights.clear();
+src\cache.js:89:module.exports = { createCache };
+src\clock.js:3:function createClock(ttlMs, now) {
+src\clock.js:14:module.exports = { createClock };
+src\flight.js:5:function createFlights() {
+src\flight.js:28:module.exports = { createFlights };
+test\cache.test.js:4:const { createCache } = require('../src/cache');
+test\cache.test.js:16:  const cache = createCache({

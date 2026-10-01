@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: capacity accepts only positive integer Numbers
+ok 1 - capacity accepts only positive integer Numbers
+  ---
+  duration_ms: 0.87
+  type: 'test'
+  ...
+# Subtest: getting an undefined value refreshes recency
+ok 2 - getting an undefined value refreshes recency
+  ---
+  duration_ms: 0.1152
+  type: 'test'
+  ...
+# Subtest: updating a full cache refreshes recency without evicting another key
+ok 3 - updating a full cache refreshes recency without evicting another key
+  ---
+  duration_ms: 0.1014
+  type: 'test'
+  ...
+# Subtest: has, missed gets, and deletion preserve surviving recency
+ok 4 - has, missed gets, and deletion preserve surviving recency
+  ---
+  duration_ms: 0.3853
+  type: 'test'
+  ...
+# Subtest: arbitrary keys and values follow Map semantics
+ok 5 - arbitrary keys and values follow Map semantics
+  ---
+  duration_ms: 0.2176
+  type: 'test'
+  ...
+# Subtest: capacity one evicts undefined keys and caches are independent
+ok 6 - capacity one evicts undefined keys and caches are independent
+  ---
+  duration_ms: 0.7473
+  type: 'test'
+  ...
+# Subtest: rejects invalid capacities
+ok 7 - rejects invalid capacities
+  ---
+  duration_ms: 0.7806
+  type: 'test'
+  ...
+# Subtest: updates refresh without growing or evicting unrelated entries
+ok 8 - updates refresh without growing or evicting unrelated entries
+  ---
+  duration_ms: 0.1399
+  type: 'test'
+  ...
+# Subtest: has, missing get, and deletion do not refresh remaining entries
+ok 9 - has, missing get, and deletion do not refresh remaining entries
+  ---
+  duration_ms: 0.105
+  type: 'test'
+  ...
+# Subtest: undefined is a stored value and successful get still refreshes it
+ok 10 - undefined is a stored value and successful get still refreshes it
+  ---
+  duration_ms: 0.0656
+  type: 'test'
+  ...
+# Subtest: Map key semantics support identities, NaN, undefined, and symbols
+ok 11 - Map key semantics support identities, NaN, undefined, and symbols
+  ---
+  duration_ms: 0.1272
+  type: 'test'
+  ...
+# Subtest: capacity one and independent caches
+ok 12 - capacity one and independent caches
+  ---
+  duration_ms: 0.0585
+  type: 'test'
+  ...
+# Subtest: stores entries, chains sets, and reports size
+ok 13 - stores entries, chains sets, and reports size
+  ---
+  duration_ms: 0.5659
+  type: 'test'
+  ...
+# Subtest: get refreshes recency before eviction
+ok 14 - get refreshes recency before eviction
+  ---
+  duration_ms: 0.1596
+  type: 'test'
+  ...
+# Subtest: delete reports whether a key existed
+ok 15 - delete reports whether a key existed
+  ---
+  duration_ms: 0.0762
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 67.8645

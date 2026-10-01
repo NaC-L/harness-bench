@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: versions are ordered numerically in every component
+ok 1 - versions are ordered numerically in every component
+  ---
+  duration_ms: 1.9919
+  type: 'test'
+  ...
+# Subtest: versions reject noncanonical strings and unsafe integers
+ok 2 - versions reject noncanonical strings and unsafe integers
+  ---
+  duration_ms: 0.5364
+  type: 'test'
+  ...
+# Subtest: range operators, conjunctions, whitespace, and caret boundaries
+ok 3 - range operators, conjunctions, whitespace, and caret boundaries
+  ---
+  duration_ms: 0.5657
+  type: 'test'
+  ...
+# Subtest: discovery collects all root and dependency constraints before selection
+ok 4 - discovery collects all root and dependency constraints before selection
+  ---
+  duration_ms: 0.2304
+  type: 'test'
+  ...
+# Subtest: first-found selection follows FIFO root discovery, not recursive dependency order
+ok 5 - first-found selection follows FIFO root discovery, not recursive dependency order
+  ---
+  duration_ms: 0.1679
+  type: 'test'
+  ...
+# Subtest: dependency key order determines which choice wins
+ok 6 - dependency key order determines which choice wins
+  ---
+  duration_ms: 0.1055
+  type: 'test'
+  ...
+# Subtest: an immediate selected-version conflict retries the latest choice and removes partial discovery
+ok 7 - an immediate selected-version conflict retries the latest choice and removes partial discovery
+  ---
+  duration_ms: 0.1189
+  type: 'test'
+  ...
+# Subtest: backtracking removes descendants and their constraints but retains root constraints
+ok 8 - backtracking removes descendants and their constraints but retains root constraints
+  ---
+  duration_ms: 0.4896
+  type: 'test'
+  ...
+# Subtest: empty roots, missing packages, and cycles have well-defined outcomes
+ok 9 - empty roots, missing packages, and cycles have well-defined outcomes
+  ---
+  duration_ms: 0.2929
+  type: 'test'
+  ...
+# Subtest: long chains and cycles use neither a recursion limit nor an iteration cutoff
+ok 10 - long chains and cycles use neither a recursion limit nor an iteration cutoff
+  ---
+  duration_ms: 119.4156
+  type: 'test'
+  ...
+# Subtest: constraints prune choices incrementally rather than after a Cartesian product
+ok 11 - constraints prune choices incrementally rather than after a Cartesian product
+  ---
+  duration_ms: 0.603
+  type: 'test'
+  ...
+# Subtest: validation is eager, including unreachable entries and empty-root installs
+ok 12 - validation is eager, including unreachable entries and empty-root installs
+  ---
+  duration_ms: 0.4153
+  type: 'test'
+  ...
+# Subtest: null-prototype maps, special names, ignored keys, and frozen inputs are supported
+ok 13 - null-prototype maps, special names, ignored keys, and frozen inputs are supported
+  ---
+  duration_ms: 0.1572
+  type: 'test'
+  ...
+# Subtest: first-found results match an independent reference across generated cyclic graphs
+ok 14 - first-found results match an independent reference across generated cyclic graphs
+  ---
+  duration_ms: 18.1755
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 15 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 1.7317
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 230.5055

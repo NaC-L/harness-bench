@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: visible: implement the review diff for one replaced line
+ok 1 - visible: implement the review diff for one replaced line
+  ---
+  duration_ms: 1.6377
+  type: 'test'
+  ...
+# Subtest: exhaustive short repeated-line scripts are minimal, ordered and applicable
+ok 2 - exhaustive short repeated-line scripts are minimal, ordered and applicable
+  ---
+  duration_ms: 30.6512
+  type: 'test'
+  ...
+# Subtest: seeded repetitive inputs agree with an independent edit-distance oracle
+ok 3 - seeded repetitive inputs agree with an independent edit-distance oracle
+  ---
+  duration_ms: 16.51
+  type: 'test'
+  ...
+# Subtest: zero-length ranges name the preceding line, including at boundaries
+ok 4 - zero-length ranges name the preceding line, including at boundaries
+  ---
+  duration_ms: 0.3403
+  type: 'test'
+  ...
+# Subtest: touching context merges, separated context does not, and coordinates are global
+ok 5 - touching context merges, separated context does not, and coordinates are global
+  ---
+  duration_ms: 0.5118
+  type: 'test'
+  ...
+# Subtest: application rejects mismatches, malformed counts, ordering and coordinates
+ok 6 - application rejects mismatches, malformed counts, ordering and coordinates
+  ---
+  duration_ms: 0.9596
+  type: 'test'
+  ...
+# Subtest: small edits on 20,000 lines remain comfortably subsecond
+ok 7 - small edits on 20,000 lines remain comfortably subsecond
+  ---
+  duration_ms: 15.5606
+  type: 'test'
+  ...
+# unique lines: 6.6ms
+# repeated lines: 5.4ms
+# Subtest: large one-sided diffs need no edit-distance search
+ok 8 - large one-sided diffs need no edit-distance search
+  ---
+  duration_ms: 23.6775
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 171.0831

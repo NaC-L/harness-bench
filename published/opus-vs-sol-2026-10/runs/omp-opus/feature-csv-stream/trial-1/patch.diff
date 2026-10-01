@@ -1,0 +1,125 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-77d07def-pikwrp2k/src/csv.js"
+index ce27ede..6525daa 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-77d07def-pikwrp2k/src/csv.js"
+@@ -1,6 +1,12 @@
+ 'use strict';
+ const { toObjects } = require('./rows');
+ 
++// Parser states.
++const FIELD_START = 0; // at the first character of a field
++const UNQUOTED = 1; // inside an unquoted field
++const QUOTED = 2; // inside a quoted field
++const QUOTE_IN_QUOTED = 3; // saw '"' inside a quoted field: closing quote or first half of '""'
++
+ /**
+  * Create an incremental CSV parser; options is an optional object.
+  *
+@@ -46,8 +52,105 @@ const { toObjects } = require('./rows');
+  * @param {{ delimiter?: string, header?: boolean }} [options]
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+-function createParser(options = {}) {
+-  throw new Error('not implemented');
++function createParser(options) {
++  if (options === undefined) options = {};
++  if (options === null || typeof options !== 'object') {
++    throw new TypeError('options must be an object');
++  }
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (typeof delimiter !== 'string' || delimiter.length !== 1 ||
++      delimiter === '"' || delimiter === '\r' || delimiter === '\n') {
++    throw new RangeError('delimiter must be one character other than a quote, CR, or LF');
++  }
++
++  let state = FIELD_START;
++  let row = [];
++  let field = '';
++  let line = 1;
++  let prevCR = false; // previous character was CR; persists across chunks so CRLF counts once
++  let started = false; // a non-empty chunk has been seen (BOM detection)
++  let ended = false;
++
++  function finishRecord(out) {
++    row.push(field);
++    out.push(row);
++    row = [];
++    field = '';
++    state = FIELD_START;
++  }
++
++  function push(chunk) {
++    if (ended) throw new Error('cannot push after end()');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const out = [];
++    let i = 0;
++    if (!started && chunk.length > 0) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++    for (; i < chunk.length; i++) {
++      const ch = chunk[i];
++      const isCR = ch === '\r';
++      const isLF = ch === '\n';
++      const crlfTail = isLF && prevCR;
++      if (isCR || (isLF && !crlfTail)) line++;
++      prevCR = isCR;
++
++      switch (state) {
++        case QUOTED:
++          if (ch === '"') state = QUOTE_IN_QUOTED;
++          else field += ch;
++          break;
++        case QUOTE_IN_QUOTED:
++          if (ch === '"') {
++            field += '"';
++            state = QUOTED;
++          } else if (ch === delimiter) {
++            row.push(field);
++            field = '';
++            state = FIELD_START;
++          } else if (isCR || isLF) {
++            finishRecord(out);
++          } else {
++            throw new SyntaxError(`unexpected character after closing quote at line ${line}`);
++          }
++          break;
++        case FIELD_START:
++          // LF completing a CRLF whose CR already ended the record.
++          if (crlfTail) break;
++          if (ch === '"') {
++            state = QUOTED;
++            break;
++          }
++        // falls through
++        case UNQUOTED:
++          if (ch === delimiter) {
++            row.push(field);
++            field = '';
++            state = FIELD_START;
++          } else if (isCR || isLF) {
++            finishRecord(out);
++          } else {
++            field += ch;
++            state = UNQUOTED;
++          }
++          break;
++      }
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) throw new SyntaxError(`unterminated quoted field at line ${line}`);
++    if (state === FIELD_START && row.length === 0) return [];
++    const out = [];
++    finishRecord(out);
++    return out;
++  }
++
++  return { push, end };
+ }
+ 
+ /**

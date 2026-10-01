@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: half-even rounding is symmetric and selects the nearest integer for small exact ratios
+ok 1 - half-even rounding is symmetric and selects the nearest integer for small exact ratios
+  ---
+  duration_ms: 3.7657
+  type: 'test'
+  ...
+# Subtest: rounding remains exact beyond Number precision and checks the rounded safe range
+ok 2 - rounding remains exact beyond Number precision and checks the rounded safe range
+  ---
+  duration_ms: 0.5636
+  type: 'test'
+  ...
+# Subtest: ordered discounts round each reduction, not the remaining balance
+ok 3 - ordered discounts round each reduction, not the remaining balance
+  ---
+  duration_ms: 1.0043
+  type: 'test'
+  ...
+# Subtest: large discount and tax products are rounded exactly before safe-range checks
+ok 4 - large discount and tax products are rounded exactly before safe-range checks
+  ---
+  duration_ms: 0.2419
+  type: 'test'
+  ...
+# Subtest: credits receive signed percent discounts but no fixed or invoice discounts
+ok 5 - credits receive signed percent discounts but no fixed or invoice discounts
+  ---
+  duration_ms: 0.6954
+  type: 'test'
+  ...
+# Subtest: invoice discounts allocate the aggregate reduction once with original-index ties
+ok 6 - invoice discounts allocate the aggregate reduction once with original-index ties
+  ---
+  duration_ms: 0.2415
+  type: 'test'
+  ...
+# Subtest: tax modes round either individual lines or separate rate groups
+ok 7 - tax modes round either individual lines or separate rate groups
+  ---
+  duration_ms: 0.2086
+  type: 'test'
+  ...
+# Subtest: group tax uses signed largest remainders even for zero or negative bases
+ok 8 - group tax uses signed largest remainders even for zero or negative bases
+  ---
+  duration_ms: 0.2312
+  type: 'test'
+  ...
+# Subtest: safe totals can use overflowing intermediate sums, but unsafe stored fields are rejected
+ok 9 - safe totals can use overflowing intermediate sums, but unsafe stored fields are rejected
+  ---
+  duration_ms: 0.364
+  type: 'test'
+  ...
+# Subtest: validation still rejects invalid fields even on zero balances
+ok 10 - validation still rejects invalid fields even on zero balances
+  ---
+  duration_ms: 0.4729
+  type: 'test'
+  ...
+# Subtest: inputs remain unchanged and outputs normalize zeros with existing defaults
+ok 11 - inputs remain unchanged and outputs normalize zeros with existing defaults
+  ---
+  duration_ms: 0.3277
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 12 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.1731
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 13 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.7259
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 71.6507

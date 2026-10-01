@@ -1,0 +1,137 @@
+TAP version 13
+# Subtest: hidden: large mixed workload retains logarithmic updates and queries
+ok 1 - hidden: large mixed workload retains logarithmic updates and queries
+  ---
+  duration_ms: 58.5281
+  type: 'test'
+  ...
+# seed=1584021015 operations=200000 elapsed_ms=57.566 budget_ms=3000
+# Subtest: hidden: assignments discard older deltas at nested lazy nodes
+ok 2 - hidden: assignments discard older deltas at nested lazy nodes
+  ---
+  duration_ms: 3.3258
+  type: 'test'
+  ...
+# Subtest: hidden: threshold descent observes unpushed assignments and additions
+ok 3 - hidden: threshold descent observes unpushed assignments and additions
+  ---
+  duration_ms: 0.3183
+  type: 'test'
+  ...
+# Subtest: hidden: partial maxima preserve negative values instead of zero
+ok 4 - hidden: partial maxima preserve negative values instead of zero
+  ---
+  duration_ms: 0.186
+  type: 'test'
+  ...
+# Subtest: hidden: right-edge and empty suffix semantics survive pending updates
+ok 5 - hidden: right-edge and empty suffix semantics survive pending updates
+  ---
+  duration_ms: 0.2073
+  type: 'test'
+  ...
+# Subtest: trap: constructors reject nonarrays empty arrays holes and nonfinite values
+ok 6 - trap: constructors reject nonarrays empty arrays holes and nonfinite values
+  ---
+  duration_ms: 0.4749
+  type: 'test'
+  ...
+# Subtest: trap: invalid ranges and operands fail atomically with RangeError
+ok 7 - trap: invalid ranges and operands fail atomically with RangeError
+  ---
+  duration_ms: 0.4453
+  type: 'test'
+  ...
+# Subtest: trap: invalid indices and search arguments retain stored values
+ok 8 - trap: invalid indices and search arguments retain stored values
+  ---
+  duration_ms: 0.183
+  type: 'test'
+  ...
+# Subtest: trap: constructor and materialized arrays are independent copies
+ok 9 - trap: constructor and materialized arrays are independent copies
+  ---
+  duration_ms: 0.1393
+  type: 'test'
+  ...
+# Subtest: trap: singleton updates and empty boundaries preserve the API
+ok 10 - trap: singleton updates and empty boundaries preserve the API
+  ---
+  duration_ms: 0.2328
+  type: 'test'
+  ...
+# Subtest: trap: overlapping additions retain positive range aggregates
+ok 11 - trap: overlapping additions retain positive range aggregates
+  ---
+  duration_ms: 0.3065
+  type: 'test'
+  ...
+# Subtest: trap: threshold search returns the earliest qualifying suffix index
+ok 12 - trap: threshold search returns the earliest qualifying suffix index
+  ---
+  duration_ms: 0.1359
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=270544960 n=1
+ok 13 - hidden: seeded differential operations seed=270544960 n=1
+  ---
+  duration_ms: 3.153
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=826366246 n=2
+ok 14 - hidden: seeded differential operations seed=826366246 n=2
+  ---
+  duration_ms: 2.108
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=168939093 n=3
+ok 15 - hidden: seeded differential operations seed=168939093 n=3
+  ---
+  duration_ms: 2.3012
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=3735928559 n=7
+ok 16 - hidden: seeded differential operations seed=3735928559 n=7
+  ---
+  duration_ms: 2.7108
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=3221342974 n=16
+ok 17 - hidden: seeded differential operations seed=3221342974 n=16
+  ---
+  duration_ms: 3.5526
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=195936478 n=31
+ok 18 - hidden: seeded differential operations seed=195936478 n=31
+  ---
+  duration_ms: 3.8633
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=2557891634 n=63
+ok 19 - hidden: seeded differential operations seed=2557891634 n=63
+  ---
+  duration_ms: 3.1365
+  type: 'test'
+  ...
+# Subtest: hidden: seeded differential operations seed=4027431614 n=64
+ok 20 - hidden: seeded differential operations seed=4027431614 n=64
+  ---
+  duration_ms: 1.913
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 21 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.9343
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 126.7431

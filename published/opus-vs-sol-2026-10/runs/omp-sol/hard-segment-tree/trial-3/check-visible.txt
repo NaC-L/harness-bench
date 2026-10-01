@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: assignment replaces pending additions at both parents and children
+ok 1 - assignment replaces pending additions at both parents and children
+  ---
+  duration_ms: 2.3295
+  type: 'test'
+  ...
+# Subtest: partial maxima use the correct identity for negative values
+ok 2 - partial maxima use the correct identity for negative values
+  ---
+  duration_ms: 0.0961
+  type: 'test'
+  ...
+# Subtest: threshold search propagates updates before choosing a child
+ok 3 - threshold search propagates updates before choosing a child
+  ---
+  duration_ms: 0.071
+  type: 'test'
+  ...
+# Subtest: mixed updates and queries agree with an array model
+ok 4 - mixed updates and queries agree with an array model
+  ---
+  duration_ms: 23.8289
+  type: 'test'
+  ...
+# Subtest: API validation, empty ranges, and array independence are preserved
+ok 5 - API validation, empty ranges, and array independence are preserved
+  ---
+  duration_ms: 0.9422
+  type: 'test'
+  ...
+# Subtest: overwriting a lazily updated range preserves its subrange sum
+ok 6 - overwriting a lazily updated range preserves its subrange sum
+  ---
+  duration_ms: 0.6587
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 83.282

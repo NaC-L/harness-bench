@@ -1,0 +1,244 @@
+TAP version 13
+# Subtest: half-even rounding is symmetric and selects the nearest integer for small exact ratios
+ok 1 - half-even rounding is symmetric and selects the nearest integer for small exact ratios
+  ---
+  duration_ms: 4.2538
+  type: 'test'
+  ...
+# Subtest: rounding remains exact beyond Number precision and checks the rounded safe range
+ok 2 - rounding remains exact beyond Number precision and checks the rounded safe range
+  ---
+  duration_ms: 0.5154
+  type: 'test'
+  ...
+# Subtest: ordered discounts round each reduction, not the remaining balance
+ok 3 - ordered discounts round each reduction, not the remaining balance
+  ---
+  duration_ms: 1.1637
+  type: 'test'
+  ...
+# Subtest: large discount and tax products are rounded exactly before safe-range checks
+ok 4 - large discount and tax products are rounded exactly before safe-range checks
+  ---
+  duration_ms: 0.3451
+  type: 'test'
+  ...
+# Subtest: credits receive signed percent discounts but no fixed or invoice discounts
+ok 5 - credits receive signed percent discounts but no fixed or invoice discounts
+  ---
+  duration_ms: 0.8636
+  type: 'test'
+  ...
+# Subtest: invoice discounts allocate the aggregate reduction once with original-index ties
+ok 6 - invoice discounts allocate the aggregate reduction once with original-index ties
+  ---
+  duration_ms: 0.2606
+  type: 'test'
+  ...
+# Subtest: tax modes round either individual lines or separate rate groups
+ok 7 - tax modes round either individual lines or separate rate groups
+  ---
+  duration_ms: 0.2207
+  type: 'test'
+  ...
+# Subtest: group tax uses signed largest remainders even for zero or negative bases
+ok 8 - group tax uses signed largest remainders even for zero or negative bases
+  ---
+  duration_ms: 0.2358
+  type: 'test'
+  ...
+# Subtest: safe totals can use overflowing intermediate sums, but unsafe stored fields are rejected
+ok 9 - safe totals can use overflowing intermediate sums, but unsafe stored fields are rejected
+  ---
+  duration_ms: 0.3851
+  type: 'test'
+  ...
+# Subtest: validation still rejects invalid fields even on zero balances
+ok 10 - validation still rejects invalid fields even on zero balances
+  ---
+  duration_ms: 0.5014
+  type: 'test'
+  ...
+# Subtest: inputs remain unchanged and outputs normalize zeros with existing defaults
+ok 11 - inputs remain unchanged and outputs normalize zeros with existing defaults
+  ---
+  duration_ms: 0.3172
+  type: 'test'
+  ...
+# Subtest: half-even line tax is symmetric for positive and credit half cents
+ok 12 - half-even line tax is symmetric for positive and credit half cents
+  ---
+  duration_ms: 2.2963
+  type: 'test'
+  ...
+# Subtest: percent rounds the discount amount rather than the odd remaining balance
+ok 13 - percent rounds the discount amount rather than the odd remaining balance
+  ---
+  duration_ms: 0.2081
+  type: 'test'
+  ...
+# Subtest: credit percentage discount preserves the signed halfway-even reduction
+ok 14 - credit percentage discount preserves the signed halfway-even reduction
+  ---
+  duration_ms: 0.0853
+  type: 'test'
+  ...
+# Subtest: interleaved fixed and percentage coupons keep all supplied positions
+ok 15 - interleaved fixed and percentage coupons keep all supplied positions
+  ---
+  duration_ms: 0.1384
+  type: 'test'
+  ...
+# Subtest: repeated percentages are rounded separately at every stage
+ok 16 - repeated percentages are rounded separately at every stage
+  ---
+  duration_ms: 0.3878
+  type: 'test'
+  ...
+# Subtest: invoice coupons use ordered positive-balance discounts and exclude credits
+ok 17 - invoice coupons use ordered positive-balance discounts and exclude credits
+  ---
+  duration_ms: 0.3529
+  type: 'test'
+  ...
+# Subtest: invoice percentage rounds once on the positive basis before allocating
+ok 18 - invoice percentage rounds once on the positive basis before allocating
+  ---
+  duration_ms: 0.1276
+  type: 'test'
+  ...
+# Subtest: line coupons precede aggregate invoice coupons and proportional tax bases
+ok 19 - line coupons precede aggregate invoice coupons and proportional tax bases
+  ---
+  duration_ms: 0.239
+  type: 'test'
+  ...
+# Subtest: invoice-tax groups round half-even independently for distinct rates
+ok 20 - invoice-tax groups round half-even independently for distinct rates
+  ---
+  duration_ms: 0.3021
+  type: 'test'
+  ...
+# Subtest: negative invoice-tax groups round signed half cents before allocation
+ok 21 - negative invoice-tax groups round signed half cents before allocation
+  ---
+  duration_ms: 0.3259
+  type: 'test'
+  ...
+# Subtest: large discount products retain exact cents beyond floating-point precision
+ok 22 - large discount products retain exact cents beyond floating-point precision
+  ---
+  duration_ms: 1.2085
+  type: 'test'
+  ...
+# Subtest: large tax products stay exact when the final line total is still safe
+ok 23 - large tax products stay exact when the final line total is still safe
+  ---
+  duration_ms: 0.2665
+  type: 'test'
+  ...
+# Subtest: canceling large tax numerators preserve a small halfway-even group result
+ok 24 - canceling large tax numerators preserve a small halfway-even group result
+  ---
+  duration_ms: 0.13
+  type: 'test'
+  ...
+# Subtest: small signed percentage lattice follows exact discount-amount rounding
+ok 25 - small signed percentage lattice follows exact discount-amount rounding
+  ---
+  duration_ms: 3.5424
+  type: 'test'
+  ...
+# Subtest: trap: line tax boundaries remain distinct from invoice tax rounding
+ok 26 - trap: line tax boundaries remain distinct from invoice tax rounding
+  ---
+  duration_ms: 0.1704
+  type: 'test'
+  ...
+# Subtest: trap: fixed coupons cap positive amounts at zero and leave credits untouched
+ok 27 - trap: fixed coupons cap positive amounts at zero and leave credits untouched
+  ---
+  duration_ms: 0.0963
+  type: 'test'
+  ...
+# Subtest: trap: mixed currencies are rejected even on a zero-quantity line
+ok 28 - trap: mixed currencies are rejected even on a zero-quantity line
+  ---
+  duration_ms: 0.3343
+  type: 'test'
+  ...
+# Subtest: trap: zero quantity never charges but still validates every line field
+ok 29 - trap: zero quantity never charges but still validates every line field
+  ---
+  duration_ms: 0.1577
+  type: 'test'
+  ...
+# Subtest: trap: discount largest-remainder shares respect line index and exclude credits
+ok 30 - trap: discount largest-remainder shares respect line index and exclude credits
+  ---
+  duration_ms: 0.1417
+  type: 'test'
+  ...
+# Subtest: trap: signed invoice-tax allocation works when the group basis cancels to zero
+ok 31 - trap: signed invoice-tax allocation works when the group basis cancels to zero
+  ---
+  duration_ms: 0.1247
+  type: 'test'
+  ...
+# Subtest: trap: tax allocation tie order is original index across interleaved rate groups
+ok 32 - trap: tax allocation tie order is original index across interleaved rate groups
+  ---
+  duration_ms: 0.0717
+  type: 'test'
+  ...
+# Subtest: trap: frozen input graphs stay unchanged and results own fresh objects
+ok 33 - trap: frozen input graphs stay unchanged and results own fresh objects
+  ---
+  duration_ms: 0.164
+  type: 'test'
+  ...
+# Subtest: trap: empty and all-credit invoices do not invent invoice discount charges
+ok 34 - trap: empty and all-credit invoices do not invent invoice discount charges
+  ---
+  duration_ms: 0.1157
+  type: 'test'
+  ...
+# Subtest: trap: unsafe computed fields throw rather than silently clamp or round
+ok 35 - trap: unsafe computed fields throw rather than silently clamp or round
+  ---
+  duration_ms: 0.2066
+  type: 'test'
+  ...
+# Subtest: trap: exact signed subtotal sums may cancel an unsafe intermediate sum
+ok 36 - trap: exact signed subtotal sums may cancel an unsafe intermediate sum
+  ---
+  duration_ms: 0.0648
+  type: 'test'
+  ...
+# Subtest: trap: malformed schemas and numeric fields keep documented error types
+ok 37 - trap: malformed schemas and numeric fields keep documented error types
+  ---
+  duration_ms: 0.4221
+  type: 'test'
+  ...
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 38 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.2794
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 39 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.826
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 89.6895

@@ -1,0 +1,340 @@
+diff --git "{temp}\\hb-6a46a930-w6vxb6ys/src/cache.test.js" "{temp}\\hb-6a46a930-w6vxb6ys/src/cache.test.js"
+new file mode 100644
+index 0000000..50049eb
+--- /dev/null
++++ "{temp}\\hb-6a46a930-w6vxb6ys/src/cache.test.js"
+@@ -0,0 +1,310 @@
++'use strict';
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createCache } = require('./cache');
++
++function deferred() {
++  let resolve;
++  let reject;
++  const promise = new Promise((done, fail) => {
++    resolve = done;
++    reject = fail;
++  });
++  return { promise, resolve, reject };
++}
++
++function controlled(ttlMs = 100) {
++  let time = 0;
++  const loads = [];
++  const started = [];
++  function signal(index) {
++    if (!started[index]) started[index] = deferred();
++    return started[index];
++  }
++  const cache = createCache({
++    ttlMs,
++    now: () => time,
++    load(key) {
++      const flight = { key, ...deferred() };
++      const index = loads.push(flight) - 1;
++      signal(index).resolve(flight);
++      return flight.promise;
++    }
++  });
++  return { cache, loads, flight: index => signal(index).promise, at(value) { time = value; } };
++}
++
++function outcome(promise) {
++  return promise.then(value => ({ value }), reason => ({ reason }));
++}
++
++const mutations = {
++  invalidate: cache => cache.invalidate('key'),
++  clear: cache => cache.clear(),
++  set: cache => cache.set('key', 'manual')
++};
++
++for (const [name, mutate] of Object.entries(mutations)) {
++  for (const oldFirst of [true, false]) {
++    for (const rejects of [false, true]) {
++      test(`${name}: obsolete ${rejects ? 'rejection' : 'success'}, ${oldFirst ? 'old' : 'new'} flight settles first`, async () => {
++        const { cache, flight, loads } = controlled(0);
++        const oldReader = outcome(cache.get('key'));
++        const oldWaiter = outcome(cache.get('key'));
++        const old = await flight(0);
++        assert.equal(mutate(cache), undefined);
++        const newReader = cache.get('key');
++        const current = await flight(1);
++        const reason = { obsolete: true };
++        const finishOld = async () => {
++          if (rejects) old.reject(reason);
++          else old.resolve('old');
++          const expected = rejects ? { reason } : { value: 'old' };
++          assert.deepEqual(await oldReader, expected);
++          assert.deepEqual(await oldWaiter, expected);
++        };
++        if (oldFirst) {
++          await finishOld();
++          const newWaiter = cache.get('key');
++          current.resolve('new');
++          assert.deepEqual(await Promise.all([newReader, newWaiter]), ['new', 'new']);
++          assert.equal(loads.length, 2, 'obsolete completion must not detach the current flight');
++        } else {
++          current.resolve('new');
++          assert.equal(await newReader, 'new');
++          await finishOld();
++          assert.equal(cache.size, 0, 'zero TTL must not retain either result');
++        }
++      });
++    }
++  }
++
++  test(`${name}: a late success cannot overwrite a newer cached value or restart its TTL`, async () => {
++    const { cache, flight, at } = controlled();
++    const oldReader = cache.get('key');
++    const old = await flight(0);
++    mutate(cache);
++    if (name !== 'set') {
++      const newReader = cache.get('key');
++      const current = await flight(1);
++      current.resolve('fresh');
++      assert.equal(await newReader, 'fresh');
++    }
++    at(50);
++    old.resolve('stale');
++    assert.equal(await oldReader, 'stale');
++    assert.equal(await cache.get('key'), name === 'set' ? 'manual' : 'fresh');
++    at(100);
++    assert.equal(cache.size, 0, 'old completion must not extend the newer value deadline');
++  });
++
++  test(`${name}: synchronous mutation inside load is a barrier`, async () => {
++    let cache;
++    let calls = 0;
++    cache = createCache({ now: () => 0, load(key) {
++      assert.equal(key, 'key');
++      calls += 1;
++      if (calls === 1) {
++        mutate(cache);
++        return 'obsolete';
++      }
++      return 'fresh';
++    } });
++    assert.equal(await cache.get('key'), 'obsolete');
++    assert.equal(await cache.get('key'), name === 'set' ? 'manual' : 'fresh');
++    assert.equal(calls, name === 'set' ? 1 : 2);
++  });
++
++  test(`${name}: mutation before deferred load invocation also detaches it`, async () => {
++    const { cache, flight, loads } = controlled(0);
++    const oldReader = cache.get('key');
++    mutate(cache);
++    const newReader = cache.get('key');
++    const [old, current] = await Promise.all([flight(0), flight(1)]);
++    old.resolve('old');
++    assert.equal(await oldReader, 'old');
++    const waiter = cache.get('key');
++    current.resolve('fresh');
++    assert.deepEqual(await Promise.all([newReader, waiter]), ['fresh', 'fresh']);
++    assert.equal(loads.length, 2);
++  });
++}
++
++test('repeated invalidations detach every generation, including keys without stored values', async () => {
++  const { cache, flight, loads } = controlled();
++  const first = cache.get('key');
++  const a = await flight(0);
++  cache.invalidate('key');
++  const second = cache.get('key');
++  const b = await flight(1);
++  cache.invalidate('key');
++  cache.invalidate('key');
++  const third = cache.get('key');
++  const c = await flight(2);
++  b.resolve('second');
++  a.resolve('first');
++  assert.deepEqual(await Promise.all([first, second]), ['first', 'second']);
++  const waiter = cache.get('key');
++  c.resolve('third');
++  assert.deepEqual(await Promise.all([third, waiter]), ['third', 'third']);
++  assert.equal(await cache.get('key'), 'third');
++  assert.equal(loads.length, 3);
++});
++
++test('clear detaches flights for every key and removes stored values', async () => {
++  const { cache, flight } = controlled();
++  cache.set('stored', undefined);
++  const a = cache.get('a');
++  const b = cache.get('b');
++  const [oldA, oldB] = await Promise.all([flight(0), flight(1)]);
++  assert.equal(cache.size, 1);
++  assert.equal(cache.clear(), undefined);
++  assert.equal(cache.size, 0);
++  const freshA = cache.get('a');
++  const freshB = cache.get('b');
++  const [newA, newB] = await Promise.all([flight(2), flight(3)]);
++  oldA.resolve('old-a');
++  oldB.resolve('old-b');
++  assert.deepEqual(await Promise.all([a, b]), ['old-a', 'old-b']);
++  assert.equal(cache.size, 0);
++  newA.resolve('a');
++  newB.resolve('b');
++  assert.deepEqual(await Promise.all([freshA, freshB]), ['a', 'b']);
++  assert.equal(cache.size, 2);
++});
++
++for (const [name, fail] of [
++  ['synchronous throw', reason => { throw reason; }],
++  ['rejected Promise', reason => Promise.reject(reason)],
++  ['rejecting thenable', reason => ({ then(resolve, reject) { reject(reason); } })],
++  ['throwing then getter', reason => ({ get then() { throw reason; } })]
++]) {
++  for (const reason of [new Error('failure'), undefined, null, 'failure']) {
++    test(`${name} (${String(reason)}): rejection is shared but never cached`, async () => {
++      let calls = 0;
++      const cache = createCache({ now: () => 0, load() {
++        calls += 1;
++        return calls === 1 ? fail(reason) : 'retry';
++      } });
++      const first = outcome(cache.get('key'));
++      const second = outcome(cache.get('key'));
++      assert.strictEqual((await first).reason, reason);
++      assert.strictEqual((await second).reason, reason);
++      assert.equal(calls, 1);
++      assert.equal(cache.size, 0);
++      assert.equal(await cache.get('key'), 'retry');
++      assert.equal(calls, 2);
++    });
++  }
++}
++
++test('TTL starts at commit, expires exactly at its deadline, and size ignores flights', async () => {
++  const { cache, flight, at, loads } = controlled(10);
++  const reader = cache.get('key');
++  const old = await flight(0);
++  at(100);
++  assert.equal(cache.size, 0);
++  old.resolve(undefined);
++  assert.equal(await reader, undefined);
++  at(109);
++  assert.equal(cache.size, 1);
++  assert.equal(await cache.get('key'), undefined);
++  assert.equal(loads.length, 1);
++  at(110);
++  assert.equal(cache.size, 0);
++  const next = cache.get('key');
++  const current = await flight(1);
++  assert.equal(cache.size, 0);
++  const waiter = cache.get('key');
++  current.resolve(null);
++  assert.deepEqual(await Promise.all([next, waiter]), [null, null]);
++  assert.equal(loads.length, 2);
++});
++
++test('set value expiration does not reattach an older pending load', async () => {
++  const { cache, flight, at, loads } = controlled(10);
++  const oldReader = cache.get('key');
++  const old = await flight(0);
++  at(5);
++  assert.equal(cache.set('key', null), undefined);
++  at(14);
++  assert.equal(await cache.get('key'), null);
++  at(15);
++  const freshReader = cache.get('key');
++  const current = await flight(1);
++  old.resolve('obsolete');
++  assert.equal(await oldReader, 'obsolete');
++  const waiter = cache.get('key');
++  current.resolve('fresh');
++  assert.deepEqual(await Promise.all([freshReader, waiter]), ['fresh', 'fresh']);
++  assert.equal(loads.length, 2);
++});
++
++test('zero TTL deduplicates pending loads but never reuses settled values', async () => {
++  const { cache, flight, loads } = controlled(0);
++  const first = cache.get('key');
++  const waiter = cache.get('key');
++  (await flight(0)).resolve('first');
++  assert.deepEqual(await Promise.all([first, waiter]), ['first', 'first']);
++  const second = cache.get('key');
++  (await flight(1)).resolve('second');
++  assert.equal(await second, 'second');
++  assert.equal(loads.length, 2);
++  cache.set('key', 'manual');
++  const third = cache.get('key');
++  (await flight(2)).resolve('third');
++  assert.equal(await third, 'third');
++  assert.equal(cache.size, 0);
++});
++
++test('reentrant same-key reads join the registered flight and other keys load independently', async () => {
++  let cache;
++  let sameKey;
++  let otherKey;
++  const calls = [];
++  cache = createCache({ now: () => 0, load(...args) {
++    assert.equal(args.length, 1);
++    const [key] = args;
++    calls.push(key);
++    if (key === 'a') {
++      sameKey = cache.get('a');
++      otherKey = cache.get('b');
++    }
++    return { then(resolve) { resolve(key); } };
++  } });
++  assert.equal(await cache.get('a'), 'a');
++  assert.equal(await sameKey, 'a');
++  assert.equal(await otherKey, 'b');
++  assert.deepEqual(calls, ['a', 'b']);
++});
++
++test('keys use SameValueZero identity and instances are isolated', async () => {
++  const one = createCache({ now: () => 0, load: key => key });
++  const two = createCache({ now: () => 0, load: () => 'other' });
++  const object = {};
++  const different = {};
++  one.set(NaN, undefined);
++  one.set(-0, null);
++  one.set(object, 'object');
++  assert.equal(one.size, 3);
++  assert.equal(await one.get(NaN), undefined);
++  assert.equal(await one.get(0), null);
++  assert.equal(await one.get(object), 'object');
++  assert.equal(await one.get(different), different);
++  assert.equal(await two.get(object), 'other');
++  one.clear();
++  assert.equal(two.size, 1);
++});
++
++test('constructor validates functions and finite nonnegative numeric TTLs', () => {
++  for (const load of [undefined, null, 1, {}]) {
++    assert.throws(() => createCache({ load }), TypeError);
++  }
++  for (const ttlMs of [-1, Infinity, NaN, '100', null]) {
++    assert.throws(() => createCache({ load() {}, ttlMs }), RangeError);
++  }
++  for (const now of [null, 1, {}]) {
++    assert.throws(() => createCache({ load() {}, now }), TypeError);
++  }
++  assert.doesNotThrow(() => createCache({ load() {}, ttlMs: 0, now: () => 0 }));
++});
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-6a46a930-w6vxb6ys/src/flight.js"
+index bc0283d..0405178 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-6a46a930-w6vxb6ys/src/flight.js"
+@@ -8,10 +8,17 @@ function createFlights() {
+   return {
+     run(key, work, commit) {
+       if (pending.has(key)) return pending.get(key);
++      // Register before invoking work so reentrant reads join this flight.
++      // Only the current owner may commit or remove the registry entry.
+       const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
++        if (pending.get(key) === promise) {
++          pending.delete(key);
++          commit(value);
++        }
+         return value;
++      }, reason => {
++        if (pending.get(key) === promise) pending.delete(key);
++        throw reason;
+       });
+       pending.set(key, promise);
+       return promise;

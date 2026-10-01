@@ -1,0 +1,78 @@
+diff --git "{temp}\\hb-4640c0ad-fy8bproq/limit.regression.test.js" "{temp}\\hb-4640c0ad-fy8bproq/limit.regression.test.js"
+new file mode 100644
+index 0000000..b89d096
+--- /dev/null
++++ "{temp}\\hb-4640c0ad-fy8bproq/limit.regression.test.js"
+@@ -0,0 +1,47 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { createLimiter } = require('./src/limit');
++
++test('rejects invalid concurrency and non-function tasks', async () => {
++  for (const concurrency of [0, -1, 1.5, NaN, Infinity, '2', 2n, null, undefined]) {
++    assert.throws(() => createLimiter(concurrency), RangeError);
++  }
++
++  const run = createLimiter(1);
++  for (const task of [null, undefined, 42, {}, 'task']) {
++    const result = run(task);
++    assert.ok(result instanceof Promise);
++    await assert.rejects(result, TypeError);
++  }
++  assert.equal(await run(() => 42), 42);
++});
++
++test('releases slots after all outcomes and invokes tasks once without arguments', { timeout: 2000 }, async () => {
++  const run = createLimiter(1);
++  const syncError = new Error('synchronous failure');
++  const asyncError = new Error('promise failure');
++  const started = [];
++  const tasks = [
++    () => { throw syncError; },
++    () => Promise.reject(asyncError),
++    () => 42,
++    () => Promise.resolve('done'),
++  ];
++
++  const results = await Promise.allSettled(tasks.map((task, index) => run(function () {
++    assert.equal(arguments.length, 0);
++    started.push(index);
++    return task();
++  })));
++
++  assert.deepEqual(started, [0, 1, 2, 3]);
++  assert.deepEqual(results, [
++    { status: 'rejected', reason: syncError },
++    { status: 'rejected', reason: asyncError },
++    { status: 'fulfilled', value: 42 },
++    { status: 'fulfilled', value: 'done' },
++  ]);
++  assert.equal(await run(() => 'still usable'), 'still usable');
++});
+diff --git "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js" "{temp}\\hb-4640c0ad-fy8bproq/src/limit.js"
+index 40953d6..f549d62 100644
+--- "{benchmark_dir}\\tasks\\debug-limiter\\repo/src/limit.js"
++++ "{temp}\\hb-4640c0ad-fy8bproq/src/limit.js"
+@@ -17,16 +17,10 @@ function createLimiter(concurrency) {
+     while (active < concurrency && queue.length > 0) {
+       const job = queue.shift();
+       active += 1;
+-      Promise.resolve().then(job.fn).then(
+-        value => {
+-          job.resolve(value);
+-          active -= 1;
+-          drain();
+-        },
+-        error => {
+-          job.reject(error);
+-        }
+-      );
++      Promise.resolve().then(() => job.fn()).then(job.resolve, job.reject).then(() => {
++        active -= 1;
++        drain();
++      });
+     }
+   }
+ 

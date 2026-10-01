@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: numeric candidate ordering compares every component
+ok 1 - numeric candidate ordering compares every component
+  ---
+  duration_ms: 2.1763
+  type: 'test'
+  ...
+# Subtest: all root and discovered constraints apply before queued names are selected
+ok 2 - all root and discovered constraints apply before queued names are selected
+  ---
+  duration_ms: 0.6099
+  type: 'test'
+  ...
+# Subtest: FIFO selection keeps the earlier root choice and retries the latest choice
+ok 3 - FIFO selection keeps the earlier root choice and retries the latest choice
+  ---
+  duration_ms: 0.2278
+  type: 'test'
+  ...
+# Subtest: dependency key order participates in first-found selection
+ok 4 - dependency key order participates in first-found selection
+  ---
+  duration_ms: 0.1643
+  type: 'test'
+  ...
+# Subtest: failed choices undo missing dependencies, nested selections and constraints
+ok 5 - failed choices undo missing dependencies, nested selections and constraints
+  ---
+  duration_ms: 0.1291
+  type: 'test'
+  ...
+# Subtest: partially discovered constraints are removed after immediate conflicts
+ok 6 - partially discovered constraints are removed after immediate conflicts
+  ---
+  duration_ms: 0.1443
+  type: 'test'
+  ...
+# Subtest: rollback retains constraints from older choices
+ok 7 - rollback retains constraints from older choices
+  ---
+  duration_ms: 0.0817
+  type: 'test'
+  ...
+# Subtest: self and mutual cycles expand selected names only once
+ok 8 - self and mutual cycles expand selected names only once
+  ---
+  duration_ms: 0.1012
+  type: 'test'
+  ...
+# Subtest: long chains and cyclic chains do not depend on call-stack depth or iteration caps
+ok 9 - long chains and cyclic chains do not depend on call-stack depth or iteration caps
+  ---
+  duration_ms: 136.9906
+  type: 'test'
+  ...
+# Subtest: discovered conflicts prune branches before unrelated version products
+ok 10 - discovered conflicts prune branches before unrelated version products
+  ---
+  duration_ms: 0.7459
+  type: 'test'
+  ...
+# Subtest: missing packages are unsatisfiable and unselected packages remain unreachable
+ok 11 - missing packages are unsatisfiable and unselected packages remain unreachable
+  ---
+  duration_ms: 0.1984
+  type: 'test'
+  ...
+# Subtest: every map, version and range is eagerly validated, including unreachable entries
+ok 12 - every map, version and range is eagerly validated, including unreachable entries
+  ---
+  duration_ms: 0.7862
+  type: 'test'
+  ...
+# Subtest: null-prototype maps and special package names produce an ordinary own-key result
+ok 13 - null-prototype maps and special package names produce an ordinary own-key result
+  ---
+  duration_ms: 0.1413
+  type: 'test'
+  ...
+# Subtest: only enumerable own string keys participate and frozen inputs remain unchanged
+ok 14 - only enumerable own string keys participate and frozen inputs remain unchanged
+  ---
+  duration_ms: 0.4063
+  type: 'test'
+  ...
+# Subtest: first-found results match an independent reference over seeded cyclic graphs
+ok 15 - first-found results match an independent reference over seeded cyclic graphs
+  ---
+  duration_ms: 20.827
+  type: 'test'
+  ...
+# Subtest: parse accepts canonical safe integer components only
+ok 16 - parse accepts canonical safe integer components only
+  ---
+  duration_ms: 1.4098
+  type: 'test'
+  ...
+# Subtest: compare is numeric, lexicographic and validates both arguments
+ok 17 - compare is numeric, lexicographic and validates both arguments
+  ---
+  duration_ms: 0.2111
+  type: 'test'
+  ...
+# Subtest: range operators and AND terms have the documented boundaries
+ok 18 - range operators and AND terms have the documented boundaries
+  ---
+  duration_ms: 1.6834
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected eagerly even after a wildcard
+ok 19 - invalid ranges are rejected eagerly even after a wildcard
+  ---
+  duration_ms: 0.3567
+  type: 'test'
+  ...
+# Subtest: the resolver uses zero-major caret boundaries
+ok 20 - the resolver uses zero-major caret boundaries
+  ---
+  duration_ms: 0.5616
+  type: 'test'
+  ...
+# Subtest: CI install selects the newest compatible numeric version
+ok 21 - CI install selects the newest compatible numeric version
+  ---
+  duration_ms: 2.2569
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 251.6856

@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: invalidate: obsolete resolve, old-first
+ok 1 - invalidate: obsolete resolve, old-first
+  ---
+  duration_ms: 1.5189
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete resolve, new-first
+ok 2 - invalidate: obsolete resolve, new-first
+  ---
+  duration_ms: 0.1222
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, old-first
+ok 3 - invalidate: obsolete reject, old-first
+  ---
+  duration_ms: 0.18
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete reject, new-first
+ok 4 - invalidate: obsolete reject, new-first
+  ---
+  duration_ms: 0.0957
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, old-first
+ok 5 - clear: obsolete resolve, old-first
+  ---
+  duration_ms: 0.1552
+  type: 'test'
+  ...
+# Subtest: clear: obsolete resolve, new-first
+ok 6 - clear: obsolete resolve, new-first
+  ---
+  duration_ms: 0.0805
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, old-first
+ok 7 - clear: obsolete reject, old-first
+  ---
+  duration_ms: 0.1136
+  type: 'test'
+  ...
+# Subtest: clear: obsolete reject, new-first
+ok 8 - clear: obsolete reject, new-first
+  ---
+  duration_ms: 0.0724
+  type: 'test'
+  ...
+# Subtest: invalidate: repeated barriers detach every generation
+ok 9 - invalidate: repeated barriers detach every generation
+  ---
+  duration_ms: 0.7852
+  type: 'test'
+  ...
+# Subtest: clear: repeated barriers detach every generation
+ok 10 - clear: repeated barriers detach every generation
+  ---
+  duration_ms: 0.2729
+  type: 'test'
+  ...
+# Subtest: set: repeated barriers detach every generation
+ok 11 - set: repeated barriers detach every generation
+  ---
+  duration_ms: 0.1661
+  type: 'test'
+  ...
+# Subtest: set wins over an obsolete resolve without restarting TTL
+ok 12 - set wins over an obsolete resolve without restarting TTL
+  ---
+  duration_ms: 0.1346
+  type: 'test'
+  ...
+# Subtest: expired set cannot rejoin an obsolete resolve
+ok 13 - expired set cannot rejoin an obsolete resolve
+  ---
+  duration_ms: 0.0989
+  type: 'test'
+  ...
+# Subtest: set wins over an obsolete reject without restarting TTL
+ok 14 - set wins over an obsolete reject without restarting TTL
+  ---
+  duration_ms: 0.0665
+  type: 'test'
+  ...
+# Subtest: expired set cannot rejoin an obsolete reject
+ok 15 - expired set cannot rejoin an obsolete reject
+  ---
+  duration_ms: 0.0553
+  type: 'test'
+  ...
+# Subtest: throw failure releases the flight and preserves its rejection reason
+ok 16 - throw failure releases the flight and preserves its rejection reason
+  ---
+  duration_ms: 0.2203
+  type: 'test'
+  ...
+# Subtest: promise failure releases the flight and preserves its rejection reason
+ok 17 - promise failure releases the flight and preserves its rejection reason
+  ---
+  duration_ms: 0.0533
+  type: 'test'
+  ...
+# Subtest: thenable failure releases the flight and preserves its rejection reason
+ok 18 - thenable failure releases the flight and preserves its rejection reason
+  ---
+  duration_ms: 0.047
+  type: 'test'
+  ...
+# Subtest: then-getter failure releases the flight and preserves its rejection reason
+ok 19 - then-getter failure releases the flight and preserves its rejection reason
+  ---
+  duration_ms: 0.0408
+  type: 'test'
+  ...
+# Subtest: load can synchronously invalidate before returning
+ok 20 - load can synchronously invalidate before returning
+  ---
+  duration_ms: 0.0964
+  type: 'test'
+  ...
+# Subtest: load can synchronously invalidate before throwing
+ok 21 - load can synchronously invalidate before throwing
+  ---
+  duration_ms: 0.2564
+  type: 'test'
+  ...
+# Subtest: load can synchronously clear before returning
+ok 22 - load can synchronously clear before returning
+  ---
+  duration_ms: 0.1184
+  type: 'test'
+  ...
+# Subtest: load can synchronously clear before throwing
+ok 23 - load can synchronously clear before throwing
+  ---
+  duration_ms: 0.0382
+  type: 'test'
+  ...
+# Subtest: load can synchronously set before returning
+ok 24 - load can synchronously set before returning
+  ---
+  duration_ms: 0.0353
+  type: 'test'
+  ...
+# Subtest: load can synchronously set before throwing
+ok 25 - load can synchronously set before throwing
+  ---
+  duration_ms: 0.0496
+  type: 'test'
+  ...
+# Subtest: reentrant own-key reads join, while other keys load independently
+ok 26 - reentrant own-key reads join, while other keys load independently
+  ---
+  duration_ms: 0.1065
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit and size expiration does not detach flights
+ok 27 - TTL starts at commit and size expiration does not detach flights
+  ---
+  duration_ms: 0.1073
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending work but never reuses settled values
+ok 28 - zero TTL deduplicates pending work but never reuses settled values
+  ---
+  duration_ms: 0.1084
+  type: 'test'
+  ...
+# Subtest: keys use Map identity, loads receive exactly one argument, and caches are isolated
+ok 29 - keys use Map identity, loads receive exactly one argument, and caches are isolated
+  ---
+  duration_ms: 0.2867
+  type: 'test'
+  ...
+# Subtest: constructor validation remains unchanged
+ok 30 - constructor validation remains unchanged
+  ---
+  duration_ms: 0.5828
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 31 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.2469
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 90.9242

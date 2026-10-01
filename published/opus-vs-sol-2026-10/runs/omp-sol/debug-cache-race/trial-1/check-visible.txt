@@ -1,0 +1,286 @@
+TAP version 13
+# Subtest: invalidate: obsolete success, old flight settles first
+ok 1 - invalidate: obsolete success, old flight settles first
+  ---
+  duration_ms: 1.3681
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, old flight settles first
+ok 2 - invalidate: obsolete rejection, old flight settles first
+  ---
+  duration_ms: 0.1599
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete success, new flight settles first
+ok 3 - invalidate: obsolete success, new flight settles first
+  ---
+  duration_ms: 0.2112
+  type: 'test'
+  ...
+# Subtest: invalidate: obsolete rejection, new flight settles first
+ok 4 - invalidate: obsolete rejection, new flight settles first
+  ---
+  duration_ms: 0.143
+  type: 'test'
+  ...
+# Subtest: invalidate: a late success cannot overwrite a newer cached value or restart its TTL
+ok 5 - invalidate: a late success cannot overwrite a newer cached value or restart its TTL
+  ---
+  duration_ms: 0.1389
+  type: 'test'
+  ...
+# Subtest: invalidate: synchronous mutation inside load is a barrier
+ok 6 - invalidate: synchronous mutation inside load is a barrier
+  ---
+  duration_ms: 0.1122
+  type: 'test'
+  ...
+# Subtest: invalidate: mutation before deferred load invocation also detaches it
+ok 7 - invalidate: mutation before deferred load invocation also detaches it
+  ---
+  duration_ms: 0.6613
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, old flight settles first
+ok 8 - clear: obsolete success, old flight settles first
+  ---
+  duration_ms: 0.1382
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, old flight settles first
+ok 9 - clear: obsolete rejection, old flight settles first
+  ---
+  duration_ms: 0.2815
+  type: 'test'
+  ...
+# Subtest: clear: obsolete success, new flight settles first
+ok 10 - clear: obsolete success, new flight settles first
+  ---
+  duration_ms: 0.3117
+  type: 'test'
+  ...
+# Subtest: clear: obsolete rejection, new flight settles first
+ok 11 - clear: obsolete rejection, new flight settles first
+  ---
+  duration_ms: 0.1372
+  type: 'test'
+  ...
+# Subtest: clear: a late success cannot overwrite a newer cached value or restart its TTL
+ok 12 - clear: a late success cannot overwrite a newer cached value or restart its TTL
+  ---
+  duration_ms: 0.0565
+  type: 'test'
+  ...
+# Subtest: clear: synchronous mutation inside load is a barrier
+ok 13 - clear: synchronous mutation inside load is a barrier
+  ---
+  duration_ms: 0.0328
+  type: 'test'
+  ...
+# Subtest: clear: mutation before deferred load invocation also detaches it
+ok 14 - clear: mutation before deferred load invocation also detaches it
+  ---
+  duration_ms: 0.0427
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, old flight settles first
+ok 15 - set: obsolete success, old flight settles first
+  ---
+  duration_ms: 0.1617
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, old flight settles first
+ok 16 - set: obsolete rejection, old flight settles first
+  ---
+  duration_ms: 0.0723
+  type: 'test'
+  ...
+# Subtest: set: obsolete success, new flight settles first
+ok 17 - set: obsolete success, new flight settles first
+  ---
+  duration_ms: 0.0493
+  type: 'test'
+  ...
+# Subtest: set: obsolete rejection, new flight settles first
+ok 18 - set: obsolete rejection, new flight settles first
+  ---
+  duration_ms: 0.0433
+  type: 'test'
+  ...
+# Subtest: set: a late success cannot overwrite a newer cached value or restart its TTL
+ok 19 - set: a late success cannot overwrite a newer cached value or restart its TTL
+  ---
+  duration_ms: 0.0409
+  type: 'test'
+  ...
+# Subtest: set: synchronous mutation inside load is a barrier
+ok 20 - set: synchronous mutation inside load is a barrier
+  ---
+  duration_ms: 0.0253
+  type: 'test'
+  ...
+# Subtest: set: mutation before deferred load invocation also detaches it
+ok 21 - set: mutation before deferred load invocation also detaches it
+  ---
+  duration_ms: 0.0386
+  type: 'test'
+  ...
+# Subtest: repeated invalidations detach every generation, including keys without stored values
+ok 22 - repeated invalidations detach every generation, including keys without stored values
+  ---
+  duration_ms: 0.3618
+  type: 'test'
+  ...
+# Subtest: clear detaches flights for every key and removes stored values
+ok 23 - clear detaches flights for every key and removes stored values
+  ---
+  duration_ms: 0.17
+  type: 'test'
+  ...
+# Subtest: synchronous throw (Error: failure): rejection is shared but never cached
+ok 24 - synchronous throw (Error: failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.1206
+  type: 'test'
+  ...
+# Subtest: synchronous throw (undefined): rejection is shared but never cached
+ok 25 - synchronous throw (undefined): rejection is shared but never cached
+  ---
+  duration_ms: 0.0369
+  type: 'test'
+  ...
+# Subtest: synchronous throw (null): rejection is shared but never cached
+ok 26 - synchronous throw (null): rejection is shared but never cached
+  ---
+  duration_ms: 0.0346
+  type: 'test'
+  ...
+# Subtest: synchronous throw (failure): rejection is shared but never cached
+ok 27 - synchronous throw (failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.0287
+  type: 'test'
+  ...
+# Subtest: rejected Promise (Error: failure): rejection is shared but never cached
+ok 28 - rejected Promise (Error: failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.5146
+  type: 'test'
+  ...
+# Subtest: rejected Promise (undefined): rejection is shared but never cached
+ok 29 - rejected Promise (undefined): rejection is shared but never cached
+  ---
+  duration_ms: 0.1507
+  type: 'test'
+  ...
+# Subtest: rejected Promise (null): rejection is shared but never cached
+ok 30 - rejected Promise (null): rejection is shared but never cached
+  ---
+  duration_ms: 0.0442
+  type: 'test'
+  ...
+# Subtest: rejected Promise (failure): rejection is shared but never cached
+ok 31 - rejected Promise (failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.0408
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (Error: failure): rejection is shared but never cached
+ok 32 - rejecting thenable (Error: failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.1302
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (undefined): rejection is shared but never cached
+ok 33 - rejecting thenable (undefined): rejection is shared but never cached
+  ---
+  duration_ms: 0.0453
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (null): rejection is shared but never cached
+ok 34 - rejecting thenable (null): rejection is shared but never cached
+  ---
+  duration_ms: 0.0348
+  type: 'test'
+  ...
+# Subtest: rejecting thenable (failure): rejection is shared but never cached
+ok 35 - rejecting thenable (failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.0322
+  type: 'test'
+  ...
+# Subtest: throwing then getter (Error: failure): rejection is shared but never cached
+ok 36 - throwing then getter (Error: failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.0565
+  type: 'test'
+  ...
+# Subtest: throwing then getter (undefined): rejection is shared but never cached
+ok 37 - throwing then getter (undefined): rejection is shared but never cached
+  ---
+  duration_ms: 0.032
+  type: 'test'
+  ...
+# Subtest: throwing then getter (null): rejection is shared but never cached
+ok 38 - throwing then getter (null): rejection is shared but never cached
+  ---
+  duration_ms: 0.033
+  type: 'test'
+  ...
+# Subtest: throwing then getter (failure): rejection is shared but never cached
+ok 39 - throwing then getter (failure): rejection is shared but never cached
+  ---
+  duration_ms: 0.0325
+  type: 'test'
+  ...
+# Subtest: TTL starts at commit, expires exactly at its deadline, and size ignores flights
+ok 40 - TTL starts at commit, expires exactly at its deadline, and size ignores flights
+  ---
+  duration_ms: 0.1066
+  type: 'test'
+  ...
+# Subtest: set value expiration does not reattach an older pending load
+ok 41 - set value expiration does not reattach an older pending load
+  ---
+  duration_ms: 0.1461
+  type: 'test'
+  ...
+# Subtest: zero TTL deduplicates pending loads but never reuses settled values
+ok 42 - zero TTL deduplicates pending loads but never reuses settled values
+  ---
+  duration_ms: 0.11
+  type: 'test'
+  ...
+# Subtest: reentrant same-key reads join the registered flight and other keys load independently
+ok 43 - reentrant same-key reads join the registered flight and other keys load independently
+  ---
+  duration_ms: 0.1318
+  type: 'test'
+  ...
+# Subtest: keys use SameValueZero identity and instances are isolated
+ok 44 - keys use SameValueZero identity and instances are isolated
+  ---
+  duration_ms: 0.1024
+  type: 'test'
+  ...
+# Subtest: constructor validates functions and finite nonnegative numeric TTLs
+ok 45 - constructor validates functions and finite nonnegative numeric TTLs
+  ---
+  duration_ms: 0.4387
+  type: 'test'
+  ...
+# Subtest: invalidating during a load does not resurrect its stale value
+ok 46 - invalidating during a load does not resurrect its stale value
+  ---
+  duration_ms: 2.3117
+  type: 'test'
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 78.1257

@@ -1,0 +1,227 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-e8cd3bbf-tw83qeh6/src/resolver.js"
+index b445e71..03509e7 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-e8cd3bbf-tw83qeh6/src/resolver.js"
+@@ -1,6 +1,6 @@
+ 'use strict';
+ 
+-const { parse, compileRange } = require('./semver');
++const { parse, compare, compileRange } = require('./semver');
+ 
+ function requireRecord(value) {
+   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+@@ -15,10 +15,9 @@ function requirements(record) {
+   return Object.keys(record).map(name => ({ name, accepts: compileRange(record[name]) }));
+ }
+ 
++// Highest version first, compared numerically (string order puts 1.9.0 above 1.10.0).
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  return compare(right.text, left.text);
+ }
+ 
+ /**
+@@ -62,69 +61,158 @@ function resolve(registry, root) {
+     catalogs.set(name, candidates);
+   }
+   const initial = requirements(root);
++  // name -> { version, depth }: depth is the index of the choice frame that selected it.
+   const selected = new Map();
++  // name -> [{ accepts, source }]: source names the selected package that imposed
++  // the constraint, or is null for root. Reverted through `trail`.
+   const constraints = new Map();
+   const trail = [];
+   const queue = [];
+   const choices = [];
+   let cursor = 0;
+ 
+-  function append(items) {
++  function viable(name) {
++    const list = constraints.get(name);
++    return (catalogs.get(name) || []).filter(version => list.every(item => item.accepts(version.tuple)));
++  }
++
++  // Of the given constraints, the source nearest the root (null = root itself).
++  function shallowest(list) {
++    let best;
++    let bestDepth = Infinity;
++    for (const item of list) {
++      if (item.source === null) return null;
++      const depth = selected.get(item.source).depth;
++      if (depth < bestDepth) {
++        best = item.source;
++        bestDepth = depth;
++      }
++    }
++    return best;
++  }
++
++  function addSource(nogood, source) {
++    if (source !== null && source !== undefined) nogood.add(source);
++  }
++
++  // Explain why `versions` of `name` are excluded (a rejecting constraint's
++  // source for each) and why `name` must be selected at all (a requirer).
++  function explainExclusion(name, versions, nogood) {
++    const list = constraints.get(name);
++    for (const version of versions) {
++      addSource(nogood, shallowest(list.filter(item => !item.accepts(version.tuple))));
++    }
++    addSource(nogood, shallowest(list));
++    return nogood;
++  }
++
++  // Records each requirement on the trail and queue. On a newly discovered
++  // conflict (a selected version is rejected, or an unselected name has no
++  // version left), returns a nogood: a set of selected names whose current
++  // versions, together with root, can appear in no valid solution. Detecting
++  // empty domains at discovery yields the same first-found result as waiting
++  // for that name to be processed, without exhausting unrelated later choices.
++  function append(items, source) {
+     for (const item of items) {
+       let list = constraints.get(item.name);
+       if (!list) {
+         list = [];
+         constraints.set(item.name, list);
+       }
+-      list.push(item.accepts);
++      list.push({ accepts: item.accepts, source });
+       trail.push(item.name);
+       queue.push(item.name);
+       const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
++      if (existing) {
++        if (!item.accepts(existing.version.tuple)) {
++          const nogood = new Set([item.name]);
++          addSource(nogood, source);
++          return nogood;
++        }
++      } else if (viable(item.name).length === 0) {
++        return explainExclusion(item.name, catalogs.get(item.name) || [], new Set());
++      }
+     }
+-    return true;
++    return null;
+   }
+ 
++  // Undo everything recorded since the frame was pushed: its selection, the
++  // constraints and queue entries its version discovered, and the cursor.
+   function restore(frame) {
+     selected.delete(frame.name);
++    while (trail.length > frame.trailLength) constraints.get(trail.pop()).pop();
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
+   }
+ 
+-  function retry() {
+-    while (choices.length !== 0) {
+-      const frame = choices[choices.length - 1];
++  function absorb(frame, nogood) {
++    for (const name of nogood) if (name !== frame.name) frame.nogood.add(name);
++  }
++
++  // Select the frame's next candidate whose dependencies do not conflict.
++  // Each rejected candidate's nogood (minus the frame itself) accumulates into
++  // the frame's nogood, which explains the frame's failure once exhausted.
++  function advance(frame, depth) {
++    while (frame.next < frame.candidates.length) {
++      const version = frame.candidates[frame.next++];
++      selected.set(frame.name, { version, depth });
++      const nogood = append(version.deps, frame.name);
++      if (!nogood) return true;
+       restore(frame);
+-      while (frame.next < frame.candidates.length) {
+-        const version = frame.candidates[frame.next++];
+-        selected.set(frame.name, version);
+-        if (append(version.deps)) return true;
+-        restore(frame);
+-      }
+-      choices.pop();
++      absorb(frame, nogood);
+     }
+     return false;
+   }
+ 
+-  append(initial);
+-  let iterations = 0;
++  // Conflict-directed backjumping. Every frame between the deepest frame named
++  // by the nogood and the failure point would only produce assignments that
++  // still contain the nogood, so plain chronological backtracking would find
++  // nothing there; skipping them preserves the first-found result while
++  // avoiding exponential re-enumeration of unrelated choices.
++  function backjump(nogood) {
++    for (;;) {
++      let target = -1;
++      for (const name of nogood) target = Math.max(target, selected.get(name).depth);
++      if (target < 0) return false;
++      while (choices.length - 1 > target) restore(choices.pop());
++      const frame = choices[target];
++      restore(frame);
++      absorb(frame, nogood);
++      if (advance(frame, target)) return true;
++      choices.pop();
++      nogood = frame.nogood;
++    }
++  }
++
++  let conflict = append(initial, null);
+   for (;;) {
+-    if (++iterations > 4096) return null;
++    if (conflict) {
++      if (!backjump(conflict)) return null;
++      conflict = null;
++    }
+     if (cursor === queue.length) {
+       const result = {};
+-      for (const [name, version] of selected) {
++      for (const [name, { version }] of selected) {
+         Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
+       }
+       return result;
+     }
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
++    // Already selected names were checked when the requirement was appended
++    // and do not expand their dependencies again.
++    if (selected.has(name)) continue;
++    const candidates = viable(name);
++    const viableSet = new Set(candidates);
++    const excluded = (catalogs.get(name) || []).filter(version => !viableSet.has(version));
++    const frame = {
++      name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length,
++      nogood: explainExclusion(name, excluded, new Set()),
++    };
++    choices.push(frame);
++    if (!advance(frame, choices.length - 1)) {
++      choices.pop();
++      conflict = frame.nogood;
+     }
+-    const tests = constraints.get(name);
+-    const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+-    choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+-    if (!retry()) return null;
+   }
+ }
+ 
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-e8cd3bbf-tw83qeh6/src/semver.js"
+index 5b1d55d..fef09e1 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-e8cd3bbf-tw83qeh6/src/semver.js"
+@@ -42,8 +42,11 @@ function compileRange(range) {
+     const operator = match[1] || '';
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+-      const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++      let upper;
++      if (operator === '~') upper = [base[0], base[1] + 1, 0];
++      else if (base[0] !== 0) upper = [base[0] + 1, 0, 0];
++      else if (base[1] !== 0) upper = [0, base[1] + 1, 0];
++      else upper = [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

@@ -181,8 +181,9 @@ OMP/Pi messages are rendered as conversation cards; other native event formats r
 inspectable as expandable raw records. Missing artifacts and measurements are labeled,
 not reconstructed. A saved `REPORT.md` is included as a snapshot, not re-scored.
 
-Existing `charts/*.svg` comparison graphs are embedded byte-for-byte, with an overview,
-per-task tokens, and per-task wall-time selector where available. Captions, original
+Existing `charts/*.svg` comparison graphs are embedded as self-contained images with
+canonical LF line endings. An overview, per-task tokens, and per-task wall-time selector
+are available where saved charts exist. Captions, original
 comparison scope, and text values/methodology are preserved. Run filters affect the
 run list, not these frozen plots. Bundles without saved charts say so explicitly.
 Narrow screens scroll charts horizontally rather than shrinking their labels.

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import tempfile
 import unittest
@@ -39,6 +40,24 @@ class ExplorerTests(unittest.TestCase):
         payload = html.split('<script type="application/json" id="bench-data">', 1)[1].split('</script>', 1)[0]
         self.assertNotIn('<', payload)
         self.assertEqual(json.loads(payload), data)
+
+    def test_svg_checkout_line_endings_do_not_change_export_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'bundle'
+            (root / 'charts').mkdir(parents=True)
+            (root / 'runs.jsonl').write_text('', encoding='utf-8')
+            svg = (b'<svg xmlns="http://www.w3.org/2000/svg">\n'
+                   b'<title>Recorded metric</title>\n'
+                   b'<desc>Value: 10 seconds.</desc>\n</svg>\n')
+            outputs = []
+            for name, ending in (('lf', b'\n'), ('crlf', b'\r\n')):
+                (root / 'charts' / 'summary.svg').write_bytes(svg.replace(b'\n', ending))
+                out = Path(temp) / f'{name}.html'
+                compile_explorer(root, out)
+                outputs.append(out.read_bytes())
+            self.assertEqual(hashlib.sha256(outputs[0]).hexdigest(),
+                             hashlib.sha256(outputs[1]).hexdigest())
+            self.assertEqual([content.count(b'\r\n') for content in outputs], [0, 0])
 
     def test_missing_transcripts_and_unknown_measurements_remain_unknown(self):
         with tempfile.TemporaryDirectory() as temp:

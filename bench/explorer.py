@@ -46,7 +46,8 @@ def collect(results: Path) -> dict:
                        key=lambda p: (p.name != 'summary.svg', p.name)):
         if not _inside(root, path) or not path.is_file():
             continue
-        raw = path.read_bytes()
+        # Git checkouts may rewrite text EOLs; keep image payloads reproducible.
+        raw = path.read_bytes().replace(b'\r\n', b'\n')
         try:
             svg = ET.fromstring(raw)
         except ET.ParseError as exc:
@@ -77,7 +78,7 @@ def compile_explorer(results: Path, out: Path) -> None:
         raise ValueError(f'output file already exists: {out}')
     data = collect(results)
     out.parent.mkdir(parents=True, exist_ok=True)
-    with out.open('x', encoding='utf-8') as stream:
+    with out.open('x', encoding='utf-8', newline='\n') as stream:
         stream.write(render(data))
 
 

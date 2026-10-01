@@ -248,7 +248,8 @@ class CompareTests(unittest.TestCase):
         self.assertEqual(result['dimensions']['correctness'], 'same')
         self.assertAlmostEqual(result['per_task']['alpha']['pass_rate_difference'], 1 / 3)
         self.assertAlmostEqual(result['per_task']['beta']['pass_rate_difference'], -1 / 3)
-        text = report.render_comparison(result)
+        # Redirected Windows CLI output may use cp1252 rather than UTF-8.
+        text = report.render_comparison(result).encode('cp1252').decode('cp1252')
         self.assertIn('| alpha | +33.3 | 0.67 | 0.67 | 1.00 | 1.00 |', text)
         self.assertIn('| beta | -33.3 | 1.50 | 1.50 | 1.00 | 1.00 |', text)
 

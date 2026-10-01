@@ -10,6 +10,7 @@
 - Mismatched tasks/inputs, fewer than three trials per task per arm, or unknown token/runtime data make the comparison `inconclusive`; unknown is not zero.
 - Scorecards distinguish success, solution failure, infrastructure failure and unknown evidence. Explicit infrastructure contamination blocks a positive or equivalent verdict; measured correctness/safety deterioration still reports `worse`. No failed attempts are excluded.
 - JSON, text and markdown comparisons include per-task pass-rate differences and token/time point ratios alongside the aggregate verdict. Per-task effects are descriptive, not additional winner claims.
+- Report headers support redirected Windows output using `cp1252`; task and harness names still need to be representable in the output encoding.
 - See [BENCHMARK_ANALYSIS.md](BENCHMARK_ANALYSIS.md#automated-scoring) for the full rule and past findings.
 
 ## Published results

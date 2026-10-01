@@ -426,7 +426,7 @@ def _per_task_lines(result: dict) -> list[str]:
                          f"{counts['success']} / {counts['solution_failure']} / "
                          f"{counts['infrastructure_failure']} / {counts['unknown']} |")
     lines += ['', 'Per-task point effects (descriptive only; no per-task winner or confidence claim):', '',
-              '| Task | Pass-rate difference (candidate − baseline, pp) | Total tokens/correct ratio | '
+              '| Task | Pass-rate difference (candidate - baseline, pp) | Total tokens/correct ratio | '
               'Uncached tokens/correct ratio | Median wall ratio | P90 wall ratio |',
               '|---|---:|---:|---:|---:|---:|']
     for task, item in result['per_task'].items():

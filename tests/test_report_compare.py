@@ -62,6 +62,24 @@ class CompareTests(unittest.TestCase):
         result = self.verdict(arm('base') + arm('cand', tokens=950))
         self.assertEqual(result['verdict'], 'equivalent')
 
+    def test_same_mean_effect_is_called_only_when_the_interval_supports_it(self):
+        # Every candidate averages 20% fewer tokens; only the run-to-run spread differs.
+        def cand(spread):
+            return [row('cand', task, trial, tokens=800 + spread * (trial - 2))
+                    for task in TASKS for trial in (1, 2, 3)]
+        tight = self.verdict(arm('base') + cand(20))
+        self.assertEqual(tight['verdict'], 'better')
+        interval = tight['intervals']['tokens_per_correct']
+        self.assertLess(interval['high'], 0.9)
+        self.assertLessEqual(interval['low'], interval['ratio'])
+        no_loss = self.verdict(arm('base') + cand(400))
+        self.assertEqual((no_loss['verdict'], no_loss['dimensions']['tokens']), ('inconclusive', 'non-inferior'))
+        self.assertIn('tokens: no loss beyond 10%, but neither a gain nor equivalence is established',
+                      no_loss['reasons'])
+        noisy = self.verdict(arm('base') + cand(700))
+        self.assertEqual((noisy['verdict'], noisy['dimensions']['tokens']), ('inconclusive', 'uncertain'))
+        self.assertTrue(any('may be more than 10% worse' in reason for reason in noisy['reasons']), noisy['reasons'])
+
     def test_too_few_trials_is_inconclusive(self):
         cand = [r for r in arm('cand') if not (r['task'] == 'beta' and r['trial'] == 3)]
         result = self.verdict(arm('base') + cand)
@@ -198,9 +216,9 @@ class HeadlineTests(unittest.TestCase):
                 self.assertEqual(self.headline(rows), expected)
         worse = arm('base') + arm('cand')
         worse[-1]['passed'] = False
-        # One failure: 9 runs of tokens over 8 correct is +12.5% per correct, beyond the 10% margin.
-        self.assertEqual(self.headline(worse),
-                         'Winner: base (baseline). cand (candidate) passes fewer runs and uses more tokens.')
+        # One failure is +12.5% tokens per correct, but resampling that cell's failure count puts the
+        # interval's lower end at no change, so only the correctness gate is called.
+        self.assertEqual(self.headline(worse), 'Winner: base (baseline). cand (candidate) passes fewer runs.')
         short = [r for r in arm('base') + arm('cand') if r['trial'] < 3]
         self.assertTrue(self.headline(short).startswith('No winner yet (inconclusive): base/alpha: 2 trials < 3'))
 

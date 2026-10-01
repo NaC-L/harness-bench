@@ -80,7 +80,7 @@ class ChartsTests(unittest.TestCase):
             self.assertIn('median=', desc)
             self.assertIn('delta=', desc)
         desc = ET.fromstring(charts['summary.svg']).find('svg:desc', NS).text
-        self.assertIn('VERDICT: BETTER', desc)
+        self.assertIn('VERDICT: INCONCLUSIVE', desc)
         for arm in ('base', 'cand'):
             for key in ('tokens_per_correct', 'uncached_tokens_per_correct', 'cost_per_correct',
                         'median_wall_time_sec', 'p90_wall_time_sec'):
@@ -148,7 +148,7 @@ class ChartsTests(unittest.TestCase):
 
     def test_summary_relative_values_margin_dither_and_verdict(self):
         svg = render_charts(self.result, self.rows)['summary.svg']
-        self.assertIn('VERDICT: BETTER — CAND BEATS BASE', svg)
+        self.assertIn('VERDICT: INCONCLUSIVE — CAND VS BASE', svg)
         self.assertIn('← LOWER IS BETTER', svg)
         self.assertIn('DITHER = ±10% MARGIN', svg)
         self.assertIn('−20.0%', svg)

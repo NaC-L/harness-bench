@@ -7,6 +7,7 @@ from __future__ import annotations
 import difflib
 import json
 import math
+import random
 import re
 import shlex
 import statistics
@@ -163,15 +164,81 @@ def _combine(results: list[str]) -> str:
     return 'better' if 'better' in results else 'same'
 
 
-def _efficiency(b: dict, c: dict, keys: tuple[str, ...], margin: float) -> str:
-    """Lower is better; changes within the relative margin are noise."""
-    if any(b[k] is None or c[k] is None for k in keys):
+# Efficiency effects are candidate/baseline ratios with a percentile bootstrap that resamples
+# runs within each (arm, task) cell, so task mix stays fixed. Non-inferiority design: a loss
+# is ruled out only if the interval stays under 1 + margin, and a gain or an equivalence is
+# claimed only if the interval clears 1 - margin or sits inside the band.
+CONFIDENCE = 0.95
+RESAMPLES = 2000
+_EFFICIENCY = {'tokens': ('tokens_per_correct', 'uncached_tokens_per_correct'),
+               'time': ('median_wall_time_sec', 'p90_wall_time_sec')}
+_LABELS = {'tokens_per_correct': 'total tokens per correct', 'uncached_tokens_per_correct': 'uncached tokens per correct',
+           'median_wall_time_sec': 'median wall time', 'p90_wall_time_sec': 'p90 wall time'}
+
+
+def _ratio(b: dict, c: dict, key: str) -> float | None:
+    if b[key] is None or c[key] is None or b[key] <= 0:
+        return None
+    return c[key] / b[key]
+
+
+def ratio_intervals(b_rows: list[dict], c_rows: list[dict], keys: tuple[str, ...], *,
+                    resamples: int = RESAMPLES, confidence: float = CONFIDENCE, seed: int = 0) -> dict:
+    """Point ratio and bootstrap interval per key; interval bounds are None when undefined."""
+    b, c = scorecard(b_rows), scorecard(c_rows)
+    out = {key: {'ratio': _ratio(b, c, key), 'low': None, 'high': None} for key in keys}
+    if any(v['ratio'] is None for v in out.values()):
+        return out
+    cells = [defaultdict(list), defaultdict(list)]
+    for cell, rows in zip(cells, (b_rows, c_rows)):
+        for r in rows:
+            cell[r['task']].append(r)
+    rng = random.Random(seed)
+    samples = {key: [] for key in keys}
+    for _ in range(resamples):
+        b_s, c_s = (scorecard([rng.choice(runs) for runs in cell.values() for _ in runs]) for cell in cells)
+        for key in keys:
+            value = _ratio(b_s, c_s, key)
+            if value is not None:
+                samples[key].append(value)
+    tail = (1 - confidence) / 2
+    for key, values in samples.items():
+        # Undefined resamples (e.g. no correct run drawn) leave the interval unknown, not narrower.
+        if len(values) < resamples * (1 - tail):
+            continue
+        values.sort()
+        n = len(values)
+        out[key].update(low=values[int(tail * n)], high=values[math.ceil((1 - tail) * n) - 1])
+    return out
+
+
+def _efficiency(intervals: dict, keys: tuple[str, ...], margin: float) -> str:
+    """Lower is better: worse | uncertain (a material loss is not ruled out) | better | same | non-inferior."""
+    if any(intervals[k]['ratio'] is None for k in keys):
         return 'unknown'
-    if any(c[k] > b[k] * (1 + margin) for k in keys):
+    bounds = [(intervals[k]['low'], intervals[k]['high']) for k in keys]
+    if any(low is None for low, _ in bounds):
+        return 'uncertain'
+    if any(low > 1 + margin for low, _ in bounds):
         return 'worse'
-    if any(c[k] < b[k] * (1 - margin) for k in keys):
+    if any(high > 1 + margin for _, high in bounds):
+        return 'uncertain'
+    if any(high < 1 - margin for _, high in bounds):
         return 'better'
-    return 'same'
+    return 'same' if all(low >= 1 - margin for low, _ in bounds) else 'non-inferior'
+
+
+def _interval_text(item: dict, confidence: float) -> str:
+    if item['ratio'] is None:
+        return 'unknown'
+    bounds = (f"{item['low']:.2f}–{item['high']:.2f}" if item['low'] is not None else 'undefined')
+    return f"×{item['ratio']:.2f} ({confidence:.0%} CI {bounds})"
+
+
+def interval_lines(result: dict) -> list[str]:
+    """Candidate/baseline ratios with their bootstrap intervals, one bullet per efficiency measure."""
+    return [f"- {_LABELS[key]}: {_interval_text(result['intervals'][key], result['confidence'])}"
+            for keys in _EFFICIENCY.values() for key in keys]
 
 
 def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 0.10,
@@ -236,9 +303,10 @@ def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 
         warnings.append('verification unknown; verification comparison skipped')
     else:
         safety.append(_exact(b['verification_rate'], c['verification_rate'], True))
+    intervals = ratio_intervals(arms[baseline], arms[candidate], tuple(k for ks in _EFFICIENCY.values() for k in ks))
     dimensions = {'correctness': _combine(correctness),
-                  'tokens': _efficiency(b, c, ('tokens_per_correct', 'uncached_tokens_per_correct'), margin),
-                  'time': _efficiency(b, c, ('median_wall_time_sec', 'p90_wall_time_sec'), margin),
+                  'tokens': _efficiency(intervals, _EFFICIENCY['tokens'], margin),
+                  'time': _efficiency(intervals, _EFFICIENCY['time'], margin),
                   'safety': _combine(safety)}
 
     values = dimensions.values()
@@ -253,15 +321,27 @@ def compare(rows: list[dict], baseline: str, candidate: str, *, margin: float = 
             reasons.append('token usage unknown')
         if dimensions['time'] == 'unknown':
             reasons.append('runtime unknown')
+    elif 'uncertain' in efficiency:
+        verdict = 'inconclusive'
+        for name, keys in _EFFICIENCY.items():
+            if dimensions[name] == 'uncertain':
+                reasons += [f"{_LABELS[k]} {_interval_text(intervals[k], CONFIDENCE)} may be more than "
+                            f"{margin:.0%} worse; more trials needed" for k in keys
+                            if _efficiency(intervals, (k,), margin) == 'uncertain']
     elif 'worse' in efficiency and 'better' in values:
         verdict = 'tradeoff'
     elif 'worse' in values:
         verdict = 'worse'
     elif 'better' in values:
         verdict = 'better'
+    elif 'non-inferior' in efficiency:
+        verdict = 'inconclusive'
+        reasons += [f"{name}: no loss beyond {margin:.0%}, but neither a gain nor equivalence is established"
+                    for name in _EFFICIENCY if dimensions[name] == 'non-inferior']
     else:
         verdict = 'equivalent'
     return {'baseline': baseline, 'candidate': candidate, 'margin': margin, 'min_trials': min_trials,
+            'confidence': CONFIDENCE, 'resamples': RESAMPLES, 'intervals': intervals,
             'verdict': verdict, 'dimensions': dimensions, 'reasons': reasons, 'warnings': warnings,
             'scorecards': {baseline: b, candidate: c}}
 
@@ -286,6 +366,8 @@ def render_comparison(result: dict) -> str:
              f"| {result['candidate']} (candidate) |", '|---|---|---|---|']
     for name, cell in cells.items():
         lines.append(f"| {name} | {result['dimensions'][name]} | {cell(b)} | {cell(c)} |")
+    lines += ['', f"Candidate/baseline ratios ({result['confidence']:.0%} bootstrap CI, runs resampled within "
+                  f"task):", *interval_lines(result)]
     for title, items in (('Reasons', result['reasons']), ('Warnings', result['warnings'])):
         if items:
             lines += ['', f'{title}:', *(f'- {item}' for item in items)]
@@ -306,7 +388,10 @@ def headline(result: dict) -> str:
     better = [_BETTER[k] for k, v in dims.items() if v == 'better']
     worse = [_WORSE[k] for k, v in dims.items() if v == 'worse']
     same = [k for k, v in dims.items() if v == 'same']
+    not_worse = [k for k, v in dims.items() if v == 'non-inferior']
     tail = f"; {_series(same)} {'is' if len(same) == 1 else 'are'} the same" if same else ''
+    if not_worse:
+        tail += f"; {_series(not_worse)} {'is' if len(not_worse) == 1 else 'are'} not measurably worse"
     verdict = result['verdict']
     if verdict == 'better':
         return f"Winner: {c} (candidate). Compared with {b} (baseline) it {_series(better)}{tail}."
@@ -336,7 +421,9 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
     comparison = render_comparison(result).splitlines()
     table_end = next((i for i, line in enumerate(comparison[3:], 3) if not line), len(comparison))
     lines = [f'# {candidate} vs {baseline}', '', comparison[0], '', f'**{comparison[1]}**', '',
-             *comparison[3:table_end]]
+             *comparison[3:table_end], '', '## Efficiency ratios', '',
+             f"Candidate/baseline, {result['confidence']:.0%} bootstrap CI from {result['resamples']} "
+             'resamples of runs within each task:', '', *interval_lines(result)]
     if charts:
         lines += ['', '## Charts', '']
         lines += [f'![{alt}]({path})' for alt, path in charts]
@@ -444,6 +531,9 @@ def render_markdown(result, rows, manifest=None, *, results_label: str,
               'model access.',
               '', '## How to read this', '',
               f"Correctness and safety require non-inferiority (no extra failures or safety regressions). "
-              f"Tokens and time use a {result['margin']:.0%} relative margin. Unknown ≠ 0; "
+              f"Tokens and time compare the {result['confidence']:.0%} bootstrap interval of the "
+              f"candidate/baseline ratio with the {result['margin']:.0%} margin: worse if the whole interval "
+              'is above it, better if an interval is wholly below it and no loss beyond it is possible, the '
+              'same if it lies inside the band; otherwise the verdict is inconclusive. Unknown ≠ 0; '
               'medians use known runs only. Tokens per correct solution include failed attempts.']
     return '\n'.join(lines) + '\n'

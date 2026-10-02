@@ -87,6 +87,8 @@ Integrated source experiment: [benchmark-omp-token-reductions.toml](benchmark-om
 
 Opus repeat of the integrated experiment: [benchmark-omp-token-reductions-opus.toml](benchmark-omp-token-reductions-opus.toml) changes only the model and credential. The [protocol and results](experiments/omp-token-reductions-opus/PLAN.md) record 100/100 passing attempts at eight workers, an inconclusive verdict, and a shift from `read` to bash file dumps that causes snapshot-tag edit rejections. [Published findings, charts and sessions](published/omp-token-reductions-opus-2026-10/README.md).
 
+Ultra-combined follow-up: [benchmark-omp-ultra.toml](benchmark-omp-ultra.toml) and [protocol/results](experiments/omp-ultra/PLAN.md). The Opus bash-dump habit is not caused by the bundle (inline alone triggers it); `read` glob support removes the resulting edit errors. Against baseline the ultra set is token non-inferior (x0.92, CI 0.84-1.01) with equal correctness on 14 tasks, but no change cleared the 10% margin.
+
 ### Isolating harness state
 
 Without isolation, a result measures the harness **plus the operator's personal setup**. A canary check confirmed this for OMP: a non-isolated run quoted the operator's global `AGENTS.md` back, tried to connect to the operator's MCP servers, and sent about 970 more input tokens on its first request.

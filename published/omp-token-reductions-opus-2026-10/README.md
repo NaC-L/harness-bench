@@ -54,6 +54,8 @@ Both arms ran from source at OMP 18.4.5 with Bun 1.3.14, `anthropic/claude-opus-
 
 The bundle cannot attribute the bash habit to one change. It also differs from the inline-only Opus run in several ways: source build, pinned template, the new one-line schema summaries (`*-summary.md`), payloads, threshold and verification wording. The leading hypothesis is that the short schema summaries (bash: "Run commands in a persistent shell.") displace the native read-over-cat guidance. The next discriminating arm is the baseline source with only `inlineToolDescriptors: "on"`.
 
+**Follow-up (2026-10-02): that hypothesis was falsified.** A screen ([protocol and data](../../experiments/omp-ultra/PLAN.md)) found inline descriptors alone on the unchanged baseline source dump 10/10, and the bundle without wire summaries still dumps 9/10. Installed OMP builds show the same habit in *both* arms of the earlier inline-only Opus run (24/24 each), so the bash dump is Opus's default on OMP and this bundle's inline-off baseline is the outlier. The dumps batch orientation (`cat src/*.js test/*`), which `read` could not serve: it rejected globs and did not document `;` lists.
+
 Earlier launches stopped by the agent tool's 300 s command cap (30 passing attempts, plus five relaunches killed within seconds) and the preflight pair remain unpublished local exploratory data. They are not pooled here. Protocol: [experiments/omp-token-reductions-opus/PLAN.md](../../experiments/omp-token-reductions-opus/PLAN.md).
 
 ## Inspect all attempts

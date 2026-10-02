@@ -1,0 +1,20 @@
+# Rerun on OMP source with the home-walkup fix (branch fix/builtin-walkup-skips-home, ../omp-home-walkup):
+# the original unpinned arms loaded the operator ~/.omp/SYSTEM.md. Everything else is unchanged.
+# Pi vs OMP on Kimi K3 high. Native prompts, fresh per-run state, matched tools.
+# Provider ids differ between CLIs; both use the Kimi Coding service and k3 model.
+# The same operator Kimi credential is exported per run without recording its value.
+
+[harnesses.omp-kimi]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--config", "{benchmark_dir}/experiments/pi-omp-sol/omp.yml", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "kimi-code/k3", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/pi-omp-kimi/omp"
+env_commands = { KIMI_API_KEY = ["omp", "token", "kimi-code"] }
+
+[harnesses.pi-kimi]
+kind = "pi"
+command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--print", "--mode", "json", "--no-extensions", "--no-skills", "--no-prompt-templates", "--no-context-files", "--tools", "read,bash,edit,write", "--model", "kimi-coding/k3", "--thinking", "high", "--session-dir", "{session_dir}", "--session-id", "{session_id}", "{prompt}"]
+version_command = ["node", "{benchmark_dir}/.tools/pi/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js", "--version"]
+state_template = "experiments/omp-inline-codex-pi/pi"
+env = { PI_TELEMETRY = "0" }
+env_commands = { KIMI_API_KEY = ["omp", "token", "kimi-code"] }

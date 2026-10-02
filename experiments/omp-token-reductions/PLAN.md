@@ -2,7 +2,7 @@
 
 ## Arms and authority
 
-- Baseline: detached `../omp-token-baseline`, revision `27cdf191b`, OMP 18.4.5.
+- Baseline: detached `../omp-token-baseline`, revision `a7e593859`, OMP 18.4.5.
 - Candidate: local `../oh-my-pi` at that revision plus the requested changes.
 - Both invoke the source CLI with Bun 1.3.14, not installed OMP 18.4.8.
 - Identical native addon SHA-256: `cdd80824b5c8276be7430af57a9348e666a63c021a661ff522b738ec43b394d6`.
@@ -152,7 +152,7 @@ commit, push, publication or personal configuration change was performed.
 ## Authorized publication
 
 The measured source snapshot is committed as
-[`a05f8a3bb405928feff7df20bc923050017fba1f`](https://github.com/NaC-L/oh-my-pi/commit/a05f8a3bb405928feff7df20bc923050017fba1f)
+[`94fc3d8b97dc040a1ddfc4018f5598cc5e0c0616`](https://github.com/NaC-L/oh-my-pi/commit/94fc3d8b97dc040a1ddfc4018f5598cc5e0c0616)
 on the user's fork branch `prompts/smallest-useful-thing`; all 21 frozen file hashes
 match. [Published findings](../../published/omp-token-reductions-2026-10/README.md)
 include all 100 attempts, charts, sanitized native sessions and readable paired

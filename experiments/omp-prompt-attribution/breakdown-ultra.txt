@@ -1,0 +1,51 @@
+component                                   omp-base  omp-base-inline    omp-bundle     omp-ultra
+system[0] (preamble)                              81            81            81            81
+system[1] (preamble)                              57            57            57            57
+system[2] (preamble)                             264           264           264           264
+system[2] § Role                                  47            47            47            47
+system[2] # Engineering                          800           800           800           800
+system[2] # Personality                           85            85            85            85
+system[2] # Tone                                 454           454           454           454
+system[2] # Reasoning Format                     121           121           121           121
+system[2] # Succinct Patterns                     86            86            86            86
+system[2] # Escalation                           161           161           161           161
+system[2] § Runtime                                9             9             9             9
+system[2] # Internal URLs                      1,068         1,068         1,068         1,068
+system[2] # Tool Inventory                        78             0             0             0
+system[2] § Tool Policy                           13            13            13            13
+system[2] # General                              231           231           231           231
+system[2] # Tool I/O                             156           156           156           156
+system[2] # Specialized Tools                    348           348           348           348
+system[2] <critical>                             110           110           110           110
+system[2] <critical> (2)                         224           224           224           224
+system[2] # Exploration                           75            75            75            75
+system[2] § Workflow                              10            10            10            10
+system[2] # 1. Scope                             144           144           144           144
+system[2] # 2. Research Before Editing           186           186           186           186
+system[2] # 3. Decompose                          15            15            15            15
+system[2] # 4. Implement                         179           179           179           179
+system[2] # 5. Verify                          1,336         1,336         1,558         1,558
+system[2] # 6. Cleanup                           250           250           250           250
+system[2] § Delivery                              10            10            10            10
+system[2] <contract>                             585           585           585           585
+system[2] <completeness>                         517           517           517           517
+system[2] <evidence-and-output>                  147           147           147           147
+system[2] <yielding>                             293           293           293           293
+system[2] § Critical                              10            10            10            10
+system[2] <critical> (3)                         404           404           404           404
+system[3] <project-context>                       17            17            17            17
+system[3] <workstation>                          118           118           118           118
+system[3] <critical>                             327           327           327           327
+tool _read description                         1,522             0           127           164
+tool _read schema                                231           132           132           132
+tool _bash description                           642             0           103           103
+tool _bash schema                                622           485           471           471
+tool _edit description                         1,954             0            84            84
+tool _edit schema                                165           134           134           134
+tool _write description                          298             0            98            98
+tool _write schema                               191           160           160           160
+message[0] user                                1,265         1,265         1,265         1,265
+system[2] ## functions                             0         5,108         5,108         5,381
+TOTAL chars                                   15,906        16,222        16,842        17,152
+vs first                                       +0.0%         +2.0%         +5.9%         +7.8%
+Characters, not tokens. Bodies are written beside this table for exact inspection.

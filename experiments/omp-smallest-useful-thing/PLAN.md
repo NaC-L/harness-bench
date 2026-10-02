@@ -1,7 +1,7 @@
 # Smallest useful thing: branch versus parent
 
 Baseline: `79808c3bf` (v18.4.5), checkout `omp-baseline`.
-Candidate: `27cdf191b`, branch `prompts/smallest-useful-thing`, checkout `oh-my-pi`.
+Candidate: `a7e593859`, branch `prompts/smallest-useful-thing`, checkout `oh-my-pi`.
 Both source CLIs report 18.4.5; manifest versions record git describe.
 
 Hypothesis: scope-bounded workflow instructions reduce unnecessary work and tokens without lowering correctness. Not an established result.

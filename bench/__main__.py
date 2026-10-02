@@ -62,6 +62,11 @@ def main():
     exp.add_argument('--include-transcripts', action='store_true')
     explore = sub.add_parser('explore', help='compile an offline HTML run and session explorer')
     explore.add_argument('--out', type=Path, required=True)
+    cap = sub.add_parser('capture', help="record each arm's first model request against a local stub (no model usage)")
+    cap.add_argument('--harness', nargs='+', required=True)
+    cap.add_argument('--task', nargs=1, required=True)
+    cap.add_argument('--out', type=Path, required=True, help='directory for <arm>.request.json and breakdown.txt')
+    cap.add_argument('--timeout', type=positive, default=120)
     args = parser.parse_args()
     if args.command == 'run':
         if args.jobs is None:
@@ -131,6 +136,17 @@ def main():
     missing = [h for h in args.harness if h not in harnesses]
     if missing:
         parser.error('unknown harness: ' + ', '.join(missing))
+    if args.command == 'capture':
+        from .capture import capture, render
+        captures = [capture(tasks[0], harnesses[h], timeout=args.timeout) for h in args.harness]
+        args.out.mkdir(parents=True, exist_ok=True)
+        for c in captures:
+            (args.out / f'{c["harness"]}.request.json').write_text(json.dumps(c, indent=1, ensure_ascii=False),
+                                                                   encoding='utf-8')
+        table = render(captures)
+        (args.out / 'breakdown.txt').write_text(table + '\n', encoding='utf-8')
+        print(table)
+        return 0
     rows = run_matrix(tasks, [harnesses[h] for h in args.harness], args.results, trials=args.trials,
                       jobs=args.jobs, timeout=args.timeout, keep_workdir=args.keep_workdir,
                       alternate_order=args.alternate_order, config=args.config)

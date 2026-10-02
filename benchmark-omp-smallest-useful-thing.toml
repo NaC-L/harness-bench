@@ -1,5 +1,5 @@
 # OMP system-prompt experiment: oh-my-pi branch prompts/smallest-useful-thing
-# (27cdf191b) against its parent v18.4.5 (79808c3bf). Protocol:
+# (a7e593859) against its parent v18.4.5 (79808c3bf). Protocol:
 # experiments/omp-smallest-useful-thing/PLAN.md.
 # Both arms run from source with identical flags and overlay; only the checkout differs.
 

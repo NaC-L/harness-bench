@@ -8,7 +8,7 @@ The three earlier studies each changed one axis or ran on one model:
   -4.4% total / -10.0% uncached tokens, intervals touch 1.0.
 - Inline tool descriptors (Opus 5.5, installed 18.4.6): comparator `better`,
   -49% total / -10% uncached tokens per correct solution.
-- Integrated bundle (Sol, source a05f8a3): inline + threshold 300 + lean
+- Integrated bundle (Sol, source 94fc3d8): inline + threshold 300 + lean
   bash/edit payloads + proportional verification. `inconclusive`; inline
   increased Sol's initial input by 3.8%.
 
@@ -21,8 +21,8 @@ measured a large win. It measures the integrated bundle, not attribution.
 Identical to [../omp-token-reductions/PLAN.md](../omp-token-reductions/PLAN.md)
 except `--model anthropic/claude-opus-5-5` and the per-run `ANTHROPIC_OAUTH_TOKEN`:
 
-- Baseline: `../omp-token-baseline` @ `27cdf191b`, overlay inline off / threshold 100.
-- Candidate: `../oh-my-pi` @ `a05f8a3bb`, overlay inline on / threshold 300.
+- Baseline: `../omp-token-baseline` @ `a7e593859`, overlay inline off / threshold 100.
+- Candidate: `../oh-my-pi` @ `94fc3d8b9`, overlay inline on / threshold 300.
 - Same overlays, pinned per-arm system-prompt templates, isolated state, no
   prewalk/extensions/skills/rules, AST edit off, thinking high.
 - Before the grid all 21 frozen candidate files matched

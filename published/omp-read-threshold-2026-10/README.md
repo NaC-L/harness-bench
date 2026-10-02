@@ -36,4 +36,4 @@ Installed OMP **18.4.8**, `openai-codex/gpt-6.1-sol`, high reasoning, isolated p
 
 This grid ran with **four concurrent jobs**, while the integrated grid also ran with four: **eight total concurrent jobs**, approximately **68 minutes** for both grids. These are parallel-run latency measurements; **never compare their latency with serial data**. No missing metrics, infrastructure failures or retries were observed. The results describe this task set and execution regime, not a universal performance or safety win.
 
-Related publication: [OMP source commit a05f8a3](https://github.com/NaC-L/oh-my-pi/commit/a05f8a3bb405928feff7df20bc923050017fba1f) belongs to the separately measured integrated-change experiment. **This threshold experiment used installed OMP 18.4.8; its measurements are not attributed to that new source commit.**
+Related publication: [OMP source commit 94fc3d8](https://github.com/NaC-L/oh-my-pi/commit/94fc3d8b97dc040a1ddfc4018f5598cc5e0c0616) belongs to the separately measured integrated-change experiment. **This threshold experiment used installed OMP 18.4.8; its measurements are not attributed to that new source commit.**

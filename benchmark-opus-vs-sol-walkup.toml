@@ -1,0 +1,20 @@
+# Rerun on OMP source with the home-walkup fix (branch fix/builtin-walkup-skips-home, ../omp-home-walkup):
+# the original unpinned arms loaded the operator ~/.omp/SYSTEM.md. Everything else is unchanged.
+# Model comparison: GPT-6.1 Sol (baseline) vs Claude Opus 5.5 (candidate) on the same OMP harness.
+# Arms share every flag, the isolated state template and omp defaults (no --config overlay);
+# only --model and the per-run credential differ. Token counts come from each provider's own
+# tokenizer, so token deltas mix harness behaviour with tokenizer differences.
+
+[harnesses.omp-sol]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "openai-codex/gpt-6.1-sol", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { OPENAI_CODEX_OAUTH_TOKEN = ["omp", "token", "openai-codex"] }
+
+[harnesses.omp-opus]
+kind = "omp"
+command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--print", "--mode", "json", "--no-title", "--no-prewalk", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write", "--model", "anthropic/claude-opus-5-5", "--thinking", "high", "--session-dir", "{session_dir}", "{prompt}"]
+version_command = ["bun", "{benchmark_dir}/../omp-home-walkup/packages/coding-agent/src/cli.ts", "--version"]
+state_template = "experiments/omp-isolated/agent"
+env_commands = { ANTHROPIC_OAUTH_TOKEN = ["omp", "token", "anthropic"] }

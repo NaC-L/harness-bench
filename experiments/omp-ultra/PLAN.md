@@ -2,12 +2,12 @@
 
 ## Why
 
-The [Opus bundle grid](../omp-token-reductions-opus/PLAN.md) (source a05f8a3: inline
+The [Opus bundle grid](../omp-token-reductions-opus/PLAN.md) (source 94fc3d8: inline
 descriptors + read threshold 300 + lean bash/edit payloads + verification wording) lost
 the -49% inline-only Opus token win. In 49/50 candidate runs Opus dumped sources with
 bash `cat`, so first edits lacked snapshot tags and were rejected (edit errors 2 -> 25).
 
-Leading hypothesis (H1): a05f8a3 ships one-line native tool summaries (bash: "Run
+Leading hypothesis (H1): 94fc3d8 ships one-line native tool summaries (bash: "Run
 commands in a persistent shell.") when the catalog is inlined; before, native
 descriptions were empty. Alternatives: H2 the source build / pinned template itself
 (not the bundle) causes it; H3 another bundle change (bash `strict=false`, lean edit
@@ -20,14 +20,14 @@ read/bash/edit/write, AST edit off, no prewalk/extensions/skills/rules.
 
 | Arm | Checkout | Overlay |
 | --- | --- | --- |
-| `omp-base` | `../omp-token-baseline` @ 27cdf191b | inline off, threshold 100 |
-| `omp-base-inline` | `../omp-token-baseline` @ 27cdf191b | inline on, threshold 100 |
-| `omp-bundle` | `../oh-my-pi` @ a05f8a3bb | inline on, threshold 300 |
+| `omp-base` | `../omp-token-baseline` @ a7e593859 | inline off, threshold 100 |
+| `omp-base-inline` | `../omp-token-baseline` @ a7e593859 | inline on, threshold 100 |
+| `omp-bundle` | `../oh-my-pi` @ 94fc3d8b9 | inline on, threshold 300 |
 | `omp-ultra` | `../omp-ultra` (branch `perf/ultra-combined`) | inline on, threshold 300 |
 
 ## Phase 1: screen (exploratory, never pooled)
 
-10 original tasks x 1 trial x 4 arms, 12 workers. `omp-ultra` = a05f8a3 with empty
+10 original tasks x 1 trial x 4 arms, 12 workers. `omp-ultra` = 94fc3d8 with empty
 native descriptions when inlined (commit 9af2757b3). Discriminating signal is the
 bash file-dump rate (runs with any dump) and edit errors, from
 `experiments/omp-read-threshold/analyze.py`:
@@ -91,13 +91,13 @@ a 10-task x 1 screen of the fixed arm must show the dump rate falling.
 
 ### Fix screen
 
-`results/omp-ultra-screen-fix`: `omp-ultra` @ 9106531f6 (a05f8a3 + read globs/docs),
+`results/omp-ultra-screen-fix`: `omp-ultra` @ 79c4c1313 (94fc3d8 + read globs/docs),
 10 tasks x 1, 10/10 passed. Opus now opens with `read src/*.js` or `;` lists; runs
 dumping any file through bash 6/10, mostly `cat package.json` beside `ls -R`.
 
 ### Phase 2 throughput grid
 
-`results/omp-ultra-grid`: `omp-base` @ 27cdf191b vs `omp-ultra` @ 9106531f6, 14 tasks
+`results/omp-ultra-grid`: `omp-base` @ a7e593859 vs `omp-ultra` @ 79c4c1313, 14 tasks
 x 5 trials, 12 workers, 140/140 attempts kept, about 13 minutes. Comparator verdict
 `inconclusive` (only p90 time is undecided).
 
@@ -113,7 +113,7 @@ x 5 trials, 12 workers, 140/140 attempts kept, about 13 minutes. Comparator verd
 | Edit errors (runs) | 4 (3) | 5 (5) |
 | Requests | 507 | 472 |
 
-The a05f8a3 bundle on the same baseline had 41/50 source-dump runs and 25 edit errors;
+The 94fc3d8 bundle on the same baseline had 41/50 source-dump runs and 25 edit errors;
 the fix brings edit errors back to baseline level and keeps the bundle's token cut
 non-inferior. Correctness finally left the ceiling, but not between arms:
 `challenge-safety` failed 5/5 in both arms on the same hidden test ("absent and

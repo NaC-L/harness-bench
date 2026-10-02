@@ -36,9 +36,9 @@ The shell-dump detector is a regex proxy, not proof of absence. Lean schemas red
 
 ## Setup and attribution
 
-Both arms used OMP 18.4.5, `openai-codex/gpt-6.1-sol`, high thinking, isolated state, and the same task grid. Baseline source: `27cdf191bab644f78f1d680eb4ef6ce8002d6afc`. The measured candidate bundled inline concise native descriptors explicitly enabled, read-summary minimum 300 lines (baseline 100), the proportional-verification prompt, and lean Bash/edit output. Existing provider `auto` policy stayed unchanged: inline descriptors were not made OpenAI-on by default.
+Both arms used OMP 18.4.5, `openai-codex/gpt-6.1-sol`, high thinking, isolated state, and the same task grid. Baseline source: `a7e593859487c26a6507005503329b8ea00c481a`. The measured candidate bundled inline concise native descriptors explicitly enabled, read-summary minimum 300 lines (baseline 100), the proportional-verification prompt, and lean Bash/edit output. Existing provider `auto` policy stayed unchanged: inline descriptors were not made OpenAI-on by default.
 
-The candidate's 21 frozen source-file hashes match the subsequently published [source commit a05f8a3](https://github.com/NaC-L/oh-my-pi/commit/a05f8a3bb405928feff7df20bc923050017fba1f). This bundled comparison cannot attribute an effect to any individual change. Execution used four concurrent jobs for this grid, concurrently with the four-worker threshold grid (eight total workers), taking approximately 68 minutes; this is not a serial, alternating-order experiment.
+The candidate's 21 frozen source-file hashes match the subsequently published [source commit 94fc3d8](https://github.com/NaC-L/oh-my-pi/commit/94fc3d8b97dc040a1ddfc4018f5598cc5e0c0616). This bundled comparison cannot attribute an effect to any individual change. Execution used four concurrent jobs for this grid, concurrently with the four-worker threshold grid (eight total workers), taking approximately 68 minutes; this is not a serial, alternating-order experiment.
 
 ## Inspect all attempts
 

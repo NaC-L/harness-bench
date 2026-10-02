@@ -99,6 +99,17 @@ Without isolation, a result measures the harness **plus the operator's personal 
 - Each run also records `ancestor_context`: non-empty `AGENTS.md`, `.omp`, `.mcp.json` and similar entries in folders above the workdir, which harnesses discover as project context.
 - `compare` warns when a stateful arm was not isolated or had ancestor context.
 - An isolated agent directory does not fence project prompt discovery. Source tests observed a home-level `.omp/SYSTEM.md` through Windows temporary-workspace ancestry; `ancestor_context` skips home, so an empty list alone is not proof of prompt isolation. The new threshold and integrated grids pin explicit `--system-prompt-template` files; template/source hashes must be checked separately.
+- `capture` (below) shows the leak directly: on 2026-10-02 the unpinned `omp-opus` arm of `benchmark-pi-omp-opus.toml` sent the operator's `~/.omp/SYSTEM.md` (`## Use my time efficiently`, ...) in place of OMP's default prompt. OMP's builtin discovery walks up from a `%TEMP%` workdir, reaches `~/.omp` and treats it as a project config dir. Fix in progress: [prompt attribution plan](experiments/omp-prompt-attribution/PLAN.md#omp-bug-home-omp-loaded-as-project-config). Every unpinned OMP arm (`list` the configs without `--system-prompt-template`) measures that file, not stock OMP. Capture an arm before trusting its prompt. Reruns on the fixed source: the Opus inline-descriptor win (×0.51) became ×1.05 (inconclusive); see the [plan](experiments/omp-prompt-attribution/PLAN.md#reruns-without-the-operator-systemmd-2026-10-02).
+
+### Inspect the exact first request (no model usage)
+
+`capture` runs each arm's own command against a local Anthropic Messages stub and records the first request body: system blocks, tool schemas and the opening messages. The stub answers with one final line, so each arm ends after a single turn. `env_commands` are not executed; their keys get dummy values, so no credential is used. OMP is routed through `ANTHROPIC_BASE_URL`; Pi through `models.json` in its disposable state root (Pi arms need `state_template`). Anthropic-model arms only.
+
+```sh
+python -m bench --config benchmark-omp-ultra.toml capture --harness omp-base omp-ultra --task bugfix-duration --out results/capture-ultra
+```
+
+It writes `<arm>.request.json` and `breakdown.txt`: a side-by-side character count per system-prompt section, per tool description/schema and per message. Characters are a deterministic size measure, not provider tokens. Use it to attribute prompt overhead, to verify that an arm changes only what it claims, and as a zero-cost preflight before a measured grid. [Prompt attribution plan](experiments/omp-prompt-attribution/PLAN.md).
 
 This command makes model calls; check your account and pinned model first:
 
@@ -173,6 +184,8 @@ Cross-harness results include native prompt/tool/sandbox differences, not just
 OMP descriptor placement. [Published results and combined graph](published/omp-inline-baseline-codex-pi-2026-09/REPORT.md)
 include sanitized per-run data; credentials and raw session artifacts are excluded.
 
+
+OMP source commits referenced by these experiments were re-authored on 2026-10-02 (identical trees, new SHAs): `27cdf191b` -> `a7e593859`, `a05f8a3bb` -> `94fc3d8b9`, `9106531f6` -> `79c4c1313`. Raw run records and recorded `git describe` versions keep the old SHAs.
 
 ## Read and share results
 

@@ -1,0 +1,37 @@
+component                                         omp-opus       pi-opus
+system[0] (preamble)                                    81            57
+system[1] (preamble)                                    57           170
+system[2] (preamble)                                   207             0
+system[2] ## Use my time efficiently                 1,406             0
+system[2] ## Think long-term                         1,379             0
+system[2] ## When working on code                      591             0
+system[3] <project-context>                             17             0
+system[3] <workstation>                                118             0
+system[3] <critical>                                   327             0
+tool _read description                               1,522             0
+tool _read schema                                      231             0
+tool _bash description                                 642             0
+tool _bash schema                                      622             0
+tool _edit description                               1,954             0
+tool _edit schema                                      165             0
+tool _write description                                298             0
+tool _write schema                                     191             0
+message[0] user                                      1,265         1,079
+system[1] <tools>                                        0           340
+system[1] <rules>                                        0           840
+system[1] <docs>                                         0         1,323
+system[1] <cwd>                                          0            66
+tool Read description                                    0           303
+tool Read schema                                         0           406
+tool Bash description                                    0           248
+tool Bash schema                                         0           285
+tool Edit description                                    0           326
+tool Edit schema                                         0           834
+tool Write description                                   0           127
+tool Write schema                                        0           254
+tool __pi_deferred_placeholder__ description             0            55
+tool __pi_deferred_placeholder__ schema                  0            47
+message[1] system                                        0             0
+TOTAL chars                                         11,073         6,760
+vs first                                             +0.0%        -39.0%
+Characters, not tokens. Bodies are written beside this table for exact inspection.

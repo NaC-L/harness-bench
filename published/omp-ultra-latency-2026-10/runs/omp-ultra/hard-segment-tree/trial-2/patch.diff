@@ -1,0 +1,56 @@
+diff --git "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js" "{temp}\\hb-61488c2a-mtfklxzm/src/range-tree.js"
+index c830491..feca13d 100644
+--- "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js"
++++ "{temp}\\hb-61488c2a-mtfklxzm/src/range-tree.js"
+@@ -28,19 +28,23 @@ class RangeTree {
+     if (!Array.isArray(values) || values.length === 0) {
+       throw new RangeError('values must be a nonempty array of finite numbers');
+     }
+-    for (const value of values) {
++    const length = values.length;
++    const copy = new Float64Array(length);
++    for (let i = 0; i < length; i++) {
++      const value = values[i];
+       if (!Number.isFinite(value)) {
+         throw new RangeError('values must be a nonempty array of finite numbers');
+       }
++      copy[i] = value;
+     }
+-    this._length = values.length;
++    this._length = length;
+     const capacity = 4 * this._length;
+     this._sums = new Float64Array(capacity);
+     this._maxima = new Float64Array(capacity);
+     this._assignments = new Float64Array(capacity);
+     this._additions = new Float64Array(capacity);
+     this._hasAssignment = new Uint8Array(capacity);
+-    this._build(1, 0, this._length, values);
++    this._build(1, 0, this._length, copy);
+   }
+ 
+   get length() {
+@@ -123,6 +127,7 @@ class RangeTree {
+     this._maxima[node] = value;
+     this._assignments[node] = value;
+     this._hasAssignment[node] = 1;
++    this._additions[node] = 0;
+   }
+ 
+   _applyAddition(node, size, value) {
+@@ -175,7 +180,7 @@ class RangeTree {
+     if (l <= left && right <= r) return this._maxima[node];
+     this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+-    let result = 0;
++    let result = -Infinity;
+     if (l < middle) result = Math.max(result, this._max(node * 2, left, middle, l, r));
+     if (r > middle) result = Math.max(result, this._max(node * 2 + 1, middle, right, l, r));
+     return result;
+@@ -184,6 +189,7 @@ class RangeTree {
+   _first(node, left, right, lo, x) {
+     if (right <= lo || this._maxima[node] < x) return -1;
+     if (right - left === 1) return left;
++    this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+     const found = this._first(node * 2, left, middle, lo, x);
+     return found !== -1 ? found : this._first(node * 2 + 1, middle, right, lo, x);

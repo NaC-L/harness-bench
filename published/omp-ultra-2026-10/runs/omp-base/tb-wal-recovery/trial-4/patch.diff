@@ -1,0 +1,228 @@
+diff --git "{temp}\\hb-bc7b5428-zng_b9xs/src/clone.js" "{temp}\\hb-bc7b5428-zng_b9xs/src/clone.js"
+new file mode 100644
+index 0000000..606254f
+--- /dev/null
++++ "{temp}\\hb-bc7b5428-zng_b9xs/src/clone.js"
+@@ -0,0 +1,24 @@
++'use strict';
++
++// Deep copy of JSON-compatible data. Object keys (including '__proto__') are
++// defined as own data properties, never treated as prototype operations.
++function cloneValue(value) {
++  if (value === null || typeof value !== 'object') return value;
++  if (Array.isArray(value)) return value.map(cloneValue);
++  const out = {};
++  for (const key of Object.keys(value)) {
++    Object.defineProperty(out, key, {
++      value: cloneValue(value[key]),
++      writable: true,
++      enumerable: true,
++      configurable: true,
++    });
++  }
++  return out;
++}
++
++function cloneEntry(entry) {
++  return { lsn: entry.lsn, key: entry.key, value: cloneValue(entry.value) };
++}
++
++module.exports = { cloneValue, cloneEntry };
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js" "{temp}\\hb-bc7b5428-zng_b9xs/src/engine.js"
+index d9cd043..6ce36d2 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js"
++++ "{temp}\\hb-bc7b5428-zng_b9xs/src/engine.js"
+@@ -1,33 +1,63 @@
+ 'use strict';
+ 
+ const { SegmentManager } = require('./segments');
++const { cloneValue, cloneEntry } = require('./clone');
+ 
+ class Engine {
+   constructor({ segmentCapacity = 4, flush = async () => {} } = {}) {
+     this._segmentManager = new SegmentManager(segmentCapacity);
+     this._flush = flush;
+     this._nextLsn = 1;
++    // _records[lsn - 1] = { entry, durable, publish }; publish resolves the
++    // commit once the global durable prefix reaches its LSN.
++    this._records = [];
++    this._durablePrefix = 0;
+     this._state = new Map();
+-    this._committed = [];
+   }
+ 
+   async commitUpdate(key, value) {
+-    const entry = { lsn: this._nextLsn++, key, value };
+-    const segment = this._segmentManager.reserveSegment();
+-    await this._flush({ ...entry });
+-    this._segmentManager.appendEntry(segment, entry);
+-    this._segmentManager.markDurable(segment);
+-    this._state.set(key, value);
+-    this._committed.push(entry);
+-    return { ...entry };
++    const entry = { lsn: this._nextLsn++, key, value: cloneValue(value) };
++    const record = { entry, durable: false, publish: null };
++    const published = new Promise(resolve => { record.publish = resolve; });
++    this._records.push(record);
++    const handle = this._segmentManager.appendEntry(entry);
++
++    await this._flush(cloneEntry(entry));
++
++    record.durable = true;
++    this._segmentManager.markDurable(handle);
++    this._advanceDurablePrefix();
++    await published;
++    return cloneEntry(entry);
++  }
++
++  _advanceDurablePrefix() {
++    while (this._durablePrefix < this._records.length) {
++      const record = this._records[this._durablePrefix];
++      if (!record.durable) break;
++      this._durablePrefix += 1;
++      this._state.set(record.entry.key, record.entry.value);
++      record.publish();
++    }
+   }
+ 
+   runtimeState() {
+-    return Object.fromEntries(this._state);
++    const state = {};
++    for (const [key, value] of this._state) {
++      Object.defineProperty(state, key, {
++        value: cloneValue(value),
++        writable: true,
++        enumerable: true,
++        configurable: true,
++      });
++    }
++    return state;
+   }
+ 
+   committedEntries() {
+-    return this._committed.map(entry => ({ ...entry }));
++    const out = new Array(this._durablePrefix);
++    for (let i = 0; i < this._durablePrefix; i += 1) out[i] = cloneEntry(this._records[i].entry);
++    return out;
+   }
+ 
+   crashSnapshot() {
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js" "{temp}\\hb-bc7b5428-zng_b9xs/src/recovery.js"
+index ab4a26e..b27e4ac 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js"
++++ "{temp}\\hb-bc7b5428-zng_b9xs/src/recovery.js"
+@@ -1,20 +1,41 @@
+ 'use strict';
+ 
++const { cloneValue } = require('./clone');
++
+ function recoverEngine(snapshot) {
+-  const state = new Map();
+-  const replayed = [];
+-  let lastLsn = 0;
++  // Candidate per LSN from each segment's durable prefix; lowest containing
++  // segmentId wins regardless of segment or entry ordering.
++  const candidates = new Map();
+   for (const segment of snapshot.segments) {
+-    const count = segment.durableCount ?? segment.entries.length;
+-    for (const entry of segment.entries.slice(0, count)) {
+-      if (entry.lsn <= lastLsn) continue;
+-      replayed.push({ segmentId: segment.segmentId, ...entry });
+-      state.set(entry.key, entry.value);
+-      lastLsn = entry.lsn;
++    const count = segment.durableCount ?? 0;
++    const entries = segment.entries;
++    const limit = Math.min(count, entries.length);
++    for (let i = 0; i < limit; i += 1) {
++      const entry = entries[i];
++      const existing = candidates.get(entry.lsn);
++      if (!existing || segment.segmentId < existing.segmentId) {
++        candidates.set(entry.lsn, { segmentId: segment.segmentId, entry });
++      }
+     }
+   }
++
++  const state = {};
++  const replayed = [];
++  let lastLsn = 0;
++  for (let lsn = 1; candidates.has(lsn); lsn += 1) {
++    const { segmentId, entry } = candidates.get(lsn);
++    replayed.push({ segmentId, lsn, key: entry.key, value: cloneValue(entry.value) });
++    Object.defineProperty(state, entry.key, {
++      value: cloneValue(entry.value),
++      writable: true,
++      enumerable: true,
++      configurable: true,
++    });
++    lastLsn = lsn;
++  }
++
+   return {
+-    state: Object.fromEntries(state),
++    state,
+     replayed,
+     stats: {
+       segmentsScanned: snapshot.segments.length,
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js" "{temp}\\hb-bc7b5428-zng_b9xs/src/segments.js"
+index f284e6b..f9bf95e 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js"
++++ "{temp}\\hb-bc7b5428-zng_b9xs/src/segments.js"
+@@ -1,34 +1,39 @@
+ 'use strict';
+ 
++const { cloneEntry } = require('./clone');
++
+ class SegmentManager {
+   constructor(capacity) {
+     this.capacity = capacity;
+     this.segments = [];
+   }
+ 
+-  reserveSegment() {
++  // Appends synchronously in call (LSN) order; rotates lazily so a segment is
++  // only allocated by its first commit. Returns a handle for markDurable.
++  appendEntry(entry) {
+     let segment = this.segments[this.segments.length - 1];
+-    if (!segment || segment.reserved === this.capacity) {
++    if (!segment || segment.entries.length >= this.capacity) {
+       if (segment) segment.closed = true;
+       segment = {
+         segmentId: this.segments.length + 1,
+         closed: false,
+         durableCount: 0,
+         entries: [],
+-        reserved: 0,
++        durable: [],
+       };
+       this.segments.push(segment);
+     }
+-    segment.reserved += 1;
+-    return segment;
+-  }
+-
+-  appendEntry(segment, entry) {
+     segment.entries.push(entry);
++    segment.durable.push(false);
++    return { segment, index: segment.entries.length - 1 };
+   }
+ 
+-  markDurable(segment) {
+-    segment.durableCount += 1;
++  // durableCount tracks only the contiguous durable prefix of the segment.
++  markDurable({ segment, index }) {
++    segment.durable[index] = true;
++    while (segment.durableCount < segment.entries.length && segment.durable[segment.durableCount]) {
++      segment.durableCount += 1;
++    }
+   }
+ 
+   snapshot() {
+@@ -37,7 +42,7 @@ class SegmentManager {
+         segmentId: segment.segmentId,
+         closed: segment.closed,
+         durableCount: segment.durableCount,
+-        entries: segment.entries.map(entry => ({ ...entry })),
++        entries: segment.entries.map(cloneEntry),
+       })),
+     };
+   }

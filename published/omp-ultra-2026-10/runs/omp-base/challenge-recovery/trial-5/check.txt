@@ -1,0 +1,144 @@
+TAP version 13
+# Subtest: commits balances and reads them in a later invocation
+ok 1 - commits balances and reads them in a later invocation
+  ---
+  duration_ms: 9.0462
+  type: 'test'
+  ...
+# Subtest: a repeated successful batch is idempotent
+ok 2 - a repeated successful batch is idempotent
+  ---
+  duration_ms: 4.4125
+  type: 'test'
+  ...
+# Subtest: reopening after interrupted publication does not double the balance
+ok 3 - reopening after interrupted publication does not double the balance
+  ---
+  duration_ms: 4.7102
+  type: 'test'
+  ...
+# Subtest: fresh recovery after interruption at prepared commits exactly once
+ok 4 - fresh recovery after interruption at prepared commits exactly once
+  ---
+  duration_ms: 15.1401
+  type: 'test'
+  ...
+# Subtest: fresh recovery after interruption at published commits exactly once
+ok 5 - fresh recovery after interruption at published commits exactly once
+  ---
+  duration_ms: 8.1467
+  type: 'test'
+  ...
+# Subtest: fresh recovery after interruption at complete commits exactly once
+ok 6 - fresh recovery after interruption at complete commits exactly once
+  ---
+  duration_ms: 7.2763
+  type: 'test'
+  ...
+# Subtest: the published checkpoint exposes a coherent balance and receipt snapshot
+ok 7 - the published checkpoint exposes a coherent balance and receipt snapshot
+  ---
+  duration_ms: 7.7015
+  type: 'test'
+  ...
+# Subtest: transient writeFile pending.tmp resumes without loss
+ok 8 - transient writeFile pending.tmp resumes without loss
+  ---
+  duration_ms: 8.494
+  type: 'test'
+  ...
+# Subtest: transient writeFile pending.tmp partial write resumes without loss
+ok 9 - transient writeFile pending.tmp partial write resumes without loss
+  ---
+  duration_ms: 7.8515
+  type: 'test'
+  ...
+# Subtest: transient rename pending.json resumes without loss
+ok 10 - transient rename pending.json resumes without loss
+  ---
+  duration_ms: 8.8498
+  type: 'test'
+  ...
+# Subtest: transient writeFile ledger.tmp resumes without loss
+ok 11 - transient writeFile ledger.tmp resumes without loss
+  ---
+  duration_ms: 7.0901
+  type: 'test'
+  ...
+# Subtest: transient writeFile ledger.tmp partial write resumes without loss
+ok 12 - transient writeFile ledger.tmp partial write resumes without loss
+  ---
+  duration_ms: 7.5404
+  type: 'test'
+  ...
+# Subtest: transient rename ledger.json resumes without loss
+ok 13 - transient rename ledger.json resumes without loss
+  ---
+  duration_ms: 6.8736
+  type: 'test'
+  ...
+# Subtest: transient unlink pending.json resumes without loss
+ok 14 - transient unlink pending.json resumes without loss
+  ---
+  duration_ms: 6.2715
+  type: 'test'
+  ...
+# Subtest: recovery itself may be interrupted during publication or cleanup and retried
+ok 15 - recovery itself may be interrupted during publication or cleanup and retried
+  ---
+  duration_ms: 18.4761
+  type: 'test'
+  ...
+# Subtest: a new batch first finishes older interrupted work, keeping receipt order
+ok 16 - a new batch first finishes older interrupted work, keeping receipt order
+  ---
+  duration_ms: 8.1386
+  type: 'test'
+  ...
+# Subtest: conflicting receipt IDs reject after recovery without rewriting committed results
+ok 17 - conflicting receipt IDs reject after recovery without rewriting committed results
+  ---
+  duration_ms: 7.9143
+  type: 'test'
+  ...
+# Subtest: invalid batches and arithmetic overflow preserve the existing snapshot
+ok 18 - invalid batches and arithmetic overflow preserve the existing snapshot
+  ---
+  duration_ms: 5.3749
+  type: 'test'
+  ...
+# Subtest: empty commits, object-inherited key names, and negative balances are ordinary data
+ok 19 - empty commits, object-inherited key names, and negative balances are ordinary data
+  ---
+  duration_ms: 5.7569
+  type: 'test'
+  ...
+# Subtest: stale staging files are ignored and malformed durable JSON is not erased
+not ok 20 - stale staging files are ignored and malformed durable JSON is not erased
+  ---
+  duration_ms: 4.6795
+  type: 'test'
+  location: '{temp}\\hb-c3b032b5-_w1bzou5\\test\\recovery.test.js:146:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The error is expected to be an instance of "SyntaxError". Received "Error"
+    
+    Error message:
+    
+    Corrupt ledger file {temp}\ledger-hidden-WQrIWZ\pending.json: invalid JSON
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    async TestContext.<anonymous> (file:///{temp}/hb-c3b032b5-_w1bzou5/test/recovery.test.js:154:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 19
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 206.411

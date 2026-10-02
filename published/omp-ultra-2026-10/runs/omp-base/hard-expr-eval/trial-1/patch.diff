@@ -1,0 +1,229 @@
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-24b34637-1dy9t3c3/src/evaluator.js"
+index 7f2b237..9994129 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-24b34637-1dy9t3c3/src/evaluator.js"
+@@ -14,14 +14,24 @@ function apply(operator, left, right) {
+     case '-': return left - right;
+     case '*': return left * right;
+     case '/': return left / right;
+-    case '**': return left ** right;
++    case '**':
++      // C pow (used by Python floats): 1 ** y and (-1) ** ±inf are 1.
++      if (left === 1 || (left === -1 && (right === Infinity || right === -Infinity))) return 1;
++      return left ** right;
+     case '//': {
+-      const quotient = Math.trunc(left / right);
+-      return quotient === 0 ? 0 : quotient;
++      // Python's float floor division, exact for integral inputs.
++      const remainder = left % right;
++      let quotient = (left - remainder) / right;
++      if (remainder !== 0 && (right < 0) !== (remainder < 0)) quotient -= 1;
++      if (quotient === 0) return 0;
++      const floored = Math.floor(quotient);
++      return quotient - floored > 0.5 ? floored + 1 : floored;
+     }
+     case '%': {
++      // Python's float modulo: the result takes the divisor's sign.
+       const remainder = left % right;
+       if (remainder === 0) return 0;
++      if ((right < 0) !== (remainder < 0)) return remainder + right;
+       return remainder;
+     }
+     case '<': return left < right;
+@@ -99,13 +109,14 @@ function evaluateAst(root, variables) {
+         frame.index = 0;
+         frames.push({ node: node.args[0], phase: 0 });
+       } else {
+-        const value = Number(result);
++        // Python min/max: keep the first extreme argument, by strict comparison.
++        const value = result;
+         if (frame.index === 0) frame.value = value;
+-        else if (node.name === 'min') frame.value = Math.min(frame.value, value);
+-        else frame.value = Math.max(frame.value, value);
++        else if (node.name === 'min' ? Number(value) < Number(frame.value)
++          : Number(value) > Number(frame.value)) frame.value = value;
+         frame.index += 1;
+         if (frame.index === node.args.length) {
+-          result = node.name === 'abs' ? Math.abs(frame.value) : frame.value;
++          result = node.name === 'abs' ? Math.abs(Number(frame.value)) : frame.value;
+           frames.pop();
+         } else {
+           frames.push({ node: node.args[frame.index], phase: 0 });
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-24b34637-1dy9t3c3/src/parser.js"
+index 4af2109..43d5c5a 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-24b34637-1dy9t3c3/src/parser.js"
+@@ -2,30 +2,38 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++const COMPARISONS = new Set(['<', '<=', '>', '>=', '==', '!=']);
++const PRODUCTS = new Set(['*', '/', '//', '%']);
++const FUNCTIONS = new Set(['min', 'max', 'abs']);
++
+ /** Parse a complete token sequence into an AST. Nodes retain operator columns. */
+ function parse(tokens) {
+   let position = 0;
+   const current = () => tokens[position];
+   const take = () => tokens[position++];
+-  const is = value => current().value === value;
++  const isOperator = value => current().type === 'operator' && current().value === value;
+   const expect = value => {
+-    if (!is(value)) throw new ExprError(`Expected ${value}`, current().column);
++    if (!isOperator(value)) throw new ExprError(`Expected ${value}`, current().column);
+     return take();
+   };
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
++  /** Chained comparisons form one flat node: a < b <= c means a < b and b <= c. */
+   function comparison() {
+-    let left = sum();
+-    while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++    const first = sum();
++    if (current().type !== 'operator' || !COMPARISONS.has(current().value)) return first;
++    const operands = [first];
++    const operators = [];
++    while (current().type === 'operator' && COMPARISONS.has(current().value)) {
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+     let left = product();
+-    while (is('+') || is('-')) {
++    while (isOperator('+') || isOperator('-')) {
+       const operator = take();
+       left = binary(operator, left, product());
+     }
+@@ -33,54 +41,55 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
+-    while (['*', '/', '//', '%'].includes(current().value)) {
++    let left = unary();
++    while (current().type === 'operator' && PRODUCTS.has(current().value)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+ 
++  /** Signs are collected iteratively so long sign runs do not recurse. */
+   function unary() {
+-    if (is('+') || is('-')) {
+-      return { type: 'unary', operator: take(), operand: unary() };
++    const signs = [];
++    while (isOperator('+') || isOperator('-')) signs.push(take());
++    let operand = power();
++    for (let index = signs.length - 1; index >= 0; index -= 1) {
++      operand = { type: 'unary', operator: signs[index], operand };
+     }
+-    return primary();
++    return operand;
+   }
+ 
++  /** ** binds tighter than a sign on its left and is right-associative. */
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
+-      const operator = take();
+-      left = binary(operator, left, unary());
++    const base = primary();
++    if (!isOperator('**')) return base;
++    const operator = take();
++    return binary(operator, base, unary());
++  }
++
++  function call(name) {
++    if (!FUNCTIONS.has(name.value)) throw new ExprError('Unknown function', name.column);
++    take();
++    if (isOperator(')')) throw new ExprError('Wrong argument count', name.column);
++    const args = [comparison()];
++    while (isOperator(',')) {
++      if (name.value === 'abs') throw new ExprError('Wrong argument count', name.column);
++      take();
++      args.push(comparison());
+     }
+-    return left;
++    expect(')');
++    return { type: 'call', name: name.value, args };
+   }
+ 
+   function primary() {
+     const token = take();
+     if (token.type === 'number') return { type: 'number', value: token.value };
+     if (token.type === 'identifier') {
+-      if (!is('(')) return { type: 'variable', name: token.value, column: token.column };
+-      take();
+-      const args = [];
+-      if (!is(')')) {
+-        args.push(comparison());
+-        while (is(',')) {
+-          take();
+-          args.push(comparison());
+-        }
+-      }
+-      expect(')');
+-      if (!['min', 'max', 'abs'].includes(token.value)) {
+-        throw new ExprError('Unknown function', token.column);
+-      }
+-      if (!args.length || (token.value === 'abs' && args.length !== 1)) {
+-        throw new ExprError('Wrong argument count', token.column);
+-      }
+-      return { type: 'call', name: token.value, args };
++      if (isOperator('(')) return call(token);
++      return { type: 'variable', name: token.value, column: token.column };
+     }
+-    if (token.value === '(') {
++    if (token.type === 'operator' && token.value === '(') {
+       const expression = comparison();
+       expect(')');
+       return expression;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-24b34637-1dy9t3c3/src/tokenizer.js"
+index d0b81a6..c57422c 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-24b34637-1dy9t3c3/src/tokenizer.js"
+@@ -2,16 +2,21 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++const PAIRS = new Set(['**', '//', '<=', '>=', '==', '!=']);
++const SINGLES = new Set(['+', '-', '*', '/', '%', '<', '>', '(', ')', ',']);
++
+ /** Convert source to positioned tokens without repeatedly slicing its suffix. */
+ function tokenize(source) {
+   const tokens = [];
++  const whitespace = /\s+/y;
+   const number = /(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?/y;
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+   while (offset < source.length) {
+-    const column = offset + 1;
+-    while (offset < source.length && /\s/.test(source[offset])) offset += 1;
++    whitespace.lastIndex = offset;
++    if (whitespace.test(source)) offset = whitespace.lastIndex;
+     if (offset === source.length) break;
++    const column = offset + 1;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {
+@@ -27,10 +32,10 @@ function tokenize(source) {
+       continue;
+     }
+     const pair = source.slice(offset, offset + 2);
+-    if (['**', '//', '<=', '>=', '==', '!='].includes(pair)) {
++    if (PAIRS.has(pair)) {
+       tokens.push({ type: 'operator', value: pair, column });
+       offset += 2;
+-    } else if ('+-*/%<>() ,'.includes(source[offset]) && source[offset] !== ' ') {
++    } else if (SINGLES.has(source[offset])) {
+       tokens.push({ type: 'operator', value: source[offset], column });
+       offset += 1;
+     } else {

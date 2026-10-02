@@ -1,0 +1,115 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-edb4a183-0fbpalr1/src/resolver.js"
+index b445e71..e8c0c33 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-edb4a183-0fbpalr1/src/resolver.js"
+@@ -1,6 +1,6 @@
+ 'use strict';
+ 
+-const { parse, compileRange } = require('./semver');
++const { parse, compileRange, compareParts } = require('./semver');
+ 
+ function requireRecord(value) {
+   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+@@ -16,9 +16,7 @@ function requirements(record) {
+ }
+ 
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  return compareParts(right.tuple, left.tuple);
+ }
+ 
+ /**
+@@ -63,7 +61,9 @@ function resolve(registry, root) {
+   }
+   const initial = requirements(root);
+   const selected = new Map();
+-  const constraints = new Map();
++  // name -> stack of candidate lists; each entry is the catalog filtered by every
++  // constraint collected so far, so the top is the current viable set.
++  const viable = new Map();
+   const trail = [];
+   const queue = [];
+   const choices = [];
+@@ -71,21 +71,24 @@ function resolve(registry, root) {
+ 
+   function append(items) {
+     for (const item of items) {
+-      let list = constraints.get(item.name);
+-      if (!list) {
+-        list = [];
+-        constraints.set(item.name, list);
++      let stack = viable.get(item.name);
++      if (!stack) {
++        stack = [catalogs.get(item.name) || []];
++        viable.set(item.name, stack);
+       }
+-      list.push(item.accepts);
++      const remaining = stack[stack.length - 1].filter(version => item.accepts(version.tuple));
++      stack.push(remaining);
+       trail.push(item.name);
+       queue.push(item.name);
+       const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
++      if (existing ? !item.accepts(existing.tuple) : remaining.length === 0) return false;
+     }
+     return true;
+   }
+ 
+   function restore(frame) {
++    while (trail.length > frame.trailLength) viable.get(trail.pop()).pop();
++    queue.length = frame.queueLength;
+     selected.delete(frame.name);
+     cursor = frame.cursor;
+   }
+@@ -105,10 +108,8 @@ function resolve(registry, root) {
+     return false;
+   }
+ 
+-  append(initial);
+-  let iterations = 0;
++  if (!append(initial)) return null;
+   for (;;) {
+-    if (++iterations > 4096) return null;
+     if (cursor === queue.length) {
+       const result = {};
+       for (const [name, version] of selected) {
+@@ -117,13 +118,9 @@ function resolve(registry, root) {
+       return result;
+     }
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
+-    const tests = constraints.get(name);
+-    const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
+-    choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
++    if (selected.has(name)) continue;
++    const stack = viable.get(name);
++    choices.push({ name, candidates: stack[stack.length - 1], next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+     if (!retry()) return null;
+   }
+ }
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-edb4a183-0fbpalr1/src/semver.js"
+index 5b1d55d..b940442 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-edb4a183-0fbpalr1/src/semver.js"
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {
+@@ -66,4 +68,4 @@ function satisfies(version, range) {
+   return compileRange(range)(parts);
+ }
+ 
+-module.exports = { parse, compare, satisfies, compileRange };
++module.exports = { parse, compare, satisfies, compileRange, compareParts };

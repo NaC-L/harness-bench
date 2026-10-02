@@ -1,0 +1,114 @@
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js" "{temp}\\hb-afc9da01-2bnecatw/src/resolver.js"
+index b445e71..3191a25 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/resolver.js"
++++ "{temp}\\hb-afc9da01-2bnecatw/src/resolver.js"
+@@ -1,6 +1,6 @@
+ 'use strict';
+ 
+-const { parse, compileRange } = require('./semver');
++const { parse, compare, compileRange } = require('./semver');
+ 
+ function requireRecord(value) {
+   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+@@ -16,9 +16,7 @@ function requirements(record) {
+ }
+ 
+ function candidateOrder(left, right) {
+-  const a = left.tuple.join('.');
+-  const b = right.tuple.join('.');
+-  return a === b ? 0 : a < b ? 1 : -1;
++  return compare(right.text, left.text);
+ }
+ 
+ /**
+@@ -69,6 +67,12 @@ function resolve(registry, root) {
+   const choices = [];
+   let cursor = 0;
+ 
++  function accepted(name, version) {
++    return constraints.get(name).every(test => test(version.tuple));
++  }
++
++  // Records each constraint on the trail; reports a conflict as soon as it is
++  // discovered. Partial appends are undone by the owning frame's restore.
+   function append(items) {
+     for (const item of items) {
+       let list = constraints.get(item.name);
+@@ -80,13 +84,24 @@ function resolve(registry, root) {
+       trail.push(item.name);
+       queue.push(item.name);
+       const existing = selected.get(item.name);
+-      if (existing && !item.accepts(existing.tuple)) return false;
++      if (existing) {
++        if (!item.accepts(existing.tuple)) return false;
++      } else if (!(catalogs.get(item.name) || []).some(version => accepted(item.name, version))) {
++        return false;
++      }
+     }
+     return true;
+   }
+ 
+   function restore(frame) {
+     selected.delete(frame.name);
++    while (trail.length > frame.trailLength) {
++      const name = trail.pop();
++      const list = constraints.get(name);
++      list.pop();
++      if (list.length === 0) constraints.delete(name);
++    }
++    queue.length = frame.queueLength;
+     cursor = frame.cursor;
+   }
+ 
+@@ -105,27 +120,19 @@ function resolve(registry, root) {
+     return false;
+   }
+ 
+-  append(initial);
+-  let iterations = 0;
+-  for (;;) {
+-    if (++iterations > 4096) return null;
+-    if (cursor === queue.length) {
+-      const result = {};
+-      for (const [name, version] of selected) {
+-        Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
+-      }
+-      return result;
+-    }
++  if (!append(initial)) return null;
++  while (cursor < queue.length) {
+     const name = queue[cursor++];
+-    if (selected.has(name)) {
+-      if (!append(selected.get(name).deps) && !retry()) return null;
+-      continue;
+-    }
+-    const tests = constraints.get(name);
+-    const candidates = (catalogs.get(name) || []).filter(version => tests.every(test => test(version.tuple)));
++    if (selected.has(name)) continue;
++    const candidates = (catalogs.get(name) || []).filter(version => accepted(name, version));
+     choices.push({ name, candidates, next: 0, cursor, queueLength: queue.length, trailLength: trail.length });
+     if (!retry()) return null;
+   }
++  const result = {};
++  for (const [name, version] of selected) {
++    Object.defineProperty(result, name, { value: version.text, enumerable: true, writable: true, configurable: true });
++  }
++  return result;
+ }
+ 
+ module.exports = { resolve };
+diff --git "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js" "{temp}\\hb-afc9da01-2bnecatw/src/semver.js"
+index 5b1d55d..54f9d6a 100644
+--- "{benchmark_dir}\\tasks\\hard-dep-resolver\\repo/src/semver.js"
++++ "{temp}\\hb-afc9da01-2bnecatw/src/semver.js"
+@@ -43,7 +43,9 @@ function compileRange(range) {
+     const base = parse(match[2]);
+     if (operator === '^' || operator === '~') {
+       const upper = operator === '~' ? [base[0], base[1] + 1, 0]
+-        : [base[0] + 1, 0, 0];
++        : base[0] !== 0 ? [base[0] + 1, 0, 0]
++          : base[1] !== 0 ? [0, base[1] + 1, 0]
++            : [0, 0, base[2] + 1];
+       return version => compareParts(version, base) >= 0 && compareParts(version, upper) < 0;
+     }
+     return version => {

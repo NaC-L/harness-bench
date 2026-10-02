@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: mvcc visible: compaction cannot replace published state with a prepared update
+ok 1 - mvcc visible: compaction cannot replace published state with a prepared update
+  ---
+  duration_ms: 1.3269
+  type: 'test'
+  ...
+# Subtest: mvcc visible: ordinary overwrite delete and independent key reads remain correct
+ok 2 - mvcc visible: ordinary overwrite delete and independent key reads remain correct
+  ---
+  duration_ms: 0.286
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 63.6475

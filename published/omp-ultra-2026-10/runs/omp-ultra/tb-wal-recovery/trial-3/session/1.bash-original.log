@@ -1,0 +1,255 @@
+.:
+package.json
+src
+test
+
+.\src:
+engine.js
+index.js
+recovery.js
+segments.js
+
+.\test:
+ordering.test.js
+{"name":"bench-tb-wal-recovery","version":"1.0.0","private":true,"type":"commonjs","scripts":{"test":"node --test"}}
+'use strict';
+
+const { SegmentManager } = require('./segments');
+
+class Engine {
+  constructor({ segmentCapacity = 4, flush = async () => {} } = {}) {
+    this._segmentManager = new SegmentManager(segmentCapacity);
+    this._flush = flush;
+    this._nextLsn = 1;
+    this._state = new Map();
+    this._committed = [];
+  }
+
+  async commitUpdate(key, value) {
+    const entry = { lsn: this._nextLsn++, key, value };
+    const segment = this._segmentManager.reserveSegment();
+    await this._flush({ ...entry });
+    this._segmentManager.appendEntry(segment, entry);
+    this._segmentManager.markDurable(segment);
+    this._state.set(key, value);
+    this._committed.push(entry);
+    return { ...entry };
+  }
+
+  runtimeState() {
+    return Object.fromEntries(this._state);
+  }
+
+  committedEntries() {
+    return this._committed.map(entry => ({ ...entry }));
+  }
+
+  crashSnapshot() {
+    return this._segmentManager.snapshot();
+  }
+}
+
+function makeEngine(options) {
+  return new Engine(options);
+}
+
+module.exports = { makeEngine };
+'use strict';
+
+/**
+ * Offline async WAL contract (Node.js/CommonJS, no dependencies or I/O).
+ *
+ * makeEngine({ segmentCapacity = 4, flush = async () => {} } = {}) returns an
+ * engine with commitUpdate(key, value), runtimeState(), committedEntries(), and
+ * crashSnapshot(). segmentCapacity is a positive integer. Keys are strings;
+ * values are plain JSON-compatible data: null, booleans, finite numbers,
+ * strings, arrays, and nested plain objects. Every supplied flush succeeds.
+ * Handling rejected flushes, malformed snapshots, and invalid inputs is outside
+ * this task. Calls begin immediately, including concurrent calls on one engine.
+ *
+ * commitUpdate reserves a unique increasing LSN synchronously starting at 1 and
+ * appends {lsn,key,value} to its segment in LSN order BEFORE awaiting flush.
+ * flush receives a deeply detached {lsn,key,value}. Its fulfillment marks that
+ * entry durable, but a segment's durableCount counts ONLY the contiguous durable
+ * prefix of its own entries. Rotation closes a full segment, starts the next
+ * segment (IDs 1,2,...), and cannot reorder entries or lose pending writes.
+ *
+ * A commit's returned Promise resolves to a detached {lsn,key,value} only when
+ * every LSN through that entry is durable. A higher flush may complete first;
+ * that commit must wait, not block a caller from completing the lower flush.
+ * runtimeState() exposes the key/value map after ONLY the global durable LSN
+ * prefix; later writes to a key win in that prefix. committedEntries() returns
+ * exactly that prefix as detached {lsn,key,value} entries, in increasing LSN
+ * order. Both accessors and crashSnapshot() are synchronous.
+ *
+ * crashSnapshot() has exactly this shape, with all allocated segments present,
+ * including pending entries and the final open segment:
+ * {segments:[{segmentId,closed,durableCount,entries:[{lsn,key,value}]}]}.
+ * No segment is allocated until its first commit; a new engine snapshots to
+ * {segments:[]}. Segment capacity counts appended entries, not completed flushes.
+ *
+ * recoverEngine(snapshot) is synchronous and returns exactly {state,replayed,
+ * stats}. Inspect entries.slice(0,durableCount) of EVERY segment; an omitted
+ * durableCount means zero. Entries outside that slice must never be replayed.
+ * Merge candidates independently of segment ordering and durable-entry ordering.
+ * For duplicate LSNs choose the lowest containing segmentId, NOT any segmentId
+ * in the entry payload. Segment IDs and LSNs are positive integers; conflicting
+ * duplicate candidates have distinct containing IDs (equal-ID copies agree).
+ * Replay the contiguous LSN sequence beginning at 1, stopping at the first gap.
+ * No sorting of the entire input before choosing each segment's prefix is valid.
+ *
+ * state is a plain object mapping keys to the last replayed value. replayed is
+ * LSN-sorted and each entry has EXACTLY {segmentId,lsn,key,value}; extra payload
+ * fields are ignored. stats has EXACTLY {segmentsScanned,replayedEntries,lastLsn}
+ * where segmentsScanned counts all input segments (including empty/non-durable
+ * ones), replayedEntries is replayed.length, and lastLsn is the final replayed
+ * LSN or zero. Recovery must remain efficient on moderate snapshots: avoid
+ * repeatedly scanning/filtering all entries for each replayed LSN.
+ *
+ * All input values are deeply captured at call time. Neither engine nor recovery
+ * mutates caller data. Engine outputs (including flush arguments and fulfilled
+ * commit values), recovery state, and recovery replayed entries are deeply
+ * independent of internal storage, input data, other outputs, and repeated
+ * calls. Mutating any such value must not change another. Arbitrary string keys,
+ * including '__proto__', are ordinary data keys, not prototype operations.
+ */
+const { makeEngine } = require('./engine');
+const { recoverEngine } = require('./recovery');
+
+module.exports = { makeEngine, recoverEngine };
+'use strict';
+
+function recoverEngine(snapshot) {
+  const state = new Map();
+  const replayed = [];
+  let lastLsn = 0;
+  for (const segment of snapshot.segments) {
+    const count = segment.durableCount ?? segment.entries.length;
+    for (const entry of segment.entries.slice(0, count)) {
+      if (entry.lsn <= lastLsn) continue;
+      replayed.push({ segmentId: segment.segmentId, ...entry });
+      state.set(entry.key, entry.value);
+      lastLsn = entry.lsn;
+    }
+  }
+  return {
+    state: Object.fromEntries(state),
+    replayed,
+    stats: {
+      segmentsScanned: snapshot.segments.length,
+      replayedEntries: replayed.length,
+      lastLsn,
+    },
+  };
+}
+
+module.exports = { recoverEngine };
+'use strict';
+
+class SegmentManager {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.segments = [];
+  }
+
+  reserveSegment() {
+    let segment = this.segments[this.segments.length - 1];
+    if (!segment || segment.reserved === this.capacity) {
+      if (segment) segment.closed = true;
+      segment = {
+        segmentId: this.segments.length + 1,
+        closed: false,
+        durableCount: 0,
+        entries: [],
+        reserved: 0,
+      };
+      this.segments.push(segment);
+    }
+    segment.reserved += 1;
+    return segment;
+  }
+
+  appendEntry(segment, entry) {
+    segment.entries.push(entry);
+  }
+
+  markDurable(segment) {
+    segment.durableCount += 1;
+  }
+
+  snapshot() {
+    return {
+      segments: this.segments.map(segment => ({
+        segmentId: segment.segmentId,
+        closed: segment.closed,
+        durableCount: segment.durableCount,
+        entries: segment.entries.map(entry => ({ ...entry })),
+      })),
+    };
+  }
+}
+
+module.exports = { SegmentManager };
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { makeEngine, recoverEngine } = require('../src');
+
+async function drainMicrotasks() {
+  for (let i = 0; i < 8; i += 1) await Promise.resolve();
+}
+
+test('reported WAL bug: a later successful flush must not publish across a pending LSN', async () => {
+  const releases = [];
+  const engine = makeEngine({ flush: () => new Promise(resolve => releases.push(resolve)) });
+  const settled = [];
+  const first = engine.commitUpdate('balance', 10).then(entry => { settled.push(entry.lsn); return entry; });
+  const second = engine.commitUpdate('balance', 20).then(entry => { settled.push(entry.lsn); return entry; });
+  try {
+    assert.equal(releases.length, 2, 'both flushes start without waiting for either acknowledgment');
+    releases[1]();
+    await drainMicrotasks();
+    assert.deepEqual(engine.runtimeState(), {}, 'LSN 2 must remain invisible until LSN 1 is durable');
+    assert.deepEqual(engine.committedEntries(), []);
+    assert.deepEqual(settled, []);
+  } finally {
+    for (let round = 0; round < 2; round += 1) {
+      for (const release of releases) release();
+      await drainMicrotasks();
+    }
+    await Promise.all([first, second]);
+  }
+  assert.deepEqual(engine.runtimeState(), { balance: 20 });
+  assert.deepEqual(engine.committedEntries().map(entry => entry.lsn), [1, 2]);
+});
+
+test('WAL sequential regression: rotation, overwrite, and recovery agree on committed data', async () => {
+  const engine = makeEngine({ segmentCapacity: 2 });
+  assert.deepEqual(engine.crashSnapshot(), { segments: [] });
+  assert.deepEqual(recoverEngine(engine.crashSnapshot()), {
+    state: {}, replayed: [], stats: { segmentsScanned: 0, replayedEntries: 0, lastLsn: 0 },
+  });
+  assert.deepEqual(await engine.commitUpdate('account', 11), { lsn: 1, key: 'account', value: 11 });
+  await engine.commitUpdate('other', false);
+  await engine.commitUpdate('account', 22);
+  const snapshot = engine.crashSnapshot();
+  assert.deepEqual(snapshot, { segments: [
+    { segmentId: 1, closed: true, durableCount: 2, entries: [
+      { lsn: 1, key: 'account', value: 11 }, { lsn: 2, key: 'other', value: false },
+    ] },
+    { segmentId: 2, closed: false, durableCount: 1, entries: [
+      { lsn: 3, key: 'account', value: 22 },
+    ] },
+  ] });
+  assert.deepEqual(engine.runtimeState(), { account: 22, other: false });
+  assert.deepEqual(recoverEngine(snapshot), {
+    state: { account: 22, other: false },
+    replayed: [
+      { segmentId: 1, lsn: 1, key: 'account', value: 11 },
+      { segmentId: 1, lsn: 2, key: 'other', value: false },
+      { segmentId: 2, lsn: 3, key: 'account', value: 22 },
+    ],
+    stats: { segmentsScanned: 2, replayedEntries: 3, lastLsn: 3 },
+  });
+});

@@ -1,0 +1,353 @@
+diff --git "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js" "{temp}\\hb-cc583f79-0mbzvhg3/src/diff.js"
+index 5eeb030..d358ae6 100644
+--- "{benchmark_dir}\\tasks\\hard-line-diff\\repo/src/diff.js"
++++ "{temp}\\hb-cc583f79-0mbzvhg3/src/diff.js"
+@@ -1,5 +1,172 @@
+ 'use strict';
+ 
++const EQUAL = 0;
++const DELETE = 1;
++const INSERT = 2;
++const OP_NAMES = ['equal', 'delete', 'insert'];
++
++function assertLines(value, name) {
++  if (!Array.isArray(value)) throw new TypeError(`${name} must be an array of strings`);
++  for (let i = 0; i < value.length; i++) {
++    if (typeof value[i] !== 'string') throw new TypeError(`${name}[${i}] must be a string`);
++  }
++}
++
++/**
++ * Find a split point on a minimal edit path between A[aLo, aHi) and B[bLo, bHi)
++ * using Myers' linear-space bidirectional search (middle snake). Both ranges are
++ * nonempty with no common prefix/suffix, so the edit distance is at least 2 and
++ * both halves of the split have strictly smaller edit distance.
++ * Returns [x, y] relative to (aLo, bLo).
++ */
++function bisect(A, B, aLo, aHi, bLo, bHi) {
++  const len1 = aHi - aLo;
++  const len2 = bHi - bLo;
++  const maxD = Math.ceil((len1 + len2) / 2);
++  const vOffset = maxD + 1;
++  const vLength = 2 * maxD + 3;
++  const v1 = new Int32Array(vLength).fill(-1);
++  const v2 = new Int32Array(vLength).fill(-1);
++  v1[vOffset + 1] = 0;
++  v2[vOffset + 1] = 0;
++  const delta = len1 - len2;
++  const front = (delta & 1) !== 0;
++  let k1start = 0;
++  let k1end = 0;
++  let k2start = 0;
++  let k2end = 0;
++
++  for (let d = 0; d <= maxD; d++) {
++    // Forward search.
++    for (let k1 = -d + k1start; k1 <= d - k1end; k1 += 2) {
++      const k1Offset = vOffset + k1;
++      let x1;
++      if (k1 === -d || (k1 !== d && v1[k1Offset - 1] < v1[k1Offset + 1])) {
++        x1 = v1[k1Offset + 1];
++      } else {
++        x1 = v1[k1Offset - 1] + 1;
++      }
++      let y1 = x1 - k1;
++      while (x1 < len1 && y1 < len2 && A[aLo + x1] === B[bLo + y1]) {
++        x1++;
++        y1++;
++      }
++      v1[k1Offset] = x1;
++      if (x1 > len1) {
++        k1end += 2;
++      } else if (y1 > len2) {
++        k1start += 2;
++      } else if (front) {
++        const k2Offset = vOffset + delta - k1;
++        if (k2Offset >= 0 && k2Offset < vLength && v2[k2Offset] !== -1) {
++          if (x1 >= len1 - v2[k2Offset]) return [x1, y1];
++        }
++      }
++    }
++
++    // Reverse search.
++    for (let k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
++      const k2Offset = vOffset + k2;
++      let x2;
++      if (k2 === -d || (k2 !== d && v2[k2Offset - 1] < v2[k2Offset + 1])) {
++        x2 = v2[k2Offset + 1];
++      } else {
++        x2 = v2[k2Offset - 1] + 1;
++      }
++      let y2 = x2 - k2;
++      while (x2 < len1 && y2 < len2 && A[aHi - 1 - x2] === B[bHi - 1 - y2]) {
++        x2++;
++        y2++;
++      }
++      v2[k2Offset] = x2;
++      if (x2 > len1) {
++        k2end += 2;
++      } else if (y2 > len2) {
++        k2start += 2;
++      } else if (!front) {
++        const k1Offset = vOffset + delta - k2;
++        if (k1Offset >= 0 && k1Offset < vLength && v1[k1Offset] !== -1) {
++          const x1 = v1[k1Offset];
++          const y1 = x1 - (k1Offset - vOffset);
++          if (x1 >= len1 - x2) return [x1, y1];
++        }
++      }
++    }
++  }
++  throw new Error('internal error: diff search did not converge');
++}
++
++/** Append edit codes for A[aLo, aHi) -> B[bLo, bHi) to codes. */
++function diffRange(A, B, aLo, aHi, bLo, bHi, codes) {
++  while (aLo < aHi && bLo < bHi && A[aLo] === B[bLo]) {
++    codes.push(EQUAL);
++    aLo++;
++    bLo++;
++  }
++  let suffix = 0;
++  while (aHi > aLo && bHi > bLo && A[aHi - 1] === B[bHi - 1]) {
++    aHi--;
++    bHi--;
++    suffix++;
++  }
++  if (aLo === aHi) {
++    for (let j = bLo; j < bHi; j++) codes.push(INSERT);
++  } else if (bLo === bHi) {
++    for (let i = aLo; i < aHi; i++) codes.push(DELETE);
++  } else {
++    const [x, y] = bisect(A, B, aLo, aHi, bLo, bHi);
++    diffRange(A, B, aLo, aLo + x, bLo, bLo + y, codes);
++    diffRange(A, B, aLo + x, aHi, bLo + y, bHi, codes);
++  }
++  for (let s = 0; s < suffix; s++) codes.push(EQUAL);
++}
++
++/**
++ * Minimal edit codes for a -> b with every maximal non-equal region ordered as
++ * all deletes followed by all inserts.
++ */
++function editCodes(a, b) {
++  const ids = new Map();
++  const intern = (line) => {
++    let id = ids.get(line);
++    if (id === undefined) {
++      id = ids.size;
++      ids.set(line, id);
++    }
++    return id;
++  };
++  const A = new Int32Array(a.length);
++  const B = new Int32Array(b.length);
++  for (let i = 0; i < a.length; i++) A[i] = intern(a[i]);
++  for (let j = 0; j < b.length; j++) B[j] = intern(b[j]);
++
++  const raw = [];
++  diffRange(A, B, 0, a.length, 0, b.length, raw);
++
++  const codes = new Uint8Array(raw.length);
++  let out = 0;
++  let k = 0;
++  while (k < raw.length) {
++    if (raw[k] === EQUAL) {
++      codes[out++] = EQUAL;
++      k++;
++      continue;
++    }
++    let dels = 0;
++    let ins = 0;
++    while (k < raw.length && raw[k] !== EQUAL) {
++      if (raw[k] === DELETE) dels++;
++      else ins++;
++      k++;
++    }
++    codes.fill(DELETE, out, out + dels);
++    out += dels;
++    codes.fill(INSERT, out, out + ins);
++    out += ins;
++  }
++  return codes;
++}
++
+ /**
+  * Return an edit script of { op: 'equal' | 'delete' | 'insert', line: string }.
+  * a and b are arrays of strings; lines are compared by exact string equality.
+@@ -14,7 +181,26 @@
+  * Here N/M are input lengths and D is the minimal number of inserts + deletes.
+  */
+ function diffLines(a, b) {
+-  throw new Error('not implemented');
++  assertLines(a, 'a');
++  assertLines(b, 'b');
++  const codes = editCodes(a, b);
++  const script = new Array(codes.length);
++  let i = 0;
++  let j = 0;
++  for (let k = 0; k < codes.length; k++) {
++    const code = codes[k];
++    let line;
++    if (code === EQUAL) {
++      line = a[i++];
++      j++;
++    } else if (code === DELETE) {
++      line = a[i++];
++    } else {
++      line = b[j++];
++    }
++    script[k] = { op: OP_NAMES[code], line };
++  }
++  return script;
+ }
+ 
+ /**
+@@ -34,7 +220,65 @@ function diffLines(a, b) {
+  * Neither input may be mutated. Inputs follow the diffLines contract.
+  */
+ function unifiedHunks(a, b, { context = 3 } = {}) {
+-  throw new Error('not implemented');
++  if (!Number.isSafeInteger(context) || context < 0) {
++    throw new RangeError('context must be a nonnegative integer');
++  }
++  const script = diffLines(a, b);
++  const n = script.length;
++
++  // Old/new line counts consumed before each script index.
++  const oldBefore = new Int32Array(n + 1);
++  const newBefore = new Int32Array(n + 1);
++  for (let k = 0; k < n; k++) {
++    const op = script[k].op;
++    oldBefore[k + 1] = oldBefore[k] + (op === 'insert' ? 0 : 1);
++    newBefore[k + 1] = newBefore[k] + (op === 'delete' ? 0 : 1);
++  }
++
++  const hunks = [];
++  let k = 0;
++  while (k < n) {
++    if (script[k].op === 'equal') {
++      k++;
++      continue;
++    }
++    const firstChange = k;
++    let lastChangeEnd = k; // exclusive end of the last change region in this hunk
++    while (true) {
++      while (lastChangeEnd < n && script[lastChangeEnd].op !== 'equal') lastChangeEnd++;
++      let next = lastChangeEnd;
++      while (next < n && script[next].op === 'equal') next++;
++      if (next < n && next - lastChangeEnd <= 2 * context) {
++        lastChangeEnd = next;
++      } else {
++        break;
++      }
++    }
++    const start = Math.max(0, firstChange - context);
++    const end = Math.min(n, lastChangeEnd + context);
++
++    const lines = new Array(end - start);
++    for (let t = start; t < end; t++) {
++      const entry = script[t];
++      const prefix = entry.op === 'equal' ? ' ' : entry.op === 'delete' ? '-' : '+';
++      lines[t - start] = prefix + entry.line;
++    }
++    const oldLines = oldBefore[end] - oldBefore[start];
++    const newLines = newBefore[end] - newBefore[start];
++    hunks.push({
++      oldStart: oldLines === 0 ? oldBefore[start] : oldBefore[start] + 1,
++      oldLines,
++      newStart: newLines === 0 ? newBefore[start] : newBefore[start] + 1,
++      newLines,
++      lines,
++    });
++    k = end;
++  }
++  return hunks;
++}
++
++function isCount(value) {
++  return Number.isSafeInteger(value) && value >= 0;
+ }
+ 
+ /**
+@@ -48,7 +292,79 @@ function unifiedHunks(a, b, { context = 3 } = {}) {
+  * containing 'hunk <index> does not apply', where index is zero-based.
+  */
+ function applyHunks(a, hunks) {
+-  throw new Error('not implemented');
++  assertLines(a, 'a');
++  if (!Array.isArray(hunks)) throw new TypeError('hunks must be an array');
++
++  const result = [];
++  let consumed = 0; // number of original lines already copied or removed
++
++  for (let h = 0; h < hunks.length; h++) {
++    const fail = (reason) => {
++      throw new Error(`hunk ${h} does not apply: ${reason}`);
++    };
++    const hunk = hunks[h];
++    if (hunk === null || typeof hunk !== 'object') fail('not an object');
++    const { oldStart, oldLines, newStart, newLines, lines } = hunk;
++    if (!isCount(oldStart) || !isCount(oldLines) || !isCount(newStart) || !isCount(newLines)) {
++      fail('starts and counts must be nonnegative integers');
++    }
++    if (!Array.isArray(lines) || lines.length === 0) fail('lines must be a nonempty array');
++
++    let oldCount = 0;
++    let newCount = 0;
++    for (let t = 0; t < lines.length; t++) {
++      const line = lines[t];
++      if (typeof line !== 'string' || line.length === 0) fail(`line ${t} is malformed`);
++      const prefix = line[0];
++      if (prefix === ' ') {
++        oldCount++;
++        newCount++;
++      } else if (prefix === '-') {
++        oldCount++;
++      } else if (prefix === '+') {
++        newCount++;
++      } else {
++        fail(`line ${t} has invalid prefix`);
++      }
++    }
++    if (oldCount !== oldLines) fail(`oldLines is ${oldLines} but lines contain ${oldCount}`);
++    if (newCount !== newLines) fail(`newLines is ${newLines} but lines contain ${newCount}`);
++
++    let pos;
++    if (oldLines === 0) {
++      pos = oldStart;
++    } else {
++      if (oldStart === 0) fail('oldStart must be at least 1 for a nonempty old range');
++      pos = oldStart - 1;
++    }
++    if (pos < consumed) fail('overlaps or precedes an earlier hunk');
++    if (pos + oldLines > a.length) fail('old range extends past the end of the input');
++
++    const newPos = result.length + (pos - consumed);
++    const expectedNewStart = newLines === 0 ? newPos : newPos + 1;
++    if (newStart !== expectedNewStart) {
++      fail(`newStart is ${newStart} but expected ${expectedNewStart}`);
++    }
++
++    // Verify before producing any output for this hunk.
++    let i = pos;
++    for (let t = 0; t < lines.length; t++) {
++      const line = lines[t];
++      if (line[0] === '+') continue;
++      if (a[i] !== line.slice(1)) fail(`line ${t} does not match original line ${i + 1}`);
++      i++;
++    }
++
++    for (let r = consumed; r < pos; r++) result.push(a[r]);
++    for (let t = 0; t < lines.length; t++) {
++      const line = lines[t];
++      if (line[0] !== '-') result.push(line.slice(1));
++    }
++    consumed = pos + oldLines;
++  }
++
++  for (let r = consumed; r < a.length; r++) result.push(a[r]);
++  return result;
+ }
+ 
+ module.exports = { diffLines, unifiedHunks, applyHunks };

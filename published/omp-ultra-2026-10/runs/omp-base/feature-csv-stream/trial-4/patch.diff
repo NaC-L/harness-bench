@@ -1,0 +1,150 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-75504fa9-wrtdw78a/src/csv.js"
+index ce27ede..9a111dc 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-75504fa9-wrtdw78a/src/csv.js"
+@@ -1,6 +1,11 @@
+ 'use strict';
+ const { toObjects } = require('./rows');
+ 
++const FIELD_START = 0;
++const UNQUOTED = 1;
++const QUOTED = 2;
++const QUOTE_PENDING = 3; // saw '"' inside a quoted field: escape or close
++
+ /**
+  * Create an incremental CSV parser; options is an optional object.
+  *
+@@ -47,7 +52,132 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be one UTF-16 code unit other than \'"\', CR, or LF');
++  }
++
++  let state = FIELD_START;
++  let field = '';
++  let row = [];
++  let inRecord = false; // an unfinished record exists
++  let prevCR = false; // previous input character was a CR
++  let line = 1;
++  let started = false;
++  let ended = false;
++
++  function push(chunk) {
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    if (ended) throw new Error('cannot push after end()');
++    const out = [];
++    const n = chunk.length;
++    if (n === 0) return out;
++    let i = 0;
++    if (!started) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++    while (i < n) {
++      const c = chunk[i];
++      if (state === QUOTED) {
++        let j = i;
++        while (j < n) {
++          const d = chunk[j];
++          if (d === '"' || d === '\r' || d === '\n') break;
++          j++;
++        }
++        if (j > i) {
++          field += chunk.slice(i, j);
++          prevCR = false;
++          i = j;
++          continue;
++        }
++        if (c === '"') {
++          state = QUOTE_PENDING;
++          prevCR = false;
++        } else {
++          field += c;
++          if (c === '\r' || !prevCR) line++;
++          prevCR = c === '\r';
++        }
++        i++;
++        continue;
++      }
++      // Outside quotes, an LF right after a CR is the tail of an emitted CRLF.
++      if (c === '\n' && prevCR) {
++        prevCR = false;
++        i++;
++        continue;
++      }
++      prevCR = false;
++      const isBreak = c === delimiter || c === '\r' || c === '\n';
++      if (state === QUOTE_PENDING) {
++        if (c === '"') {
++          field += '"';
++          state = QUOTED;
++          i++;
++          continue;
++        }
++        if (!isBreak) {
++          throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++        }
++      } else if (state === FIELD_START && c === '"') {
++        state = QUOTED;
++        inRecord = true;
++        i++;
++        continue;
++      } else if (!isBreak) {
++        let j = i + 1;
++        while (j < n) {
++          const d = chunk[j];
++          if (d === delimiter || d === '\r' || d === '\n') break;
++          j++;
++        }
++        field += chunk.slice(i, j);
++        state = UNQUOTED;
++        inRecord = true;
++        i = j;
++        continue;
++      }
++      // c is a delimiter or record separator outside quotes.
++      row.push(field);
++      field = '';
++      state = FIELD_START;
++      if (c === delimiter) {
++        inRecord = true;
++      } else {
++        out.push(row);
++        row = [];
++        inRecord = false;
++        line++;
++        prevCR = c === '\r';
++      }
++      i++;
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    if (!inRecord) return [];
++    row.push(field);
++    const last = row;
++    row = [];
++    field = '';
++    inRecord = false;
++    state = FIELD_START;
++    return [last];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

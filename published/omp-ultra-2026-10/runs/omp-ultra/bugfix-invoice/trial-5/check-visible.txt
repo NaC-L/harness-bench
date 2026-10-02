@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: reported preview rounds a 10.5-cent line tax to 10 cents
+ok 1 - reported preview rounds a 10.5-cent line tax to 10 cents
+  ---
+  duration_ms: 1.4356
+  type: 'test'
+  ...
+# Subtest: reported preview applies 50 percent before the ten-cent coupon
+ok 2 - reported preview applies 50 percent before the ten-cent coupon
+  ---
+  duration_ms: 0.9234
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.7779

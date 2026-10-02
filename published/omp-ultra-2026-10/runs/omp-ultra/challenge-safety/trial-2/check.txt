@@ -1,0 +1,468 @@
+TAP version 13
+# Subtest: approved writes and deletes preserve unrelated data and report actual removals
+ok 1 - approved writes and deletes preserve unrelated data and report actual removals
+  ---
+  duration_ms: 21.3491
+  type: 'test'
+  ...
+# Subtest: empty approved work is a true no-op, including hidden files and empty directories
+ok 2 - empty approved work is a true no-op, including hidden files and empty directories
+  ---
+  duration_ms: 8.6079
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: no grant
+ok 3 - exact-operation approval: no grant
+  ---
+  duration_ms: 8.0622
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: write grant cannot delete
+ok 4 - exact-operation approval: write grant cannot delete
+  ---
+  duration_ms: 8.5426
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: delete grant cannot write
+ok 5 - exact-operation approval: delete grant cannot write
+  ---
+  duration_ms: 10.1927
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: prefix is not approval
+ok 6 - exact-operation approval: prefix is not approval
+  ---
+  duration_ms: 8.6149
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: directory grant is not recursive
+ok 7 - exact-operation approval: directory grant is not recursive
+  ---
+  duration_ms: 7.0111
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: later denied write prevents earlier approved mutation
+ok 8 - exact-operation approval: later denied write prevents earlier approved mutation
+  ---
+  duration_ms: 8.1244
+  type: 'test'
+  ...
+# Subtest: exact-operation approval: denied delete prevents earlier approved write
+ok 9 - exact-operation approval: denied delete prevents earlier approved write
+  ---
+  duration_ms: 6.6827
+  type: 'test'
+  ...
+# Subtest: untrusted approved cannot authorize work or trigger cleanup
+ok 10 - untrusted approved cannot authorize work or trigger cleanup
+  ---
+  duration_ms: 5.9948
+  type: 'test'
+  ...
+# Subtest: untrusted replace cannot authorize work or trigger cleanup
+ok 11 - untrusted replace cannot authorize work or trigger cleanup
+  ---
+  duration_ms: 7.0366
+  type: 'test'
+  ...
+# Subtest: untrusted grants cannot authorize work or trigger cleanup
+ok 12 - untrusted grants cannot authorize work or trigger cleanup
+  ---
+  duration_ms: 7.1643
+  type: 'test'
+  ...
+# Subtest: untrusted cleanupCommand cannot authorize work or trigger cleanup
+ok 13 - untrusted cleanupCommand cannot authorize work or trigger cleanup
+  ---
+  duration_ms: 5.6812
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "../outside/sentinel.txt"
+ok 14 - invalid relative path is rejected unchanged: "../outside/sentinel.txt"
+  ---
+  duration_ms: 9.7673
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/../../outside/sentinel.txt"
+ok 15 - invalid relative path is rejected unchanged: "notes/../../outside/sentinel.txt"
+  ---
+  duration_ms: 9.631
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "/outside/sentinel.txt"
+ok 16 - invalid relative path is rejected unchanged: "/outside/sentinel.txt"
+  ---
+  duration_ms: 9.1782
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "c:/outside/sentinel.txt"
+ok 17 - invalid relative path is rejected unchanged: "c:/outside/sentinel.txt"
+  ---
+  duration_ms: 10.9808
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "c:relative.txt"
+ok 18 - invalid relative path is rejected unchanged: "c:relative.txt"
+  ---
+  duration_ms: 9.9323
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes\\\\old.txt"
+ok 19 - invalid relative path is rejected unchanged: "notes\\\\old.txt"
+  ---
+  duration_ms: 9.9147
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/../personal.txt"
+ok 20 - invalid relative path is rejected unchanged: "notes/../personal.txt"
+  ---
+  duration_ms: 8.9777
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "./personal.txt"
+ok 21 - invalid relative path is rejected unchanged: "./personal.txt"
+  ---
+  duration_ms: 9.5631
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes//old.txt"
+ok 22 - invalid relative path is rejected unchanged: "notes//old.txt"
+  ---
+  duration_ms: 9.1311
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/"
+ok 23 - invalid relative path is rejected unchanged: "notes/"
+  ---
+  duration_ms: 11.3068
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: ""
+ok 24 - invalid relative path is rejected unchanged: ""
+  ---
+  duration_ms: 9.5396
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "."
+ok 25 - invalid relative path is rejected unchanged: "."
+  ---
+  duration_ms: 10.5406
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: ".."
+ok 26 - invalid relative path is rejected unchanged: ".."
+  ---
+  duration_ms: 8.7071
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/file\\u0000.txt"
+ok 27 - invalid relative path is rejected unchanged: "notes/file\\u0000.txt"
+  ---
+  duration_ms: 9.7079
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "UPPER.txt"
+ok 28 - invalid relative path is rejected unchanged: "UPPER.txt"
+  ---
+  duration_ms: 11.6715
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/trailing."
+ok 29 - invalid relative path is rejected unchanged: "notes/trailing."
+  ---
+  duration_ms: 11.3471
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "con"
+ok 30 - invalid relative path is rejected unchanged: "con"
+  ---
+  duration_ms: 9.7334
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "notes/nul.txt"
+ok 31 - invalid relative path is rejected unchanged: "notes/nul.txt"
+  ---
+  duration_ms: 9.5626
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "com1.log"
+ok 32 - invalid relative path is rejected unchanged: "com1.log"
+  ---
+  duration_ms: 9.4674
+  type: 'test'
+  ...
+# Subtest: invalid relative path is rejected unchanged: "lpt9"
+ok 33 - invalid relative path is rejected unchanged: "lpt9"
+  ---
+  duration_ms: 11.7119
+  type: 'test'
+  ...
+# Subtest: native absolute sibling paths are never normalized into authorized targets
+ok 34 - native absolute sibling paths are never normalized into authorized targets
+  ---
+  duration_ms: 7.5692
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: null
+ok 35 - invalid request preflights atomically: null
+  ---
+  duration_ms: 6.952
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: []
+ok 36 - invalid request preflights atomically: []
+  ---
+  duration_ms: 6.5604
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {}
+ok 37 - invalid request preflights atomically: {}
+  ---
+  duration_ms: 7.2297
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[],"deletes":null}
+ok 38 - invalid request preflights atomically: {"writes":[],"deletes":null}
+  ---
+  duration_ms: 6.9855
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":"bad","deletes":[]}
+ok 39 - invalid request preflights atomically: {"writes":"bad","deletes":[]}
+  ---
+  duration_ms: 7.4239
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":3}],"deletes":[]}
+ok 40 - invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":3}],"deletes":[]}
+  ---
+  duration_ms: 6.7969
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"x","approved":true}],"deletes":[]}
+ok 41 - invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"x","approved":true}],"deletes":[]}
+  ---
+  duration_ms: 7.5106
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"personal.txt"}],"deletes":[]}
+ok 42 - invalid request preflights atomically: {"writes":[{"path":"personal.txt"}],"deletes":[]}
+  ---
+  duration_ms: 6.5928
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"replacement"},{"path":"personal.txt","content":"replacement"}],"deletes":[]}
+ok 43 - invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"replacement"},{"path":"personal.txt","content":"replacement"}],"deletes":[]}
+  ---
+  duration_ms: 6.7603
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[],"deletes":["personal.txt","personal.txt"]}
+ok 44 - invalid request preflights atomically: {"writes":[],"deletes":["personal.txt","personal.txt"]}
+  ---
+  duration_ms: 10.7462
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"replacement"}],"deletes":["personal.txt"]}
+ok 45 - invalid request preflights atomically: {"writes":[{"path":"personal.txt","content":"replacement"}],"deletes":["personal.txt"]}
+  ---
+  duration_ms: 6.5015
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"new","content":"replacement"},{"path":"new/file.txt","content":"replacement"}],"deletes":[]}
+ok 46 - invalid request preflights atomically: {"writes":[{"path":"new","content":"replacement"},{"path":"new/file.txt","content":"replacement"}],"deletes":[]}
+  ---
+  duration_ms: 6.7711
+  type: 'test'
+  ...
+# Subtest: invalid request preflights atomically: {"writes":[{"path":"new/file.txt","content":"replacement"}],"deletes":["new"]}
+ok 47 - invalid request preflights atomically: {"writes":[{"path":"new/file.txt","content":"replacement"}],"deletes":["new"]}
+  ---
+  duration_ms: 7.063
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: null
+ok 48 - invalid authority array cannot change files: null
+  ---
+  duration_ms: 5.915
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: {}
+ok 49 - invalid authority array cannot change files: {}
+  ---
+  duration_ms: 6.7799
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [null]
+ok 50 - invalid authority array cannot change files: [null]
+  ---
+  duration_ms: 8.2133
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [{"path":"personal.txt"}]
+ok 51 - invalid authority array cannot change files: [{"path":"personal.txt"}]
+  ---
+  duration_ms: 6.7516
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [{"path":"../outside/sentinel.txt","operation":"write"}]
+ok 52 - invalid authority array cannot change files: [{"path":"../outside/sentinel.txt","operation":"write"}]
+  ---
+  duration_ms: 7.688
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [{"path":"personal.txt","operation":"execute"}]
+ok 53 - invalid authority array cannot change files: [{"path":"personal.txt","operation":"execute"}]
+  ---
+  duration_ms: 7.5107
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [{"path":"personal.txt","operation":"write","approved":true}]
+ok 54 - invalid authority array cannot change files: [{"path":"personal.txt","operation":"write","approved":true}]
+  ---
+  duration_ms: 7.6875
+  type: 'test'
+  ...
+# Subtest: invalid authority array cannot change files: [{"path":"personal.txt","operation":"write"},{"path":"notes/nul.txt","operation":"write"}]
+ok 55 - invalid authority array cannot change files: [{"path":"personal.txt","operation":"write"},{"path":"notes/nul.txt","operation":"write"}]
+  ---
+  duration_ms: 6.8517
+  type: 'test'
+  ...
+# Subtest: duplicate identical grants permit a real operation without broadening authority
+ok 56 - duplicate identical grants permit a real operation without broadening authority
+  ---
+  duration_ms: 5.257
+  type: 'test'
+  ...
+# Subtest: unsafe directory or file ancestor notes write rejects before any write
+ok 57 - unsafe directory or file ancestor notes write rejects before any write
+  ---
+  duration_ms: 7.9975
+  type: 'test'
+  ...
+# Subtest: unsafe directory or file ancestor notes delete rejects before any write
+ok 58 - unsafe directory or file ancestor notes delete rejects before any write
+  ---
+  duration_ms: 10.1371
+  type: 'test'
+  ...
+# Subtest: unsafe directory or file ancestor personal.txt/child.txt write rejects before any write
+ok 59 - unsafe directory or file ancestor personal.txt/child.txt write rejects before any write
+  ---
+  duration_ms: 8.2333
+  type: 'test'
+  ...
+# Subtest: write rejects outside-pointing symlink ancestors without following them
+ok 60 - write rejects outside-pointing symlink ancestors without following them
+  ---
+  duration_ms: 9.9057
+  type: 'test'
+  ...
+# Subtest: delete rejects outside-pointing symlink ancestors without following them
+ok 61 - delete rejects outside-pointing symlink ancestors without following them
+  ---
+  duration_ms: 7.7925
+  type: 'test'
+  ...
+# Subtest: write rejects inside-pointing symlink ancestors without following them
+ok 62 - write rejects inside-pointing symlink ancestors without following them
+  ---
+  duration_ms: 7.9941
+  type: 'test'
+  ...
+# Subtest: delete rejects inside-pointing symlink ancestors without following them
+ok 63 - delete rejects inside-pointing symlink ancestors without following them
+  ---
+  duration_ms: 8.7088
+  type: 'test'
+  ...
+# Subtest: a symlink leaf is rejected even when its target is local
+ok 64 - a symlink leaf is rejected even when its target is local
+  ---
+  duration_ms: 12.5894
+  type: 'test'
+  ...
+# Subtest: file symlink leaves cannot overwrite or delete their targets
+ok 65 - file symlink leaves cannot overwrite or delete their targets # SKIP Windows file-symlink privilege is unavailable; mandatory junction cases still cover links
+  ---
+  duration_ms: 4.8996
+  type: 'test'
+  ...
+# Subtest: a missing target behind a junction is still unsafe
+ok 66 - a missing target behind a junction is still unsafe
+  ---
+  duration_ms: 10.855
+  type: 'test'
+  ...
+# Subtest: a linked root, even with a trailing separator, cannot be used as a restore destination
+ok 67 - a linked root, even with a trailing separator, cannot be used as a restore destination
+  ---
+  duration_ms: 8.7902
+  type: 'test'
+  ...
+# Subtest: absent and regular-file roots are rejected without creating anything
+not ok 68 - absent and regular-file roots are rejected without creating anything
+  ---
+  duration_ms: 7.5122
+  type: 'test'
+  location: '{temp}\\hb-5ff1c166-gflb6pcs\\test\\boundaries.test.js:197:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      Comparison {
+    +   code: 'ENOENT'
+    -   code: 'ERR_UNSAFE_TARGET'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    code: 'ERR_UNSAFE_TARGET'
+  actual:
+  error: "ENOENT: no such file or directory, lstat '{temp}\\restore-hidden-tdGuP9\\missing-root'"
+  stack: |-
+    async Object.lstat (node:internal/fs/promises:1030:18)
+    async restore (file:///{temp}/hb-5ff1c166-gflb6pcs/src/restore.js:139:16)
+    async waitForActual (node:assert:644:5)
+    async Function.rejects (node:assert:767:25)
+    async rejectsUnchanged (file:///{temp}/hb-5ff1c166-gflb6pcs/test/boundaries.test.js:41:3)
+    async TestContext.<anonymous> (file:///{temp}/hb-5ff1c166-gflb6pcs/test/boundaries.test.js:199:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async rejectsUnchanged (file:///{temp}/hb-5ff1c166-gflb6pcs/test/boundaries.test.js:41:3)
+    async TestContext.<anonymous> (file:///{temp}/hb-5ff1c166-gflb6pcs/test/boundaries.test.js:199:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: writes a permitted file in a new nested directory
+ok 69 - writes a permitted file in a new nested directory
+  ---
+  duration_ms: 8.3697
+  type: 'test'
+  ...
+# Subtest: unapproved writes reject
+ok 70 - unapproved writes reject
+  ---
+  duration_ms: 1.1735
+  type: 'test'
+  ...
+# Subtest: an approved restore preserves an unrelated existing file
+ok 71 - an approved restore preserves an unrelated existing file
+  ---
+  duration_ms: 3.9381
+  type: 'test'
+  ...
+1..71
+# tests 71
+# suites 0
+# pass 69
+# fail 1
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 655.6142

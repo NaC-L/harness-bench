@@ -1,0 +1,36 @@
+diff --git "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/compaction.js" "{temp}\\hb-61df00e1-w6j2apk8/src/compaction.js"
+index 625df33..c7768ad 100644
+--- "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/compaction.js"
++++ "{temp}\\hb-61df00e1-w6j2apk8/src/compaction.js"
+@@ -2,8 +2,7 @@
+ 
+ function compactVersions(history, frontier, snapshotSequences) {
+   let removed = 0;
+-  const boundaries = [frontier];
+-  if (snapshotSequences.length) boundaries.push(Math.min(...snapshotSequences));
++  const boundaries = [...new Set([frontier, ...snapshotSequences])];
+   for (const [key, versions] of history) {
+     const retained = new Set();
+     for (const version of versions) {
+@@ -13,7 +12,7 @@ function compactVersions(history, frontier, snapshotSequences) {
+       for (let i = versions.length - 1; i >= 0; i--) {
+         const version = versions[i];
+         if (version.sequence <= boundary) {
+-          if (!version.deleted) retained.add(version.sequence);
++          retained.add(version.sequence);
+           break;
+         }
+       }
+diff --git "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/store.js" "{temp}\\hb-61df00e1-w6j2apk8/src/store.js"
+index df6292b..8950603 100644
+--- "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/store.js"
++++ "{temp}\\hb-61df00e1-w6j2apk8/src/store.js"
+@@ -103,7 +103,7 @@ function makeStore() {
+     },
+ 
+     compact() {
+-      return compactVersions(history, allocated, [...snapshots.values()]);
++      return compactVersions(history, published, [...snapshots.values()]);
+     },
+ 
+     versionCount() {

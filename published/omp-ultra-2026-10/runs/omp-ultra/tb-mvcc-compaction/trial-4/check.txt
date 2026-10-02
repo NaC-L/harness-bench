@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: mvcc hidden interleavings: full-history oracle agrees for seeded schedule 7
+ok 1 - mvcc hidden interleavings: full-history oracle agrees for seeded schedule 7
+  ---
+  duration_ms: 12.7644
+  type: 'test'
+  ...
+# Subtest: mvcc hidden interleavings: full-history oracle agrees for seeded schedule 29
+ok 2 - mvcc hidden interleavings: full-history oracle agrees for seeded schedule 29
+  ---
+  duration_ms: 16.1426
+  type: 'test'
+  ...
+# Subtest: mvcc hidden interleavings: full-history oracle agrees for seeded schedule 101
+ok 3 - mvcc hidden interleavings: full-history oracle agrees for seeded schedule 101
+  ---
+  duration_ms: 4.2524
+  type: 'test'
+  ...
+# Subtest: mvcc hidden interleavings: full-history oracle agrees for seeded schedule 4093
+ok 4 - mvcc hidden interleavings: full-history oracle agrees for seeded schedule 4093
+  ---
+  duration_ms: 6.6963
+  type: 'test'
+  ...
+# Subtest: mvcc hidden ownership: ordinary and prepared JSON values detach on every write and read
+ok 5 - mvcc hidden ownership: ordinary and prepared JSON values detach on every write and read
+  ---
+  duration_ms: 1.9124
+  type: 'test'
+  ...
+# Subtest: mvcc hidden ownership: keys and falsy JSON data do not share state between stores
+ok 6 - mvcc hidden ownership: keys and falsy JSON data do not share state between stores
+  ---
+  duration_ms: 0.3827
+  type: 'test'
+  ...
+# Subtest: mvcc hidden publication: an unpublished deletion retains the last committed value and tombstone
+ok 7 - mvcc hidden publication: an unpublished deletion retains the last committed value and tombstone
+  ---
+  duration_ms: 1.0357
+  type: 'test'
+  ...
+# Subtest: mvcc hidden publication: all installed versions survive above the frontier across keys
+ok 8 - mvcc hidden publication: all installed versions survive above the frontier across keys
+  ---
+  duration_ms: 0.272
+  type: 'test'
+  ...
+# Subtest: mvcc hidden publication: out-of-order readiness and ordinary writes cannot cross an unready batch
+ok 9 - mvcc hidden publication: out-of-order readiness and ordinary writes cannot cross an unready batch
+  ---
+  duration_ms: 0.3193
+  type: 'test'
+  ...
+# Subtest: mvcc hidden publication: sequence zero snapshots see none of an installed first batch
+ok 10 - mvcc hidden publication: sequence zero snapshots see none of an installed first batch
+  ---
+  duration_ms: 1.0027
+  type: 'test'
+  ...
+# Subtest: mvcc hidden publication: repeated keys reserve distinct sequences and publish atomically
+ok 11 - mvcc hidden publication: repeated keys reserve distinct sequences and publish atomically
+  ---
+  duration_ms: 0.2281
+  type: 'test'
+  ...
+# Subtest: mvcc hidden snapshots: equal-sequence handles have independent lifetimes and zero is valid
+ok 12 - mvcc hidden snapshots: equal-sequence handles have independent lifetimes and zero is valid
+  ---
+  duration_ms: 1.6054
+  type: 'test'
+  ...
+# Subtest: mvcc hidden snapshots: sparse read points retain their own predecessors, not an interval
+ok 13 - mvcc hidden snapshots: sparse read points retain their own predecessors, not an interval
+  ---
+  duration_ms: 0.6542
+  type: 'test'
+  ...
+# Subtest: mvcc hidden snapshots: tombstones at snapshot and latest bounds prevent resurrection
+ok 14 - mvcc hidden snapshots: tombstones at snapshot and latest bounds prevent resurrection
+  ---
+  duration_ms: 0.87
+  type: 'test'
+  ...
+# Subtest: mvcc hidden snapshots: per-key predecessors and future tombstones coexist during compaction
+ok 15 - mvcc hidden snapshots: per-key predecessors and future tombstones coexist during compaction
+  ---
+  duration_ms: 0.1886
+  type: 'test'
+  ...
+# Subtest: mvcc hidden snapshots: released foreign and fabricated snapshot tokens throw TypeError
+ok 16 - mvcc hidden snapshots: released foreign and fabricated snapshot tokens throw TypeError
+  ---
+  duration_ms: 0.3763
+  type: 'test'
+  ...
+# Subtest: mvcc visible: compaction cannot replace published state with a prepared update
+ok 17 - mvcc visible: compaction cannot replace published state with a prepared update
+  ---
+  duration_ms: 1.6363
+  type: 'test'
+  ...
+# Subtest: mvcc visible: ordinary overwrite delete and independent key reads remain correct
+ok 18 - mvcc visible: ordinary overwrite delete and independent key reads remain correct
+  ---
+  duration_ms: 0.2654
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 109.993

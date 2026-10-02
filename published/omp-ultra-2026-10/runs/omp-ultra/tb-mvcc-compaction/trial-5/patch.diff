@@ -1,0 +1,65 @@
+diff --git "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/compaction.js" "{temp}\\hb-ae9953a8-9h33k_85/src/compaction.js"
+index 625df33..b121ac1 100644
+--- "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/compaction.js"
++++ "{temp}\\hb-ae9953a8-9h33k_85/src/compaction.js"
+@@ -1,24 +1,33 @@
+ 'use strict';
+ 
++// True if some bound b in sorted `bounds` satisfies low <= b < high.
++function hasBoundIn(bounds, low, high) {
++  let lo = 0;
++  let hi = bounds.length;
++  while (lo < hi) {
++    const mid = (lo + hi) >>> 1;
++    if (bounds[mid] < low) lo = mid + 1;
++    else hi = mid;
++  }
++  return lo < bounds.length && bounds[lo] < high;
++}
++
++// Per key, retains: every version above `frontier`; the newest version at or
++// below `frontier`; the newest version at or below each snapshot sequence.
++// Tombstones are retained like values. Versions are sorted by sequence.
+ function compactVersions(history, frontier, snapshotSequences) {
++  const bounds = [...new Set([frontier, ...snapshotSequences])].sort((a, b) => a - b);
+   let removed = 0;
+-  const boundaries = [frontier];
+-  if (snapshotSequences.length) boundaries.push(Math.min(...snapshotSequences));
+   for (const [key, versions] of history) {
+-    const retained = new Set();
+-    for (const version of versions) {
+-      if (version.sequence > frontier) retained.add(version.sequence);
+-    }
+-    for (const boundary of boundaries) {
+-      for (let i = versions.length - 1; i >= 0; i--) {
+-        const version = versions[i];
+-        if (version.sequence <= boundary) {
+-          if (!version.deleted) retained.add(version.sequence);
+-          break;
+-        }
++    const compacted = [];
++    for (let i = 0; i < versions.length; i++) {
++      const sequence = versions[i].sequence;
++      const next = i + 1 < versions.length ? versions[i + 1].sequence : Infinity;
++      // versions[i] is the newest version at or below any bound in [sequence, next).
++      if (sequence > frontier || hasBoundIn(bounds, sequence, next)) {
++        compacted.push(versions[i]);
+       }
+     }
+-    const compacted = versions.filter(version => retained.has(version.sequence));
+     removed += versions.length - compacted.length;
+     if (compacted.length) history.set(key, compacted);
+     else history.delete(key);
+diff --git "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/store.js" "{temp}\\hb-ae9953a8-9h33k_85/src/store.js"
+index df6292b..a6dff09 100644
+--- "{benchmark_dir}\\tasks\\tb-mvcc-compaction\\repo/src/store.js"
++++ "{temp}\\hb-ae9953a8-9h33k_85/src/store.js"
+@@ -103,7 +103,7 @@ function makeStore() {
+     },
+ 
+     compact() {
+-      return compactVersions(history, allocated, [...snapshots.values()]);
++      return compactVersions(history, published, snapshots.values());
+     },
+ 
+     versionCount() {

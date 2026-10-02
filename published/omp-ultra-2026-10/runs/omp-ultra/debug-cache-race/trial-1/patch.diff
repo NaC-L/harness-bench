@@ -1,0 +1,31 @@
+diff --git "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js" "{temp}\\hb-7f5c82b4-_sgsj24g/src/flight.js"
+index bc0283d..7c9dbb5 100644
+--- "{benchmark_dir}\\tasks\\debug-cache-race\\repo/src/flight.js"
++++ "{temp}\\hb-7f5c82b4-_sgsj24g/src/flight.js"
+@@ -1,7 +1,8 @@
+ 'use strict';
+ 
+ // A detached flight still settles its original callers. The registry tracks
+-// only flights available for subsequent readers of each key.
++// only flights available for subsequent readers of each key; a flight may
++// commit or unregister itself only while it is still the registered one.
+ function createFlights() {
+   const pending = new Map();
+ 
+@@ -9,9 +10,14 @@ function createFlights() {
+     run(key, work, commit) {
+       if (pending.has(key)) return pending.get(key);
+       const promise = Promise.resolve().then(work).then(value => {
+-        pending.delete(key);
+-        commit(value);
++        if (pending.get(key) === promise) {
++          pending.delete(key);
++          commit(value);
++        }
+         return value;
++      }, reason => {
++        if (pending.get(key) === promise) pending.delete(key);
++        throw reason;
+       });
+       pending.set(key, promise);
+       return promise;

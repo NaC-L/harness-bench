@@ -1,0 +1,120 @@
+diff --git "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js" "{temp}\\hb-14d31618-r_4_9v5u/src/csv.js"
+index ce27ede..145512e 100644
+--- "{benchmark_dir}\\tasks\\feature-csv-stream\\repo/src/csv.js"
++++ "{temp}\\hb-14d31618-r_4_9v5u/src/csv.js"
+@@ -1,6 +1,12 @@
+ 'use strict';
+ const { toObjects } = require('./rows');
+ 
++const FIELD_START = 0;
++const UNQUOTED = 1;
++const QUOTED = 2;
++// Saw '"' inside a quoted field: either the first half of '""' or a closing quote.
++const QUOTE_SEEN = 3;
++
+ /**
+  * Create an incremental CSV parser; options is an optional object.
+  *
+@@ -47,7 +53,101 @@ const { toObjects } = require('./rows');
+  * @returns {{ push(chunk: string): string[][], end(): string[][] }}
+  */
+ function createParser(options = {}) {
+-  throw new Error('not implemented');
++  const delimiter = options.delimiter === undefined ? ',' : options.delimiter;
++  if (
++    typeof delimiter !== 'string' ||
++    delimiter.length !== 1 ||
++    delimiter === '"' ||
++    delimiter === '\r' ||
++    delimiter === '\n'
++  ) {
++    throw new RangeError('delimiter must be one character other than a quote, CR, or LF');
++  }
++
++  let state = FIELD_START;
++  let record = [];
++  let field = '';
++  let pending = false; // current record has consumed at least one character
++  let started = false; // any non-empty chunk seen (BOM handling)
++  let ended = false;
++  let line = 1;
++  let prevCR = false; // last processed character was CR
++
++  function push(chunk) {
++    if (ended) throw new Error('push called after end');
++    if (typeof chunk !== 'string') throw new TypeError('chunk must be a string');
++    const out = [];
++    let i = 0;
++    if (!started && chunk.length > 0) {
++      started = true;
++      if (chunk.charCodeAt(0) === 0xfeff) i = 1;
++    }
++    for (; i < chunk.length; i++) {
++      const ch = chunk[i];
++      const isCR = ch === '\r';
++      const isLF = ch === '\n';
++      const lfOfCRLF = isLF && prevCR;
++      if (isCR || (isLF && !prevCR)) line++;
++      prevCR = isCR;
++
++      if (state === QUOTED) {
++        if (ch === '"') state = QUOTE_SEEN;
++        else field += ch;
++        continue;
++      }
++      if (state === QUOTE_SEEN && ch === '"') {
++        field += '"';
++        state = QUOTED;
++        continue;
++      }
++      if (ch === delimiter) {
++        record.push(field);
++        field = '';
++        pending = true;
++        state = FIELD_START;
++        continue;
++      }
++      if (isCR || isLF) {
++        // An outside-quote LF right after CR completes a CRLF already emitted at the CR.
++        if (lfOfCRLF) continue;
++        record.push(field);
++        out.push(record);
++        record = [];
++        field = '';
++        pending = false;
++        state = FIELD_START;
++        continue;
++      }
++      if (state === QUOTE_SEEN) {
++        throw new SyntaxError(`Unexpected character after closing quote at line ${line}`);
++      }
++      pending = true;
++      if (state === FIELD_START && ch === '"') {
++        state = QUOTED;
++      } else {
++        field += ch;
++        state = UNQUOTED;
++      }
++    }
++    return out;
++  }
++
++  function end() {
++    if (ended) return [];
++    ended = true;
++    if (state === QUOTED) {
++      throw new SyntaxError(`Unterminated quoted field at line ${line}`);
++    }
++    if (!pending) return [];
++    record.push(field);
++    const last = record;
++    record = [];
++    field = '';
++    pending = false;
++    return [last];
++  }
++
++  return { push, end };
+ }
+ 
+ /**

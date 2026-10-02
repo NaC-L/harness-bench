@@ -1,0 +1,187 @@
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js" "{temp}\\hb-1ba9b6de-rmbvifzt/src/engine.js"
+index d9cd043..290bd79 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js"
++++ "{temp}\\hb-1ba9b6de-rmbvifzt/src/engine.js"
+@@ -2,6 +2,10 @@
+ 
+ const { SegmentManager } = require('./segments');
+ 
++function cloneEntry(entry) {
++  return { lsn: entry.lsn, key: entry.key, value: structuredClone(entry.value) };
++}
++
+ class Engine {
+   constructor({ segmentCapacity = 4, flush = async () => {} } = {}) {
+     this._segmentManager = new SegmentManager(segmentCapacity);
+@@ -9,25 +13,54 @@ class Engine {
+     this._nextLsn = 1;
+     this._state = new Map();
+     this._committed = [];
++    // Records indexed by lsn - 1: { entry, location, durable, resolve }.
++    this._records = [];
++  }
++
++  commitUpdate(key, value) {
++    const entry = { lsn: this._nextLsn++, key, value: structuredClone(value) };
++    const location = this._segmentManager.appendEntry(entry);
++    const record = { entry, location, durable: false, resolve: null, reject: null };
++    this._records.push(record);
++    const result = new Promise((resolve, reject) => {
++      record.resolve = resolve;
++      record.reject = reject;
++    });
++
++    let flushed;
++    try {
++      flushed = Promise.resolve(this._flush(cloneEntry(entry)));
++    } catch (error) {
++      flushed = Promise.reject(error);
++    }
++    flushed.then(() => this._markDurable(record), error => record.reject(error));
++    return result;
+   }
+ 
+-  async commitUpdate(key, value) {
+-    const entry = { lsn: this._nextLsn++, key, value };
+-    const segment = this._segmentManager.reserveSegment();
+-    await this._flush({ ...entry });
+-    this._segmentManager.appendEntry(segment, entry);
+-    this._segmentManager.markDurable(segment);
+-    this._state.set(key, value);
+-    this._committed.push(entry);
+-    return { ...entry };
++  _markDurable(record) {
++    record.durable = true;
++    this._segmentManager.markDurable(record.location);
++    while (this._committed.length < this._records.length) {
++      const next = this._records[this._committed.length];
++      if (!next.durable) break;
++      this._committed.push(next.entry);
++      this._state.set(next.entry.key, next.entry.value);
++      next.resolve(cloneEntry(next.entry));
++    }
+   }
+ 
+   runtimeState() {
+-    return Object.fromEntries(this._state);
++    const state = {};
++    for (const [key, value] of this._state) {
++      Object.defineProperty(state, key, {
++        value: structuredClone(value), enumerable: true, writable: true, configurable: true,
++      });
++    }
++    return state;
+   }
+ 
+   committedEntries() {
+-    return this._committed.map(entry => ({ ...entry }));
++    return this._committed.map(cloneEntry);
+   }
+ 
+   crashSnapshot() {
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js" "{temp}\\hb-1ba9b6de-rmbvifzt/src/recovery.js"
+index ab4a26e..4e6b6b0 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js"
++++ "{temp}\\hb-1ba9b6de-rmbvifzt/src/recovery.js"
+@@ -1,20 +1,32 @@
+ 'use strict';
+ 
+ function recoverEngine(snapshot) {
+-  const state = new Map();
+-  const replayed = [];
+-  let lastLsn = 0;
++  // Candidate per LSN; duplicates resolve to the lowest containing segmentId.
++  const candidates = new Map();
+   for (const segment of snapshot.segments) {
+-    const count = segment.durableCount ?? segment.entries.length;
+-    for (const entry of segment.entries.slice(0, count)) {
+-      if (entry.lsn <= lastLsn) continue;
+-      replayed.push({ segmentId: segment.segmentId, ...entry });
+-      state.set(entry.key, entry.value);
+-      lastLsn = entry.lsn;
++    const entries = segment.entries ?? [];
++    const count = Math.min(segment.durableCount ?? 0, entries.length);
++    for (let i = 0; i < count; i += 1) {
++      const entry = entries[i];
++      const existing = candidates.get(entry.lsn);
++      if (existing && existing.segmentId <= segment.segmentId) continue;
++      candidates.set(entry.lsn, { segmentId: segment.segmentId, key: entry.key, value: entry.value });
+     }
+   }
++
++  const state = {};
++  const replayed = [];
++  let lastLsn = 0;
++  for (let lsn = 1; candidates.has(lsn); lsn += 1) {
++    const { segmentId, key, value } = candidates.get(lsn);
++    replayed.push({ segmentId, lsn, key, value: structuredClone(value) });
++    Object.defineProperty(state, key, {
++      value: structuredClone(value), enumerable: true, writable: true, configurable: true,
++    });
++    lastLsn = lsn;
++  }
+   return {
+-    state: Object.fromEntries(state),
++    state,
+     replayed,
+     stats: {
+       segmentsScanned: snapshot.segments.length,
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js" "{temp}\\hb-1ba9b6de-rmbvifzt/src/segments.js"
+index f284e6b..7070c78 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js"
++++ "{temp}\\hb-1ba9b6de-rmbvifzt/src/segments.js"
+@@ -6,29 +6,31 @@ class SegmentManager {
+     this.segments = [];
+   }
+ 
+-  reserveSegment() {
++  // Appends synchronously so segment order always matches LSN order.
++  appendEntry(entry) {
+     let segment = this.segments[this.segments.length - 1];
+-    if (!segment || segment.reserved === this.capacity) {
++    if (!segment || segment.entries.length >= this.capacity) {
+       if (segment) segment.closed = true;
+       segment = {
+         segmentId: this.segments.length + 1,
+         closed: false,
+         durableCount: 0,
+         entries: [],
+-        reserved: 0,
++        durable: [],
+       };
+       this.segments.push(segment);
+     }
+-    segment.reserved += 1;
+-    return segment;
+-  }
+-
+-  appendEntry(segment, entry) {
+     segment.entries.push(entry);
++    segment.durable.push(false);
++    return { segment, index: segment.entries.length - 1 };
+   }
+ 
+-  markDurable(segment) {
+-    segment.durableCount += 1;
++  // durableCount tracks only the contiguous durable prefix of the segment.
++  markDurable({ segment, index }) {
++    segment.durable[index] = true;
++    while (segment.durableCount < segment.entries.length && segment.durable[segment.durableCount]) {
++      segment.durableCount += 1;
++    }
+   }
+ 
+   snapshot() {
+@@ -37,7 +39,11 @@ class SegmentManager {
+         segmentId: segment.segmentId,
+         closed: segment.closed,
+         durableCount: segment.durableCount,
+-        entries: segment.entries.map(entry => ({ ...entry })),
++        entries: segment.entries.map(entry => ({
++          lsn: entry.lsn,
++          key: entry.key,
++          value: structuredClone(entry.value),
++        })),
+       })),
+     };
+   }

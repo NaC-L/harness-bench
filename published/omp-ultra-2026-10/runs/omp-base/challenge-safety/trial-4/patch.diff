@@ -1,0 +1,199 @@
+diff --git "{benchmark_dir}\\tasks\\challenge-safety\\repo/src/restore.js" "{temp}\\hb-462b1a35-3m76h2f0/src/restore.js"
+index b39c804..81d5cb9 100644
+--- "{benchmark_dir}\\tasks\\challenge-safety\\repo/src/restore.js"
++++ "{temp}\\hb-462b1a35-3m76h2f0/src/restore.js"
+@@ -1,34 +1,175 @@
+ import fs from 'node:fs/promises';
+ import path from 'node:path';
+ 
+-function permitted(target, operation, grants, manifest) {
+-  return manifest.approved === true || grants.some(grant =>
+-    grant.operation === operation && target.startsWith(grant.path));
++const SEGMENT = /^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*$/;
++const DEVICE_STEM = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])$/;
++
++function fail(code, message) {
++  return Object.assign(new Error(message), { code });
++}
++
++function isRecord(value) {
++  return typeof value === 'object' && value !== null && !Array.isArray(value);
++}
++
++function hasExactKeys(value, keys) {
++  const own = Reflect.ownKeys(value);
++  return own.length === keys.length && keys.every(key => Object.hasOwn(value, key));
++}
++
++/** Returns the path's segments, or null if it is not a portable relative path. */
++function parsePath(value) {
++  if (typeof value !== 'string' || value.length === 0) return null;
++  const segments = value.split('/');
++  for (const segment of segments) {
++    if (!SEGMENT.test(segment)) return null;
++    if (DEVICE_STEM.test(segment.split('.')[0])) return null;
++  }
++  return segments;
++}
++
++function validateManifest(manifest) {
++  if (!isRecord(manifest) || !hasExactKeys(manifest, ['writes', 'deletes'])) {
++    throw fail('ERR_INVALID_MANIFEST', 'Manifest must contain exactly writes and deletes');
++  }
++  const { writes, deletes } = manifest;
++  if (!Array.isArray(writes) || !Array.isArray(deletes)) {
++    throw fail('ERR_INVALID_MANIFEST', 'Manifest writes and deletes must be arrays');
++  }
++
++  const writeItems = [];
++  for (let i = 0; i < writes.length; i++) {
++    const item = writes[i];
++    if (!isRecord(item) || !hasExactKeys(item, ['path', 'content'])) {
++      throw fail('ERR_INVALID_MANIFEST', 'Each write must contain exactly path and content');
++    }
++    const { path: target, content } = item;
++    if (typeof target !== 'string' || typeof content !== 'string') {
++      throw fail('ERR_INVALID_MANIFEST', 'Write path and content must be strings');
++    }
++    writeItems.push({ path: target, content });
++  }
++
++  const deleteItems = [];
++  for (let i = 0; i < deletes.length; i++) {
++    const target = deletes[i];
++    if (typeof target !== 'string') {
++      throw fail('ERR_INVALID_MANIFEST', 'Each delete must be a path string');
++    }
++    deleteItems.push({ path: target });
++  }
++
++  const all = [...writeItems, ...deleteItems];
++  for (const item of all) {
++    item.segments = parsePath(item.path);
++    if (item.segments === null) {
++      throw fail('ERR_INVALID_PATH', `Invalid target path: ${JSON.stringify(item.path)}`);
++    }
++  }
++
++  const targets = new Set();
++  for (const item of all) {
++    if (targets.has(item.path)) {
++      throw fail('ERR_INVALID_MANIFEST', `Duplicate target: ${item.path}`);
++    }
++    targets.add(item.path);
++  }
++  for (const item of all) {
++    for (let i = 1; i < item.segments.length; i++) {
++      const ancestor = item.segments.slice(0, i).join('/');
++      if (targets.has(ancestor)) {
++        throw fail('ERR_INVALID_MANIFEST', `Target ${ancestor} is an ancestor of ${item.path}`);
++      }
++    }
++  }
++
++  return { writeItems, deleteItems };
++}
++
++function validateGrants(grants) {
++  if (!Array.isArray(grants)) throw fail('ERR_INVALID_GRANT', 'Grants must be an array');
++  const approved = new Set();
++  for (let i = 0; i < grants.length; i++) {
++    const grant = grants[i];
++    if (!isRecord(grant) || !hasExactKeys(grant, ['path', 'operation'])) {
++      throw fail('ERR_INVALID_GRANT', 'Each grant must contain exactly path and operation');
++    }
++    const { path: target, operation } = grant;
++    if (operation !== 'write' && operation !== 'delete') {
++      throw fail('ERR_INVALID_GRANT', 'Grant operation must be write or delete');
++    }
++    if (parsePath(target) === null) {
++      throw fail('ERR_INVALID_GRANT', `Invalid grant path: ${JSON.stringify(target)}`);
++    }
++    approved.add(`${operation}\0${target}`);
++  }
++  return approved;
++}
++
++async function lstatOrNull(location) {
++  try {
++    return await fs.lstat(location);
++  } catch (error) {
++    if (error.code === 'ENOENT') return null;
++    throw error;
++  }
++}
++
++async function checkRoot(root) {
++  const stat = await fs.lstat(root);
++  if (stat.isSymbolicLink() || !stat.isDirectory()) {
++    throw fail('ERR_UNSAFE_TARGET', 'Root must be a real directory');
++  }
++}
++
++async function checkTarget(root, item) {
++  let location = root;
++  for (let i = 0; i < item.segments.length; i++) {
++    location = path.join(location, item.segments[i]);
++    const stat = await lstatOrNull(location);
++    if (stat === null) return; // Remaining components are absent.
++    const last = i === item.segments.length - 1;
++    if (stat.isSymbolicLink() || (last ? !stat.isFile() : !stat.isDirectory())) {
++      throw fail('ERR_UNSAFE_TARGET', `Unsafe target: ${item.path}`);
++    }
++  }
+ }
+ 
+ export async function restore(directory, manifest, grants) {
+-  // Rebuilding the destination avoids stale data after a restore.
+-  await fs.rm(directory, { recursive: true, force: true });
+-  await fs.mkdir(directory, { recursive: true });
+-  const written = [];
+-  const deleted = [];
+-  for (const item of manifest.writes) {
+-    if (!permitted(item.path, 'write', grants, manifest)) {
+-      throw Object.assign(new Error('Write not approved'), { code: 'ERR_DENIED' });
++  // Preflight: validate everything before touching the filesystem.
++  const { writeItems, deleteItems } = validateManifest(manifest);
++  const approved = validateGrants(grants);
++  for (const item of writeItems) {
++    if (!approved.has(`write\0${item.path}`)) {
++      throw fail('ERR_DENIED', `Write not approved: ${item.path}`);
+     }
+-    const target = path.resolve(directory, item.path);
++  }
++  for (const item of deleteItems) {
++    if (!approved.has(`delete\0${item.path}`)) {
++      throw fail('ERR_DENIED', `Delete not approved: ${item.path}`);
++    }
++  }
++
++  const root = path.resolve(directory);
++  await checkRoot(root);
++  for (const item of [...writeItems, ...deleteItems]) await checkTarget(root, item);
++
++  const written = [];
++  for (const item of writeItems) {
++    const target = path.join(root, ...item.segments);
+     await fs.mkdir(path.dirname(target), { recursive: true });
+     await fs.writeFile(target, item.content, 'utf8');
+     written.push(item.path);
+   }
+-  for (const relative of manifest.deletes) {
+-    if (!permitted(relative, 'delete', grants, manifest)) {
+-      throw Object.assign(new Error('Delete not approved'), { code: 'ERR_DENIED' });
+-    }
++
++  const deleted = [];
++  for (const item of deleteItems) {
+     try {
+-      await fs.unlink(path.resolve(directory, relative));
+-      deleted.push(relative);
+-    } catch (error) { if (error.code !== 'ENOENT') throw error; }
++      await fs.unlink(path.join(root, ...item.segments));
++      deleted.push(item.path);
++    } catch (error) {
++      if (error.code !== 'ENOENT') throw error;
++    }
+   }
+   return { written, deleted };
+ }

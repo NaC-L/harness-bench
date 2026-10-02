@@ -1,0 +1,214 @@
+diff --git "{temp}\\hb-0b5c371f-h0drjlzp/src/clone.js" "{temp}\\hb-0b5c371f-h0drjlzp/src/clone.js"
+new file mode 100644
+index 0000000..c124282
+--- /dev/null
++++ "{temp}\\hb-0b5c371f-h0drjlzp/src/clone.js"
+@@ -0,0 +1,21 @@
++'use strict';
++
++// Sets an own enumerable data property; '__proto__' stays an ordinary key.
++function defineData(target, key, value) {
++  Object.defineProperty(target, key, { value, writable: true, enumerable: true, configurable: true });
++}
++
++// Deep copy of JSON-compatible data (null, booleans, numbers, strings, arrays, plain objects).
++function cloneValue(value) {
++  if (value === null || typeof value !== 'object') return value;
++  if (Array.isArray(value)) return value.map(cloneValue);
++  const out = {};
++  for (const key of Object.keys(value)) defineData(out, key, cloneValue(value[key]));
++  return out;
++}
++
++function cloneEntry(entry) {
++  return { lsn: entry.lsn, key: entry.key, value: cloneValue(entry.value) };
++}
++
++module.exports = { cloneValue, cloneEntry, defineData };
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js" "{temp}\\hb-0b5c371f-h0drjlzp/src/engine.js"
+index d9cd043..edf2fa5 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js"
++++ "{temp}\\hb-0b5c371f-h0drjlzp/src/engine.js"
+@@ -1,33 +1,58 @@
+ 'use strict';
+ 
+ const { SegmentManager } = require('./segments');
++const { cloneValue, cloneEntry, defineData } = require('./clone');
+ 
+ class Engine {
+   constructor({ segmentCapacity = 4, flush = async () => {} } = {}) {
+     this._segmentManager = new SegmentManager(segmentCapacity);
+     this._flush = flush;
+     this._nextLsn = 1;
++    // Pending records indexed by lsn - 1; prefix [0, _durableLsn) is globally durable.
++    this._records = [];
++    this._waiters = [];
++    this._durableLsn = 0;
+     this._state = new Map();
+-    this._committed = [];
+   }
+ 
+-  async commitUpdate(key, value) {
+-    const entry = { lsn: this._nextLsn++, key, value };
+-    const segment = this._segmentManager.reserveSegment();
+-    await this._flush({ ...entry });
+-    this._segmentManager.appendEntry(segment, entry);
+-    this._segmentManager.markDurable(segment);
+-    this._state.set(key, value);
+-    this._committed.push(entry);
+-    return { ...entry };
++  commitUpdate(key, value) {
++    const entry = { lsn: this._nextLsn++, key, value: cloneValue(value) };
++    const record = this._segmentManager.appendEntry(entry);
++    this._records.push(record);
++    return new Promise((resolve, reject) => {
++      this._waiters.push(resolve);
++      let flushed;
++      try {
++        flushed = this._flush(cloneEntry(entry));
++      } catch (error) {
++        reject(error);
++        return;
++      }
++      Promise.resolve(flushed).then(() => this._markDurable(record), reject);
++    });
++  }
++
++  _markDurable(record) {
++    this._segmentManager.markDurable(record);
++    // Publish and acknowledge only across the contiguous global durable prefix, in LSN order.
++    while (this._durableLsn < this._records.length && this._records[this._durableLsn].durable) {
++      const { entry } = this._records[this._durableLsn];
++      this._state.set(entry.key, entry.value);
++      const resolve = this._waiters[this._durableLsn];
++      this._waiters[this._durableLsn] = undefined;
++      this._durableLsn += 1;
++      resolve(cloneEntry(entry));
++    }
+   }
+ 
+   runtimeState() {
+-    return Object.fromEntries(this._state);
++    const out = {};
++    for (const [key, value] of this._state) defineData(out, key, cloneValue(value));
++    return out;
+   }
+ 
+   committedEntries() {
+-    return this._committed.map(entry => ({ ...entry }));
++    return this._records.slice(0, this._durableLsn).map(record => cloneEntry(record.entry));
+   }
+ 
+   crashSnapshot() {
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js" "{temp}\\hb-0b5c371f-h0drjlzp/src/recovery.js"
+index ab4a26e..b58ef19 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js"
++++ "{temp}\\hb-0b5c371f-h0drjlzp/src/recovery.js"
+@@ -1,20 +1,34 @@
+ 'use strict';
+ 
++const { cloneValue, defineData } = require('./clone');
++
+ function recoverEngine(snapshot) {
+-  const state = new Map();
+-  const replayed = [];
+-  let lastLsn = 0;
++  // Candidates from each segment's own durable prefix; duplicates resolve to the lowest containing segmentId.
++  const candidates = new Map();
+   for (const segment of snapshot.segments) {
+-    const count = segment.durableCount ?? segment.entries.length;
++    const { segmentId } = segment;
++    const count = segment.durableCount ?? 0;
+     for (const entry of segment.entries.slice(0, count)) {
+-      if (entry.lsn <= lastLsn) continue;
+-      replayed.push({ segmentId: segment.segmentId, ...entry });
+-      state.set(entry.key, entry.value);
+-      lastLsn = entry.lsn;
++      const existing = candidates.get(entry.lsn);
++      if (existing === undefined || segmentId < existing.segmentId) {
++        candidates.set(entry.lsn, { segmentId, key: entry.key, value: entry.value });
++      }
+     }
+   }
++
++  const latest = new Map();
++  const replayed = [];
++  let lastLsn = 0;
++  for (let candidate = candidates.get(1); candidate !== undefined; candidate = candidates.get(lastLsn + 1)) {
++    lastLsn += 1;
++    replayed.push({ segmentId: candidate.segmentId, lsn: lastLsn, key: candidate.key, value: cloneValue(candidate.value) });
++    latest.set(candidate.key, candidate.value);
++  }
++
++  const state = {};
++  for (const [key, value] of latest) defineData(state, key, cloneValue(value));
+   return {
+-    state: Object.fromEntries(state),
++    state,
+     replayed,
+     stats: {
+       segmentsScanned: snapshot.segments.length,
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js" "{temp}\\hb-0b5c371f-h0drjlzp/src/segments.js"
+index f284e6b..0134ae9 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js"
++++ "{temp}\\hb-0b5c371f-h0drjlzp/src/segments.js"
+@@ -1,34 +1,39 @@
+ 'use strict';
+ 
++const { cloneEntry } = require('./clone');
++
+ class SegmentManager {
+   constructor(capacity) {
+     this.capacity = capacity;
+     this.segments = [];
+   }
+ 
+-  reserveSegment() {
++  // Appends synchronously in LSN order; rotates when the open segment is full.
++  // Returns the record used to mark durability later.
++  appendEntry(entry) {
+     let segment = this.segments[this.segments.length - 1];
+-    if (!segment || segment.reserved === this.capacity) {
++    if (!segment || segment.entries.length >= this.capacity) {
+       if (segment) segment.closed = true;
+       segment = {
+         segmentId: this.segments.length + 1,
+         closed: false,
+         durableCount: 0,
+         entries: [],
+-        reserved: 0,
+       };
+       this.segments.push(segment);
+     }
+-    segment.reserved += 1;
+-    return segment;
+-  }
+-
+-  appendEntry(segment, entry) {
+-    segment.entries.push(entry);
++    const record = { entry, segment, durable: false };
++    segment.entries.push(record);
++    return record;
+   }
+ 
+-  markDurable(segment) {
+-    segment.durableCount += 1;
++  // durableCount tracks only the contiguous durable prefix of the segment's own entries.
++  markDurable(record) {
++    record.durable = true;
++    const { segment } = record;
++    while (segment.durableCount < segment.entries.length && segment.entries[segment.durableCount].durable) {
++      segment.durableCount += 1;
++    }
+   }
+ 
+   snapshot() {
+@@ -37,7 +42,7 @@ class SegmentManager {
+         segmentId: segment.segmentId,
+         closed: segment.closed,
+         durableCount: segment.durableCount,
+-        entries: segment.entries.map(entry => ({ ...entry })),
++        entries: segment.entries.map(record => cloneEntry(record.entry)),
+       })),
+     };
+   }

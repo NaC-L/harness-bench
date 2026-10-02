@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: randomized floored division and modulo match Python integers
+ok 1 - randomized floored division and modulo match Python integers
+  ---
+  duration_ms: 48.9885
+  type: 'test'
+  ...
+# Subtest: floored operators return positive zero and handle decimals
+ok 2 - floored operators return positive zero and handle decimals
+  ---
+  duration_ms: 0.5543
+  type: 'test'
+  ...
+# Subtest: floored operators combine with power and unary precedence
+ok 3 - floored operators combine with power and unary precedence
+  ---
+  duration_ms: 0.151
+  type: 'test'
+  ...
+# Subtest: division by zero raises at the operator column
+ok 4 - division by zero raises at the operator column
+  ---
+  duration_ms: 0.8279
+  type: 'test'
+  ...
+# Subtest: syntax errors report the column of the offending token after whitespace
+ok 5 - syntax errors report the column of the offending token after whitespace
+  ---
+  duration_ms: 1.4092
+  type: 'test'
+  ...
+# Subtest: unexpected end of input reports length plus one
+ok 6 - unexpected end of input reports length plus one
+  ---
+  duration_ms: 0.6959
+  type: 'test'
+  ...
+# Subtest: call and variable errors point at the identifier
+ok 7 - call and variable errors point at the identifier
+  ---
+  duration_ms: 0.2658
+  type: 'test'
+  ...
+# Subtest: inherited properties are not variables
+ok 8 - inherited properties are not variables
+  ---
+  duration_ms: 0.1884
+  type: 'test'
+  ...
+# Subtest: floor division and modulo follow Python for negative operands
+ok 9 - floor division and modulo follow Python for negative operands
+  ---
+  duration_ms: 1.4015
+  type: 'test'
+  ...
+# Subtest: power is right-associative
+ok 10 - power is right-associative
+  ---
+  duration_ms: 2.6871
+  type: 'test'
+  ...
+# Subtest: unary minus binds looser than power on its left
+ok 11 - unary minus binds looser than power on its left
+  ---
+  duration_ms: 0.4027
+  type: 'test'
+  ...
+# Subtest: power accepts a signed right operand
+ok 12 - power accepts a signed right operand
+  ---
+  duration_ms: 0.1476
+  type: 'test'
+  ...
+# Subtest: comparison operators chain instead of comparing booleans
+ok 13 - comparison operators chain instead of comparing booleans
+  ---
+  duration_ms: 0.2047
+  type: 'test'
+  ...
+# Subtest: trap: parenthesized comparisons behave as 0/1 numbers
+ok 14 - trap: parenthesized comparisons behave as 0/1 numbers
+  ---
+  duration_ms: 0.2097
+  type: 'test'
+  ...
+# Subtest: trap: chained comparison reads each shared operand exactly once
+ok 15 - trap: chained comparison reads each shared operand exactly once
+  ---
+  duration_ms: 1.1439
+  type: 'test'
+  ...
+# Subtest: false chained comparison short-circuits the remaining operands
+ok 16 - false chained comparison short-circuits the remaining operands
+  ---
+  duration_ms: 0.4535
+  type: 'test'
+  ...
+# Subtest: chain short-circuit happens only after the whole formula parses
+ok 17 - chain short-circuit happens only after the whole formula parses
+  ---
+  duration_ms: 0.9014
+  type: 'test'
+  ...
+# Subtest: randomized chained comparisons match a short-circuit oracle
+ok 18 - randomized chained comparisons match a short-circuit oracle
+  ---
+  duration_ms: 23.5316
+  type: 'test'
+  ...
+# Subtest: trap: basic precedence and left associativity
+ok 19 - trap: basic precedence and left associativity
+  ---
+  duration_ms: 1.8691
+  type: 'test'
+  ...
+# Subtest: trap: decimals and exponents
+ok 20 - trap: decimals and exponents
+  ---
+  duration_ms: 0.1701
+  type: 'test'
+  ...
+# Subtest: trap: built-in calls and variables
+ok 21 - trap: built-in calls and variables
+  ---
+  duration_ms: 0.4831
+  type: 'test'
+  ...
+# Subtest: trap: long flat arithmetic stays linear
+ok 22 - trap: long flat arithmetic stays linear
+  ---
+  duration_ms: 198.2848
+  type: 'test'
+  ...
+# Subtest: long comparison chains stay linear and chain correctly
+ok 23 - long comparison chains stay linear and chain correctly
+  ---
+  duration_ms: 270.2454
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 565.5678

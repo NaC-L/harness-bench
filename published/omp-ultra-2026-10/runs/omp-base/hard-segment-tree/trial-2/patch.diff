@@ -1,0 +1,52 @@
+diff --git "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js" "{temp}\\hb-ec93b9e3-dccliapa/src/range-tree.js"
+index c830491..8ee2e5b 100644
+--- "{benchmark_dir}\\tasks\\hard-segment-tree\\repo/src/range-tree.js"
++++ "{temp}\\hb-ec93b9e3-dccliapa/src/range-tree.js"
+@@ -38,7 +38,8 @@ class RangeTree {
+     this._sums = new Float64Array(capacity);
+     this._maxima = new Float64Array(capacity);
+     this._assignments = new Float64Array(capacity);
+-    this._additions = new Float64Array(capacity);
++    // -0 is the additive identity (x + -0 === x, including x === -0), so it marks "no pending addition".
++    this._additions = new Float64Array(capacity).fill(-0);
+     this._hasAssignment = new Uint8Array(capacity);
+     this._build(1, 0, this._length, values);
+   }
+@@ -123,6 +124,7 @@ class RangeTree {
+     this._maxima[node] = value;
+     this._assignments[node] = value;
+     this._hasAssignment[node] = 1;
++    this._additions[node] = -0;
+   }
+ 
+   _applyAddition(node, size, value) {
+@@ -141,10 +143,10 @@ class RangeTree {
+       this._hasAssignment[node] = 0;
+     }
+     const addition = this._additions[node];
+-    if (addition !== 0) {
++    if (!Object.is(addition, -0)) {
+       this._applyAddition(node * 2, middle - left, addition);
+       this._applyAddition(node * 2 + 1, right - middle, addition);
+-      this._additions[node] = 0;
++      this._additions[node] = -0;
+     }
+   }
+ 
+@@ -175,7 +177,7 @@ class RangeTree {
+     if (l <= left && right <= r) return this._maxima[node];
+     this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+-    let result = 0;
++    let result = -Infinity;
+     if (l < middle) result = Math.max(result, this._max(node * 2, left, middle, l, r));
+     if (r > middle) result = Math.max(result, this._max(node * 2 + 1, middle, right, l, r));
+     return result;
+@@ -184,6 +186,7 @@ class RangeTree {
+   _first(node, left, right, lo, x) {
+     if (right <= lo || this._maxima[node] < x) return -1;
+     if (right - left === 1) return left;
++    this._push(node, left, right);
+     const middle = Math.floor((left + right) / 2);
+     const found = this._first(node * 2, left, middle, lo, x);
+     return found !== -1 ? found : this._first(node * 2 + 1, middle, right, lo, x);

@@ -1,0 +1,308 @@
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js" "{temp}\\hb-de998f69-7mrbc4x3/src/evaluator.js"
+index 7f2b237..8b121b0 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/evaluator.js"
++++ "{temp}\\hb-de998f69-7mrbc4x3/src/evaluator.js"
+@@ -2,6 +2,26 @@
+ 
+ const { ExprError } = require('./errors');
+ 
++/** Python's float floor-divmod; zero results are positive zero. */
++function floorDivmod(left, right) {
++  let mod = left % right;
++  let div = (left - mod) / right;
++  if (mod !== 0) {
++    if ((right < 0) !== (mod < 0)) {
++      mod += right;
++      div -= 1;
++    }
++  } else {
++    mod = 0;
++  }
++  let floorDiv = 0;
++  if (div !== 0) {
++    floorDiv = Math.floor(div);
++    if (div - floorDiv > 0.5) floorDiv += 1;
++  }
++  return { floorDiv, mod };
++}
++
+ function apply(operator, left, right) {
+   left = Number(left);
+   right = Number(right);
+@@ -14,16 +34,12 @@ function apply(operator, left, right) {
+     case '-': return left - right;
+     case '*': return left * right;
+     case '/': return left / right;
+-    case '**': return left ** right;
+-    case '//': {
+-      const quotient = Math.trunc(left / right);
+-      return quotient === 0 ? 0 : quotient;
+-    }
+-    case '%': {
+-      const remainder = left % right;
+-      if (remainder === 0) return 0;
+-      return remainder;
+-    }
++    case '**':
++      // Python: 1 ** x and (-1) ** ±inf are 1; JavaScript gives NaN for some.
++      if (left === 1 || (left === -1 && Math.abs(right) === Infinity)) return 1;
++      return left ** right;
++    case '//': return floorDivmod(left, right).floorDiv;
++    case '%': return floorDivmod(left, right).mod;
+     case '<': return left < right;
+     case '<=': return left <= right;
+     case '>': return left > right;
+@@ -99,13 +115,16 @@ function evaluateAst(root, variables) {
+         frame.index = 0;
+         frames.push({ node: node.args[0], phase: 0 });
+       } else {
+-        const value = Number(result);
+-        if (frame.index === 0) frame.value = value;
+-        else if (node.name === 'min') frame.value = Math.min(frame.value, value);
+-        else frame.value = Math.max(frame.value, value);
++        // Python min/max keep the first extreme original value (e.g. True).
++        const key = Number(result);
++        if (frame.index === 0 ||
++            (node.name === 'min' ? key < frame.key : key > frame.key)) {
++          frame.value = result;
++          frame.key = key;
++        }
+         frame.index += 1;
+         if (frame.index === node.args.length) {
+-          result = node.name === 'abs' ? Math.abs(frame.value) : frame.value;
++          result = node.name === 'abs' ? Math.abs(frame.key) : frame.value;
+           frames.pop();
+         } else {
+           frames.push({ node: node.args[frame.index], phase: 0 });
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/index.js" "{temp}\\hb-de998f69-7mrbc4x3/src/index.js"
+index f8dd8d5..ba59a13 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/index.js"
++++ "{temp}\\hb-de998f69-7mrbc4x3/src/index.js"
+@@ -1,6 +1,5 @@
+ 'use strict';
+ 
+-const { tokenize } = require('./tokenizer');
+ const { parse } = require('./parser');
+ const { evaluateAst } = require('./evaluator');
+ const { ExprError } = require('./errors');
+@@ -59,7 +58,7 @@ const { ExprError } = require('./errors');
+  * operand. Deeply nested parentheses or ** chains may be limited by the stack.
+  */
+ function evaluate(source, variables = {}) {
+-  return evaluateAst(parse(tokenize(source)), variables);
++  return evaluateAst(parse(source), variables);
+ }
+ 
+ module.exports = { evaluate, ExprError };
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js" "{temp}\\hb-de998f69-7mrbc4x3/src/parser.js"
+index 4af2109..a3dfde1 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/parser.js"
++++ "{temp}\\hb-de998f69-7mrbc4x3/src/parser.js"
+@@ -1,31 +1,45 @@
+ 'use strict';
+ 
+ const { ExprError } = require('./errors');
++const { createLexer } = require('./tokenizer');
+ 
+-/** Parse a complete token sequence into an AST. Nodes retain operator columns. */
+-function parse(tokens) {
+-  let position = 0;
+-  const current = () => tokens[position];
+-  const take = () => tokens[position++];
+-  const is = value => current().value === value;
++const COMPARISONS = new Set(['<', '<=', '>', '>=', '==', '!=']);
++const PRODUCTS = new Set(['*', '/', '//', '%']);
++const FUNCTIONS = new Set(['min', 'max', 'abs']);
++
++/** Parse a complete source string into an AST. Nodes retain operator columns. */
++function parse(source) {
++  const next = createLexer(source);
++  let lookahead = null;
++  const current = () => lookahead || (lookahead = next());
++  const take = () => {
++    const token = current();
++    lookahead = null;
++    return token;
++  };
++  const isOperator = value => current().type === 'operator' && current().value === value;
++  const inSet = set => current().type === 'operator' && set.has(current().value);
+   const expect = value => {
+-    if (!is(value)) throw new ExprError(`Expected ${value}`, current().column);
++    if (!isOperator(value)) throw new ExprError(`Expected ${value}`, current().column);
+     return take();
+   };
+   const binary = (operator, left, right) => ({ type: 'binary', operator, left, right });
+ 
+   function comparison() {
+-    let left = sum();
+-    while (['<', '<=', '>', '>=', '==', '!='].includes(current().value)) {
+-      const operator = take();
+-      left = binary(operator, left, sum());
++    const first = sum();
++    if (!inSet(COMPARISONS)) return first;
++    const operands = [first];
++    const operators = [];
++    while (inSet(COMPARISONS)) {
++      operators.push(take());
++      operands.push(sum());
+     }
+-    return left;
++    return { type: 'comparison', operands, operators };
+   }
+ 
+   function sum() {
+     let left = product();
+-    while (is('+') || is('-')) {
++    while (isOperator('+') || isOperator('-')) {
+       const operator = take();
+       left = binary(operator, left, product());
+     }
+@@ -33,54 +47,49 @@ function parse(tokens) {
+   }
+ 
+   function product() {
+-    let left = power();
+-    while (['*', '/', '//', '%'].includes(current().value)) {
++    let left = unary();
++    while (inSet(PRODUCTS)) {
+       const operator = take();
+-      left = binary(operator, left, power());
++      left = binary(operator, left, unary());
+     }
+     return left;
+   }
+ 
+   function unary() {
+-    if (is('+') || is('-')) {
+-      return { type: 'unary', operator: take(), operand: unary() };
++    const signs = [];
++    while (isOperator('+') || isOperator('-')) signs.push(take());
++    let node = power();
++    for (let i = signs.length - 1; i >= 0; i -= 1) {
++      node = { type: 'unary', operator: signs[i], operand: node };
+     }
+-    return primary();
++    return node;
+   }
+ 
+   function power() {
+-    let left = unary();
+-    while (is('**')) {
+-      const operator = take();
+-      left = binary(operator, left, unary());
+-    }
+-    return left;
++    const base = primary();
++    if (!isOperator('**')) return base;
++    const operator = take();
++    return binary(operator, base, unary());
+   }
+ 
+   function primary() {
+     const token = take();
+     if (token.type === 'number') return { type: 'number', value: token.value };
+     if (token.type === 'identifier') {
+-      if (!is('(')) return { type: 'variable', name: token.value, column: token.column };
++      if (!isOperator('(')) return { type: 'variable', name: token.value, column: token.column };
++      if (!FUNCTIONS.has(token.value)) throw new ExprError('Unknown function', token.column);
+       take();
+-      const args = [];
+-      if (!is(')')) {
++      if (isOperator(')')) throw new ExprError('Wrong argument count', token.column);
++      const args = [comparison()];
++      while (isOperator(',')) {
++        if (token.value === 'abs') throw new ExprError('Wrong argument count', token.column);
++        take();
+         args.push(comparison());
+-        while (is(',')) {
+-          take();
+-          args.push(comparison());
+-        }
+       }
+       expect(')');
+-      if (!['min', 'max', 'abs'].includes(token.value)) {
+-        throw new ExprError('Unknown function', token.column);
+-      }
+-      if (!args.length || (token.value === 'abs' && args.length !== 1)) {
+-        throw new ExprError('Wrong argument count', token.column);
+-      }
+       return { type: 'call', name: token.value, args };
+     }
+-    if (token.value === '(') {
++    if (token.type === 'operator' && token.value === '(') {
+       const expression = comparison();
+       expect(')');
+       return expression;
+diff --git "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js" "{temp}\\hb-de998f69-7mrbc4x3/src/tokenizer.js"
+index d0b81a6..f401b02 100644
+--- "{benchmark_dir}\\tasks\\hard-expr-eval\\repo/src/tokenizer.js"
++++ "{temp}\\hb-de998f69-7mrbc4x3/src/tokenizer.js"
+@@ -2,43 +2,48 @@
+ 
+ const { ExprError } = require('./errors');
+ 
+-/** Convert source to positioned tokens without repeatedly slicing its suffix. */
+-function tokenize(source) {
+-  const tokens = [];
++const PAIRS = new Set(['**', '//', '<=', '>=', '==', '!=']);
++const SINGLES = new Set(['+', '-', '*', '/', '%', '<', '>', '(', ')', ',']);
++
++/**
++ * Return a function producing the next positioned token on each call. Tokens are
++ * lexed on demand, so an invalid character is only reported once the parser
++ * reaches it (after any earlier syntax error).
++ */
++function createLexer(source) {
++  const whitespace = /\s*/y;
+   const number = /(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?/y;
+   const identifier = /[A-Za-z_][A-Za-z0-9_]*/y;
+   let offset = 0;
+-  while (offset < source.length) {
++  return function next() {
++    whitespace.lastIndex = offset;
++    whitespace.exec(source);
++    offset = whitespace.lastIndex;
++    if (offset >= source.length) return { type: 'eof', value: '', column: source.length + 1 };
+     const column = offset + 1;
+-    while (offset < source.length && /\s/.test(source[offset])) offset += 1;
+-    if (offset === source.length) break;
+     number.lastIndex = offset;
+     const numeric = number.exec(source);
+     if (numeric) {
+-      tokens.push({ type: 'number', value: Number(numeric[0]), column });
+       offset = number.lastIndex;
+-      continue;
++      return { type: 'number', value: Number(numeric[0]), column };
+     }
+     identifier.lastIndex = offset;
+     const name = identifier.exec(source);
+     if (name) {
+-      tokens.push({ type: 'identifier', value: name[0], column });
+       offset = identifier.lastIndex;
+-      continue;
++      return { type: 'identifier', value: name[0], column };
+     }
+     const pair = source.slice(offset, offset + 2);
+-    if (['**', '//', '<=', '>=', '==', '!='].includes(pair)) {
+-      tokens.push({ type: 'operator', value: pair, column });
++    if (PAIRS.has(pair)) {
+       offset += 2;
+-    } else if ('+-*/%<>() ,'.includes(source[offset]) && source[offset] !== ' ') {
+-      tokens.push({ type: 'operator', value: source[offset], column });
++      return { type: 'operator', value: pair, column };
++    }
++    if (SINGLES.has(source[offset])) {
+       offset += 1;
+-    } else {
+-      throw new ExprError('Unexpected character', column);
++      return { type: 'operator', value: source[offset - 1], column };
+     }
+-  }
+-  tokens.push({ type: 'eof', value: '', column: source.length + 1 });
+-  return tokens;
++    throw new ExprError('Unexpected character', column);
++  };
+ }
+ 
+-module.exports = { tokenize };
++module.exports = { createLexer };

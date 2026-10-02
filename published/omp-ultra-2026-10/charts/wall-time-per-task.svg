@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="760" height="754" viewBox="0 0 760 754" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Wall time per task</title>
+<desc id="chart-desc">omp-ultra RUNS FASTER ON 7/14 TASKS. Per-task seconds: candidate omp-ultra vs baseline omp-base. Lower is better. Faint squares show each known run; hollow squares are failed runs. Large squares show medians of known runs, including failures; candidate medians have a two-pixel halo. bugfix-duration, omp-base: runs [16.138703700000406 seconds (passed), 19.12636879999991 seconds (passed), 20.152381299998524 seconds (passed), 20.428196099999695 seconds (passed), 24.589329100001123 seconds (passed)]; median=20.152381299998524 seconds. bugfix-duration, omp-ultra: runs [19.560926699999982 seconds (passed), 19.816196099998706 seconds (passed), 19.985168999999587 seconds (passed), 20.44040320000022 seconds (passed), 23.429491400000188 seconds (passed)]; median=19.985168999999587 seconds. bugfix-duration: delta=-0.8297396595952078%, −0.8%. bugfix-invoice, omp-base: runs [41.153785500000595 seconds (passed), 45.59215210000002 seconds (passed), 50.97840249999899 seconds (passed), 51.46798659999877 seconds (passed), 57.15268090000063 seconds (passed)]; median=50.97840249999899 seconds. bugfix-invoice, omp-ultra: runs [29.7462742000007 seconds (passed), 41.12282740000046 seconds (passed), 49.06061960000079 seconds (passed), 50.0501159000014 seconds (passed), 52.7203425000007 seconds (passed)]; median=49.06061960000079 seconds. bugfix-invoice: delta=-3.7619517402457614%, −3.8%. challenge-recovery, omp-base: runs [83.80099970000083 seconds (passed), 86.7878381999999 seconds (passed), 91.51473149999947 seconds (passed), 97.91107200000079 seconds (failed), 100.69777310000063 seconds (passed)]; median=91.51473149999947 seconds. challenge-recovery, omp-ultra: runs [89.04890689999957 seconds (passed), 89.49486080000133 seconds (failed), 92.31880199999978 seconds (passed), 98.29357490000075 seconds (passed), 131.68501339999966 seconds (passed)]; median=92.31880199999978 seconds. challenge-recovery: delta=0.8786241152882734%, +0.9%. challenge-safety, omp-base: runs [74.60241990000031 seconds (failed), 75.00819620000038 seconds (failed), 79.83366260000003 seconds (failed), 86.2691317000008 seconds (failed), 87.19392909999988 seconds (failed)]; median=79.83366260000003 seconds. challenge-safety, omp-ultra: runs [75.7575756999995 seconds (failed), 78.83912330000021 seconds (failed), 80.04751880000003 seconds (failed), 82.2852301999992 seconds (failed), 85.49480370000128 seconds (failed)]; median=80.04751880000003 seconds. challenge-safety: delta=0.2678772250141126%, +0.3%. debug-cache-race, omp-base: runs [55.56535819999954 seconds (passed), 57.66707409999981 seconds (passed), 59.70773019999979 seconds (passed), 60.45442960000037 seconds (passed), 63.89948630000072 seconds (passed)]; median=59.70773019999979 seconds. debug-cache-race, omp-ultra: runs [55.39025480000055 seconds (passed), 60.13443909999842 seconds (passed), 60.1821359000005 seconds (passed), 61.32080719999976 seconds (passed), 75.78956819999985 seconds (passed)]; median=60.1821359000005 seconds. debug-cache-race: delta=0.7945465326041123%, +0.8%. debug-limiter, omp-base: runs [20.709036899999774 seconds (passed), 22.313659900000857 seconds (passed), 22.632883199999924 seconds (passed), 22.789849500000855 seconds (passed), 22.813720699999976 seconds (passed)]; median=22.632883199999924 seconds. debug-limiter, omp-ultra: runs [19.566071199998987 seconds (passed), 21.460015000000567 seconds (passed), 22.70447570000033 seconds (passed), 24.26059290000012 seconds (passed), 25.469583099999 seconds (passed)]; median=22.70447570000033 seconds. debug-limiter: delta=0.31632072400040734%, +0.3%. feature-csv-stream, omp-base: runs [61.38813019999907 seconds (passed), 62.558533600000374 seconds (passed), 80.04204899999968 seconds (passed), 83.52247460000035 seconds (passed), 90.98440159999882 seconds (passed)]; median=80.04204899999968 seconds. feature-csv-stream, omp-ultra: runs [55.14164210000126 seconds (passed), 63.93775509999978 seconds (passed), 64.39596110000093 seconds (passed), 67.34669159999976 seconds (passed), 93.97251689999939 seconds (passed)]; median=64.39596110000093 seconds. feature-csv-stream: delta=-19.54733555109116%, −19.5%. feature-lru, omp-base: runs [24.287580700000035 seconds (passed), 25.1066191000009 seconds (passed), 25.24148950000017 seconds (passed), 26.165283000000272 seconds (passed), 28.34607369999867 seconds (passed)]; median=25.24148950000017 seconds. feature-lru, omp-ultra: runs [20.38015390000146 seconds (passed), 21.525317900001028 seconds (passed), 23.223028599999452 seconds (passed), 27.90112659999977 seconds (passed), 28.611165000000256 seconds (passed)]; median=23.223028599999452 seconds. feature-lru: delta=-7.996599804463623%, −8.0%. hard-dep-resolver, omp-base: runs [62.570083099999465 seconds (passed), 78.64654729999893 seconds (passed), 88.98712100000012 seconds (passed), 94.08104999999887 seconds (passed), 94.20722410000053 seconds (passed)]; median=88.98712100000012 seconds. hard-dep-resolver, omp-ultra: runs [60.111733300000196 seconds (passed), 65.70914420000008 seconds (passed), 74.33414129999983 seconds (passed), 104.99029520000113 seconds (passed), 113.44533050000064 seconds (passed)]; median=74.33414129999983 seconds. hard-dep-resolver: delta=-16.466404953139534%, −16.5%. hard-expr-eval, omp-base: runs [115.92779599999994 seconds (passed), 117.9064271999996 seconds (passed), 119.23091739999836 seconds (passed), 143.64736410000114 seconds (passed), 165.66883620000044 seconds (passed)]; median=119.23091739999836 seconds. hard-expr-eval, omp-ultra: runs [100.08910970000034 seconds (passed), 112.47583089999898 seconds (passed), 119.93006510000123 seconds (passed), 143.3117773999984 seconds (passed), 147.32951279999907 seconds (passed)]; median=119.93006510000123 seconds. hard-expr-eval: delta=0.5863812132362867%, +0.6%. hard-line-diff, omp-base: runs [123.24693529999968 seconds (passed), 124.53106470000057 seconds (passed), 139.20414309999978 seconds (passed), 165.57337170000028 seconds (passed), 174.3205209000007 seconds (passed)]; median=139.20414309999978 seconds. hard-line-diff, omp-ultra: runs [118.18717019999895 seconds (passed), 129.80513209999845 seconds (passed), 132.0836247999996 seconds (passed), 150.57710430000043 seconds (passed), 161.0794038999993 seconds (passed)]; median=132.0836247999996 seconds. hard-line-diff: delta=-5.115162624782677%, −5.1%. hard-segment-tree, omp-base: runs [40.49489650000032 seconds (passed), 41.55819429999974 seconds (passed), 42.86267020000014 seconds (passed), 47.99650970000039 seconds (passed), 56.947210899999845 seconds (passed)]; median=42.86267020000014 seconds. hard-segment-tree, omp-ultra: runs [35.98440540000047 seconds (passed), 39.04383170000074 seconds (passed), 44.10301789999903 seconds (passed), 47.852428000000145 seconds (passed), 48.20623650000016 seconds (passed)]; median=44.10301789999903 seconds. hard-segment-tree: delta=2.893771419772362%, +2.9%. tb-mvcc-compaction, omp-base: runs [37.405181600001015 seconds (passed), 38.71091399999932 seconds (passed), 39.75538339999912 seconds (passed), 45.00875180000003 seconds (passed), 54.735286900000574 seconds (passed)]; median=39.75538339999912 seconds. tb-mvcc-compaction, omp-ultra: runs [41.73193960000026 seconds (passed), 41.77136849999988 seconds (passed), 54.83471719999943 seconds (passed), 56.47556009999971 seconds (passed), 63.71581989999868 seconds (passed)]; median=54.83471719999943 seconds. tb-mvcc-compaction: delta=37.93029398881522%, +37.9%. tb-wal-recovery, omp-base: runs [67.89168639999843 seconds (passed), 78.8334335999989 seconds (passed), 83.19400389999828 seconds (passed), 94.84441800000059 seconds (passed), 98.18679460000021 seconds (passed)]; median=83.19400389999828 seconds. tb-wal-recovery, omp-ultra: runs [56.95234370000071 seconds (passed), 66.136751 seconds (passed), 71.52880129999903 seconds (passed), 71.81267760000082 seconds (passed), 80.80702249999922 seconds (passed)]; median=71.52880129999903 seconds. tb-wal-recovery: delta=-14.02168672398696%, −14.0%. OMP-ULTRA RUNS FASTER ON 7/14 TASKS · MEDIAN OF 5 RUNS PER ARM · WALL = ELAPSED SECONDS · 0 RUNS OMITTED: UNKNOWN SECONDS</desc>
+<rect width="760" height="754" fill="#000" class="panel-background"/>
+<rect x=".5" y=".5" width="759" height="753" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges"/>
+<g font-family="&#x27;Berkeley Mono&#x27;,&#x27;JetBrains Mono&#x27;,&#x27;Geist Mono&#x27;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" style="font-variant-numeric:tabular-nums">
+<text x="24.00" y="32.00" font-size="17" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >Wall time per task</text>
+<rect x="426" y="53" width="7" height="7" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="439.00" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-BASE (BASELINE)</text>
+<rect x="584" y="53" width="7" height="7" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" />
+<text x="597.40" y="61.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >OMP-ULTRA (CANDIDATE)</text>
+<rect x="24" y="78" width="7" height="7" fill="#000" stroke="#757575" stroke-width="1" opacity="1" shape-rendering="crispEdges" />
+<text x="38.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >HOLLOW = FAILED RUN</text>
+<rect x="193" y="80" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" />
+<text x="206.00" y="86.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >FAINT = EACH RUN</text>
+<text x="736.00" y="86.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >← FASTER IS BETTER</text>
+<text x="24.00" y="120.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" >TASK</text>
+<text x="580.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >BASE</text>
+<text x="658.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >CAND</text>
+<text x="736.00" y="120.00" font-size="10" text-anchor="end" fill="#757575" letter-spacing=".06em" >Δ</text>
+<line x1="242.5" y1="132.5" x2="242.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="242.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="0.0">0s</text>
+<line x1="308.5" y1="132.5" x2="308.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="308.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="43.580130225000175">43.58s</text>
+<line x1="374.5" y1="132.5" x2="374.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="374.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="87.16026045000035">87.16s</text>
+<line x1="440.5" y1="132.5" x2="440.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="440.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="130.74039067500053">130.74s</text>
+<line x1="506.5" y1="132.5" x2="506.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" stroke-dasharray="2,4" class="gridline"/>
+<text x="506.00" y="120.00" font-size="11" text-anchor="middle" fill="#757575" class="scale-tick" data-value="174.3205209000007">174.32s</text>
+<g class="task-row" data-task="bugfix-duration">
+<title>bugfix-duration</title>
+<line x1="24.5" y1="172.5" x2="736.5" y2="172.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="156.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >bugfix-duration</text>
+<line x1="272.5" y1="152.5" x2="272.5" y2="152.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="264" y="141" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="16.138703700000406"/>
+<rect x="268" y="142" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="19.12636879999991"/>
+<rect x="270" y="143" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="20.152381299998524"/>
+<rect x="270" y="141" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="20.428196099999695"/>
+<rect x="277" y="142" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="24.589329100001123"/>
+<rect x="268" y="148" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="20.152381299998524"/>
+<rect x="269" y="157" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="19.560926699999982"/>
+<rect x="270" y="158" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="19.816196099998706"/>
+<rect x="270" y="159" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="19.985168999999587"/>
+<rect x="270" y="157" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="20.44040320000022"/>
+<rect x="275" y="158" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="23.429491400000188"/>
+<rect x="266" y="146" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="268" y="148" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="19.985168999999587"/>
+<text x="580.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >20.15s</text>
+<text x="658.00" y="156.00" font-size="11" text-anchor="end" fill="#44cfff" >19.99s</text>
+<text x="736.00" y="156.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−0.8%</text>
+</g>
+<g class="task-row" data-task="bugfix-invoice">
+<title>bugfix-invoice</title>
+<line x1="24.5" y1="212.5" x2="736.5" y2="212.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="196.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >bugfix-invoice</text>
+<line x1="319.5" y1="192.5" x2="316.5" y2="192.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="302" y="181" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="41.153785500000595"/>
+<rect x="309" y="182" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="45.59215210000002"/>
+<rect x="317" y="183" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="50.97840249999899"/>
+<rect x="317" y="181" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="51.46798659999877"/>
+<rect x="326" y="182" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="57.15268090000063"/>
+<rect x="315" y="188" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="50.97840249999899"/>
+<rect x="285" y="197" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="29.7462742000007"/>
+<rect x="302" y="198" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="41.12282740000046"/>
+<rect x="314" y="199" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="49.06061960000079"/>
+<rect x="315" y="197" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="50.0501159000014"/>
+<rect x="319" y="198" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="52.7203425000007"/>
+<rect x="310" y="186" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="312" y="188" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="49.06061960000079"/>
+<text x="580.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >50.98s</text>
+<text x="658.00" y="196.00" font-size="11" text-anchor="end" fill="#44cfff" >49.06s</text>
+<text x="736.00" y="196.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−3.8%</text>
+</g>
+<g class="task-row" data-task="challenge-recovery">
+<title>challenge-recovery</title>
+<line x1="24.5" y1="252.5" x2="736.5" y2="252.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="236.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >challenge-recovery</text>
+<line x1="380.5" y1="232.5" x2="381.5" y2="232.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="366" y="221" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="83.80099970000083"/>
+<rect x="371" y="222" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="86.7878381999999"/>
+<rect x="378" y="223" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="91.51473149999947"/>
+<rect x="388" y="221" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="97.91107200000079"/>
+<rect x="392" y="222" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="100.69777310000063"/>
+<rect x="376" y="228" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="91.51473149999947"/>
+<rect x="374" y="237" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="89.04890689999957"/>
+<rect x="375" y="238" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="89.49486080000133"/>
+<rect x="379" y="239" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="92.31880199999978"/>
+<rect x="388" y="237" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="98.29357490000075"/>
+<rect x="439" y="238" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="131.68501339999966"/>
+<rect x="375" y="226" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="377" y="228" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="92.31880199999978"/>
+<text x="580.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >91.51s</text>
+<text x="658.00" y="236.00" font-size="11" text-anchor="end" fill="#44cfff" >92.32s</text>
+<text x="736.00" y="236.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+0.9%</text>
+</g>
+<g class="task-row" data-task="challenge-safety">
+<title>challenge-safety</title>
+<line x1="24.5" y1="292.5" x2="736.5" y2="292.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="276.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >challenge-safety</text>
+<line x1="362.5" y1="272.5" x2="363.5" y2="272.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="352" y="261" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="74.60241990000031"/>
+<rect x="353" y="262" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="75.00819620000038"/>
+<rect x="360" y="263" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="79.83366260000003"/>
+<rect x="370" y="261" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="86.2691317000008"/>
+<rect x="372" y="262" width="4" height="4" fill="#000" stroke="#757575" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="false" data-value="87.19392909999988"/>
+<rect x="358" y="268" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="79.83366260000003"/>
+<rect x="354" y="277" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="75.7575756999995"/>
+<rect x="359" y="278" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="78.83912330000021"/>
+<rect x="361" y="279" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="80.04751880000003"/>
+<rect x="364" y="277" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="82.2852301999992"/>
+<rect x="369" y="278" width="4" height="4" fill="#000" stroke="#44cfff" stroke-width="1" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="false" data-value="85.49480370000128"/>
+<rect x="357" y="266" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="359" y="268" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="80.04751880000003"/>
+<text x="580.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >79.83s</text>
+<text x="658.00" y="276.00" font-size="11" text-anchor="end" fill="#44cfff" >80.05s</text>
+<text x="736.00" y="276.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+0.3%</text>
+</g>
+<g class="task-row" data-task="debug-cache-race">
+<title>debug-cache-race</title>
+<line x1="24.5" y1="332.5" x2="736.5" y2="332.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="316.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >debug-cache-race</text>
+<line x1="332.5" y1="312.5" x2="333.5" y2="312.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="324" y="301" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="55.56535819999954"/>
+<rect x="327" y="302" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="57.66707409999981"/>
+<rect x="330" y="303" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="59.70773019999979"/>
+<rect x="331" y="301" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="60.45442960000037"/>
+<rect x="336" y="302" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="63.89948630000072"/>
+<rect x="328" y="308" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="59.70773019999979"/>
+<rect x="323" y="317" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="55.39025480000055"/>
+<rect x="331" y="318" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="60.13443909999842"/>
+<rect x="331" y="319" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="60.1821359000005"/>
+<rect x="332" y="317" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="61.32080719999976"/>
+<rect x="354" y="318" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="75.78956819999985"/>
+<rect x="327" y="306" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="329" y="308" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="60.1821359000005"/>
+<text x="580.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >59.71s</text>
+<text x="658.00" y="316.00" font-size="11" text-anchor="end" fill="#44cfff" >60.18s</text>
+<text x="736.00" y="316.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+0.8%</text>
+</g>
+<g class="task-row" data-task="debug-limiter">
+<title>debug-limiter</title>
+<line x1="24.5" y1="372.5" x2="736.5" y2="372.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="356.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >debug-limiter</text>
+<line x1="276.5" y1="352.5" x2="276.5" y2="352.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="271" y="341" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="20.709036899999774"/>
+<rect x="273" y="342" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="22.313659900000857"/>
+<rect x="274" y="343" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="22.632883199999924"/>
+<rect x="274" y="341" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="22.789849500000855"/>
+<rect x="274" y="342" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="22.813720699999976"/>
+<rect x="272" y="348" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="22.632883199999924"/>
+<rect x="269" y="357" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="19.566071199998987"/>
+<rect x="272" y="358" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="21.460015000000567"/>
+<rect x="274" y="359" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="22.70447570000033"/>
+<rect x="276" y="357" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="24.26059290000012"/>
+<rect x="278" y="358" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="25.469583099999"/>
+<rect x="270" y="346" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="272" y="348" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="22.70447570000033"/>
+<text x="580.00" y="356.00" font-size="11" text-anchor="end" fill="#a1a1a1" >22.63s</text>
+<text x="658.00" y="356.00" font-size="11" text-anchor="end" fill="#44cfff" >22.7s</text>
+<text x="736.00" y="356.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+0.3%</text>
+</g>
+<g class="task-row" data-task="feature-csv-stream">
+<title>feature-csv-stream</title>
+<line x1="24.5" y1="412.5" x2="736.5" y2="412.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="396.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >feature-csv-stream</text>
+<line x1="363.5" y1="392.5" x2="339.5" y2="392.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="332" y="381" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="61.38813019999907"/>
+<rect x="334" y="382" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="62.558533600000374"/>
+<rect x="361" y="383" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="80.04204899999968"/>
+<rect x="366" y="381" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="83.52247460000035"/>
+<rect x="377" y="382" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="90.98440159999882"/>
+<rect x="359" y="388" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="80.04204899999968"/>
+<rect x="323" y="397" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="55.14164210000126"/>
+<rect x="336" y="398" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="63.93775509999978"/>
+<rect x="337" y="399" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="64.39596110000093"/>
+<rect x="341" y="397" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="67.34669159999976"/>
+<rect x="382" y="398" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="93.97251689999939"/>
+<rect x="333" y="386" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="335" y="388" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="64.39596110000093"/>
+<text x="580.00" y="396.00" font-size="11" text-anchor="end" fill="#a1a1a1" >80.04s</text>
+<text x="658.00" y="396.00" font-size="11" text-anchor="end" fill="#44cfff" >64.4s</text>
+<text x="736.00" y="396.00" font-size="11" text-anchor="end" fill="#4ade80" >−19.5%</text>
+</g>
+<g class="task-row" data-task="feature-lru">
+<title>feature-lru</title>
+<line x1="24.5" y1="452.5" x2="736.5" y2="452.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="436.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >feature-lru</text>
+<line x1="280.5" y1="432.5" x2="277.5" y2="432.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="276" y="421" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="24.287580700000035"/>
+<rect x="278" y="422" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="25.1066191000009"/>
+<rect x="278" y="423" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="25.24148950000017"/>
+<rect x="279" y="421" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="26.165283000000272"/>
+<rect x="282" y="422" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="28.34607369999867"/>
+<rect x="276" y="428" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="25.24148950000017"/>
+<rect x="270" y="437" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="20.38015390000146"/>
+<rect x="272" y="438" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="21.525317900001028"/>
+<rect x="275" y="439" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="23.223028599999452"/>
+<rect x="282" y="437" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="27.90112659999977"/>
+<rect x="283" y="438" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="28.611165000000256"/>
+<rect x="271" y="426" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="273" y="428" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="23.223028599999452"/>
+<text x="580.00" y="436.00" font-size="11" text-anchor="end" fill="#a1a1a1" >25.24s</text>
+<text x="658.00" y="436.00" font-size="11" text-anchor="end" fill="#44cfff" >23.22s</text>
+<text x="736.00" y="436.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−8.0%</text>
+</g>
+<g class="task-row" data-task="hard-dep-resolver">
+<title>hard-dep-resolver</title>
+<line x1="24.5" y1="492.5" x2="736.5" y2="492.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="476.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-dep-resolver</text>
+<line x1="376.5" y1="472.5" x2="354.5" y2="472.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="334" y="461" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="62.570083099999465"/>
+<rect x="359" y="462" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="78.64654729999893"/>
+<rect x="374" y="463" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="88.98712100000012"/>
+<rect x="382" y="461" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="94.08104999999887"/>
+<rect x="382" y="462" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="94.20722410000053"/>
+<rect x="372" y="468" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="88.98712100000012"/>
+<rect x="331" y="477" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="60.111733300000196"/>
+<rect x="339" y="478" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="65.70914420000008"/>
+<rect x="352" y="479" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="74.33414129999983"/>
+<rect x="399" y="477" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="104.99029520000113"/>
+<rect x="411" y="478" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="113.44533050000064"/>
+<rect x="348" y="466" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="350" y="468" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="74.33414129999983"/>
+<text x="580.00" y="476.00" font-size="11" text-anchor="end" fill="#a1a1a1" >88.99s</text>
+<text x="658.00" y="476.00" font-size="11" text-anchor="end" fill="#44cfff" >74.33s</text>
+<text x="736.00" y="476.00" font-size="11" text-anchor="end" fill="#4ade80" >−16.5%</text>
+</g>
+<g class="task-row" data-task="hard-expr-eval">
+<title>hard-expr-eval</title>
+<line x1="24.5" y1="532.5" x2="736.5" y2="532.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="516.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-expr-eval</text>
+<line x1="422.5" y1="512.5" x2="423.5" y2="512.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="415" y="501" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="115.92779599999994"/>
+<rect x="418" y="502" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="117.9064271999996"/>
+<rect x="420" y="503" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="119.23091739999836"/>
+<rect x="457" y="501" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="143.64736410000114"/>
+<rect x="490" y="502" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="165.66883620000044"/>
+<rect x="418" y="508" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="119.23091739999836"/>
+<rect x="391" y="517" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="100.08910970000034"/>
+<rect x="410" y="518" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="112.47583089999898"/>
+<rect x="421" y="519" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="119.93006510000123"/>
+<rect x="457" y="517" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="143.3117773999984"/>
+<rect x="463" y="518" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="147.32951279999907"/>
+<rect x="417" y="506" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="419" y="508" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="119.93006510000123"/>
+<text x="580.00" y="516.00" font-size="11" text-anchor="end" fill="#a1a1a1" >119.23s</text>
+<text x="658.00" y="516.00" font-size="11" text-anchor="end" fill="#44cfff" >119.93s</text>
+<text x="736.00" y="516.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+0.6%</text>
+</g>
+<g class="task-row" data-task="hard-line-diff">
+<title>hard-line-diff</title>
+<line x1="24.5" y1="572.5" x2="736.5" y2="572.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="556.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-line-diff</text>
+<line x1="452.5" y1="552.5" x2="442.5" y2="552.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="426" y="541" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="123.24693529999968"/>
+<rect x="428" y="542" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="124.53106470000057"/>
+<rect x="450" y="543" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="139.20414309999978"/>
+<rect x="490" y="541" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="165.57337170000028"/>
+<rect x="504" y="542" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="174.3205209000007"/>
+<rect x="448" y="548" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="139.20414309999978"/>
+<rect x="418" y="557" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="118.18717019999895"/>
+<rect x="436" y="558" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="129.80513209999845"/>
+<rect x="440" y="559" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="132.0836247999996"/>
+<rect x="468" y="557" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="150.57710430000043"/>
+<rect x="483" y="558" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="161.0794038999993"/>
+<rect x="436" y="546" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="438" y="548" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="132.0836247999996"/>
+<text x="580.00" y="556.00" font-size="11" text-anchor="end" fill="#a1a1a1" >139.2s</text>
+<text x="658.00" y="556.00" font-size="11" text-anchor="end" fill="#44cfff" >132.08s</text>
+<text x="736.00" y="556.00" font-size="11" text-anchor="end" fill="#a1a1a1" >−5.1%</text>
+</g>
+<g class="task-row" data-task="hard-segment-tree">
+<title>hard-segment-tree</title>
+<line x1="24.5" y1="612.5" x2="736.5" y2="612.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="596.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >hard-segment-tree</text>
+<line x1="306.5" y1="592.5" x2="308.5" y2="592.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="301" y="581" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="40.49489650000032"/>
+<rect x="302" y="582" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="41.55819429999974"/>
+<rect x="304" y="583" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="42.86267020000014"/>
+<rect x="312" y="581" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="47.99650970000039"/>
+<rect x="326" y="582" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="56.947210899999845"/>
+<rect x="302" y="588" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="42.86267020000014"/>
+<rect x="294" y="597" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="35.98440540000047"/>
+<rect x="299" y="598" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="39.04383170000074"/>
+<rect x="306" y="599" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="44.10301789999903"/>
+<rect x="312" y="597" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="47.852428000000145"/>
+<rect x="313" y="598" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="48.20623650000016"/>
+<rect x="302" y="586" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="304" y="588" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="44.10301789999903"/>
+<text x="580.00" y="596.00" font-size="11" text-anchor="end" fill="#a1a1a1" >42.86s</text>
+<text x="658.00" y="596.00" font-size="11" text-anchor="end" fill="#44cfff" >44.1s</text>
+<text x="736.00" y="596.00" font-size="11" text-anchor="end" fill="#a1a1a1" >+2.9%</text>
+</g>
+<g class="task-row" data-task="tb-mvcc-compaction">
+<title>tb-mvcc-compaction</title>
+<line x1="24.5" y1="652.5" x2="736.5" y2="652.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="636.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >tb-mvcc-compaction</text>
+<line x1="302.5" y1="632.5" x2="325.5" y2="632.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="296" y="621" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="37.405181600001015"/>
+<rect x="298" y="622" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="38.71091399999932"/>
+<rect x="300" y="623" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="39.75538339999912"/>
+<rect x="308" y="621" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="45.00875180000003"/>
+<rect x="322" y="622" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="54.735286900000574"/>
+<rect x="298" y="628" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="39.75538339999912"/>
+<rect x="303" y="637" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="41.73193960000026"/>
+<rect x="303" y="638" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="41.77136849999988"/>
+<rect x="323" y="639" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="54.83471719999943"/>
+<rect x="325" y="637" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="56.47556009999971"/>
+<rect x="336" y="638" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="63.71581989999868"/>
+<rect x="319" y="626" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="321" y="628" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="54.83471719999943"/>
+<text x="580.00" y="636.00" font-size="11" text-anchor="end" fill="#a1a1a1" >39.76s</text>
+<text x="658.00" y="636.00" font-size="11" text-anchor="end" fill="#44cfff" >54.83s</text>
+<text x="736.00" y="636.00" font-size="11" text-anchor="end" fill="#f4644a" >+37.9%</text>
+</g>
+<g class="task-row" data-task="tb-wal-recovery">
+<title>tb-wal-recovery</title>
+<line x1="24.5" y1="692.5" x2="736.5" y2="692.5" stroke="rgba(255,255,255,.06)" stroke-width="1" shape-rendering="crispEdges" />
+<text x="24.00" y="676.00" font-size="13" text-anchor="start" fill="#ededed" font-family="&#x27;Geist&#x27;,Inter,system-ui,-apple-system,&#x27;Segoe UI&#x27;,sans-serif" >tb-wal-recovery</text>
+<line x1="367.5" y1="672.5" x2="350.5" y2="672.5" stroke="rgba(255,255,255,.14)" stroke-width="1" shape-rendering="crispEdges" class="median-link"/>
+<rect x="342" y="661" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="67.89168639999843"/>
+<rect x="359" y="662" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="78.8334335999989"/>
+<rect x="365" y="663" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="83.19400389999828"/>
+<rect x="383" y="661" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="94.84441800000059"/>
+<rect x="388" y="662" width="4" height="4" fill="#757575" stroke="#757575" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-base" data-passed="true" data-value="98.18679460000021"/>
+<rect x="363" y="668" width="8" height="8" fill="#757575" stroke="#757575" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-base" data-value="83.19400389999828"/>
+<rect x="326" y="677" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="56.95234370000071"/>
+<rect x="340" y="678" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="66.136751"/>
+<rect x="348" y="679" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="71.52880129999903"/>
+<rect x="348" y="677" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="71.81267760000082"/>
+<rect x="362" y="678" width="4" height="4" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="0.35" shape-rendering="crispEdges" class="run-marker" data-arm="omp-ultra" data-passed="true" data-value="80.80702249999922"/>
+<rect x="344" y="666" width="12" height="12" fill="#44cfff" fill-opacity=".2" shape-rendering="crispEdges" class="hero-halo"/><rect x="346" y="668" width="8" height="8" fill="#44cfff" stroke="#44cfff" stroke-width="0" opacity="1" shape-rendering="crispEdges" class="median-marker" data-arm="omp-ultra" data-value="71.52880129999903"/>
+<text x="580.00" y="676.00" font-size="11" text-anchor="end" fill="#a1a1a1" >83.19s</text>
+<text x="658.00" y="676.00" font-size="11" text-anchor="end" fill="#44cfff" >71.53s</text>
+<text x="736.00" y="676.00" font-size="11" text-anchor="end" fill="#4ade80" >−14.0%</text>
+</g>
+<text x="24.00" y="718.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">OMP-ULTRA RUNS FASTER ON 7/14 TASKS · MEDIAN OF 5 RUNS PER ARM · WALL = ELAPSED SECONDS · 0 RUNS OMITTED:</text>
+<text x="24.00" y="732.00" font-size="10" text-anchor="start" fill="#757575" letter-spacing=".06em" class="caption">UNKNOWN SECONDS</text>
+</g>
+</svg>

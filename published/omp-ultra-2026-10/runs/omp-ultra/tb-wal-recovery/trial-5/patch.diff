@@ -1,0 +1,228 @@
+diff --git "{temp}\\hb-7cab79c5-hgtp56aj/src/clone.js" "{temp}\\hb-7cab79c5-hgtp56aj/src/clone.js"
+new file mode 100644
+index 0000000..d49da73
+--- /dev/null
++++ "{temp}\\hb-7cab79c5-hgtp56aj/src/clone.js"
+@@ -0,0 +1,24 @@
++'use strict';
++
++// Deep copy of JSON-compatible data. Own keys (including '__proto__') are
++// copied as ordinary data properties onto fresh plain objects.
++function deepClone(value) {
++  if (value === null || typeof value !== 'object') return value;
++  if (Array.isArray(value)) return value.map(deepClone);
++  const out = {};
++  for (const key of Object.keys(value)) {
++    Object.defineProperty(out, key, {
++      value: deepClone(value[key]),
++      enumerable: true,
++      writable: true,
++      configurable: true,
++    });
++  }
++  return out;
++}
++
++function cloneEntry(entry) {
++  return { lsn: entry.lsn, key: entry.key, value: deepClone(entry.value) };
++}
++
++module.exports = { deepClone, cloneEntry };
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js" "{temp}\\hb-7cab79c5-hgtp56aj/src/engine.js"
+index d9cd043..bce85b3 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/engine.js"
++++ "{temp}\\hb-7cab79c5-hgtp56aj/src/engine.js"
+@@ -1,33 +1,63 @@
+ 'use strict';
+ 
+ const { SegmentManager } = require('./segments');
++const { deepClone, cloneEntry } = require('./clone');
+ 
+ class Engine {
+   constructor({ segmentCapacity = 4, flush = async () => {} } = {}) {
+     this._segmentManager = new SegmentManager(segmentCapacity);
+     this._flush = flush;
+-    this._nextLsn = 1;
++    this._records = []; // index lsn - 1
++    this._durableLsn = 0; // global contiguous durable prefix
+     this._state = new Map();
+-    this._committed = [];
+   }
+ 
+-  async commitUpdate(key, value) {
+-    const entry = { lsn: this._nextLsn++, key, value };
+-    const segment = this._segmentManager.reserveSegment();
+-    await this._flush({ ...entry });
+-    this._segmentManager.appendEntry(segment, entry);
+-    this._segmentManager.markDurable(segment);
+-    this._state.set(key, value);
+-    this._committed.push(entry);
+-    return { ...entry };
++  commitUpdate(key, value) {
++    const record = {
++      lsn: this._records.length + 1,
++      key,
++      value: deepClone(value),
++      durable: false,
++      resolve: null,
++    };
++    const done = new Promise(resolve => { record.resolve = resolve; });
++    this._records.push(record);
++    const segment = this._segmentManager.appendEntry(record);
++    Promise.resolve(this._flush(cloneEntry(record))).then(() => {
++      record.durable = true;
++      this._segmentManager.refreshDurable(segment);
++      this._advanceDurablePrefix();
++    });
++    return done;
++  }
++
++  _advanceDurablePrefix() {
++    const records = this._records;
++    while (this._durableLsn < records.length && records[this._durableLsn].durable) {
++      const record = records[this._durableLsn];
++      this._durableLsn += 1;
++      this._state.set(record.key, record.value);
++      const { resolve } = record;
++      record.resolve = null;
++      resolve(cloneEntry(record));
++    }
+   }
+ 
+   runtimeState() {
+-    return Object.fromEntries(this._state);
++    const out = {};
++    for (const [key, value] of this._state) {
++      Object.defineProperty(out, key, {
++        value: deepClone(value),
++        enumerable: true,
++        writable: true,
++        configurable: true,
++      });
++    }
++    return out;
+   }
+ 
+   committedEntries() {
+-    return this._committed.map(entry => ({ ...entry }));
++    return this._records.slice(0, this._durableLsn).map(cloneEntry);
+   }
+ 
+   crashSnapshot() {
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js" "{temp}\\hb-7cab79c5-hgtp56aj/src/recovery.js"
+index ab4a26e..80dbafa 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/recovery.js"
++++ "{temp}\\hb-7cab79c5-hgtp56aj/src/recovery.js"
+@@ -1,20 +1,43 @@
+ 'use strict';
+ 
++const { deepClone } = require('./clone');
++
+ function recoverEngine(snapshot) {
++  // lsn -> { segmentId, entry }; lowest containing segmentId wins.
++  const candidates = new Map();
++  for (const segment of snapshot.segments) {
++    const { segmentId, entries } = segment;
++    const count = Math.min(segment.durableCount ?? 0, entries.length);
++    for (let i = 0; i < count; i += 1) {
++      const entry = entries[i];
++      const existing = candidates.get(entry.lsn);
++      if (!existing || segmentId < existing.segmentId) {
++        candidates.set(entry.lsn, { segmentId, entry });
++      }
++    }
++  }
++
+   const state = new Map();
+   const replayed = [];
+   let lastLsn = 0;
+-  for (const segment of snapshot.segments) {
+-    const count = segment.durableCount ?? segment.entries.length;
+-    for (const entry of segment.entries.slice(0, count)) {
+-      if (entry.lsn <= lastLsn) continue;
+-      replayed.push({ segmentId: segment.segmentId, ...entry });
+-      state.set(entry.key, entry.value);
+-      lastLsn = entry.lsn;
+-    }
++  for (let candidate = candidates.get(1); candidate; candidate = candidates.get(lastLsn + 1)) {
++    const { segmentId, entry } = candidate;
++    lastLsn += 1;
++    replayed.push({ segmentId, lsn: lastLsn, key: entry.key, value: deepClone(entry.value) });
++    state.set(entry.key, entry.value);
++  }
++
++  const stateOut = {};
++  for (const [key, value] of state) {
++    Object.defineProperty(stateOut, key, {
++      value: deepClone(value),
++      enumerable: true,
++      writable: true,
++      configurable: true,
++    });
+   }
+   return {
+-    state: Object.fromEntries(state),
++    state: stateOut,
+     replayed,
+     stats: {
+       segmentsScanned: snapshot.segments.length,
+diff --git "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js" "{temp}\\hb-7cab79c5-hgtp56aj/src/segments.js"
+index f284e6b..7aa4c9c 100644
+--- "{benchmark_dir}\\tasks\\tb-wal-recovery\\repo/src/segments.js"
++++ "{temp}\\hb-7cab79c5-hgtp56aj/src/segments.js"
+@@ -1,34 +1,36 @@
+ 'use strict';
+ 
++const { cloneEntry } = require('./clone');
++
+ class SegmentManager {
+   constructor(capacity) {
+     this.capacity = capacity;
+     this.segments = [];
+   }
+ 
+-  reserveSegment() {
++  // Appends synchronously in LSN order; rotates when the open segment is full.
++  appendEntry(record) {
+     let segment = this.segments[this.segments.length - 1];
+-    if (!segment || segment.reserved === this.capacity) {
++    if (!segment || segment.entries.length === this.capacity) {
+       if (segment) segment.closed = true;
+       segment = {
+         segmentId: this.segments.length + 1,
+         closed: false,
+         durableCount: 0,
+         entries: [],
+-        reserved: 0,
+       };
+       this.segments.push(segment);
+     }
+-    segment.reserved += 1;
++    segment.entries.push(record);
+     return segment;
+   }
+ 
+-  appendEntry(segment, entry) {
+-    segment.entries.push(entry);
+-  }
+-
+-  markDurable(segment) {
+-    segment.durableCount += 1;
++  // Advances durableCount over the contiguous durable prefix of the segment.
++  refreshDurable(segment) {
++    const { entries } = segment;
++    while (segment.durableCount < entries.length && entries[segment.durableCount].durable) {
++      segment.durableCount += 1;
++    }
+   }
+ 
+   snapshot() {
+@@ -37,7 +39,7 @@ class SegmentManager {
+         segmentId: segment.segmentId,
+         closed: segment.closed,
+         durableCount: segment.durableCount,
+-        entries: segment.entries.map(entry => ({ ...entry })),
++        entries: segment.entries.map(cloneEntry),
+       })),
+     };
+   }

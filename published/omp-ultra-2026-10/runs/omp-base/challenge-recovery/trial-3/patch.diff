@@ -1,0 +1,163 @@
+diff --git "{benchmark_dir}\\tasks\\challenge-recovery\\repo/src/ledger.js" "{temp}\\hb-fc98efce-5kb05s05/src/ledger.js"
+index 58b18a5..f04fade 100644
+--- "{benchmark_dir}\\tasks\\challenge-recovery\\repo/src/ledger.js"
++++ "{temp}\\hb-fc98efce-5kb05s05/src/ledger.js"
+@@ -1,31 +1,63 @@
+ import fs from 'node:fs/promises';
+ import path from 'node:path';
+ 
++const KEY = /^[a-z][a-z0-9_-]*$/;
++
+ function invalid() {
+   return Object.assign(new Error('Invalid batch'), { code: 'ERR_INVALID_BATCH' });
+ }
+ 
++function corrupt(file) {
++  return Object.assign(new Error(`Corrupt ledger file: ${file}`), { code: 'ERR_CORRUPT_LEDGER' });
++}
++
+ function validate(batch) {
+-  if (!batch || typeof batch.id !== 'string' || !batch.id || !Array.isArray(batch.entries)) throw invalid();
+-  for (const entry of batch.entries) {
+-    if (!entry || typeof entry.key !== 'string' || !/^[a-z][a-z0-9_-]*$/.test(entry.key) || !Number.isSafeInteger(entry.delta)) throw invalid();
++  if (!batch || typeof batch !== 'object' || typeof batch.id !== 'string' || !batch.id || !Array.isArray(batch.entries)) throw invalid();
++  const entries = [];
++  for (let i = 0; i < batch.entries.length; i++) {
++    const entry = batch.entries[i];
++    if (!entry || typeof entry !== 'object' || typeof entry.key !== 'string' || !KEY.test(entry.key) || !Number.isSafeInteger(entry.delta)) throw invalid();
++    // Normalize -0 so in-memory results match their JSON round trip.
++    entries.push({ key: entry.key, delta: entry.delta === 0 ? 0 : entry.delta });
+   }
+-  return { id: batch.id, entries: batch.entries.map(({ key, delta }) => ({ key, delta })) };
++  return { id: batch.id, entries };
++}
++
++function sameEntries(a, b) {
++  return a.length === b.length && a.every((entry, i) => entry.key === b[i].key && entry.delta === b[i].delta);
++}
++
++function isSnapshot(value) {
++  return value !== null && typeof value === 'object' && Number.isSafeInteger(value.revision) && value.revision >= 0
++    && value.balances !== null && typeof value.balances === 'object' && !Array.isArray(value.balances)
++    && Array.isArray(value.receipts) && value.receipts.length === value.revision;
+ }
+ 
+-async function read(io, file, fallback) {
+-  try { return JSON.parse(await io.readFile(file, 'utf8')); }
+-  catch (error) { if (error.code === 'ENOENT') return fallback; throw error; }
++function isPending(value) {
++  return value !== null && typeof value === 'object' && isSnapshot(value.ledger) && value.ledger.revision > 0
++    && value.batch !== null && typeof value.batch === 'object' && typeof value.batch.id === 'string';
+ }
+ 
++async function read(io, file, fallback, check) {
++  let text;
++  try { text = await io.readFile(file, 'utf8'); }
++  catch (error) { if (error && error.code === 'ENOENT') return fallback; throw error; }
++  const value = JSON.parse(text);
++  if (!check(value)) throw corrupt(file);
++  return value;
++}
++
++// Stage into `<name>.tmp`, then atomically replace `<name>.json`. A failed or partial
++// staging write never touches the published file.
+ async function save(io, directory, name, value) {
+-  await io.writeFile(path.join(directory, `${name}.tmp`), JSON.stringify(value));
+-  await io.rename(path.join(directory, `${name}.tmp`), path.join(directory, `${name}.json`));
++  const staged = path.join(directory, `${name}.tmp`);
++  await io.writeFile(staged, JSON.stringify(value));
++  await io.rename(staged, path.join(directory, `${name}.json`));
+ }
+ 
+ async function removePending(io, directory) {
+   try { await io.unlink(path.join(directory, 'pending.json')); }
+-  catch (error) { if (error.code !== 'ENOENT') throw error; }
++  catch (error) { if (!error || error.code !== 'ENOENT') throw error; }
+ }
+ 
+ function apply(state, batch) {
+@@ -35,41 +67,63 @@ function apply(state, batch) {
+     if (!Number.isSafeInteger(value)) throw invalid();
+     balances[key] = value;
+   }
+-  return { revision: state.revision + 1, balances, receipts: state.receipts };
++  return { revision: state.revision + 1, balances, receipts: [...state.receipts, batch] };
+ }
+ 
+-export async function recoverLedger(directory, { io = fs } = {}) {
++// Reads durable state without modifying it. Returns the committed snapshot (including a
++// prepared-but-unpublished transaction) and which recovery steps remain.
++async function load(io, directory) {
+   await io.mkdir(directory, { recursive: true });
+-  let state = await read(io, path.join(directory, 'ledger.json'), { revision: 0, balances: {}, receipts: [] });
+-  const pending = await read(io, path.join(directory, 'pending.json'), null);
+-  if (pending) {
+-    state = apply(state, pending);
+-    state.receipts = [...state.receipts, pending];
+-    await save(io, directory, 'ledger', state);
+-    await removePending(io, directory);
++  const ledgerFile = path.join(directory, 'ledger.json');
++  const pendingFile = path.join(directory, 'pending.json');
++  const ledger = await read(io, ledgerFile, { revision: 0, balances: {}, receipts: [] }, isSnapshot);
++  const pending = await read(io, pendingFile, null, isPending);
++  if (!pending) return { state: ledger, publish: false, cleanup: false };
++  const target = pending.ledger;
++  const last = target.receipts[target.receipts.length - 1];
++  if (!last || last.id !== pending.batch.id) throw corrupt(pendingFile);
++  if (ledger.revision === target.revision) {
++    // Already published; only the recovery record remains.
++    const published = ledger.receipts[ledger.receipts.length - 1];
++    if (!published || published.id !== pending.batch.id) throw corrupt(pendingFile);
++    return { state: ledger, publish: false, cleanup: true };
+   }
+-  return state;
++  if (ledger.revision === target.revision - 1) return { state: target, publish: true, cleanup: true };
++  throw corrupt(pendingFile);
++}
++
++async function finish(io, directory, loaded) {
++  if (loaded.publish) await save(io, directory, 'ledger', loaded.state);
++  if (loaded.cleanup) await removePending(io, directory);
++  return loaded.state;
+ }
+ 
+-export async function commitBatch(directory, batch, { io = fs, checkpoint = async () => {} } = {}) {
++export async function recoverLedger(directory, options) {
++  const { io = fs } = options ?? {};
++  return finish(io, directory, await load(io, directory));
++}
++
++export async function commitBatch(directory, batch, options) {
++  const { io = fs, checkpoint } = options ?? {};
+   batch = validate(batch);
+-  const state = await recoverLedger(directory, { io });
++  const loaded = await load(io, directory);
++  const state = loaded.state;
+   const receipt = state.receipts.find(item => item.id === batch.id);
+   if (receipt) {
+-    if (JSON.stringify(receipt.entries) !== JSON.stringify(batch.entries)) {
++    if (!Array.isArray(receipt.entries) || !sameEntries(receipt.entries, batch.entries)) {
+       throw Object.assign(new Error('Batch ID already used'), { code: 'ERR_BATCH_CONFLICT' });
+     }
+-    return state;
++    return finish(io, directory, loaded);
+   }
++  // Validate resulting balances before any durable change.
+   const next = apply(state, batch);
+-  await save(io, directory, 'pending', batch);
+-  await checkpoint('prepared');
+-  // Publish balances first, then record the receipt and clean up the pending batch.
+-  await save(io, directory, 'ledger', next);
+-  await checkpoint('published');
+-  next.receipts = [...state.receipts, batch];
++  await finish(io, directory, loaded);
++  // Write-ahead record: the full target snapshot, so recovery needs nothing else.
++  await save(io, directory, 'pending', { batch, ledger: next });
++  if (typeof checkpoint === 'function') await checkpoint('prepared');
+   await save(io, directory, 'ledger', next);
++  if (typeof checkpoint === 'function') await checkpoint('published');
+   await removePending(io, directory);
+-  await checkpoint('complete');
++  if (typeof checkpoint === 'function') await checkpoint('complete');
+   return next;
+ }
